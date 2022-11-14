@@ -1,0 +1,138 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메인 경매일정</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 text-right"></div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        <li class="nav-item">
+                            <a onclick="getTabList('1');" class="nav-link active text-center" data-toggle="tab" href="#tab-address">메이저</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('2');" class="nav-link text-center" data-toggle="tab" href="#tab-mobile-auth">프리미엄</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('4');" class="nav-link text-center" data-toggle="tab" href="#tab-mobile-auth">위클리</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20" id="data-grid"></div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <div class="dataTables_paginate paging_full_numbers">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["auc_kind"] = "";
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        getTabList('1');
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Main/GetAuctionSchedules", requestParam, getListComplete);
+    }
+
+    function getTabList(aucKind) {
+        requestParam["page"] = 1;
+        requestParam["auc_kind"] = aucKind;
+        getList();
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: result.data.recordsTotal,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: result.data.draw,
+                                pageSize: 20
+                            });
+                        } else {
+                            $('#total-record').html('총 0건');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: 0,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: 1,
+                                pageSize: 20
+                            });
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "uid", type: "text", title: "", width: 30,
+                    itemTemplate: function (value, data) {
+                        var el = $('<input />', { "type": "checkbox", "data-auc-kind": data.auc_kind, "data-auc-num": data.auc_num, "onclick": "setAuction(this);" });
+                        if (data.use_yn === "Y") {
+                            el.attr("checked", "checked");
+                        }
+                        return el;
+                    }
+                },
+                { name: "title_kr", type: "text", title: "경매명(국문)" },
+                { name: "title_en", type: "text", title: "경매명(영문)" },
+                { name: "start_date", type: "text", title: "경매 시작일자", width: 60 },
+                { name: "end_date", type: "text", title: "경매 종료일자", width: 60 }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function setAuction(obj) {
+        var param = {};
+        param["auc_kind"] = obj.dataset.aucKind;
+        param["auc_num"] = obj.dataset.aucNum;
+        param["use_yn"] = obj.checked ? "Y" : "N";
+        var result = $.ajaxUtils.getApiData("/api/Main/SetAuctionSchedule", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) !== "00") {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+</script>

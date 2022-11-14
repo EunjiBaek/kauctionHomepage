@@ -1,0 +1,336 @@
+
+<div class="btn_wrap b03 tab_btn">
+    <ul>
+        <li class="active"><a href="#">위탁 문의 내역</a></li>
+        <li class=""><a href="#">작품 문의 내역</a></li>
+    </ul>
+
+    <div class="ask_btn_wrap">
+        <button class="btn_default_ef">
+            문의하기
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </button>
+
+        <div class="text_tooltip">
+
+            <div class="caret_up">
+                <span></span>
+            </div>
+
+            <div class="cnt">
+                <ul>
+                    <li>
+                        <a href="#">
+                            소장품위탁을위한문의
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            경매중인작품에대한문의
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+
+<div class="btn_content b03 tab_cnt">
+
+    <!--위탁문의내역-->
+    <div class="consignment_cnt">
+        <div class="filter_wrap">
+            <div class="top">
+                <div class="checkbox_wrap">
+                
+                    <div>
+                        <input class="default" type="checkbox" id="cosingnment_all_check">
+                        <label for="cosingnment_all_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>전체</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="cosingnment_check_01">
+                        <label for="cosingnment_check_01">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>대기중</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="cosingnment_check_02">
+                        <label for="cosingnment_check_02">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>위탁가능</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="cosingnment_check_03">
+                        <label for="cosingnment_check_03">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>위탁불가</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                
+                <div>
+                    <span>조회기간</span>
+                    <div class="select_date">
+                        <input type="text" class="calendar flatpickr-input" data-id="range" readonly="readonly" value="조회기간 선택">
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <div class="search_wrap">
+                    <span>검색어</span>
+                    <div class="search_area">
+                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <button class="filter_search_btn btn_blue">
+                        찾기
+                    </button>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <div class="list_wrap">
+
+            <div>
+                <figure>
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                    <figcaption>
+                        대기중
+                    </figcaption>
+                </figure>
+
+                <div class="info">
+                    <div class="w_info">
+                        <span class="w_name">김창열</span>
+                        <span class="w_tit">물방울</span>
+                    </div>
+
+                    <p>2021-01-13<br/> 15:21:34</p>
+                </div>
+        
+            </div>
+            
+            <!--검토중일때-->
+            <div>
+                <figure>
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                    <figcaption>
+                        검토중
+                        <span>2021-01-13</span>
+                    </figcaption>
+                </figure>
+
+                <div class="info">
+                    <div class="w_info">
+                        <span class="w_name">김창열</span>
+                        <span class="w_tit">물방울</span>
+                    </div>
+
+                    <p>2021-01-13<br/> 15:21:34</p>
+                </div>
+        
+            </div>
+            <!--//검토중일때-->
+
+            <!--검토완료/위탁가능-->
+            <div class="complete">
+                <figure>
+                    <div class="state p">
+                        위탁가능
+                    </div>
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                    <figcaption>
+                        검토완료
+                        <span>2021-01-13</span>
+                    </figcaption>
+                </figure>
+
+                <div class="info">
+                    <div class="w_info">
+                        <span class="w_name">김창열</span>
+                        <span class="w_tit">물방울</span>
+                    </div>
+
+                    <p>2021-01-13<br/> 15:21:34</p>
+                </div>
+        
+            </div>
+            <!--검토완료/위탁가능-->
+
+
+            <!--검토완료/위탁불가-->
+            <div class="complete">
+                <figure>
+                    <div class="state ip">
+                        위탁불가
+                    </div>
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                    <figcaption>
+                        검토완료
+                        <span>2021-01-13</span>
+                    </figcaption>
+                </figure>
+
+                <div class="info">
+                    <div class="w_info">
+                        <span class="w_name">김창열</span>
+                        <span class="w_tit">물방울</span>
+                    </div>
+
+                    <p>2021-01-13<br/> 15:21:34</p>
+                </div>
+        
+            </div>
+
+
+
+        </div>
+    </div>
+    <!--//위탁문의내역-->
+
+
+    <!--작품문의내역-->
+    <div class="inquiry_cnt">
+        <div class="filter_wrap">
+            <div class="top">
+                <div class="checkbox_wrap">
+                
+                    <div>
+                        <input class="default" type="checkbox" id="inquiry_all_check">
+                        <label for="inquiry_all_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>전체</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="inquiry_check_01">
+                        <label for="inquiry_check_01">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>답변 대기중</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="inquiry_check_02">
+                        <label for="inquiry_check_02">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>답변 완료</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                
+                <div>
+                    <span>조회기간</span>
+                    <div class="select_date">
+                        <input type="text" class="calendar flatpickr-input" data-id="range" readonly="readonly" value="조회기간 선택">
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <div class="search_wrap">
+                    <span>검색어</span>
+                    <div class="search_area">
+                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <button class="filter_search_btn btn_blue">
+                        찾기
+                    </button>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <div class="inquiry_details_wrap">
+            <div class="box">
+                <div class="img">
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                </div>
+
+                <div class="content">
+                    <p class="auc_detail">2021년 8월 프리미엄 경매 - LOT21</p>
+                    <div class="w_detail">
+                        <strong>김창열</strong>
+                        <span>물방울</span>
+                    </div>
+
+                    <div class="detail_content">
+                        질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다. 질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다.질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다.질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다.질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다.
+                    </div>
+
+                    <div style="font-size: 12px; font-weight: 600; margin-top: 15px;">#컨디션문의</div>
+
+                    <p class="date">2021/8/17 11:56:54 등록</p>
+
+                    <div class="state">
+                        검토중
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="img">
+                    <img src="https://images.k-auction.com/www/Work/0147/M0147074001.jpg">
+                </div>
+
+                <div class="content">
+                    <p class="auc_detail">2021년 8월 프리미엄 경매 - LOT21</p>
+                    <div class="w_detail">
+                        <strong>김창열</strong>
+                        <span>물방울</span>
+                    </div>
+
+                    <div class="detail_content">
+                        질문 드립니다. 질문 드립니다. 질문 드립니다.질문 드립니다.
+                    </div>
+
+
+                    <div style="font-size: 12px; font-weight: 600; margin-top: 15px;">#컨디션문의</div>
+
+
+                    <p class="date">2021/8/17 11:56:54 등록</p>
+
+                    <div class="state">
+                        검토중
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+<script>
+
+    $(document).ready(function() {
+        document.querySelectorAll('.inquiry_cnt > .inquiry_details_wrap > .box > .content > .detail_content').forEach(el => {
+            $.commonUtils.strSplit(80, el);
+        });
+    });
+
+
+</script>

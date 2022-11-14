@@ -1,0 +1,466 @@
+﻿@model KA.Entities.Models.Member.MemberNotiToken
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    Layout = null;
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentLang = requestCulture == null ? "ko-KR" : requestCulture.RequestCulture.UICulture.Name;
+    var targetLang = currentLang.Equals("ko-KR") ? "한국어" : "ENG";
+
+    var reportData = ViewBag.Auth.Equals("Y") ? ViewBag.ReportData : null;
+    decimal totalDeliveryFee = 0.0m;
+    decimal totalPriceSuccessfulBid = 0.0m;
+    decimal totalBuyCommSum = 0.0m;
+
+    string GetMoneyFormat(object value, bool empty = false)
+    {
+        if (decimal.TryParse(value.ToString(), out decimal outValue))
+        {
+            string result = string.Format("{0:#,###}", outValue);
+
+            return string.IsNullOrWhiteSpace(result) ? (empty ? "" : "0") : result;
+        }
+        else
+        {
+            return value.ToString();
+        }
+    }
+}
+
+@if (ViewBag.Auth.Equals("Y") && reportData != null && ViewBag.Type.ToString().Equals("Office"))
+{
+    @Html.Raw(reportData)
+}
+else
+{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, shrink-to-fit=no" viewport-fit=cover />
+
+        <!-- START CSS -->
+        <link rel="stylesheet" type="text/css" href="~/plugins/pace/pace.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/all.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/jquery-scrollbar/jquery.scrollbar.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/rangeslider//css//rangeslider.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/jquery-datatables/css/datatables.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/switchery/switchery.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/swiper/css/swiper.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/select2/css/select2.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/outdated/css/outdated.min.css">
+        <link rel="stylesheet" type="text/css" href="~/plugins/slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/slick/slick-theme.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/plugins/viewerjs/viewer.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.fe.css" class="main-stylesheet" asp-append-version="true" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.header.css" asp-append-version="true" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.reset.css" asp-append-version="true" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.work.css" asp-append-version="true" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.howto.css" asp-append-version="true" />
+        <link rel="stylesheet" type="text/css" href="~/css/ka.home.css" asp-append-version="true" />
+
+        <!-- START WEB FONT -->
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <!-- END WEB FONT -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+        <!-- END CSS -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!-- BEGIN PLUGIN JS -->
+        <script src="https://unpkg.com/core-js-bundle@3.1.4/index.js"></script>
+        <script src="https://unpkg.com/regenerator-runtime@0.13.3/runtime.js"></script>
+        <script src="~/plugins/pace/pace.min.js"></script>
+        <script src="~/plugins/modernizr/modernizr.min.js"></script>
+        <script src="~/plugins/jquery/jquery.min.js"></script>
+        <script src="~/plugins/jquery/jquery.easy.min.js"></script>
+        <script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+        <script src="~/plugins/jquery-unveil/jquery.unveil.min.js"></script>
+        <script src="~/plugins/jquery-ioslist/jquery.ioslist.min.js"></script>
+        <script src="~/plugins/jquery-actual/jquery.actual.min.js"></script>
+        <script src="~/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script src="~/plugins/jquery-validate/jquery.validate.min.js"></script>
+        <script src="~/plugins/jquery-scrollify/jquery.scrollify.min.js"></script>
+        <script src="~/plugins/jquery-maskedinput/jquery.maskedinput.min.js"></script>
+        <script src="~/plugins/jquery-datatables/js/datatables.min.js"></script>
+        <script src="~/plugins/jquery-countdown/jquery.countdown.min.js"></script>
+        <script src="~/plugins/jquery-typist/typist.js"></script>
+        <script src="~/plugins/jsgrid/jsgrid.min.js"></script>
+        <script src="~/plugins/lodash/lodash.min.js"></script>
+        <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="~/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+        <script src="~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="~/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script>
+        <script src="~/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/plugins/rangeslider/js/rangeslider.min.js"></script>
+        <script src="~/plugins/classie/classie.min.js"></script>
+        <script src="~/plugins/switchery/switchery.min.js"></script>
+        <script src="~/plugins/velocity/velocity.min.js"></script>
+        <script src="~/plugins/swiper/js/swiper.min.js"></script>
+        <script src="~/plugins/mixitup/mixitup.min.js"></script>
+        <script src="~/plugins/outdated/js/outdated.min.js"></script>
+        <script src="~/plugins/slick/slick.min.js"></script>
+        <script src="~/plugins/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.js"></script>
+        <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+        <script src="~/plugins/gsap/gsap.min.js"></script>
+        <script src="~/plugins/viewerjs/viewer.min.js"></script>
+        <!-- END PLUGIN JS -->
+        <style>
+            body { overflow-y: auto !important; overflow-x: auto !important; height: auto !important; }
+            .successfulbid_report_table_wrap { margin: 0 auto; padding: 0 15px; }
+            .successfulbid_report_table_wrap p { margin: 0; word-break: keep-all; }
+            .successfulbid_report_table_container { display: flex; flex-direction: column; align-items: center; }
+            .successfulbid_report_table_container > div > table { width: 650px; }
+            .successfulbid_report_table_container > div > div { width: 650px; }
+
+            @@media (max-width: 768px) {
+                .successfulbid_report_table_wrap { overflow-x: initial !important; height: 100%; width: auto; }
+                .successfulbid_report_table_container { width: 650px; height: auto; display: block; flex-direction: initial; align-items: initial; }
+                .successfulbid_report_table_container > div > div { width: 635px; } 
+                .successfulbid_report_table_container > div > table { width: 635px; }
+                .successfulbid_report_tit { margin-top: 30px; }
+            }
+        </style>
+    </head>
+    <body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='margin:0; padding:0; font-size:12px; background: #f3f3f3'>
+        <div class="modal fade join_member_modal" id="bid_successful_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="bid_success_modal_desc"><p id="modal-message">정보가 일치하지 않습니다.​ 확인 후 다시 이용해주세요.</p></div>
+                    <div class="bud_success_doc_modal_btn"><button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button></div>
+                </div>
+            </div>
+        </div>
+        @if (!ViewBag.Auth.Equals("Y"))
+        {
+            <form asp-controller="MyPage" asp-action="SuccessfulBidReport" id="form-auth">
+                <div>
+                    <div class="winnig_bid_input_wrap">
+                        <div class="winnig_bid_input_container">
+                            <div class="winnig_bid_input">
+                                <div class="winnig_bid_tit">
+                                    <img src="/img/join_logo@1x.png" srcset="/img/join_logo@1x.png 1x,/img/join_logo@2x.png 2x,/img/join_logo@3x.png 3x">
+                                    <img src="/img/join_logo_02.png" style="display:none;">
+                                    <p>@ViewBag.DocumentName</p>
+                                </div>
+                                <div class="winnig_bid_box">
+                                    <div class="winnig_bid_box_img"><img src="/img/icons/winnig_bid@1x.png" alt="" srcset="/img/icons/winnig_bid@1x.png 1x, /img/icons/winnig_bid@2x.png 2x, /img/icons/winnig_bid@3x.png 3x,"></div>
+                                    @if (ViewBag.Type.ToString().Equals("Office")) 
+                                    {                                        
+                                        <p style="text-align: left;">
+                                            <span class="fs-16 fw-800">보안메일 확인번호 입력</span><br /><br />
+                                            <span class="fs-13" style="color: black;">이 메일은 고객님의 정보 보호를 위하여 암호화된 보안메일입니다.</span><br />
+                                            <span class="fs-13" style="color: black;">생년월일(YYMMDD) 6자리를 입력해주세요.</span><br />
+                                            <span class="fs-13" style="color: black;">(법인 고개의 경우는 사업자 등록번호를 입력해 주세요.)</span><br />
+                                        </p>
+                                        <p style="text-align: left;">
+                                            <span class="fs-16 fw-800">Please input your password for access.</span><br /><br />
+                                            <span class="fs-13" style="color: black;">Please enter the first 6 digit of your Resident Registration Number</span><br />
+                                            <span class="fs-13" style="color: black;">(Please enter the corporate registration number if you are a corporate member)</span><br />                                            
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p>낙찰자의 <span>생년월일(8자리) 또는 사업자등록번호</span>를 입력하시면​ <br />낙찰 결과 통보서를 확인하실 수 있습니다.</p>
+                                    }
+                                    <div class="input">
+                                        <div>
+                                            <input asp-for="UserVal" type="number" placeholder="생년월일(8자리) 또는 사업자등록번호" class="winnig_bid_box_input">
+                                            <input asp-for="TokenVal" type="hidden" value="@ViewBag.Token" />
+                                            <div class="button"><button type="button" onclick="return validate();">확인</button></div>
+                                        </div>
+                                        <p>번호만 입력하세요.</p>
+                                    </div>
+                                    <div class="notice">
+                                        <p>알립니다.</p>
+                                        <ul>
+                                            <li><div><span>-</span></div><p>생년월일 또는 사업자등록번호는 케이옥션에 제공된 정보로 입력하세요.​</p></li>
+                                            <li><div><span>-</span></div><p>만약, 케이옥션으로 제공된 정보가 없다면, 담당자에게 문의하시기 바랍니다.​</p></li>
+                                        </ul>
+                                        @if (ViewBag.Type.ToString().Equals("Office")) 
+                                        {
+                                            <p class="m-t-5">Notice</p>
+                                            <ul>
+                                                <li><div><span>-</span></div><p>Enter your date of birth or business registration number using the information provided in K Auction.​</p></li>
+                                                <li><div><span>-</span></div><p>If there is no information provided by K Auction, please contact the person in charge.​</p></li>
+                                            </ul>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="successful_footer_wrap">
+                                    <ul>
+                                        <li><a target="_blank" href="/HowTo/MajorClause">경매약관</a></li>
+                                        <li><a target="_blank" href="/HowTo/OnlineClause">온라인경매약관</a></li>
+                                        <li><a target="_blank" class="PrivacyClause" href="/HowTo/PrivacyClause">개인정보처리방침</a></li>
+                                        <li><a target="_blank" href="/HowTo/Clause/InfoMng">내부정보관리규정</a></li>
+                                    </ul>
+                                    <p class="copyright"><span>Copyright ⓒ <a href="http://www.k-auction.com">K Auction.</a> All Rights Reserved</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+        else if (ViewBag.Auth.Equals("Y") && reportData != null)
+        {
+            <div class="modal-bid-noti-table successfulbid_report_table_wrap" style="margin-top: 40px; overflow-x: inherit;">
+                <div class="join_top_area" style="padding-top: 0px; padding-bottom: 50px; width: 650px; flex-direction: column; display: flex; align-items: center; margin-right: auto; margin-left: auto;">
+                    <div class="join_go_back_btn" onclick="window.location.href='/'" style="position: absolute; left: 0;">
+                        <img src="/img/icons/home_icon.svg" alt="">
+                        <span>@L["홈으로 이동"]</span>
+                    </div>
+                    <div class="join_step01_dropdown">
+                        <button class="join_step01_dropdown_btn dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
+                            <span style="">@targetLang</span><i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="">
+                            <label class="dropdown-item" onclick="location.href='/Home/SetLanguage?culture=KOR'"><input class="RadioDropdown" type="radio" value="@L["한국어"]" name="RadioDropdown">@L["한국어"]</label>
+                            <label class="dropdown-item" onclick="location.href='/Home/SetLanguage?culture=ENG'"><input class="RadioDropdown" type="radio" value="@L["영어"]" name="RadioDropdown">@L["영어"]</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="successfulbid_report_table_container">
+                    <div>
+                        <div class="successfulbid_report_tit" style="text-align: center;">
+                            <img src="/img/logo_black@1x.png" alt="케이옥션로고" srcset="/img/logo_black@1x.png 1x, /img/logo_black@2x.png 2x, /img/logo_black@3x.png 3x">
+                            <h3 style="font-size: 16px; font-weight:500; margin-top: 12px; line-height:1.2em; margin-bottom: 30px;">
+                                <span>@reportData[0].DisplayAucTitle</span>
+                            </h3>
+                        </div>
+                        <table class="bidnoti-table successfulbid_report_table" width='100%' style='BORDER-COLLAPSE: collapse; padding: 0 40px;' bordercolor='silver' cellspacing='0' cellpadding='4' align='center' border='1'>
+                            <tr style="background-color:#F5F5F5; text-align: center;">
+                                @if (commonService.IsKor())
+                                {
+                                    <th style="border: 1px solid #ccc; font-weight: 600;" rowspan="2">
+                                        <strong style="font-size: 12px;">Lot</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;" rowspan="2">
+                                        <strong style="font-size: 12px;">@L["작가 / 작품명"]</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;" rowspan="2">
+                                        <strong style="font-size: 12px;">@L["낙찰가"]<br>(A)</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;" rowspan="2">
+                                        <strong style="font-size: 12px;">@L["낙찰수수료"]<br>(B)</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;" rowspan="2">
+                                        <strong style="font-size: 12px;">@L["낙찰대금"]<br>(A+B)</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc; font-size: 12px; font-weight: 700;" colspan="2">
+                                        <strong style="font-size: 12px;">@L["배송비"]<br>(C)</strong>
+                                    </th>
+                                }
+                                else
+                                {
+                                    <th style="border: 1px solid #ccc; font-weight: 600;">
+                                        <strong style="font-size: 12px;">Lot</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;">
+                                        <strong style="font-size: 12px;">@L["작가 / 작품명"]</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;">
+                                        <strong style="font-size: 12px;">@L["낙찰가"]<br>(A)</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;">
+                                        <strong style="font-size: 12px;">@L["낙찰수수료"]<br>(B)</strong>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc;">
+                                        <strong style="font-size: 12px;">@L["낙찰대금"]<br>(A+B)</strong>
+                                    </th>
+                                }
+                            </tr>
+                            @if (commonService.IsKor())
+                            {
+                                <tr style="background-color:#F5F5F5; text-align: center;">
+                                    <th style="padding:4px; border: 1px solid #ccc">
+                                        <span style="font-size: 12px; font-weight:400">
+                                            @L["1.직접 방문 시"]
+                                        </span>
+                                    </th>
+                                    <th style="padding:4px; border: 1px solid #ccc; font=weight:400">
+                                        <span style="font-size: 12px;">
+                                            @L["2.배송 요청 시"]
+                                        </span>
+                                    </th>
+                                </tr>
+                            }
+                            <!-- Data -->
+                            @foreach (var item in reportData)
+                            {
+                                <tr>
+                                    <td align='center' style="width: 7%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: center; border-left: 1px solid #ffffff">@item.LotNum</td>
+                                    <td style="width: 24%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: left;">
+                                        <div class="tb-item-name_01">@item.AName</div>
+                                        <div class="tb-item-name_02">@item.WName</div>
+                                    </td>
+                                    <td style="width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;">@item.DisplayPriceSuccessfulBid</td>
+                                    <td style="width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;">@item.DisplayBuyCommSum</td>
+                                    <td style="width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;">@item.DisplayTotalPrice</td>
+                                    @if (commonService.IsKor())
+                                    {
+                                        <td style="width: 16.5%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;">0</td>
+                                        <td style="width: 16.5%; padding:4px; font-size: 12px; color:#666; text-align: right; border-right: 1px solid #ffffff;">
+                                            @(
+                                                !item.DeliveryFeeYn.Equals("X") ? totalDeliveryFee > 0 ? "10,000" : item.DisplayDeliveryFee : "0"
+                                                )
+                                        </td>
+                                    }
+                                </tr>
+
+                                if (!item.DeliveryFeeYn.Equals("X"))
+                                {
+                                    totalDeliveryFee += totalDeliveryFee > 0 ? (double)10000 : item.DeliveryFee;
+                                }
+
+                                totalPriceSuccessfulBid += item.PriceSuccessfulBid;
+                                totalBuyCommSum += item.BuyCommSum;
+                            }
+                            <!-- Data (Total) -->
+                            <tr style="background-color: #efefef; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500; color:#000;">
+                                <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center; border-left: 1px solid #efefef;" colspan="2">@L["합계"]</td>
+                                <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"><strong>@GetMoneyFormat(totalPriceSuccessfulBid)</strong></td>
+                                <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"><strong>@GetMoneyFormat(totalBuyCommSum)</strong></td>
+                                <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"><strong>@GetMoneyFormat(totalPriceSuccessfulBid + totalBuyCommSum)</strong></td>
+                                @if (commonService.IsKor())
+                                {
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"><strong>0</strong></td>
+                                    <td style="padding:4px; font-size: 12px; color:#000; text-align: right;border-right: 1px solid #efefef;">@GetMoneyFormat(totalDeliveryFee)</td>
+                                }
+                            </tr>
+                            <tr style="background-color: #fff; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500;">
+                                @if (commonService.IsKor())
+                                {
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center; border-left: 1px solid #ffffff;" colspan="5">@L["총 구매 대금"]</td>
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#d32f2f; text-align: right;">
+                                        <font color='ff0604'>
+                                            @(
+                                                GetMoneyFormat(totalPriceSuccessfulBid + totalBuyCommSum)
+                                                )@L["원"]
+                                        </font>
+                                    </td>
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#d32f2f; text-align: right; border-right: 1px solid #ffffff;">
+                                        <font color='ff0604'>
+                                            @(
+                                                GetMoneyFormat(totalPriceSuccessfulBid + totalBuyCommSum + totalDeliveryFee)
+                                                )원
+                                        </font>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center; border-left: 1px solid #ffffff;" colspan="4">@L["총 구매 대금"]</td>
+                                    <td style="padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#d32f2f; text-align: right;">
+                                        <font color='ff0604'>
+                                            @(
+                                                GetMoneyFormat(totalPriceSuccessfulBid + totalBuyCommSum)
+                                                )@L["원"]
+                                        </font>
+                                    </td>
+                                }
+                            </tr>
+                        </table>
+                        <div class="modal-bid-noti-desc" style="margin: 20px 0;">
+                            <h6 style="font-size: 12px; color: #000; font-weight: 500;">@L["대금 결제 및 배송 절차"]</h6>
+                            <ul>
+                                <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                                    <div style="margin-right: 3px;">1.</div>
+                                    <p style="margin: 0;">@L["낙찰된 작품은 낙찰을 철회할 수 없습니다. 기타 자세한 사항은 당사의 약관에 따릅니다."]</p>
+                                </li>
+                                <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                                    <div style="margin-right: 3px;">2. </div>
+                                    @if (commonService.IsKor())
+                                    {
+                                        <p style="margin: 0;">
+                                            낙찰된 작품의 총 구매대금은&nbsp;<span id="expire_date">
+                                                @(
+                                                    reportData[0].EndDate.Month
+                                                    )월 @(
+                                                 reportData[0].EndDate.Day
+                                                 )일
+                                            </span>까지 아래의 입금계좌로 입금되어야 합니다.
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="margin: 0;">
+                                            The total payment amount must be transferred to the below account by&nbsp;<span id="expire_date">
+                                                @(
+                                                    reportData[0].EndDate.Day
+                                                    ) @(
+                                                  reportData[0].EndDate.Month
+                                                  )
+                                            </span>
+                                        </p>
+                                    }
+                                </li>
+                                <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                                    <div style="margin-right: 3px;">3. </div>
+                                    <p style="margin: 0;">@L["낙찰자와 송금계좌 예금주가 다른 경우, 반드시 입금 통장 표시에 낙찰자명 기재 부탁드립니다."]</p>
+                                </li>
+                                <div class="bank-account-num" style="background-color: #f9f9f9; margin: 10px 0; text-align: center; padding: 12px 0;">
+                                    <p style="font-size: 14px; font-weight: 500; color: #000; margin: 0;">@L["입금 계좌 : 하나은행 196-910005-07204 (주)케이옥션"]</p>
+                                </div>
+                                <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                                    <div style="margin-right: 3px;">4. </div>
+                                    <p style="margin: 0;">@L["배송비는 설정된 배송지 기준으로 부과됩니다. 이후 배송지가 변경되는 경우 금액이 변경될 수 있으며, 당사에서 직접 픽업하는 경우에는 배송비가 부과되지 않습니다."]</p>
+                                </li>
+                                <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                                    <div style="margin-right: 3px;">5. </div>
+                                    <p style="margin: 0;">
+                                        @L["구매 대금은 낙찰 일로부터 7일 이내에 입금해 주시기 바랍니다. 7일 초과 시 추가 비용이 발생합니다. <a target='_blank' href='https://www.k-auction.com/HowTo/OnlineClause' style='color: #ff5d16; text-decoration: underline;'>(약관 참조)</a>"]
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <table border="0" width="600" cellpadding="0" bgcolor="#ffffff" cellspacing="0" style="padding: 32px 0 40px 0; box-sizing: border-box;  text-align: center;">
+                            <tbody>
+                                <tr>
+                                    <td bgcolor="#666666" style="font-family: 'Noto Sans KR', '맑은고딕', 'Malgun Gothic', sans-serif; width:600;height:auto; vertical-align:top; font-family: 'Noto Sans KR', '맑은고딕', 'Malgun Gothic', sans-serif; font-size:10px; line-height:2em;  padding: 10px 0 32px 0; color: #ffffff;">
+                                        @L["서울시 강남구 언주로 172길 23 아트타워 ㅣ 사업자등록번호 101-86-17910"]<br>
+                                        TEL. 02-3479-8888 ㅣ FAX. 02-3479-8889
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <script>
+            var message = "@ViewBag.Message";
+            var auth = "@ViewBag.Auth";
+
+            $(document).ready(function () {
+                if (auth !== "Y" && message !== "") {
+                    openModal(message);
+                }
+            });
+
+            function validate() {
+                if ($('.winnig_bid_box_input').val().replace(/ /ig, '') === '') {
+                    openModal("생년월일 또는 사업자등록번호를 입력하세요.");
+                    return false;
+                }
+                $("#form-auth").submit();
+            }
+
+            function openModal(msg) {
+                $("#modal-message").html(msg);
+                $("#bid_successful_modal").modal();
+            }
+        </script>
+    </body>
+    </html>
+}

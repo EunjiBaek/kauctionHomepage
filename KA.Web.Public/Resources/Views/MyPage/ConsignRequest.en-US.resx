@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="※ 작품의 실제사이즈로 기재해주세요 (판화는 시트지 사이즈)" xml:space="preserve">
+    <value>※ Actual sizes of the artworks (sheet sizes for multiple prints).</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기 - 5</comment>
+  </data>
+  <data name="※ 작품이 판화인 경우에는 Edition을 기입해 주세요." xml:space="preserve">
+    <value>※ If applicable, please fill in the edition number.</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #5 Edition</comment>
+  </data>
+  <data name="구매서류" xml:space="preserve">
+    <value>Purchase invoice</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.4 구매서류</comment>
+  </data>
+  <data name="구입가" xml:space="preserve">
+    <value>Purchase Price</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #10 구입가</comment>
+  </data>
+  <data name="기타" xml:space="preserve">
+    <value>Additional Details</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #8 기타</comment>
+  </data>
+  <data name="도자기" xml:space="preserve">
+    <value>Ceramics</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 6</comment>
+  </data>
+  <data name="뒷면" xml:space="preserve">
+    <value>Back</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.2 뒷면</comment>
+  </data>
+  <data name="보증서, 확인서 등 출처를 확인할 서류를 업로드 해주세요." xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.4.1</comment>
+  </data>
+  <data name="사진" xml:space="preserve">
+    <value>Photography</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 3</comment>
+  </data>
+  <data name="상세사진" xml:space="preserve">
+    <value>Details</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.5 상세사진</comment>
+  </data>
+  <data name="서명" xml:space="preserve">
+    <value>Signature</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.3 서명</comment>
+  </data>
+  <data name="서명 부분을 가까이 촬영해서 업로드 해주세요." xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.3.1</comment>
+  </data>
+  <data name="소장경위, 구매처, 보증서/감정서 유무, 전시이력, 수록 도서 등을 기재해주세요." xml:space="preserve">
+    <value>Ways of acquiring the artwork, copy of appraisal statement, exhibition record, Catalogue raisonné, literature, purchase invoice, appearance in publications, etc.</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #7 설명 - 2</comment>
+  </data>
+  <data name="소장품 위탁 전에 읽어주세요." xml:space="preserve">
+    <value>Read me</value>
+    <comment>[ConsignRequest] 05. 안내 문구</comment>
+  </data>
+  <data name="소장품 위탁문의 신청서" xml:space="preserve">
+    <value>Application for consignment inquiries</value>
+    <comment>[ConsignRequest] 01. Breadcrumb</comment>
+  </data>
+  <data name="소장하고 계신 물품에 관하여 판매 제한 사유(리세일 금지 약정 등)가 있는지 위탁 문의/신청 전에 확인 부탁드립니다. 고객님께서 물품을 위탁하시는 경우, 해당 물품에 관하여 제한 없이 소유권을 이전할 수 있다는 점을 스스로 진술/보증할 의무가 있습니다." xml:space="preserve">
+    <value>Before submitting your consignment inquiry, please confirm whether your objects are subject to sale restrictions (resale prevention clauses, etc.). If you consign objects, you are obligated to state and warrant that you have the unrestricted right to transfer title of said objects.</value>
+    <comment>[ConsignRequest] 05. 안내 문구 #2</comment>
+  </data>
+  <data name="앞면" xml:space="preserve">
+    <value>Front</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.1 앞면</comment>
+  </data>
+  <data name="위탁 신청" xml:space="preserve">
+    <value>Application for consignment</value>
+    <comment>[ConsignRequest] 04. 버튼</comment>
+  </data>
+  <data name="위탁신청" xml:space="preserve">
+    <value>Application for consignment</value>
+    <comment>[ConsignRequest] 01. Breadcrumb</comment>
+  </data>
+  <data name="위탁인 정보" xml:space="preserve">
+    <value>Consignor Information</value>
+    <comment>[ConsignRequest] 02. 위탁인 정보</comment>
+  </data>
+  <data name="위탁작품 정보" xml:space="preserve">
+    <value>Information on consigned works</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보</comment>
+  </data>
+  <data name="이름" xml:space="preserve">
+    <value>Name</value>
+    <comment>[ConsignRequest] 02. 위탁인 정보</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[ConsignRequest] 02. 위탁인 정보</comment>
+  </data>
+  <data name="작가명" xml:space="preserve">
+    <value>Artist</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #1 작가명</comment>
+  </data>
+  <data name="작품 디테일이나 결함 등을 촬영해서 업로드 해주세요." xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.5.1</comment>
+  </data>
+  <data name="작품 보관상태 및 출품 검토에 도움이 될만한 추가 내용을 자유롭게 기입해주세요." xml:space="preserve">
+    <value>Storage status, additional information for artist or artworks.</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #8 기타 - 2</comment>
+  </data>
+  <data name="작품명" xml:space="preserve">
+    <value>Title</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #2 작품명</comment>
+  </data>
+  <data name="작품에 대한 보관 상태나 요구 사항 등을 기입해 주세요." xml:space="preserve">
+    <value>Please enter the storage status and requirements for the work.</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #8 기타 - 1</comment>
+  </data>
+  <data name="작품에 대해서 가능한 많은 정보를 기입해 주세요. (예 : 소장 경로 또는 출처, 감정서 유무, 전시이력, 수록된 도서 등)" xml:space="preserve">
+    <value>Please fill out as much information as you can on each item.(Ex : Provenance or ways of acquiring the artwork, Copy of appraisal statement, Exhibition record, Catalogue raisonne, Literature, Purchase invoice, Appearance in publications, Artist studio statement, etc.)</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #7 설명 - 1</comment>
+  </data>
+  <data name="작품의 가로" xml:space="preserve">
+    <value>Width</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기 - 2</comment>
+  </data>
+  <data name="작품의 세로" xml:space="preserve">
+    <value>Height</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기 - 1</comment>
+  </data>
+  <data name="작품의 재료" xml:space="preserve">
+    <value>Material</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료</comment>
+  </data>
+  <data name="작품의 크기 (cm)" xml:space="preserve">
+    <value>Size (cm)</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기</comment>
+  </data>
+  <data name="작품의 폭" xml:space="preserve">
+    <value>Depth</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기 - 3</comment>
+  </data>
+  <data name="작품이 잘 보이는 정면 모습을 업로드 해주세요." xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.1.1</comment>
+  </data>
+  <data name="작품이미지" xml:space="preserve">
+    <value>Image</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지</comment>
+  </data>
+  <data name="장애물이 없는 상태의 뒷면을 업로드 해주세요." xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 3.2.1</comment>
+  </data>
+  <data name="재료를 선택해 주세요." xml:space="preserve">
+    <value>Select material</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 0</comment>
+  </data>
+  <data name="접수된 문의 내역은 분야별 스페셜리스트들의 내부 심사를 거친 후, 접수일로부터 7일 이내 담당자를 통해 개별적으로 연락을 드립니다." xml:space="preserve">
+    <value>Inquiries will be reviewed by our specialists. Our staff will reply to inquiries generally within 7 days.</value>
+    <comment>[ConsignRequest] 05. 안내 문구 #1</comment>
+  </data>
+  <data name="제작연도" xml:space="preserve">
+    <value>Year of production</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #6 제작연도</comment>
+  </data>
+  <data name="조각" xml:space="preserve">
+    <value>Sculpture</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 5</comment>
+  </data>
+  <data name="종이에 채색" xml:space="preserve">
+    <value>Color on paper</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 2</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[ConsignRequest] 02. 위탁인 정보</comment>
+  </data>
+  <data name="첨부할 파일을 드래그 하세요." xml:space="preserve">
+    <value>Drag the file you want to attach.</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 1</comment>
+  </data>
+  <data name="출처" xml:space="preserve">
+    <value>Provenence</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #7 설명</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[ConsignRequest] 04. 버튼</comment>
+  </data>
+  <data name="캔버스에 유채" xml:space="preserve">
+    <value>Oil on canvas</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 1</comment>
+  </data>
+  <data name="파일 추가" xml:space="preserve">
+    <value>Add File</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지 - 2</comment>
+  </data>
+  <data name="파일선택" xml:space="preserve">
+    <value>Add File</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #9 작품이미지</comment>
+  </data>
+  <data name="판화" xml:space="preserve">
+    <value>Prints</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #3 재료 - 4</comment>
+  </data>
+  <data name="호" xml:space="preserve">
+    <value />
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #4 크기 - 4</comment>
+  </data>
+  <data name="휴대전화" xml:space="preserve">
+    <value>Mobile</value>
+    <comment>[ConsignRequest] 02. 위탁인 정보</comment>
+  </data>
+  <data name="희망가" xml:space="preserve">
+    <value>Desired Price</value>
+    <comment>[ConsignRequest] 03. 위탁작품 정보 - #11 희망가</comment>
+  </data>
+</root>

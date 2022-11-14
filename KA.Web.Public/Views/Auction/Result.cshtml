@@ -1,0 +1,186 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer Localizer
+@{
+    string GetAuctionKindName(string aucKind)
+    {
+        switch (aucKind.ToUpper())
+        {
+            case "MAJOR": return "Live Auction";
+            case "PREMIUM": return "프리미엄 온라인";
+            case "WEEKLY": return "위클리 온라인";
+            case "ONLINE": return "Online Auction";
+            default: return string.Empty;
+        }
+    }
+}
+
+
+<div class="subtop-bn b2">
+    @{
+        var breadcrumbModel = new[] { Localizer[GetAuctionKindName(ViewBag.Auction)].Value, Localizer["경매결과"].Value };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+    <div class="container subtop">
+        <div class="subtop-desc">
+            <h1>@Localizer[GetAuctionKindName(ViewBag.Auction)] @Localizer["경매 결과"]</h1>
+        </div>
+    </div>
+</div>
+<div class="container m-t-50 p-b-30">
+    <!-- SEARCH AREA START -->
+    <div class="row m-t-20 m-b-20">
+        <div class="col-6 col-sm-6 result-top-group-wrap">
+            <div class="input-group">
+                <input id="search" type="text" class="form-control" placeholder="@Localizer["검색어를 입력해 주세요."]" aria-label="@Localizer["검색어를 입력해 주세요."]" aria-describedby="search-addon">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="search-addon"><i class="fas fa-search fa-fw"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-sm-6 result-top-group-wrap text-right">
+            <div class="btn-group">
+                <div class="btn-group dropdown dropdown-default">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["경매 정렬"]</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="javascript:sortList('auc_end_date', 'ASC');">@Localizer["경매일"] <i class="fal fa-arrow-up fa-fw"></i></a>
+                        <a class="dropdown-item" href="javascript:sortList('auc_end_date', 'DESC');">@Localizer["경매일"] <i class="fal fa-arrow-down fa-fw"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SEARCH AREA END -->
+    <!-- CARD AREA START -->
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2" id="list">
+    </div>
+
+    <!-- CARD AREA END -->
+    <!-- PAGINATION AREA START -->
+    <div class="dataTables_wrapper m-b-50">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="dataTables_paginate paging_full_numbers">
+                    <ul class="pagination"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGINATION AREA END -->
+</div>
+
+<template id="result_page_skeleton">
+    <div class="result-skeleton-item col mb-4">
+        <div class="result-skeleton-card">
+            <div class="result-skeleton-img"></div>
+            <div class="result-skeleton-content">
+                <div class="title"></div>
+                <div class="cnt"></div>
+                <div class="cnt"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+<script type="text/javascript">
+
+    var lang = {};
+    lang["auc_place"] = "@Localizer["전시장소"]";
+    lang["auc_start_date"] = "@Localizer["경매시작일"]";
+    lang["auc_end_date"] = "@Localizer["경매종료일"]";
+
+    var auction = "@ViewBag.Auction";
+    var isProcess = false;
+    var requestParam = {};
+
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+        }
+
+        for (let i = 0; i < 10; i ++) {
+            const result_skeleton_item = document.importNode(document.querySelector('#result_page_skeleton').content, true);
+            document.getElementById("list").appendChild(result_skeleton_item);
+        }
+
+        getList();
+
+        $("#search").keydown(function (e) {
+            if (e.which === 13) {
+                requestParam["page"] = 1;
+                getList();
+            }
+        });
+
+        $("#search-addon").on("click", function () {
+            requestParam["page"] = 1;
+            getList();
+        });
+
+        $(".my-auto").css("max-width", "50%");
+        $(".my-auto").css("flex", "0 0 50%");
+    });
+
+    function sortList(column, option) {
+        requestParam["sort_column"] = column;
+        requestParam["sort_option"] = option;
+        requestParam["page"] = 1;
+        getList();
+    }
+
+    function getList() {
+        if (isProcess) return;
+
+        isProcess = true;
+        requestParam["search"] = $("#search").val();
+        $.ajaxUtils.getApiData("/api/Auction/Schedule/" + auction, requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        isProcess = false;
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#list").empty();
+            var totalCount = 0;
+            $.each(result.data, function (index, item) {
+                $.cardUtils.setScheduleCardTag("#list", item, auction);
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+            });
+            skeletonLoadFunc(document.querySelectorAll('.img-lazy'));
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    page: requestParam["page"],
+                    callback: getList
+                });
+            } else {
+                $.cardUtils.setEmptyCardTag("#list", "schedule");
+                $(".pagination").empty();
+            }
+
+        } else {
+            alert(ka.msg.common.error);
+        }
+
+
+
+        $(window).resize();
+    }
+    
+    const subtopBtn = document.querySelector('.subtop-btn');
+    if (subtopBtn !== null) {
+        if (!subtopBtn) {
+            document.querySelector('.subtop-bn.b1').classList.add('subtop-h');
+        } else {
+            document.querySelector('.subtop-bn.b1').classList.remove('subtop-h');
+        }
+    }
+    
+</script>

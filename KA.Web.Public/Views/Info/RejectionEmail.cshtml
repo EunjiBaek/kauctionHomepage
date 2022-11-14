@@ -1,0 +1,18 @@
+﻿@inject KA.Web.Public.Services.CommonService commonService
+
+<div class="jumbotron bg-transparent" data-parallax="scroll" data-position-y="center" style="margin-bottom: 0;">
+    @{
+        var breadcrumbModel = new[] { Html.Raw($"{(commonService.IsKor() ? "이메일수집거부" : "Unsubscribe")}") };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+</div>
+
+<div class="container p-t-0 p-b-30">
+    <div class="card card-default m-t-20">
+        <div class="card-body">
+            <div id="guide">
+ 
+            </div>
+        </div>
+    </div>
+</div>

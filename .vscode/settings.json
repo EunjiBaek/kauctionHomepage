@@ -1,0 +1,13 @@
+{
+    "liveServer.settings.port": 5503,
+    "html.hover.references": false,
+    "css.hover.references": false,
+    "less.hover.references": false,
+    "scss.hover.references": false,
+    "files.associations": {
+        "*.cshtml": "html"
+    },
+    "emmet.includeLanguages": {
+        "aspnetcorerazor": "html"
+    },
+}

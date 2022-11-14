@@ -1,0 +1,312 @@
+﻿
+<style>
+    ul { list-style-type: none; padding-left: 10px; }
+    .ui-dynatree-active a { font-weight: 800 !important; text-decoration: underline !important; }
+    .note-editor > .note-toolbar > .note-btn-group > .note-btn-group > .note-dropdown-menu { overflow: auto !important; max-height: 150px !important; }
+</style>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">약관 버전</div>
+            </div>
+            <div class="card-body no-scroll">
+                <div class="row">
+                    <div id="treeview"></div>
+                </div>
+                <div class="row m-l-5 m-t-10">
+                    <button class="btn btn-sm" onclick="addVersion();">버전추가</button>
+                    <button class="btn btn-sm m-l-5" onclick="setPrimaryVersion();">현재버전설정</button>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-header">
+                <div class="card-title">선택 유형</div>
+            </div>
+            <div class="card-body no-scroll" style="min-height: 200px;">
+                <div id="list" class="">
+                    약관을 선택하세요.
+                </div>
+                <button class="btn m-l-10" id="btn-use" style="display: none;" onclick="setUseTerms();">사용여부 저장</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div id="card-title" class="card card-default" style="display: none;">
+            <div class="card-header">
+                <div class="card-title">약관 설명 <span class="fs-11">- 로그인시 설정된 약관에 동의하지 않은 회원은 약관 동의 페이지로 이동하며, 상단 설명문구를 설정합니다.</span></div>
+            </div>
+            <div class="card-body no-scroll">
+                <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                    <li class="nav-item">
+                        <a class="nav-link active text-center" data-toggle="tab" href="#nav-title">국문</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" data-toggle="tab" href="#nav-title-en">영문</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="nav-title" role="tabpanel" aria-labelledby="nav-top-tab">
+                        <div id="title_content" class="title-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermInfo('ko');">저장(국문)</button>
+                    </div>
+                    <div class="tab-pane fade" id="nav-title-en" role="tabpanel" aria-labelledby="nav-popup-tab">
+                        <div id="title_content_en" class="title-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermInfo('en');">저장(영문)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="card-content" class="card card-default" style="display: none;">
+            <div class="card-header">
+                <div class="card-title">약관 내용 <span id="term-title" class="fs-12"></span></div>
+                <div class="p-l-15">
+                    <input type="checkbox" id="chk-login" /><label for="chk-login" style="cursor: pointer;">&nbsp;로그인 동의 활성화</label>
+                </div>
+            </div>
+            <div class="card-body no-scroll">
+                <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                    <li class="nav-item">
+                        <a class="nav-link active text-center" data-toggle="tab" href="#nav-content">국문</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" data-toggle="tab" href="#nav-content-en">영문</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-top-tab">
+                        <div id="layer_content" class="content-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermDetail('kr');">저장(국문)</button>
+                    </div>
+                    <div class="tab-pane fade" id="nav-content-en" role="tabpanel" aria-labelledby="nav-popup-tab">
+                        <div id="layer_content_en" class="content-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermDetail('en');">저장(영문)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var data;
+    var param = {};
+    param["type"] = "Join";
+    param["version"] = "";
+
+    $(document).ready(function () {
+        initTreeView();
+
+        if ($("#treeview .dynatree-container").find(".dynatree-title").length > 0) {
+            $("#treeview .dynatree-container").find(".dynatree-title")[0].click();
+        }
+
+        $('.title-editor').summernote({
+            height: 150,
+            lang: 'ko-KR',
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather', 'Dotum', 'Gulim', 'Malgun Gothic'],
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+
+        $('.content-editor').summernote({
+            height: 300,
+            lang: 'ko-KR',            
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+
+        $('.note-editable').css('font-size', '14px');
+    });
+
+    function initTreeView() {
+        $.treeViewUtils.init({
+            url: "/api/Member/GetTermAndConditionVersionList?type=" + param["type"],
+            target: "#treeview",
+            onClick: selectedVersion,
+            id_field: "uid",
+            display_field: "display",
+            disabled_field: "use_yn",
+            selectedTarget: "selected-clause"
+        });
+    }
+
+    function selectedVersion(node, item) {
+        $('#card-title').show();
+        $('#term-title').html('');
+
+        param["version"] = item.version;
+        param["code"] = "";
+
+        var req = {};
+        req["mode"] = "admin_version";
+        req["version"] = item.version;
+        req["type"] = param["type"];
+        var descriptions = $.ajaxUtils.getApiData("/api/Member/GetTermAndConditionVersionList2", req, null, false);
+        if ($.ajaxUtils.getResultCode(descriptions) === "00") {
+            $('#title_content').summernote('reset');
+            $('#title_content_en').summernote('reset');
+
+            $('#title_content').summernote('code', item.description);
+            $('#title_content_en').summernote('code', item.description_en);
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Member/GetTermAndConditionCodeList", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $('#list').empty();
+
+            var el = $('<ul />');
+            result.data.forEach(function (data) {
+                var checkBox = $('<input />', {
+                    'type': 'checkbox', 'style': 'vertical-align: middle;', 'id': 'check-' + data.code, 'data-code': data.code
+                });
+                if (data.use_yn === "Y") {
+                    checkBox.attr("checked", "checked");
+                }
+                var lblTerm = $('<label />', { 'style': 'cursor: pointer;' }).append("&nbsp;" + data.code_name);
+                lblTerm.on("click", function (e) {
+                    $('#card-content').show();
+                    $('#term-title').html(" - " + data.code_name);
+
+                    var req1 = {};
+                    req1["mode"] = "detail";
+                    req1["version"] = param["version"];
+                    req1["code"] = data.code;
+                    req1["type"] = 'Join';
+                    var contents = $.ajaxUtils.getApiData("/api/Member/GetTermAndConditionCodeDetail", req1, null, false);
+                    if ($.ajaxUtils.getResultCode(contents) === "00") {
+                        $('#layer_content').summernote('reset');
+                        $('#layer_content_en').summernote('reset');
+
+                        $('#layer_content').summernote('code', contents.data[0].content);
+                        $('#layer_content_en').summernote('code', contents.data[0].content_en);
+                    }
+                    param["code"] = data.code;
+                });
+                el.append($('<li />').append(checkBox, lblTerm));
+            });
+            $('#list').append(el);
+            $('#btn-use').show();
+        }
+    }
+
+    function saveTermInfo(type) {
+        param["mode"] = type === "en" ? "UPDATE_CONTENT_EN" : "UPDATE_CONTENT";
+        param["description"] = $('#title_content').summernote('code');
+        param["description_en"] = $('#title_content_en').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function saveTermDetail(type) {
+        param["mode"] = type === "en" ? "UPDATE_CONTENT_EN" : "UPDATE_CONTENT";
+        param["content"] = $('#layer_content').summernote('code');
+        param["content_en"] = $('#layer_content_en').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionDetail", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function modify() {
+        param["content"] = $('#clause-content').summernote('code');
+        param["content2"] = $('#clause-content2').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetClause", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function addVersion() {
+        $.commonUtils.confirm("등록", "새 버전을 등록하시겠습니까?", "addVersionProc();");
+    }
+
+    function addVersionProc() {
+        param["mode"] = "INSERT";
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.reload();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function setUseTerms() {
+        let checkList = $("#list").find("input[type='checkbox']");
+        var checkedValue = "";
+        $.each(checkList, function (index, item) {
+            if (item.checked) {
+                checkedValue += (checkedValue !== '' ? "|" : "") + item.dataset.code;
+            }
+        });
+        var reqParam = {};
+        reqParam["mode"] = "UPDATE_USE_YN";
+        reqParam["type"] = 'Join';
+        reqParam["version"] = param["version"];
+        reqParam["desc"] = checkedValue;
+        var reqResult = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionDetail", reqParam, null, false);
+        if ($.ajaxUtils.getResultCode(reqResult) === "00") {
+            $.commonUtils.alert("저장하였습니다.", "success");
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다.", "success");
+        }
+    }
+
+    function setPrimaryVersion() {
+        param["mode"] = "UPDATE_OPTION";
+        param["start_date"] = '';
+        param["end_date"] = '';
+        param["date_primary_yn"] = 'Y';
+        param["use_yn"] = 'Y';
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.reload();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+</script>

@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@inject KA.Web.Public.Services.CommonService CommonService
+
+@{
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+}
+
+<div class="modal fade" id="modal-address" tabindex="-1" role="dialog" aria-labelledby="modal-address" aria-hidden="true" style="z-index: 2000;">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="address_modal_tit">@L["주소 등록/수정"]</div>
+            <div class="address_modal_cnt">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="list">
+                    <p>@L["주소명"]</p>
+                    <div class="address_name_ch">
+                        <div class="radio_btn_wrap">
+                            <input type="radio" name="modal-type" id="modal-type1" value="001" checked onclick="$.mypageUtils.checkAddressType(this);">
+                            <label for="modal-type1"><p class="tit">@L["자택"]</p><div><span></span></div></label>
+                        </div>
+                        <div class="radio_btn_wrap">
+                            <input type="radio" name="modal-type" id="modal-type2" value="002" onclick="$.mypageUtils.checkAddressType(this);">
+                            <label for="modal-type2"><p class="tit">@L["직장"]</p><div><span></span></div></label>
+                        </div>
+                        <div class="radio_btn_wrap">
+                            <input type="radio" name="modal-type" id="modal-type4" value="004" onclick="$.mypageUtils.checkAddressType(this);">
+                            <label for="modal-type4"><p class="tit">@L["직접입력"]</p><div><span></span></div></label>
+                        </div>
+                    </div>
+                </div>
+                <div id="fg-modal-etc" class="list" style="display: none;">
+                    <p>@L["직접입력"]</p>
+                    <input id="modal-etc" class="default_type" type="text" maxlength="50" data-msg="@L["직접입력 주소를 입력하세요."]">
+                </div>
+                <div class="list">
+                    <p>@L["국가"]</p>
+                    <div id="fg-modal-country-code">
+                        <select id="modal-country-code" class="default_select" data-placeholder="" data-init-plugin="select2" data-disable-search="true" onchange="$.mypageUtils.checkCountry(this);">
+                            @foreach (var item in countryList)
+                            {@Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")}
+                        </select>
+                    </div>
+                </div>
+                <div class="list address_num">
+                    <p>@L["우편번호"]</p>
+                    <div>
+                        <input id="modal-zip-code" type="text" class="default_type" data-msg="@L["우편번호를 입력하세요."]" required disabled>
+                        <button id="modal-search-btn" type="button" onclick="$.addressUtils.openAddrSearch();">
+                            <span>@L["주소 검색"]</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="list">
+                    <p>@L["주소"]</p>
+                    <input id="modal-address1" type="text" class="default_type" data-msg="@L["주소입력"]" required disabled>
+                </div>
+                <div class="list">
+                    <p>@L["상세주소"]</p>
+                    <input id="modal-address2" type="text" class="default_type" data-msg="@L["상세주소를 입력하세요."]" required>
+                </div>
+                <div class="list">
+                    <p>@L["받는사람"]</p>
+                    <input id="modal-receiver" type="text" class="default_type" data-msg="@L["받는사람을 입력하세요."]" required>
+                </div>
+                <div class="list">
+                    <p>@L["연락처"]</p>
+                    <input id="modal-contact" type="number" class="default_type" placeholder="@L["- 제외한 숫자만 입력"]" data-msg="@L["연락처를 입력하세요."]" required maxlength="20" autocomplete="off">
+                </div>
+                <div id="address_modify_btn_wrap" class="btn_wrap">
+                    <button class="cancel" onclick="$('#modal-address').modal('hide');"><span id="modal-close-btn">@L["취소"]</span></button>
+                    <button class="submit" id="address-modal__submit-btn" onclick="$.mypageUtils.updateAddressResult();"><span id="modal-address-btn"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

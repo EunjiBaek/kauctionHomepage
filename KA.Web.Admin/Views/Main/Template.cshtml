@@ -1,0 +1,873 @@
+﻿
+<div class="row">
+    <div class="col-12">
+        <h3>Form Samples</h3>
+        <p class="m-b-30">블라블라</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">input 옵션</div>
+            </div>
+            <div class="card-body">
+                <h4>타이틀</h4>
+                <p class="m-t-10 m-b-20 mw-80">설명...블라블라</p>
+
+                <form class="" role="form">
+
+                    <div class="form-group form-group-default required ">
+                        <label>폭 100% (이메일 등등) / 필수</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-6">
+                            <div class="form-group form-group-default required">
+                                <label>폭 50% / 필수</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group form-group-default">
+                                <label>폭 50% / 일반</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group form-group-default required">
+                        <label>비번 / 필수</label>
+                        <input type="password" class="form-control" required>
+                    </div>
+
+                    <div class="form-group  form-group-default required">
+                        <label>Placeholder  / 필수</label>
+                        <input type="email" class="form-control" placeholder="msmin@k-auction.comm" required>
+                    </div>
+
+                    <div class="form-group form-group-default disabled">
+                        <label>Disabled</label>
+                        <input type="email" class="form-control" value="입력불가!!" disabled>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+
+
+    <div class="col-lg-12">
+
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">체크박스 & 라디오버튼</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h5>체크박스 </h5>
+                        <p class="m-b-20">블라</p>
+
+                        <div class="form-check">
+                            <input type="checkbox" id="defaultCheck" checked>
+                            <label for="defaultCheck">기본</label>
+                        </div>
+
+                        <div class="form-check complete">
+                            <input type="checkbox" id="check-color-opt-1">
+                            <label for="check-color-opt-1">약관에 동의함....</label>
+                        </div>
+
+                        <div class="form-check primary">
+                            <input type="checkbox" id="check-color-opt-2" checked>
+                            <label for="check-color-opt-2">동의함</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <h5>동그라미~</h5>
+                        <p class="m-b-20">체크박스임!</p>
+
+                        <div class="form-check checkbox-circle danger">
+                            <input type="checkbox" id="check-circle-color-opt-1">
+                            <label for="check-circle-color-opt-1">동글뱅이</label>
+                        </div>
+
+                        <div class="form-check checkbox-circle primary">
+                            <input type="checkbox" id="check-circle-color-opt-2" checked>
+                            <label for="check-circle-color-opt-2">로그인 유지</label>
+                        </div>
+
+                        <div class="form-check checkbox-circle primary right">
+                            <input type="checkbox" id="check-circle-color-opt-3" checked>
+                            <label for="check-circle-color-opt-3">로그인 유지 오른쪽</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <h5>선택불가</h5>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="disable-check" checked disabled>
+                            <label for="disable-check">체크박스 불가!</label>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="form-check form-check-inline complete">
+                            <input type="radio" name="state" id="radio-inline" value="Default" checked>
+                            <label for="radio-inline">라디오 기본</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="state" id="radio-disabled" value="disabled" disabled>
+                            <label for="radio-disabled">라디오 불가</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h5>스위치</h5>
+                        <p class="m-b-20">체크박스를 스위치로~(.switch 클레스)</p>
+                        <div>
+
+                            <div class="form-check form-check-inline switch">
+                                <input type="checkbox" id="switch" checked>
+                                <label for="switch">기본</label>
+                            </div>
+
+                            <div class="form-check form-check-inline switch">
+                                <input type="checkbox" id="switch-disabled" disabled>
+                                <label for="switch-disabled"> 불가 </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-check form-check-inline switch switch-lg complete">
+                                <input type="checkbox" id="switch-lg">
+                                <label for="switch-lg">큰 아이 (.switch-lg)</label>
+                            </div>
+
+                            <div class="form-check form-check-inline switch switch-lg">
+                                <input type="checkbox" id="switch-color-opt">
+                                <label for="switch-color-opt">ON!!!! </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <h5>라디오 버튼</h5>
+                        <div class="form-check">
+                            <input type="radio" name="texture" id="defaultradio" value="Default" checked>
+                            <label for="defaultradio">기본</label>
+                        </div>
+                        <div class="form-check complete">
+                            <input type="radio" name="texture" id="radio1" value="Medium">
+                            <label for="radio1">1번</label>
+                        </div>
+                        <div class="form-check primary">
+                            <input type="radio" name="texture" id="radio2" value="Verbose">
+                            <label for="radio2">2번</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">드롭다운</div>
+            </div>
+            <div class="card-body">
+                <h4>드롭다운</h4>
+                <p class="m-t-10 m-b-20 mw-80">구림..ㅠㅠ</p>
+
+                <select class="cs-select cs-skin-slide" data-init-plugin="cs-select">
+                    <option value="opt-1">드롭옥션 1</option>
+                    <option value="opt-2">드롭옥션 2</option>
+                    <option value="opt-3">드롭옥션 3</option>
+                </select>
+
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">검색 드롭다운</div>
+            </div>
+            <div class="card-body">
+                <h4>select2 드롭다운</h4>
+                <p class="m-t-10 m-b-20 mw-80">검색 가능! / https://select2.org</p>
+
+                <form role="form">
+                    <div class="form-group ">
+                        <select class="full-width" data-init-plugin="select2">
+                            <optgroup label="Alaskan/Hawaiian Time Zone">
+                                <option value="AK">Alaska</option>
+                                <option value="HI">Hawaii</option>
+                            </optgroup>
+                            <optgroup label="Pacific Time Zone">
+                                <option value="CA">California</option>
+                                <option value="NV">Nevada</option>
+                                <option value="OR">Oregon</option>
+                                <option value="WA">Washington</option>
+                            </optgroup>
+                            <optgroup label="Mountain Time Zone">
+                                <option value="AZ">Arizona</option>
+                                <option value="CO">Colorado</option>
+                                <option value="ID">Idaho</option>
+                                <option value="MT">Montana</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="UT">Utah</option>
+                                <option value="WY">Wyoming</option>
+                            </optgroup>
+                            <optgroup label="Central Time Zone">
+                                <option value="AL">Alabama</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IA">Iowa</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MO">Missouri</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TX">Texas</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="WI">Wisconsin</option>
+                            </optgroup>
+                            <optgroup label="Eastern Time Zone">
+                                <option value="CT">Connecticut</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="IN">Indiana</option>
+                                <option value="ME">Maine</option>
+                                <option value="MD">Maryland</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MI">Michigan</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NY">New York</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="OH">Ohio</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="VT">Vermont</option>
+                                <option value="VA">Virginia</option>
+                                <option value="WV">West Virginia</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </form>
+                <form class="m-t-10" role="form">
+                    <div class="form-group form-group-default form-group-default-select2 required">
+                        <label class="">타이틀</label>
+                        <select class="full-width" data-placeholder="Select Country" data-init-plugin="select2">
+                            <optgroup label="Alaskan/Hawaiian Time Zone">
+                                <option value="AK">Alaska</option>
+                                <option value="HI">Hawaii</option>
+                            </optgroup>
+                            <optgroup label="Pacific Time Zone">
+                                <option value="CA">California</option>
+                                <option value="NV">Nevada</option>
+                                <option value="OR">Oregon</option>
+                                <option value="WA">Washington</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+
+
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">드롭다운</div>
+            </div>
+            <div class="card-body">
+                <h4>다중선택</h4>
+                <p class="m-t-10 m-b-20 mw-80"></p>
+
+                <form class="m-t-10" role="form">
+                    <div class="form-group form-group-default form-group-default-select2">
+                        <label>타이틀</label>
+                        <select class=" full-width" data-init-plugin="select2" multiple>
+                            <option value="no-1">1번</option>
+                            <option value="no-2">2번</option>
+                            <option value="no-3">3번</option>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">드롭다운</div>
+            </div>
+            <div class="card-body">
+                <h4>검색어 제안 / typeahead</h4>
+                <p class="m-t-10 m-b-20 mw-80">https://twitter.github.io/typeahead.js/</p>
+
+                <div class="form-group">
+                    <input class="typeahead form-control sample-typehead" type="text" placeholder="미쿡 주 검색 영문으로">
+                </div>
+
+                <form class="" role="form">
+                    <div class="form-group form-group-default required typehead" id="sample-typehead-2">
+                        <label>국가명</label>
+                        <input class="typeahead form-control sample-typehead-2" type="text" placeholder="국가 검색 영문으로">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+
+
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">데이트 픽커</div>
+            </div>
+            <div class="card-body">
+
+                <div class="input-group date col-md-8 p-l-0">
+                    <input type="text" class="form-control" id="datepicker-component">
+                    <div class="input-group-append ">
+                        <span class="input-group-text"><i class="fal fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group form-group-default input-group col-md-10">
+                    <div class="form-input-group">
+                        <label>시작일</label>
+                        <input type="email" class="form-control" placeholder="날짜 선택" id="datepicker-component2">
+                    </div>
+                    <div class="input-group-append ">
+                        <span class="input-group-text"><i class="fal fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+
+
+    <div class="col-lg-4">
+        <!-- START card -->
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">데이트 레인지 픽커</div>
+            </div>
+            <div class="card-body">
+
+                <div class="input-daterange input-group" id="datepicker-range">
+                    <input type="text" class="input-sm form-control" name="start" />
+                    <div class="input-group-addon">to</div>
+                    <input type="text" class="input-sm form-control" name="end" />
+                </div>
+
+                <br />
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fal fa-calendar-alt"></i></span>
+                    </div>
+                    <input type="text" name="reservation" id="daterangepicker" class="form-control" value="2020/03/01 1:00 PM - 2020/03/01 1:30 PM" />
+                </div>
+
+                <br />
+
+                <div class="input-group bootstrap-timepicker">
+                    <input id="timepicker" type="text" class="form-control">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- END card -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">폼 헬퍼</div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>마스크</h5>
+                        <p>https://github.com/RobinHerbots/Inputmask</p>
+
+                        <div class="form-group">
+                            <label>날짜</label>
+                            <input type="text" id="date" class="form-control" placeholder="시작일">
+                            <span class="help">예. "2020/03/01"</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>전화번호</label>
+                            <input type="text" id="phone" class="form-control" placeholder="전화번호">
+                            <span class="help">예. "(010) 1234-5678"</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>주민번호</label>
+                            <input type="text" id="ssn" class="form-control" placeholder="주민번호">
+                            <span class="help">예. "123456-1234567"</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <h5>뉴메릭</h5>
+                        <p>http://www.decorplanit.com/plugin/</p>
+
+                        <div class="form-group">
+                            <label>천단위</label>
+                            <input type="text" class="autonumeric form-control">
+                            <span class="help">예. "123,000"</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>USD</label>
+                            <input type="text" data-a-sign="$ " class="autonumeric form-control">
+                            <span class="help">예. "$ 1235"</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>KRW</label>
+                            <input type="text" data-a-sign="KRW " class="autonumeric form-control">
+                            <span class="help">예. "KRW 123456"</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">폼 헬퍼</div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>태그</h5>
+                        <p></p>
+
+                        <input class="tagsinput custom-tag-input" type="text" value="고미술,공예" />
+
+                        <input class="tagsinput custom-tag-input" type="text" value="메이저,위클리" />
+
+                        <div class="form-group form-group-default required">
+                            <label>태그</label>
+                            <input class="tagsinput custom-tag-input" type="text" value="근현대,해외,동양화,고미술,인테리어" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <h5>d&d 업로더</h5>
+                        <p>https://gitlab.com/meno/dropzone</p>
+
+                        <div class="card-body no-scroll no-padding">
+                            <form action="/file-upload" class="dropzone no-margin">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">에디터</div>
+            </div>
+            <div class="card-body no-scroll card-toolbar">
+                <h5>https://quilljs.com</h5>
+                <div class="quill-wrapper">
+                    <div id="quill">Hello Quill</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">트리뷰</div>
+            </div>
+            <div class="card-body no-scroll">
+                <h5>기본 트리</h5>
+
+                <div id="default-tree">
+                    <ul id="treeData" class="hidden">
+                        <li id="id-1" title="툴팁">아이템 1 + 툴팁</li>
+                        <li id="id-2">아이템 2</li>
+                        <li id="id-3" class="folder">
+                            폴더
+                            <ul>
+                                <li id="id-3-1">
+                                    서브 아이템 3-1
+                                    <ul>
+                                        <li id="id-3-1-1">서브 아이템 3-1-1</li>
+                                        <li id="id-3-1-2">서브 아이템 3-1-2</li>
+                                    </ul>
+                                </li>
+                                <li id="id-3-2">
+                                    서브 아이템 3-2
+                                    <ul>
+                                        <li id="id-3-2-1">서브 아이템 3-2-1</li>
+                                        <li id="id-3-2-2">서브 아이템 3-2-2</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="id-4" class="expanded">
+                            아이템 4 (초기설정: 펼침)
+                            <ul>
+                                <li id="id-4-1" class="active focused">
+                                    서브 아이템 4-1 (초기설정: 활성 및 포커스)
+                                    <ul>
+                                        <li id="id-4-1-1">서브 아이템 4-1-1</li>
+                                        <li id="id-4-1-2">서브 아이템 4-1-2</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">트리뷰</div>
+            </div>
+            <div class="card-body no-scroll">
+                <h5>체크트리</h5>
+
+                <div id="check-tree"></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">모달</div>
+            </div>
+            <div class="card-body no-scroll">
+
+                <button type="button" class="btn btn-dark btn-cta" data-toggle="modal" data-target="#modal-success">SUCCESS Modal</button>
+                <button type="button" class="btn btn-dark btn-cta" data-toggle="modal" data-target="#modal-error">ERROR Modal</button>
+                <button type="button" class="btn btn-dark btn-cta" data-toggle="modal" data-target="#modal-warning">WARNING Modal</button>
+                <button type="button" class="btn btn-dark btn-cta" data-toggle="modal" data-target="#modal-login">LOGIN Modal</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // $("#multi").val(["1번", "2번"]).select2();
+
+        $('#datepicker-range, #datepicker-component, #datepicker-component-2').datepicker();
+
+        $('#datepicker-embeded').datepicker({
+            daysOfWeekDisabled: "0,1"
+        });
+
+
+        var countries = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: '/Assets/country.json'
+        });
+
+
+        $('.sample-typehead').typeahead(null, {
+            name: 'countries',
+            source: countries
+        });
+
+
+        $('#daterangepicker').daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 30,
+            format: 'YYYY/MM/DD h:mm A'
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+
+
+        $('#timepicker').timepicker().on('show.timepicker', function (e) {
+            var widget = $('.bootstrap-timepicker-widget');
+            widget.find('.glyphicon-chevron-up').removeClass().addClass('fas fa-chevron-up');
+            widget.find('.glyphicon-chevron-down').removeClass().addClass('fas fa-chevron-down');
+        });
+
+
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+
+        $(function ($) {
+            $("#date").mask("9999/99/99");
+            $("#phone").mask("(999) 9999-9999");
+            $("#ssn").mask("999999-9999999");
+        });
+
+        $('.autonumeric').autoNumeric('init', { aPad: false });
+
+
+        $("div#id").dropzone({
+            url: "/file/post"
+        });
+
+        $('.custom-tag-input').tagsinput({
+        });
+
+        var toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'align': [] }],
+
+            ['clean']                                         // remove formatting button
+        ];
+        var quill = new Quill('#quill', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: '입력...',
+            theme: 'snow'
+        });
+
+        quill.on('selection-change', function (range, oldRange, source) {
+            if (range === null && oldRange !== null) {
+                $('body').removeClass('overlay-disabled');
+            } else if (range !== null && oldRange === null) {
+                $('body').addClass('overlay-disabled');
+            }
+        });
+
+        //트리
+        //https://github.com/mar10/dynatree
+        //https://www.submission-faccejpi.com/c_media/modules/dynatree/doc/dynatree-doc.html#h2
+
+        var treeData = [{
+            title: "아이템 1 + 툴팁",
+            tooltip: "툴팁!"
+        }, {
+            title: "아이템 2 + 기본선택",
+            select: true
+        }, {
+            title: "폴더",
+            isFolder: true,
+            key: "id-3",
+            children: [{
+                title: "서브 아이템 3-1",
+                children: [{
+                    title: "서브 아이템 3-1-1",
+                    key: "id-3-1-1"
+                }, {
+                    title: "서브 아이템 3-1-2",
+                    key: "id-3-1-2"
+                }]
+            }, {
+                title: "서브 아이템 3-2",
+                children: [{
+                    title: "서브 아이템 3-2-1",
+                    key: "id-3-2-1"
+                }, {
+                    title: "서브 아이템 3-2-2",
+                    key: "id-3-2-2"
+                }]
+            }]
+        }, {
+            title: "아이템 4 (초기설정: 펼침)",
+            key: "id-4",
+            expand: true,
+            children: [{
+                title: "서브 아이템 4-1 (초기설정: 활성화)",
+                activate: true,
+                children: [{
+                    title: "서브 아이템 4-1-1",
+                    key: "id-4-1-1"
+                }, {
+                    title: "서브 아이템 4-1-2",
+                    key: "id-4-1-2"
+                }]
+            }, {
+                title: "서브 아이템 4-2 (초기설정: 선택)",
+                select: true,
+                children: [{
+                    title: "서브 아이템 4-2-1",
+                    key: "id-4-2-1"
+                }, {
+                    title: "서브 아이템 4-2-2",
+                    key: "id4-2-2"
+                }]
+            }, {
+                title: "서브 아이템 4-3 (체크박스 숨김)",
+                hideCheckbox: true
+            }, {
+                title: "서브 아이템 4-4 (선택불가)",
+                unselectable: true
+            }]
+        }];
+
+        $("#default-tree").dynatree({
+            fx: {
+                height: "toggle",
+                duration: 200
+            }
+        });
+
+        $("#check-tree").dynatree({
+            fx: {
+                height: "toggle",
+                duration: 200
+            },
+            checkbox: true,
+            selectMode: 2,
+            children: treeData,
+            onSelect: function (select, node) {
+                var selNodes = node.tree.getSelectedNodes();
+                var selKeys = $.map(selNodes, function (node) {
+                    return "[" + node.data.key + "]: '" + node.data.title + "'";
+                });
+                $("#echoSelection2").text(selKeys.join(", "));
+            },
+            onClick: function (node, event) {
+                if (node.getEventTargetType(event) == "title")
+                    node.toggleSelect();
+            },
+            onKeydown: function (node, event) {
+                if (event.which == 32) {
+                    node.toggleSelect();
+                    return false;
+                }
+            },
+            cookieId: "dynatree-Cb2",
+            idPrefix: "dynatree-Cb2-"
+        });
+
+        // Modal
+        $('#btnToggleSlideUpSize').click(function () {
+            var size = $('input[name=slideup_toggler]:checked').val()
+            var modalElem = $('#modalSlideUp');
+            if (size == "mini") {
+                $('#modalSlideUpSmall').modal('show')
+            } else {
+                $('#modalSlideUp').modal('show')
+                if (size == "default") {
+                    modalElem.children('.modal-dialog').removeClass('modal-lg');
+                } else if (size == "full") {
+                    modalElem.children('.modal-dialog').addClass('modal-lg');
+                }
+            }
+        });
+    });
+</script>

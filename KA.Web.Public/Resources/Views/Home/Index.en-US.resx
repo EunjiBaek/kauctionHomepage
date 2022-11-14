@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="경매" xml:space="preserve">
+    <value>Auction</value>
+    <comment>공통</comment>
+  </data>
+  <data name="경매 일정" xml:space="preserve">
+    <value>Schedule</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="경매시작" xml:space="preserve">
+    <value>Open</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="경매일" xml:space="preserve">
+    <value>Auction Day</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="경매종료" xml:space="preserve">
+    <value>Close</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="국내 최고 미술품 유통망 기반의 경매 외 미술품 거래 서비스" xml:space="preserve">
+    <value>Art trading services based on art distribution network</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="근현대 미술품, 고서화, 목기, 민예품, 해외 작품, 그 외의 각종 희귀자료나 예술관련 물품 등" xml:space="preserve">
+    <value>Modern and contemporary art, ancient paintings, etc.</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="대한민국 대표 미술품 경매회사 케이옥션의 전문 수장고 서비스" xml:space="preserve">
+    <value>Specialized storage service of K Auction</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="라이브 경매" xml:space="preserve">
+    <value>Live Auction</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="메이저" xml:space="preserve">
+    <value>Major</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="별도 문의" xml:space="preserve">
+    <value>Estimate upon Request</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="소장품의 가치. 케이옥션에 문의하세요." xml:space="preserve">
+    <value>Check the value of your collection.</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="시작" xml:space="preserve">
+    <value>Open</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="시작가" xml:space="preserve">
+    <value>Starting</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="앱다운로드" xml:space="preserve">
+    <value>App Download</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="어디서든 케이옥션 경매에 참여하세요." xml:space="preserve">
+    <value>Participate in the K-Auction auction anywhere.</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="온라인 경매" xml:space="preserve">
+    <value>Online Auction</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="온라인프리뷰시작" xml:space="preserve">
+    <value>Preview</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="위클리" xml:space="preserve">
+    <value>Weekly</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="위탁 방법" xml:space="preserve">
+    <value>How to Consign</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="응찰 방법" xml:space="preserve">
+    <value>How to Bid</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="응찰에 필요한 정보를 모았습니다." xml:space="preserve">
+    <value>Find useful tips for bidding</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="전문가의 케어 및 판매와 구매, 거래 등 고급 현악기 통합 서비스" xml:space="preserve">
+    <value>Expert advanced stringed instrument integration service</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="전체" xml:space="preserve">
+    <value>All</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="종료" xml:space="preserve">
+    <value>Close</value>
+    <comment>웹파트 - 경매일정</comment>
+  </data>
+  <data name="주요 출품작" xml:space="preserve">
+    <value>Featured Works</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="케이옥션" xml:space="preserve">
+    <value>K Auction</value>
+    <comment>공통</comment>
+  </data>
+  <data name="케이옥션 경매에 대해 알려드립니다." xml:space="preserve">
+    <value>Introducing the auction of K Auction</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+  <data name="케이옥션 모바일앱 다운로드" xml:space="preserve">
+    <value>Download Mobile App</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="케이옥션 블로그" xml:space="preserve">
+    <value>KA Blog Posts</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="케이옥션 위탁문의" xml:space="preserve">
+    <value>Consignment Inquiry</value>
+    <comment>웹파트 - 하단배너</comment>
+  </data>
+  <data name="케이옥션 인스타그램" xml:space="preserve">
+    <value>KA IG Videos</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="프리미엄" xml:space="preserve">
+    <value>Premium</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="현재가" xml:space="preserve">
+    <value>Current</value>
+    <comment>웹파트 - 작품 하이라이트</comment>
+  </data>
+  <data name="회원 가입" xml:space="preserve">
+    <value>Join</value>
+    <comment>웹파트 - 안내</comment>
+  </data>
+</root>

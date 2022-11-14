@@ -1,0 +1,1306 @@
+﻿@using KA.Entities.Helpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.JoinStep2ViewModel
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    var domesticAuth = Model.JoinType.Equals("001") || Model.JoinType.Equals("003");
+    var userName = domesticAuth ? Model.MemberMobileAuth.MemName : "";
+    var userBirthDate = domesticAuth ? Model.MemberMobileAuth.BirthDate : "";
+    var userMobile = Model.MemberMobileAuth.Auth.Equals("M") ? Model.MemberMobileAuth.MobileNo : "";
+    var userMobileCo = domesticAuth && Model.MemberMobileAuth.Auth.Equals("M") ? Model.MemberMobileAuth.MobileCoName : "";
+    var userEmail = Model.MemberMobileAuth.Auth.Equals("E") ? Model.MemberMobileAuth.MobileNo : "";
+
+    var authReadonly = Model.MemberMobileAuth.Auth.Equals("M");
+    var authToolTop = string.Empty;
+    if (Model.MemberMobileAuth.Auth.Equals("M"))
+    {
+        authToolTop = string.IsNullOrWhiteSpace(userMobileCo) ? L["휴대폰 본인인증"].Value : $"{L["휴대폰 본인인증"].Value} ({userMobileCo})";
+    }
+    else if (Model.MemberMobileAuth.Auth.Equals("C"))
+    {
+        authToolTop = $"{L["신용카드 본인인증"].Value} ({Model.MemberMobileAuth.CrdCD})";
+    }
+
+    string GetFormat(string type, string value, string seperator = ".")
+    {
+        if (type.Equals("birth"))
+        {
+            return !string.IsNullOrWhiteSpace(value) && value.Length == 8 ? $"{value.Substring(0, 4)}{seperator}{value.Substring(4, 2)}{seperator}{value.Substring(6, 2)}" : value;
+        }
+        else if (type.Equals("mobile"))
+        {
+            return StringHelper.GetMobileHyphen(value);
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+<div class="join-container">
+    <div class="join-wrap">
+        <div class="join_step01">
+            <div class="join_top_area"><div class="join_go_back_btn" onclick="backalert()" ;><i class="fas fa-chevron-left"></i><span>@L["뒤로"]</span></div></div>
+            <div class="join_step_tit"><p>@Model.JoinTypeName</p><ul class="join_step_list"><li class="on">1</li><li class="on">2</li><li>3</li></ul></div>
+            <div class="join-content">
+                <!-- 기본 필드 - 아이디/비밀번호/비밀번호 재확인/이메일 -->
+                <div class="first_box">
+                    <div class="join-id">
+                        <div>
+                            <div class="input">
+                                <input class="join-input ka-id" type="text" id="id" maxlength="20" placeholder="@L["[필수] 아이디"]" onfocus="joinInputError(this)" autocomplete="off" data-msg="@L["아이디를 입력하세요."]" />
+                                <div class="id_btnClear">
+                                    <img src="/img/icons/input_closebtn@1x.png" alt="close-btn" srcset="/img/icons/input_closebtn@1x.png 1x, /img/icons/input_closebtn@2x.png 2x, /img/icons/input_closebtn@3x.png 3x">
+                                    <div class="search_line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="id-error" class="error_box id">@L["영문/숫자 조합 5~12자리"]</span>
+                    </div>
+                    <div>
+                        <div class="join_text_box"><input class="join-input ka-pwd" type="password" id="pwd" placeholder="@L["[필수] 비밀번호"]" onfocus="joinInputError(this)" data-msg="@L["비밀번호를 입력하세요."]" /></div>
+                        <span id="pwd-error" class="error_box pwd">@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상 입력해주세요."]</span>
+                    </div>
+                    <div>
+                        <div class="join_text_box"><input class="join-input ka-pwd" type="password" id="pwd-re" placeholder="@L["[필수] 비밀번호 재확인"]" onfocus="joinInputError(this)" data-msg="@L["비밀번호(재확인)을 입력하세요."]" /></div>
+                        <span id="pwd-re-error" class="error_box pwd-re">@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상 입력해주세요."]</span>
+                    </div>
+                    @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("002"))
+                    {
+                        <div>
+                            <div class="join_text_box"><input class="join-input ka-email" type="text" id="email" placeholder="@L["[필수] 이메일"]" onfocus="joinInputError(this)" data-msg="@L["이메일을 입력하세요."]" autocomplete="off" value="@userEmail" @(string.IsNullOrWhiteSpace(userEmail) ? "" : "disabled") ></div>
+                            <span id="email-error" class="error_box email">@L["이메일을 입력하세요."]</span>
+                        </div>
+                    }
+                    @if (Model.JoinType.Equals("002"))
+                    {
+                        <div class="domestic_organizations_documents">
+                            <div class="join_text_box">
+                                <input type="text" style="cursor: pointer;" onclick="modalDocumentEvidence('join-identification-file'); return false;" class="domestic_organizations_upload_name join-input company-business-card" placeholder="@L["[필수] 여권 등 신분증 사본"]" id="identification" readonly="readonly" data-msg="@L["증빙서류 파일을 선택하세요."]">
+                                <div class="form-btn">
+                                    <label classname="domestic_organizations_label" for="oversea_organizations_input_file" onclick="modalDocumentEvidence('join-identification-file'); return false;">@L["파일찾기"]</label>
+                                </div>
+                            </div>
+                            <p>@L["jpg, jpeg, png, heic 또는 pdf 파일 업로드 (검수 후 모든 서비스 이용 가능)"]</p>
+                        </div>
+                    }
+                </div>
+                <!-- 국내법인/해외법인 - 사업자등록번호/법인명/대표자명/대표전화/사업자등록증 -->
+                @if (Model.JoinType.Equals("003") || Model.JoinType.Equals("004"))
+                {
+                    <div class="second_box  domestic_organizations" style="margin: 0;">
+                        <div class="organizations_desc"><p>@L["회사 정보 도용 방지 등 안전한 서비스 제공을 위하여 <br />사업자 증빙자료 및 담당자 정보를 확인하고 있습니다."]</p></div>
+                        @if (Model.JoinType.Equals("003"))
+                        {
+                            <div class="domestic_organizations_number_form">
+                                <div>
+                                    <div class="input join_text_box"><input type="text" class="domestic_organizations_upload_name join-input" id="company-reg-no" placeholder="@L["[필수] 사업자등록번호"]" maxlength="20" onfocus="joinInputError(this);" data-msg="@L["사업자등록번호를 입력하세요."]" /></div>
+                                    <div class="form-btn"><button id="company-reg-no-btn" onclick="$.joinUtils.checkBusinessNum('company-reg-no', 'J');">@L["조회하기"]</button></div>
+                                </div>
+                                <span id="company-reg-no-error" class="error_box company-reg-no">e.g.123-456-123456</span>
+                            </div>
+                        }
+                        else if (Model.JoinType.Equals("004"))
+                        {
+                            <div class="domestic_organizations_form">
+                                <div class="input join_text_box"><input type="text" class="join-input ka-empty" id="company-reg-no" placeholder="@L["[필수] 사업자등록번호"]" maxlength="20" onfocus="joinInputError(this);" data-msg="@L["사업자등록번호를 입력하세요."]" /></div>
+                                <span id="company-reg-no-error" class="error_box company-reg-no">e.g.123-456-123456</span>
+                            </div>
+                        }
+                        <div class="domestic_organizations_form">
+                            <div class="join_text_box"><input class="join-input company-name ka-empty" type="text" id="company-name" placeholder="@L["[필수] 법인명"]" onfocus="joinInputError(this);" data-msg="@L["법인명을 입력하세요."]"></div>
+                            <span id="company-name-error" class="error_box company-name">@L["법인명을 입력하세요."]</span>
+                        </div>
+                        <div class="domestic_organizations_form">
+                            <div class="join_text_box"><input class="join-input company-president ka-empty" type="text" id="company-president" placeholder="@L["[필수] 대표자 명"]" onfocus="joinInputError(this);" data-msg="@L["대표자명을 입력하세요."]"></div>
+                            <span id="company-president-error" class="error_box company-president">@L["대표자명을 입력하세요."]</span>
+                        </div>
+                        <div class="domestic_organizations_form">
+                            <div class="join_text_box"><input class="join-input company-rep-tel ka-empty" type="tel" id="company-rep-tel" placeholder="@L["[필수] 대표 전화"]" onfocus="joinInputError(this)" data-msg="@L["대표번호를 입력하세요."]" /></div>
+                            <span id="company-rep-tel-error" class="error_box company-rep-tel">@L["- 제외한 숫자만 입력"]</span>
+                        </div>
+                        <div class="domestic_organizations_documents do_01">
+                            <div>
+                                <input style="cursor: pointer;" type="text" onclick="modalDocumentFile('join-company-reg-doc-file'); return false;" class="domestic_organizations_upload_name join-input company-reg-doc" value="" placeholder="@L["[필수] 사업자 등록증"]" id="company-reg-doc" readonly="readonly" data-msg="@L["사업자 등록증 파일을 선택하세요."]" />
+                                <div class="form-btn"><label className="domestic_organizations_label" for="domestic_organizations_input_file" onclick="modalDocumentFile('join-company-reg-doc-file'); return false;">@L["파일찾기"]</label></div>
+                            </div>
+                            <p>@L["jpg, jpeg, png, heic 또는 pdf 파일 업로드 (검수 후 모든 서비스 이용 가능)"]</p>
+                        </div>
+                    </div>
+                    <div class="join_info_tip"><div class="title"><img src="/img/icons/join_info.png" /><p>@L["세금계산서 발행 필요 시"]</p></div></div>
+                }
+                <!-- 국내법인/해외법인 - 사업장 우편번호/사업장 주소/사업장 상세주소 -->
+                @if (Model.JoinType.Equals("003") || Model.JoinType.Equals("004"))
+                {
+                    <div class="second_box domestic_organizations" style="margin: 0;">
+                        @if (Model.JoinType.Equals("004"))
+                        {
+                            <div class="join_country_select_wrap" style="padding: 0 10px;">
+                                <select id="country-code" class="join_country_select" data-msg="@L["국가를 선택하세요."]" style="margin-top: 10px;">
+                                    <option value="">@L["== 국가를 선택해주세요. =="]</option>
+                                    @foreach (var item in Model.MemCountryCodeList)
+                                    {
+                                        <option value="@item.SubCode">@item.DisplayCodeName</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+                        <div class="domestic_organizations_number_form">
+                            @if (Model.JoinType.Equals("003"))
+                            {
+                                <div>
+                                    <div class="input join_text_box" onclick="openAddrSearch();"><input class="join-input" type="text" id="zipcode" placeholder="@L["[필수] 사업장 우편번호"]" onfocus="joinInputError(this);" autocomplete="off" readonly="readonly" data-msg="@L["우편번호를 입력하세요."]"></div>
+                                    <div class="form-btn"><button onclick="openAddrSearch();">@L["주소검색"]</button></div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="input join_text_box"><input class="join-input" type="text" id="zipcode" placeholder="@L["[필수] 사업장 우편번호"]" autocomplete="off" data-msg="@L["우편번호를 입력하세요."]"></div>
+                            }
+                        </div>
+                        <div>
+                            @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("003"))
+                            {
+                                <div class="join_text_box"><input class="join-input" type="text" id="address" placeholder="@L["[필수] 사업장 주소"]" autocomplete="off" readonly="readonly" data-msg="@L["주소를 입력하세요."]"></div>
+                            }
+                            else
+                            {
+                                <div class="join_text_box"><input class="join-input" type="text" id="address" placeholder="@L["[필수] 사업장 주소"]" autocomplete="off" data-msg="@L["주소를 입력하세요."]"></div>
+                            }
+                        </div>
+                        <div>
+                            <div class="join_text_box"><input class="join-input" type="text" id="address2" placeholder="@L["[필수] 사업장 상세주소"]" autocomplete="off" data-msg="@L["상세주소를 입력하세요."]"></div>
+                        </div>
+                    </div>
+                    <div class="join_address_info_tip"><div class="title"><img src="/img/icons/join_info.png" /><p>@L["유의사항"]</p></div></div>
+                }
+                <!-- 인증정보 - 이름/생년월일/전화번호/이메일/명함 -->
+                <div class="second_box domestic_organizations">
+                    @*20220713
+                        <div class="@(domesticAuth ? "certified" : "join_text_box")">
+                        @if (domesticAuth)
+                        {
+                            <input class="join-input contact_user_name" type="text" id="name" value="@userName" readonly>
+                        }
+                        else
+                        {
+                            <input class="join-input contact_user_name ka-empty" type="text" id="name" placeholder="@L["[필수] 이름"]" onfocus="joinInputError(this)" data-msg="@L["이름을 입력하세요."]">
+                            <span id="name-error" class="error_box name">@L["이름을 입력하세요."]</span>
+                        }
+                    </div>
+                    <div class="@(domesticAuth ? "certified" : "join_text_box")">
+                        @if (domesticAuth)
+                        {
+                            <input class="join-input contact_user_birth" type="text" id="birth-date" value="@GetFormat("birth", userBirthDate)" readonly>
+                        }
+                        else
+                        {
+                            <input class="join-input contact_user_birth ka-empty form-birth datepicker" type="text" id="birth-date" placeholder="@L["[필수] 생년월일"]" onfocus="joinInputError(this)" data-msg="@L["생년월일을 입력하세요."]">
+                            <span id="birth-date-error" class="error_box birth-date"></span>
+                        }
+                    </div>*@
+                    <div class="join_text_box">
+                        <input class="join-input contact_user_name ka-empty" type="text" id="name" placeholder="@L["[필수] 이름"]" onfocus="joinInputError(this)" data-msg="@L["이름을 입력하세요."]">
+                        <span id="name-error" class="error_box name">@L["이름을 입력하세요."]</span>
+                    </div>
+                    <div class="join_text_box">
+                        <input class="join-input contact_user_birth ka-empty form-birth datepicker" type="text" id="birth-date" placeholder="@L["[필수] 생년월일"]" onfocus="joinInputError(this)" data-msg="@L["생년월일을 입력하세요."]">
+                        <span id="birth-date-error" class="error_box birth-date"></span>
+                    </div>
+                    <div class="@(Model.MemberMobileAuth.Auth != null && Model.MemberMobileAuth.Auth.Equals("M") ? "certified" : "") number">
+                        @if (authReadonly)
+                        {
+                            <input class="join-input contact_user_hp" type="text" id="mobile" placeholder="@L["[필수] 전화번호"]" autocomplete="off" value="@GetFormat("mobile", userMobile)" data-msg="@L["전화번호를 입력하세요."]" readonly>
+                        }
+                        else
+                        {
+                            <input class="join-input contact_user_hp ka-empty" type="tel" id="mobile" placeholder="@L["[필수] 전화번호"]" onfocus="joinInputError(this)" autocomplete="off" value="@GetFormat("mobile", userMobile)" data-msg="@L["전화번호를 입력하세요."]">
+                            <span id="mobile-error" class="error_box mobile">@L["-제외, 숫자만 입력하세요."]</span>
+                        }
+                    </div>
+                    @if (Model.JoinType.Equals("003") || Model.JoinType.Equals("004"))
+                    {
+                        <div class="domestic_organizations_form">
+                            <div class="join_text_box"><input class="join-input ka-email" type="text" id="email" placeholder="@L["[필수] 담당자 이메일"]" onfocus="joinInputError(this)" data-msg="@L["이메일을 입력하세요."].Value" autocomplete="off" value="@userEmail" @(string.IsNullOrWhiteSpace(userEmail) ? "" : "disabled")></div>
+                            <span id="email-error" class="error_box email">@L["이메일을 입력하세요."]</span>
+                        </div>
+                        <div class="domestic_organizations_documents">
+                            <div>
+                                <input type="text" style="cursor: pointer;" onclick="modalDocumentFile('join-company-business-card-file'); return false;" class="domestic_organizations_upload_name join-input company-business-card" value="" placeholder="@L["[필수] 담당자 명함"]" id="company-business-card" readonly="readonly" data-msg="@L["담당자 명함 파일을 선택하세요."]">
+                                <div class="form-btn"><label classname="domestic_organizations_label" for="domestic_organizations_input_file" onclick="modalDocumentFile('join-company-business-card-file'); return false;">@L["파일찾기"]</label></div>
+                            </div>
+                            <p>@L["jpg, jpeg, png, heic 또는 pdf 파일 업로드 (검수 후 모든 서비스 이용 가능)"]</p>
+                        </div>
+                    }
+                </div>
+                <!-- 국내개인/해외개인 - [선택] 개인정보 주소 - 국가/우편번호/주소/상세주소 -->
+                @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("002"))
+                {
+                    <div class="third_box">
+                        <div class="join_form_agree_wrap">
+                            <p>@L["[선택] <a href='#'>개인정보 수집•이용</a> 중<br />‘주소’ 사항에 동의하시나요?"]</p>
+                            <div class="join_form_agreebtn_wrap" id="join-collect-info-address">
+                                <div data-value="N" data-selected="0"><div><i class="fas fa-check"></i><span>@L["동의하지 않습니다."]</span></div></div>
+                                <div data-value="Y" data-selected="0"><div><i class="fas fa-check"></i><span>@L["동의합니다."]</span></div></div>
+                            </div>
+                        </div>
+                        <div class="zipcode-wrap">
+                            <div class="zipcode_dim" id="liveToastBtn">
+                                <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 50%; left: 50%; width:200px; transform: translate(-50%, -50%); z-index: 100;">
+                                    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                                        <div class="toast-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px;">
+                                            <p style="text-align: center; line-height: 1.2em; font-size: 13px;">@L["내용을 입력하려면 동의가<br /> 필요합니다"]</p>
+                                            <button class="liveToast_hide" type="button">@L["확인"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.JoinType.Equals("002") || Model.JoinType.Equals("004"))
+                            {
+                                <div class="join_country_select_wrap">
+                                    <select id="country-code" class="join_country_select" data-msg="@L["국가를 선택하세요."]">
+                                        <option value="">@L["== 국가를 선택해주세요. =="]</option>
+                                        @foreach (var item in Model.MemCountryCodeList)
+                                        {
+                                            <option value="@item.SubCode">@item.DisplayCodeName</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="join_country_select_wrap" style="display:none;"><input type="hidden" id="country-code" value="KOR" /></div>
+                            }
+                            <div class="zipcode_search_wrap">
+                                @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("003"))
+                                {
+                                    <div class="input join_text_box" onclick="openAddrSearch();"><input class="join-input" type="text" id="zipcode" placeholder="@L["[필수] 우편번호입력"]" autocomplete="off" readonly="readonly" data-msg="@L["우편번호를 입력하세요."]"></div>
+                                    <div class="joinid_btn"><button onclick="openAddrSearch();">@L["주소검색"]</button></div>
+                                }
+                                else
+                                {
+                                    <div class="input join_text_box"><input class="join-input" type="text" id="zipcode" placeholder="@L["[필수] 우편번호입력"]" autocomplete="off" data-msg="@L["우편번호를 입력하세요."]"></div>
+                                }
+                            </div>
+                            <div>
+                                @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("003"))
+                                {
+                                    <div class="join_text_box"><input class="join-input" type="text" id="address" placeholder="@L["[필수] 주소"]" autocomplete="off" readonly="readonly" data-msg="@L["주소를 입력하세요."]"></div>
+                                }
+                                else
+                                {
+                                    <div class="join_text_box"><input class="join-input" type="text" id="address" placeholder="@L["[필수] 주소"]" autocomplete="off" data-msg="@L["주소를 입력하세요."]"></div>
+                                }
+                            </div>
+                            <div>
+                                <div class="join_text_box"><input class="join-input" type="text" id="address2" placeholder="@L["[필수] 상세주소"]" autocomplete="off" data-msg="@L["상세주소를 입력하세요."]"></div>
+                            </div>
+                            <div class="join-all-agree-cnt">
+                                <input type="checkbox" name="zipcode-conditions-all-agree" class="zipcode-conditions-all-agree join-conditions" id="zipcode-conditions-all-agree">
+                                <label for="zipcode-conditions-all-agree">
+                                    <div><span><i class="fas fa-check"></i></span></div>
+                                    @if (!CommonService.IsKor())
+                                    {
+                                        <strong>I agree to <span onclick="window.open('/HowTo/Clause/J001', '_blank');" style="text-decoration: underline;">the Provision of Personal Information to Third Parties.</span></strong>
+                                    }
+                                    else
+                                    {
+                                        <strong><span onclick="window.open('/HowTo/Clause/J001', '_blank');" style="text-decoration: underline;">개인정보 제3자 제공</span>에 동의합니다.</strong>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- [선택] 개인정보 컨텐츠 - 관심분야/관심작가/성별 -->
+                <div class="fourth_box">
+                    <div class="join_form_agree_wrap">
+                        <p>@L["[선택] 맞춤 컨텐츠 추천을 위해 <br /><a href='/HowTo/Clause/J003' target='_blank'>개인정보 수집•이용</a>에 동의하시나요?"]</p>
+                        <div class="join_form_agreebtn_wrap" id="join-agree-info-content">
+                            <div data-value="N" data-selected="0"><div><i class="fas fa-check"></i><span>@L["동의하지 않습니다."]</span></div></div>
+                            <div data-value="Y" data-selected="0"><div><i class="fas fa-check"></i><span>@L["동의합니다."]</span></div></div>
+                        </div>
+                    </div>
+                    <div class="attention_contents_choice">
+                        <div class="attention_contents_dim">
+                            <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 15%; left: 50%; width:200px; transform: translateX(-50%); z-index: 100;">
+                                <div id="liveToast_02" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                                    <div class="toast-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px;">
+                                        <p style="text-align: center; line-height: 1.2em; font-size: 13px;">@L["내용을 입력하려면 동의가<br /> 필요합니다"]</p>
+                                        <button class="liveToast_hide" type="button">@L["확인"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="attention_contents">
+                            <div class="attention_part_contents p_01">
+                                <div class="title"><p>@L["1. 관심분야 <span>(다중선택 가능)</span>"]</p></div>
+                                <div class="attention_part_box_wrap">
+                                    @foreach (var item in Model.MemInterestCodeList)
+                                    {
+                                        @if (item.Extra1.Equals("A") || (CommonService.IsKor() && item.Extra1.Equals("K") || !CommonService.IsKor() && item.Extra1.Equals("E")))
+                                        {
+                                            <div class="attention_part_contents_box">
+                                                <input type="checkbox" name="attention_part_contents_checkbox" class="attention_part_contents_checkbox" id="attention_part_contents_checkbox_@item.SubCode" value="@item.SubCode" />
+                                                <label for="attention_part_contents_checkbox_@item.SubCode"><div><i class="fas fa-check"></i></div><p>@item.DisplayCodeName</p></label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="attention_part_contents">
+                                <div class="title"><p>@L["2. 관심작가 <span>(최대 5명추가 가능)</span>"]</p></div>
+                                <div class="join_writer_registration">
+                                    <div class="join_writer_registration_01" style="width: 100%;">
+                                        <input type="text" class="join_writer_registration_input" placeholder="@L["관심작가를 입력하세요."]" maxlength="25" id="join_writer_registration_input">
+                                        <div class="join_writer_btnclear"><img src="/img/icons/input_closebtn@1x.png" alt="close-btn" srcset="/img/icons/input_closebtn@1x.png 1x, /img/icons/input_closebtn@2x.png 2x, /img/icons/input_closebtn@3x.png 3x"></div>
+                                    </div>
+                                </div>
+                                <span id="join_writer_registration_input-error" class="error_box m-t-10 p-b-0 p-l-10" style="margin-top: 10px;"></span>
+                                <div class="join_writer_registration_list"></div>
+                            </div>
+                            @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("002"))
+                            {
+                                <div class="attention_part_contents">
+                                    <div class="title"><p>@L["3. 성별 <span>(택 1)</span>"]</p></div>
+                                    <div class="gender_check_wrap">
+                                        <div class="gender_checkbox_cnt">
+                                            <input type="radio" name="gender_checkbox" class="gender_checkbox" id="gender_checkbox_F" value="F">
+                                            <label for="gender_checkbox_F"><div><i class="fas fa-check"></i></div><p>@L["여성"]</p></label>
+                                        </div>
+                                        <div class="gender_checkbox_cnt">
+                                            <input type="radio" name="gender_checkbox" class="gender_checkbox" id="gender_checkbox_M" value="M">
+                                            <label for="gender_checkbox_M"><div><i class="fas fa-check"></i></div><p>@L["남성"]</p></label>
+                                        </div>
+                                        <div class="gender_checkbox_cnt">
+                                            <input type="radio" name="gender_checkbox" class="gender_checkbox" id="gender_checkbox_H" value="H">
+                                            <label for="gender_checkbox_H"><div><i class="fas fa-check"></i></div><p>@L["비공개"]</p></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="attention_part_contents">
+                                    <div class="title"><p>@L["4. 직업"]</p></div>
+                                    <div>
+                                        <select id="join_job_select" onchange="chageSelect()">
+                                            <option value="">@L["== 직업을 선택해주세요. =="]</option>
+                                            @foreach (var item in Model.MemJobCodeList)
+                                            {
+                                                <option value="@item.SubCode" data-extra1="@item.Extra1">@item.DisplayCodeName</option>
+                                            }
+                                        </select>
+                                        @if (Model.JoinType.Equals("001") || Model.JoinType.Equals("002"))
+                                        {
+                                            <div class="join_job_input_box">
+                                                <div><input id="company_name" type="text" placeholder="@L["[선택] 직장명을 입력해주세요"]" /></div>
+                                                <div><input id="company_tel" type="number" placeholder="@L["[선택] 직장 전화번호를 입력해주세요"]" /></div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- 광고성 정보 수신 동의 - 문자메세지/이메일/전화 -->
+                <div class="fifth_box">
+                    <div class="join_ad_agree_wrap">
+                        <div class="join_ad_agree_cnt">
+                            <input type="checkbox" name="join_ad_all_agree" class="join_ad_all_agree join-conditions" id="join_ad_all_agree">
+                            <label for="join_ad_all_agree"><div><span><i class="fas fa-check"></i></span></div><strong>@L["아래 내용에 모두 동의합니다. (전체동의)"]</strong></label>
+                        </div>
+                        <div class="join_ad_agree_choice_cnt">
+                            <p style="text-decoration: underline; cursor: pointer;" onclick="window.open('/HowTo/Clause/J004', '_blank');">@L["[선택] 광고성 정보 수신 동의 채널"]</p>
+                            <div>
+                                <div>
+                                    <input type="checkbox" name="join_ad_info_condition" class="join-conditions join_ad_info_condition" id="join_ad_info_02" onclick="checkAll_Checkbox()" />
+                                    <label for="join_ad_info_02"><div><span><i class="fas fa-check"></i></span></div><strong>@L["문자메세지"]</strong></label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="join_ad_info_condition" class="join-conditions join_ad_info_condition" id="join_ad_info_01" onclick="checkAll_Checkbox()" />
+                                    <label for="join_ad_info_01"><div><span><i class="fas fa-check"></i></span></div><strong>@L["이메일"]</strong></label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="join_ad_info_condition" class="join-conditions join_ad_info_condition" id="join_ad_info_03" onclick="checkAll_Checkbox()" />
+                                    <label for="join_ad_info_03"><div><span><i class="fas fa-check"></i></span></div><strong>@L["전화"]</strong></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="join_ad_agree_desc"><p>@L["동의 시 선택하신 채널로 케이옥션의 최신 경매/전시 및 각종 혜택 정보를 제공해드립니다."]</p></div>
+                </div>
+                <div class="sixth_box"><button onclick="$.joinUtils.validateV2();">@L["가입 신청"]</button></div>
+            </div>
+            <form name="form-registration" id="form-registration" role="form" asp-action="JoinStep2" method="post" autocomplete="off" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Type" id="join-type" value="@Model.JoinType" />
+                <input type="hidden" asp-for="Key" id="join-key" value="@Model.Key" />
+                <input type="hidden" asp-for="ID" id="join-id" />
+                <input type="hidden" asp-for="Pwd" id="join-pwd" />
+                <input type="hidden" asp-for="Email" id="join-email" />
+
+                <input type="hidden" asp-for="Identification" id="join-identification" />
+
+                <input type="hidden" asp-for="CompanyRegNo" id="join-company-reg-no" />
+                <input type="hidden" asp-for="CompanyPresident" id="join-company-president" />
+                <input type="hidden" asp-for="CompanyRepTel" id="join-company-rep-tel" />
+                <input type="hidden" asp-for="CompanyRegDoc" id="join-company-reg-doc" />
+                <input type="hidden" asp-for="CompanyBusinessCard" id="join-company-business-card" />
+
+                <input type="hidden" asp-for="MobileAuthSeq" id="join-mobile-auth-seq" value="@Model.Key" />
+                <input type="hidden" asp-for="Name" id="join-name" value="@userName" />
+                <input type="hidden" asp-for="BirthDate" id="join-birth-date" value="@GetFormat("birth", userBirthDate, "-")" />
+                <input type="hidden" asp-for="Mobile" id="join-mobile" value="@GetFormat("mobile", userMobile)" />
+
+                <input type="hidden" asp-for="CollectPersonalInfoAddressYN" id="join-collect-personal-info-address-yn" />
+                <input type="hidden" asp-for="CountryCode" id="join-country-code" />
+                <input type="hidden" asp-for="ZipCode" id="join-zipcode" />
+                <input type="hidden" asp-for="Address" id="join-address" />
+                <input type="hidden" asp-for="Address2" id="join-address2" />
+                <input type="hidden" asp-for="ProvidePersonalInfoAgreeYN" id="join-provide-personal-info-agree-yn" />
+
+                <input type="hidden" asp-for="CollectPersonalInfoContentYN" id="join-collect-personal-info-content-yn" />
+                <input type="hidden" asp-for="InterestArea" id="join-interest-area" />
+                <input type="hidden" asp-for="InterestArtist" id="join-interest-artist" />
+                <input type="hidden" asp-for="Sex" id="join-sex" />
+                <input type="hidden" asp-for="JobCode" id="join-job-code" />
+                <input type="hidden" asp-for="CompanyName" id="join-company-name" />
+                <input type="hidden" asp-for="CompanyTel" id="join-company-tel" />
+
+                <input type="hidden" asp-for="ReceiveEmailInfo" id="join-receive-email-info" />
+                <input type="hidden" asp-for="ReceiveSmsInfo" id="join-receive-sms-info" />
+                <input type="hidden" asp-for="ReceivePhoneInfo" id="join-receive-phone-info" />
+
+                <input type="file" id="join-identification-file" name="identification-file" style="display: none;" onchange="$.joinUtils.handleFile(this.files, 'identification'); clearblock(); return false;" />
+                <input type="file" id="join-company-reg-doc-file" name="company-reg-doc-file" style="display: none;" onchange="$.joinUtils.handleFile(this.files, 'company-reg-doc');" />
+                <input type="file" id="join-company-business-card-file" name="company-business-card" style="display: none;" onchange="$.joinUtils.handleFile(this.files, 'company-business-card');">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="join_footer">
+    <div class="container">
+        <div class="join_footer_wrap">
+            <ul>
+                <li><a href="/HowTo/MajorClause">@L["경매약관"]</a></li>
+                <li><a href="/HowTo/OnlineClause">@L["온라인경매약관"]</a></li>
+                <li><a class="PrivacyClause" href="/HowTo/PrivacyClause">@L["개인정보처리방침"]</a></li>
+                <li><a target="_self" href="/HowTo/Clause/InfoMng">@L["내부정보관리규정"]</a></li>
+            </ul>
+            <p class="copyright"><span>Copyright ⓒ <a href="https://www.k-auction.com">K Auction.</a> All Rights Reserved</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade join_address_modal" id="join_member_address_modal" style="z-index: 1500;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="tit"><h6>@L["우편번호 검색"]</h6><button class="close_btn" data-dismiss="modal"><i class="fas fa-times"></i></button></div>
+            <div class="detail">
+                <div class="address_input_wrap">
+                    <div class="join_text_box"><input type="text" class="join_writer_registration_input" placeholder="@L["검색어를 입력해주세요"]" maxlength="25" onkeyup="enterAddrSearch();" id="search_addr"></div>
+                    <button class="search_addr_btn" type="button">검색</button>
+                </div>
+                <div class="result">
+                    <div class="modal_desc text-left" id="addr_list" style="overflow: auto; height: 240px;"></div>
+                    <div class="tip">
+                        <h5>TIP</h5>
+                        <div class="desc">@L["아래와 같이 검색하면 더욱 정확한 결과가 검색됩니다."]</div>
+                        <p class="cnt">@L["· 도로명 + 건물번호"]</p><span>@L["예) 영동대로 513,  제주 첨단로 242"]</span>
+                        <p class="cnt">@L["· 지역명(동/리) + 번지"]</p><span>@L["예) 삼성동 25, 제주 영평동 2181"]</span>
+                        <p class="cnt">@L["· 지역명(동/리) + 건물명(아파트명)"]</p><span>@L["예) 분당 주공, 삼성동 코엑스"]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Partial/_CertificateDocumentGuide" />
+
+<!--개인정보 수집 (주소) 동의 모달팝업-->
+<div class="pi_info_agree_modal">
+    <div class="modal_wrap">
+        <div class="modal_header">개인정보 수집・이용 동의 중  ‘주소’사항 <span>(선택)</span></div>
+        <div class="cnt">
+            <p>케이옥션 서비스를 이용하는 회원의 편의를 위하여 이후 응찰, 계약, 도록 배송, 경매물품 배송 서비스 이용 단계에서 수집되는 정보를 사전에 등록할 수 있는 서비스를 제공하고 있습니다.</p>
+            <table class="mypage_table pi_info_agree_table">
+                <tbody>
+                    <tr>
+                        <td>개인정보 수집 및 이용 목적</td>
+                        <td>서비스 이용 중 배송지 주소를 사용하는 응찰 신청, 응찰 등록, 계약서, 청구서, 확인서 발송, 도록 배송, 경매물품 배송 서비스 이용을 위한 사전 등록 목적</td>
+                    </tr>
+                    <tr>
+                        <td>개인정보 수집 항목</td>
+                        <td>주소</td>
+                    </tr>
+                    <tr>
+                        <td>보유 및 이용 기간</td>
+                        <td>회원탈퇴 시 까지 <br />
+                        단, 법령에 의하여 보존할 필요성이 있는 경우에는 개인정보를 해당 기간 동안 보유합니다.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="box">
+                <ul>
+                    <li>
+                        <div><span>•</span></div>
+                        <p>귀하는 회원 가입단계에서 선택 정보인 ‘주소’ 정보 수집에 동의하지 않으실 수 있으며, 동의하지 않으셔도 회원가입이 가능합니다. <br/><br/>
+                        단,  해당 정보는 경매 응찰, 위탁 신청, 도록 발송 요청을 위해서는 필수적으로 요구되는 정보로, 이후 해당 서비스 이용 시 추가로 수집 요청을 드릴 수 있습니다.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_wrap"><button>확인</button></div>
+        </div>
+    </div>
+</div>
+<!--//개인정보 수집 (주소) 동의 모달팝업-->
+
+@*<form name="form" id="address-form" method="post">
+    <input type="hidden" name="currentPage" value="1" />
+    <input type="hidden" name="countPerPage" value="200" />
+    <input type="hidden" name="resultType" value="json" />
+    <input type="hidden" name="confmKey" value="U01TX0FVVEgyMDIxMTIyODEzMTk0NjExMjA3Mzg=" />
+    <input type="hidden" name="keyword" id="addrKeyword" value="" />
+</form>*@
+
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(1):after', 'content: "' + ka.msg.join.joinStep1 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(2):after', 'content: "' + ka.msg.join.joinStep2 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(3):after', 'content: "' + ka.msg.join.joinStep3 + '";');
+
+        $("body").attr("oncontextmenu", 'return false').attr("onselectstart", 'return false').attr("ondragstart", 'return false');
+        $("body").addClass("bgcolor");
+        $(".content").addClass("not_pad");
+        $(".header, footer, .footer-padding").addClass("none");
+        $("#mobile-bottom-menu").remove();
+        $("#alltop-btn").remove();
+        $("#domestic_organizations_input_file").on('change', function() {
+            var fileName = $("#domestic_organizations_input_file").val();
+            $(".domestic_organizations_upload_name").val(fileName);
+        });
+        $("#international_individual_upload_file").on('change', function() {
+            var fileName = $("#international_individual_upload_file").val();
+            $("#international_individual_upload").val(fileName);
+        });
+        $('#liveToastBtn').on("click", function () {
+            $('#liveToast').toast("show");
+        });
+        $("#liveToast .liveToast_hide").on("click", function () {
+            $("#liveToast").toast("hide");
+        });
+        $('.attention_contents_dim').on("click", function () {
+            $('#liveToast_02').toast("show");
+        });
+        $(".attention_contents_dim .liveToast_hide").on("click", function () {
+            $("#liveToast_02").toast("hide");
+        });
+
+        document.querySelectorAll('.error_box').forEach((el) => {
+            el.classList.add('nagative');
+        });
+
+        $('.ka-id').keyup(function (e) {
+            if (!(e.keyCode >= 37 && e.keyCode <= 40)) {
+                var v = $(this).val();
+                $(this).val(v.replace(/[^a-z0-9]/gi, ''));
+            }
+            return $.joinUtils.checkID(this);
+        });
+
+        $('.ka-pwd').keyup(function (e) {
+            return $.joinUtils.checkPassword(this.id);
+        });
+
+        $('.ka-email').keyup(function (e) {
+            if (e.keyCode === 32) {
+                var v = $(this).val();
+                $(this).val(v.replace(/ /g, ''));
+            }
+            return $.joinUtils.checkEmail(this.id);
+        });
+
+        $('.ka-email').on("propertychange change keyup paste input", function () {
+            var v = $(this).val();
+            $(this).val(v.replace(/ /g, ''));
+        });
+
+        $('.ka-empty').keyup(function (e) {
+            return $.joinUtils.checkEmpty(this.id);
+        });
+
+        $(".form-birth").mask('9999-99-99');
+        $(".form-birth").on("click", function (e) {
+            $(".form-birth").setCursorPosition(0);
+        });
+        $(".form-birth").on("focus", function (e) {
+            $(".form-birth").setCursorPosition(0);
+        });
+    });
+
+    $.fn.setCursorPosition = function (pos) {
+        this.each(function (index, elem) {
+            if (elem.setSelectionRange) {
+                elem.setSelectionRange(pos, pos);
+            } else if (elem.createTextRange) {
+                var range = elem.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', pos);
+                range.moveStart('character', pos);
+                range.select();
+            }
+        });
+
+        return this;
+    };
+
+    const get = (target) => {
+        return document.querySelector(target)
+    }
+
+    const getAll = (target) => {
+        return document.querySelectorAll(target)
+    }
+
+    // 개인정보 수집 (주소) 동의 팝업
+    (function () {
+        const $button = get('.join_form_agree_wrap > p > a');
+        const $modal = get('.pi_info_agree_modal');
+        const $body = get('body');
+        const $confirm = get('.pi_info_agree_modal .btn_wrap > button')
+
+        $button.addEventListener('click', (e) => {
+            e.preventDefault();
+            $modal.classList.toggle('show');
+            $body.classList.toggle('scroll_lock');
+        });
+
+        $confirm.addEventListener('click', (e) => {
+            e.preventDefault();
+            $modal.classList.remove('show');
+            $body.classList.remove('scroll_lock');
+        });
+    })();
+    
+
+    function backalert () {
+        $.commonUtils.modalOpen(ka.msg.join.pageOut, "error", "joinalert");
+        document.querySelector('.btn-ok').addEventListener('click', (e) => {
+            e.preventDefault();
+            location.href = "/Member/JoinStep1";
+        })
+        return false;
+    }
+
+    // 포커싱됐을때
+    let joinInput = getAll(".join-input");
+    let organizationIput = getAll(".domestic_organizations input");
+
+    function joinInputError(el) {
+        if (document.querySelector(".error_box." + el.id)) {
+            document.querySelector(".error_box." + el.id).style.display = "block";
+        }
+    }
+
+    // 포커스 아웃됐을때
+    function joinInputOut(el, box) {
+        if (el !== null) {
+            el.addEventListener("blur", function () {
+                let targetId = this.id;
+                if (document.querySelector(".error_box." + targetId) !== null) {
+                    if (document.querySelector(".error_box." + targetId).style.display === "block" && $("#" + targetId).val() !== "") {
+                        box.style.display = "block";
+                    } else {
+                        box.style.display = "none";
+                    }
+                }
+            });
+        }
+    }
+
+    let inputOutEl = ['id', 'pwd', 'pwd-re', 'email', 'name', 'birth-date', 'company-reg-no', 'company-name', 'company-president', 'company-rep-tel', 'mobile'];
+    inputOutEl.forEach(function (item) {
+        joinInputOut(document.getElementById(item), document.querySelector(".error_box." + item));
+    });
+
+    if (document.querySelector(".join_info_tip") !== null && document.querySelector(".join_info_tip").length > 0) {
+        document.querySelector(".join_info_tip > .title").addEventListener('click', function (e) {
+            e.preventDefault();
+            e.currentTarget.nextElementSibling.style.display = "block"
+        });
+
+        document.querySelector(".join-tooltip > button").addEventListener('click', function (e) {
+            e.preventDefault();
+            e.currentTarget.parentNode.style.display = "none"
+        });
+    }
+
+    let certified_el = document.createElement('div');
+    certified_el.className = 'certified-check';
+    let certified_text = document.createElement('span');
+    certified_text.textContent = ka.msg.join.certified;
+    certified_el.append(certified_text);
+
+    let certified = getAll('.certified');
+    for (i = 0; i < certified.length; i++) {
+        let clone = certified_el.cloneNode(true);
+        certified[i].appendChild(clone);
+    }
+
+    let text_box_clearbtn = document.createElement('div');
+    text_box_clearbtn.className = "text_box_clearbtn";
+    text_box_clearbtn.innerHTML = `<img src="/img/icons/input_closebtn@1x.png" alt="close-btn" srcset="/img/icons/input_closebtn@1x.png 1x, /img/icons/input_closebtn@2x.png 2x, /img/icons/input_closebtn@3x.png 3x">`;
+
+    let join_text_box = getAll(".join_text_box");
+    for(let i = 0; i<join_text_box.length; i++) {
+        let clone = text_box_clearbtn.cloneNode(true);
+        join_text_box[i].append(clone);
+    }
+
+    function inputClear(target, clearBtn) {
+        target.addEventListener('keyup', function(){
+            clearBtn.style.display = "block"
+            if (target.value == '') {
+                clearBtn.style.display = "none"
+            }
+        });
+
+        clearBtn.addEventListener('click', function (e) {
+            let clearbutton = e.currentTarget;
+            target.value = '';
+            target.focus();
+            clearbutton.style.display = "none";
+            let error_box = getAll(".error_box");
+            for (let i = 0; i<error_box.length; i++) {
+                error_box[i].style.display = "none";
+            }
+
+            if (target.id === 'company-reg-no') {
+                $.joinUtils.validateBusinessNum = false;
+                $("#" + target.id).removeAttr("readonly");
+                $("#" + target.id + "-btn").css("opacity", "1");
+                $("#" + target.id + "-btn").attr("onclick", "$.joinUtils.checkBusinessNum('company-reg-no', 'J');");
+            }
+        });
+    }
+
+    function clearblock() {
+        let textboxClear = get('.domestic_organizations_documents .text_box_clearbtn')
+        textboxClear.style.display = 'block';
+
+        textboxClear.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.firstElementChild.value = '';
+        });
+    }
+
+    inputClear(document.querySelector(".join-id input"), document.querySelector(".join-id .id_btnClear"));
+    inputClear(document.querySelector(".join_writer_registration_input"), document.querySelector(".join_writer_btnclear"));
+
+    // join_text_box > input
+    join_text_input = document.querySelectorAll('.join_text_box > input');
+    for (let i = 0; i <join_text_input.length; i++){
+        inputClear(join_text_input[i], join_text_input[i].parentElement.lastElementChild);
+    }
+
+    let join_ad_Check = getAll('.join_ad_info_condition');
+    function checkAll_Checkbox() {
+        var agreeAllCheck_adbox = document.getElementById("join_ad_all_agree");
+
+        for(var i = 0, len = join_ad_Check.length; i < len; ++i) {
+            if(!join_ad_Check[i].checked) {
+                agreeAllCheck_adbox.checked = false;
+                return;
+            }
+        }
+        agreeAllCheck_adbox.checked = true;
+    }
+
+    // 동의 모두선택 / 해제
+    if (document.getElementById("join_ad_all_agree") != null) {
+        document.getElementById("join_ad_all_agree").addEventListener('change', function(e){
+            for(let i = 0; i < join_ad_Check.length; i++){
+                join_ad_Check[i].checked = e.target.checked;
+            }
+        });
+    }
+
+    function chageSelect() {
+        let el = $("#join_job_select > option:selected");
+        if (el.length > 0 && el.get(0).dataset.extra1 === "Y") {
+            $(".join_job_input_box").css("display", "block");
+        } else {
+            $("#company_name").val('');
+            $("#company_tel").val('');
+            $(".join_job_input_box").css("display", "none");
+        }
+    }
+
+    let join_page_tooltip = document.createElement("div");
+    join_page_tooltip.className = "join_page_tooltip";
+    let tooltip_close_btn = document.createElement("i");
+    tooltip_close_btn.className = "fas fa-times";
+
+    let tooltip_desc = document.createElement("p");
+    join_page_tooltip.append(tooltip_close_btn);
+    join_page_tooltip.append(tooltip_desc);
+
+    let zipcode_all_agree = get(".zipcode-conditions-all-agree");
+    if (zipcode_all_agree !== null) {
+        zipcode_all_agree.addEventListener('click', function (e) {
+            zipcode_all_agree.addEventListener('change', function () {
+                if (zipcode_all_agree.checked == true) {
+                    document.querySelector('.zipcode-wrap .join-all-agree-cnt .join_page_tooltip').style.display = "none";
+                }
+            });
+        });
+    }
+
+    /* 주소정보 체크박스 */
+    // let desc_01 = `주소정보를 배송주소로 <br> 활용하려면 <span>체크</span>해주세요.`;
+    if (document.querySelector('.join-all-agree-cnt')) {
+        document.querySelector('.join-all-agree-cnt').append(join_page_tooltip.cloneNode(true));
+        document.querySelector(".join-all-agree-cnt > .join_page_tooltip > p").innerHTML = ka.msg.join.agreeProvisionPersonalInfoThirdParties;
+    }
+
+    /* 인증수단 툴팁 */
+    let desc_02 = "@authToolTop";
+    let certified_area = document.querySelectorAll('.certified');
+    let certified_cnt = document.querySelectorAll(".certified > .join_page_tooltip > p");
+    for (let i = 0; i<certified_area.length; i++) {
+        tooltip_desc.innerHTML = desc_02;
+        certified_area[i].append(join_page_tooltip.cloneNode(true));
+
+        let child = certified_area[i].firstElementChild.nextElementSibling;
+
+        child.addEventListener('mouseover', function(e){
+            e.currentTarget.nextElementSibling.style.display = "block";
+        });
+        child.addEventListener('mouseout', function(e){
+            e.currentTarget.nextElementSibling.style.display = "none";
+        });
+    }
+
+    let zipcode_tooltip = document.querySelector('.join-all-agree-cnt .join_page_tooltip');
+    let zipcode_label = document.querySelector('#zipcode-conditions-all-agree + label');
+
+    /* 툴팁 마우스오버 */
+    function mouseoverListen (){
+        zipcode_tooltip.style.display = "block";
+    }
+    /* 툴팁 마우스아웃 */
+    function mouseoutListen(){
+        zipcode_tooltip.style.display = "none";
+    }
+
+    if (document.querySelector(".zipcode-wrap .join-all-agree-cnt .join_page_tooltip i")) {
+        document.querySelector(".zipcode-wrap .join-all-agree-cnt .join_page_tooltip i").addEventListener('click', function (e) {
+            e.preventDefault();
+            e.currentTarget.parentElement.style.display = "none";
+        });
+    }
+
+    let zipcode_dim = get('.zipcode_dim');
+    let agree_btn_01 = getAll(".third_box .join_form_agreebtn_wrap > div");
+
+    agree_btn_01.forEach((el) => {
+        el.addEventListener("click", (e) => {
+            let $target = e.currentTarget;
+
+            agree_btn_01.forEach((el) => {
+                el.classList.remove("on");
+
+                if (el === $target) {
+                    el.dataset.selected = el.dataset.selected === "0" ? "1" : "0";
+
+                    if (el.dataset.value === "Y") {
+                        if (el.dataset.selected === "1") el.classList.add("on");
+
+                        if (el.dataset.selected === "0") {
+                            el.classList.remove("on");
+                            zipcode_dim.style.display = "block";
+                            zipcode_tooltip.style.display = "none";
+                            agree_btn_01[1].dataset.selected = "0";
+                        }
+                    } else {
+                        el.classList.add("on");
+                        if (el.dataset.selected === "0") {
+                            el.classList.remove("on");
+                            agree_btn_01[0].dataset.selected = "0";
+                            document.querySelector(".zipcode-wrap").style.display = "block";
+                        }
+                    }
+                }
+            });
+
+            if ($target.dataset.value === "Y" && el.dataset.selected === "1") {
+                //동의로직 구현
+                agree_btn_01[0].dataset.selected = "0";
+                document.querySelector(".zipcode-wrap").style.display = "block";
+                zipcode_tooltip.style.display = "block";
+                zipcode_dim.style.display = "none";
+            }
+
+            if ($target.dataset.value === "N" && el.dataset.selected === "1") {
+                agree_btn_01[1].dataset.selected = "0";
+                zipcode_tooltip.style.display = "none";
+                zipcode_dim.style.display = "block";
+                document.querySelector(".zipcode-wrap").style.display = "none";
+            }
+        });
+    });
+
+    let agree_btn_02 = getAll(".fourth_box .join_form_agreebtn_wrap > div");
+    let attention_dim = get(".attention_contents_dim");
+    let attention_contents_choice = get(".attention_contents_choice");
+
+    agree_btn_02.forEach((el) => {
+        el.addEventListener("click", (e) => {
+            let $target = e.currentTarget;
+
+            agree_btn_02.forEach((el) => {
+                el.classList.remove("on");
+
+                if (el === $target) {
+
+                    el.dataset.selected = el.dataset.selected === "0" ? "1" : "0";
+
+                    if (el.dataset.value === "Y") {
+                        if (el.dataset.selected === "1") el.classList.add("on");
+
+
+                        if (el.dataset.selected === "0") {
+                            el.classList.remove("on");
+                            attention_dim.style.display = "block";
+                            agree_btn_01[1].dataset.selected = "0";
+                        }
+                    } else {
+                        el.classList.add("on");
+
+                        if (el.dataset.selected === "0") {
+                            el.classList.remove("on");
+                            agree_btn_01[0].dataset.selected = "0";
+                            attention_contents_choice.style.display = "block";
+
+                        }
+                    }
+                }
+            });
+
+            if ($target.dataset.value === "Y" && el.dataset.selected === "1") {
+                // 동의
+                document.querySelector(".attention_contents_choice").style.display = "block";
+                agree_btn_02[0].dataset.selected = "0";
+                attention_dim.style.display = "none";
+            }
+
+            if ($target.dataset.value === "N" && el.dataset.selected === "1") {
+                // 비동의
+                document.querySelector(".attention_contents_choice").style.display = "none";
+                agree_btn_02[1].dataset.selected = "0";
+                attention_dim.style.display = "block";
+            }
+        });
+
+    });
+
+    function join_agree_modal_cancel () {
+        for (let i = 0; i<agree_btn_01.length; i++){
+            agree_btn_01[i].classList.remove('on');
+        }
+        zipcode_tooltip.style.display = "none";
+        agree_btn_01[1].dataset.selected = "0";
+        zipcode_dim.style.display = "block";
+        document.querySelector(".zipcode-wrap").style.display = "block";
+    }
+
+    function join_agree_modal_check() {
+        agree_btn_01[0].dataset.selected = "1";
+        agree_btn_01[1].dataset.selected = "0";
+        agree_btn_01[0].removeAttribute('data-toggle');
+        agree_btn_01[0].removeAttribute('data-target');
+        document.querySelector("#join_member_agree_modal").remove();
+        document.querySelector(".zipcode-wrap").style.display = "none";
+    }
+
+    function openAddrSearch() {
+        $("#search_addr").val('');        
+        $("#addr_list").empty();
+        $("#addr_list").css("display", "none");
+        $("#join_member_address_modal").modal();
+    }
+    
+    function enterAddrSearch() {
+        let evt_code = (window.netscape) ? ev.which : event.keyCode;
+        if (evt_code === 13) {
+            let keyword = $("#search_addr").val();
+            if (keyword.replace(/ /ig, '') !== "") {
+                $("#addrKeyword").val(keyword);
+                event.keyCode = 0;
+                getAddr();
+            }
+        }
+        return false;
+    }
+
+    $(".search_addr_btn").click(function(){
+        let keyword = $("#search_addr").val();
+
+        if (keyword.replace(/ /ig, '') !== "") {
+            $("#addrKeyword").val(keyword);
+            event.keyCode = 0;
+            getAddr();
+        }
+        return;
+    });
+
+    function getAddr() {
+        $.ajax({
+            url: "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do",
+            type: "post",
+            data: $("#address-form").serialize(),
+            dataType: "jsonp",
+            crossDomain: true,
+            async: true,
+            success: function (jsonStr) {
+                try {
+                    var errCode = jsonStr.results.common.errorCode;
+                    var errDesc = jsonStr.results.common.errorMessage;
+                    if (errCode != "0") {
+                        console.log(errCode + "=" + errDesc);
+                    } else {
+                        if (jsonStr != null) {
+                            makeListJson(jsonStr);
+                        }
+                    }
+                } catch (e) { console.log(e.description); }
+            }, error: function (xhr, status, error) {
+                console.log("에러발생");
+            }
+        });
+    }
+
+    function makeListJson(jsonStr) {
+        let addrList = $("<ul />", { "class": "w-100 addrList" });
+        $.each(jsonStr.results.juso, function (index, item) {
+            $("<li >", { "onclick": "setAddrData(this);", "style": "cursor: pointer;", "data-road-addr": item.roadAddr, "data-jibun-addr": item.jibunAddr, "data-zip-no": item.zipNo }).append(
+                "<div><span class='new'>도로명</span> " + item.roadAddr + "</div>" + "<div><span class='old'>지번</span> " + item.jibunAddr + "</div>").appendTo(addrList);
+        });
+        $('#join_member_address_modal .tip').css("display", "none");
+        $("#addr_list").css("display", "block");
+        $("#addr_list").append(addrList);
+    }
+
+    function setAddrData(obj) {
+        $("#zipcode").val(obj.dataset.zipNo);
+        $("#address").val(obj.dataset.roadAddr);
+        $("#join_member_address_modal").modal('hide');
+
+        if (obj.dataset.zipNo !== '') {
+            $("#zipcode").parent().find(".text_box_clearbtn").show();
+        } else {
+            $("#zipcode").parent().find(".text_box_clearbtn").hide();
+        }
+    }
+
+    function searchArtistProc(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            if (result.data.length > 0) {
+                var artists = new Array();
+                $.each(result.data, function (index, item) {
+                    var artist = {};
+                    artist["value"] = item.artist_name;
+                    artist["label"] = item.artist_name;
+                    artist["uid"] = item.artist_uid;
+                    artists.push(artist);
+                });
+
+                $("#join_writer_registration_input").autocomplete({
+                    source: artists,
+                    select: function (event, ui) {
+                        if (!existArtist(ui.item.uid)) {
+                            $('.join_writer_registration_list').append('<div id="artist_' + ui.item.uid + '" class="artist_selected" data-uid="' + ui.item.uid + '">'
+                                + '<span>' + ui.item.value + '</span>'
+                                + '<button type="button" text="" onclick="delArtist(' + ui.item.uid + ');"><i class="fas fa-times"></i></button>'
+                                + '</div>&nbsp;');
+
+                            $("#join_writer_registration_input").val('');
+                        }
+                        return false;
+                    },
+                    focus: function (event, ui) {
+                        return false;
+                    }
+                });
+            } else {
+
+            }
+        }
+    }
+
+    $(function () {
+        $('#join_writer_registration_input').autocomplete({
+            source: function (request, response) {
+                $.getJSON("/api/Auction/GetSearchArtists", { keyword: request.term }, response);
+            },
+            search: function () {
+                var term = this.value;
+                if (term.replace(/ /ig, '') === '') {
+                    $.joinUtils.validateMsg("join_writer_registration_input", "");
+                    return false;
+                } else if (term.length < 2) {
+                    $.joinUtils.validateMsg("join_writer_registration_input", "");
+                    return false;
+                } 
+
+                if ($(".artist_selected").length > 4) {
+                    $.joinUtils.validateMsg("join_writer_registration_input", ka.msg.join.artistMax);
+                    return false;
+                } else {
+                    $.joinUtils.validateMsg("join_writer_registration_input", "");
+                }
+            },
+            response: function (event, ui) {
+                if (ui.content.length > 0) {
+                    $.joinUtils.validateMsg("join_writer_registration_input", "");
+                } else {
+                    $.joinUtils.validateMsg("join_writer_registration_input", ka.msg.join.artistNotExist);
+                }
+            },
+            select: function (event, ui) {
+                if (!existArtist(ui.item.artist_uid)) {
+                    $('.join_writer_registration_list').append('<div id="artist_' + ui.item.artist_uid + '" class="artist_selected" data-uid="' + ui.item.artist_uid + '">'
+                        + '<span>' + ui.item.artist_name + '</span>'
+                        + '<button type="button" text="" onclick="delArtist(' + ui.item.artist_uid + ');"><i class="fas fa-times"></i></button>'
+                        + '</div>&nbsp;');
+
+                    $("#join_writer_registration_input").val('');
+                }
+                return false;
+            },
+            focus: function (event, ui) {
+                return false;
+            },
+            minLength: 1,
+            autoFocus: true,
+            delay: 500,
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div>" + item.artist_name + "</div>")
+                .appendTo(ul);
+        };
+    });
+
+    function delArtist(uid) {
+        $.joinUtils.validateMsg("join_writer_registration_input", "");
+        $("#artist_" + uid).remove();
+    }
+
+    function existArtist(uid) {
+        var exists = false;
+        $.each($(".artist_selected"), function (index, item) {
+            if (uid.toString() === item.dataset.uid.toString()) {
+                exists = true;
+            }
+        });
+        return exists;
+    }
+
+    function tooltipmake() {
+        $.commonUtils.tooltipFunc(document.querySelector('.join_form_agreebtn_wrap > div:first-child'));
+        $.commonUtils.tooltipFunc(document.querySelector('.join_info_tip'));
+        $.commonUtils.tooltipFunc(document.querySelector('.join_address_info_tip'));
+        try {
+            document.querySelector('.join_form_agreebtn_wrap > div:first-child .tooltip_wrap').innerHTML = `
+                <div class="cnt">
+                    <div>
+                        <div><span>·</span></div><p>` + ka.msg.join.agreeProvisionPersonalInfoTooltop1 + `</p>
+                    </div>
+                    <div>
+                        <div><span>·</span></div><p>` + ka.msg.join.agreeProvisionPersonalInfoTooltop2 + `​</p>
+                    </div>
+                </div> 
+            `;
+            let join_infotip_toolitp = get('.join_info_tip .tooltip_wrap');
+            join_infotip_toolitp.classList.add('join-tooltip');
+            join_infotip_toolitp.classList.add('join-join_page_tooltip');
+            join_infotip_toolitp.innerHTML = `
+                <ul>
+                    <li>
+                        <div><span>·</span></div>
+                        <p>` + ka.msg.join.taxInvoiceInfo + `</p>
+                    </li>
+                    <li>
+                        <div><span>·</span></div>
+                        <p>` + ka.msg.join.taxInvoiceInfo2 + `</p>
+                    </li>
+                </ul>
+            `;
+            document.querySelector('.join_info_tip > .title').addEventListener('click', () => {
+                join_infotip_toolitp.style.display = "block";
+            });
+
+            document.querySelector('.join_info_tip > .title').addEventListener('mouseenter', () => {
+                join_infotip_toolitp.style.display = "block";
+            });
+            document.querySelector('.join_info_tip > .title').addEventListener('mouseout', () => {
+                join_infotip_toolitp.style.display = "none";
+            });
+
+            let join_address_infotip_toolitp = get('.join_address_info_tip .tooltip_wrap');
+            join_address_infotip_toolitp.classList.add('join-tooltip');
+            join_address_infotip_toolitp.classList.add('join-join_page_tooltip');
+            join_address_infotip_toolitp.innerHTML = `
+                <ul>
+                    <li>
+                        <div><span>·</span></div>
+                        <p>` + ka.msg.join.corpAddressInfo + `</p>
+                    </li>
+                    <li>
+                        <div><span>·</span></div>
+                        <p>` + ka.msg.join.corpAddressInfo2 + `</p>
+                    </li>
+                </ul>
+            `;
+            document.querySelector('.join_address_info_tip > .title').addEventListener('click', () => {
+                join_address_infotip_toolitp.style.display = "block";
+            });
+
+            document.querySelector('.join_address_info_tip > .title').addEventListener('mouseenter', () => {
+                join_address_infotip_toolitp.style.display = "block";
+            });
+            document.querySelector('.join_address_info_tip > .title').addEventListener('mouseout', () => {
+                join_address_infotip_toolitp.style.display = "none";
+            });
+        } catch(error) { }
+    }
+
+    /*고유식별정보 관련 모달팝업*/
+    let tabLinks = document.querySelectorAll(".masking-tapbtn> ul > li");
+    let tabContent = document.querySelectorAll(".masking-desc > div");
+    tabLinks.forEach(function(el) {
+        el.addEventListener("click", openTabs);
+    });
+    function openTabs(el) {
+        el.preventDefault();
+        const btnTarget = el.currentTarget;
+        const country = btnTarget.dataset.country;
+        tabContent.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        tabLinks.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelector("#" + country).classList.add("active");
+        btnTarget.classList.add("active");
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        tooltipmake();
+    });
+
+</script>

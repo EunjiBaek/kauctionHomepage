@@ -1,0 +1,125 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="위탁 문의 내역" xml:space="preserve">
+        <value>Consignment Inquiry History</value>
+    </data>
+    <data name="작품 문의 내역" xml:space="preserve">
+        <value>Work Inquiry History</value>
+        <comment>작품 문의 내역</comment>
+    </data>
+    <data name="문의하기" xml:space="preserve">
+        <value>Inquiry</value>
+        <comment>문의하기</comment>
+    </data>
+    <data name="소장품위탁을위한문의" xml:space="preserve">
+        <value>Inquiries for consignment of collections</value>
+        <comment>소장품위탁을위한문의</comment>
+    </data>
+    <data name="경매중인작품에대한문의" xml:space="preserve">
+        <value>Inquiries about works being auctioned</value>
+        <comment>경매중인작품에대한문의</comment>
+    </data>
+    <data name="전체" xml:space="preserve">
+        <value>All</value>
+        <comment>전체</comment>
+    </data>
+    <data name="미확인" xml:space="preserve">
+        <value>Unidentified</value>
+        <comment>미확인</comment>
+    </data>
+    <data name="접수 메일" xml:space="preserve">
+        <value>Receive Mail</value>
+        <comment>접수 메일</comment>
+    </data>
+    <data name="거부 메일" xml:space="preserve">
+        <value>Reject Mail</value>
+        <comment>거부 메일</comment>
+    </data>
+    <data name="확인" xml:space="preserve">
+        <value>Check</value>
+        <comment>확인</comment>
+    </data>
+    <data name="결과 발송" xml:space="preserve">
+        <value>Result Sent</value>
+        <comment>결과 발송</comment>
+    </data>
+    <data name="접수 검토" xml:space="preserve">
+        <value>Review</value>
+        <comment>접수 검토</comment>
+    </data>
+    <data name="조회기간" xml:space="preserve">
+        <value>Search Period</value>
+        <comment>조회기간</comment>
+    </data>
+    <data name="조회기간 선택" xml:space="preserve">
+        <value>Select Search Period</value>
+        <comment>조회기간 선택</comment>
+    </data>
+    <data name="검색어" xml:space="preserve">
+        <value>Search</value>
+        <comment>검색어</comment>
+    </data>
+    <data name="작가 또는 작품 명 입력" xml:space="preserve">
+        <value>Works, Artists</value>
+        <comment>작가 또는 작품 명 입력</comment>
+    </data>
+    <data name="찾기" xml:space="preserve">
+        <value>Search</value>
+        <comment>찾기</comment>
+    </data>
+    <data name="문의 내역이 없습니다." xml:space="preserve">
+        <value>There is no inquiry history.</value>
+        <comment>문의 내역이 없습니다.</comment>
+    </data>
+    <data name="문의 등록" xml:space="preserve">
+        <value>Register Inquiry</value>
+        <comment>문의 등록</comment>
+    </data>
+    <data name="답변 완료" xml:space="preserve">
+        <value>Answer Complete</value>
+        <comment>답변 완료</comment>
+    </data>
+    <data name="초기화" xml:space="preserve">
+        <value>Reset</value>
+        <comment>초기화</comment>
+    </data>
+    <data name="대기중" xml:space="preserve">
+        <value>Waiting</value>
+        <comment>대기중</comment>
+    </data>
+    <data name="위탁가능" xml:space="preserve">
+        <value>Consign Possible</value>
+        <comment>위탁가능</comment>
+    </data>
+    <data name="위탁불가" xml:space="preserve">
+        <value>Consign Impossible</value>
+        <comment>위탁불가</comment>
+    </data>
+    <data name="답변 대기중" xml:space="preserve">
+        <value>Waiting Answer</value>
+        <comment>답변 대기중</comment>
+    </data>
+    <data name="위탁문의" xml:space="preserve">
+        <value>Consign Inquiry</value>
+        <comment>위탁문의</comment>
+    </data>
+    <data name="필터초기화" xml:space="preserve">
+        <value>Reset Filter</value>
+        <comment>필터초기화</comment>
+    </data>
+    <data name="검색 결과" xml:space="preserve">
+        <value>Search Results</value>
+        <comment>검색 결과</comment>
+    </data>
+</root>

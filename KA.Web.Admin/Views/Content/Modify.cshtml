@@ -1,0 +1,336 @@
+﻿@model KA.Web.Admin.ViewModels.Content.ContentViewModel
+
+<style type="text/css">
+    .tui-timepicker { padding: 0px 0px 0px 0px; border: 0px; }
+    .tui-timepicker-select { height: 32px; }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">게시물 등록</div></div>
+            <div class="card-body">
+                <div class="form-group required">
+                    <label>제목</label>
+                    <input id="doc_title" type="text" class="form-control" param="Y" value="@Model.BoardDoc.DocTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>이름 / 미입력 시 로그인 사용자 이름으로 등록합니다.</label>
+                    <input id="mem_nick" type="text" class="form-control" param="Y" value="@Model.BoardDoc.Writer" required>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label>HTML 사용</label>
+                    <div class="form-group">
+                        <div class="form-check" style="float: left;">
+                            <input type="radio" name="rdoHtml" id="html_yn" value="Y" param="Y" checked="checked">
+                            <label for="html_yn">사용</label>
+                        </div>
+                        <div class="form-check" style="float: left; margin-left: 10px;">
+                            <input type="radio" name="rdoHtml" id="html_yn2" value="N">
+                            <label for="html_yn2">사용 안함</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>본문</label>
+                    <div class="summernote-wrapper" style="margin-bottom: 0px;">
+                        <div id="editor">@Html.Raw(Model.BoardDoc.DocContents)</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>외부링크</label>
+                    <input id="redirect_url" type="text" class="form-control" param="Y" value="@Model.BoardDoc.RedirectUrl" required>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>공지 지정</label>
+                            <div class="row m-r-5 m-l-5">
+                                <div class="form-check" style="float: left;">
+                                    <input type="radio" name="rdoNotice" id="notice_yn2" value="N">
+                                    <label for="notice_yn2">미지정</label>
+                                </div>
+                                <div class="form-check" style="float: left; margin-left: 10px;">
+                                    <input type="radio" name="rdoNotice" id="notice_yn" value="Y" param="Y">
+                                    <label for="notice_yn">지정</label>
+                                </div>
+                            </div>
+                            <div class="row m-r-5 m-l-5 row-notice" style="display: none;">
+                                <div class="form-check form-check-inline switch inline">
+                                    <input type="checkbox" id="chkSetDate">
+                                    <label for="switch">공지일자 설정</label>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-calendar-alt"></i></span>
+                                    </div>
+                                    <input type="text" name="reservation" id="daterangepicker" class="form-control" value="2020/03/01 1:00 PM - 2020/03/01 1:30 PM" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>활성 지정</label>
+                            <div>
+                                <div class="form-check" style="float: left;">
+                                    <input type="radio" name="rdoDelYN" id="del_yn" value="N" param="Y">
+                                    <label for="del_yn">활성</label>
+                                </div>
+                                <div class="form-check" style="float: left; margin-left: 10px;">
+                                    <input type="radio" name="rdoDelYN" id="del_yn2" value="Y">
+                                    <label for="del_yn2">비활성</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="clear: both;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr class="m-b-10 m-t-10" />
+                            <label>게시 일자 지정</label>
+                            <div>
+                                <div class="form-check" style="float: left;">
+                                    <input type="radio" name="rdoPeriodYN" id="period_yn" value="N" checked="checked">
+                                    <label for="period_yn">비활성</label>
+                                </div>
+                                <div class="form-check" style="float: left; margin-left: 10px;">
+                                    <input type="radio" name="rdoPeriodYN" id="period_yn2" value="Y">
+                                    <label for="period_yn2">활성</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>게시 시작일자</label>
+                                <div>
+                                    <div class="m-r-10" style="float: left;">
+                                        <input id="start_date" type="text" class="form-control datepicker period_date" data-date-format="yyyy-mm-dd" value="@Model.BoardDoc.StartDate.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                    <div class="m-r-10 period_date" id="start_time" style="float: left;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>게시 종료 일자</label>
+                                <div>
+                                    <div class="m-r-10" style="float: left;">
+                                        <input id="end_date" type="text" class="form-control datepicker period_date" data-date-format="yyyy-mm-dd" value="@Model.BoardDoc.EndDate.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                    <div class="m-r-10 period_date" id="end_time" style="float: left;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <hr class="m-b-10 m-t-10" />
+                    <label>첨부파일&nbsp;&nbsp;&nbsp;<button class="btn btn-sm" onclick="addAttachField();">추가</button></label>
+                    @if (Model.BoardDoc.Uid > 0 && Model.BoardAttaches.Any())
+                    {
+                        <ul>
+                            @foreach (var item in Model.BoardAttaches)
+                            {
+                                <li id="attach-file-@item.Uid"><a href="@string.Format("{0}/www{1}/{2}", Config.ImageDomain, item.Path, item.Name)" target="_blank">@item.Name</a> &nbsp; <button class="btn btn-sm" onclick="delAttachFile(@item.Uid);">삭제</button></li>
+                            }
+                        </ul>
+                    }
+                    <div id="upload-file">
+                        <div class="m-b-10 col-6">
+                            <input type="file" class="form-control" id="attach-file-1" style="float: left; width: 90%;" />
+                            <input type="button" class="btn" value="취소" style="float: right; width: 8%; min-height: 34px;" data-index="1" onclick="delAttach(this);" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group p-t-20" style="clear: both;">
+                    <button id="btn-primary" class="btn btn-primary" onclick="return setBoardDoc();">저장</button>
+                    <button class="btn" onclick="history.back();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display: none;" id="attach-template" class="col-6">
+    <input type="file" class="form-control" style="float: left; width: 90%;" />
+    <input type="button" class="btn" value="취소" style="float: right; width: 8%; min-height: 34px;" onclick="delAttach(this);" />
+</div>
+<script>
+
+    var boardName = "@ViewBag.BoardKey";
+    var uid = "@Model.BoardDoc.Uid";
+    var delYN = "@Model.BoardDoc.DelYN";
+    var noticeYN = "@Model.BoardDoc.NoticeYN";
+    var periodYN = "@Model.BoardDoc.PeriodYN";
+    var param = {};
+    var attachIndex = 1;
+
+    $(document).ready(function () {
+        $('#editor').summernote({
+            height: 460,
+            lang: 'ko-KR',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['codeview', 'help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+
+        moment.locale('ko');
+        $('#daterangepicker').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 10,
+            locale: {
+                format: 'YYYY/MM/DD HH:mm',
+                separator: ' ~ ',
+                applyLabel: "적용",
+                cancelLabel: "닫기"
+            }
+        }, function (start, end, label) { });
+
+        new tui.TimePicker('#start_time', {
+            initialHour: uid === "0" ? 0 : @Model.BoardDoc.StartDate.Hour,
+            initialMinute: uid === "0" ? 0 : @Model.BoardDoc.StartDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+        new tui.TimePicker('#end_time', {
+            initialHour: uid === "0" ? 23 : @Model.BoardDoc.EndDate.Hour,
+            initialMinute: uid === "0" ? 59 : @Model.BoardDoc.EndDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+
+        $("input[name='rdoPeriodYN']").on("click", function (e) {
+            if (e.currentTarget.value === "Y") {
+                $(".period_date").removeAttr("disabled");
+                $(".tui-timepicker-select").removeAttr("disabled");
+            } else {
+                $(".period_date").attr("disabled", "disabled");
+                $(".tui-timepicker-select").attr("disabled", "disabled");
+            }
+        });
+
+        if (uid === "0") {
+            $('input:radio[name=rdoDelYN]:input[value=N]').attr("checked", true);
+            $('input:radio[name=rdoNotice]:input[value=N]').attr("checked", true);
+            $('input:radio[name=rdoPeriodYN]:input[value=N]').attr("checked", true);
+
+            $(".period_date").attr("disabled", "disabled");
+            $(".tui-timepicker-select").attr("disabled", "disabled");
+        } else {
+            $('input:radio[name=rdoDelYN]:input[value=' + delYN + ']').attr("checked", true);
+            $('input:radio[name=rdoNotice]:input[value=' + noticeYN + ']').attr("checked", true);
+            $('input:radio[name=rdoPeriodYN]:input[value=' + periodYN + ']').attr("checked", true);
+
+            if (periodYN === "Y") {
+                $(".period_date").removeAttr("disabled");
+                $(".tui-timepicker-select").removeAttr("disabled");
+            } else {
+                $(".period_date").attr("disabled", "disabled");
+                $(".tui-timepicker-select").attr("disabled", "disabled");
+            }
+        }
+    });
+
+    function setBoardDoc() {
+        if ($("#doc_title").val() === "") {
+            $.commonUtils.alert("제목을 입력하세요.");
+            return false;
+        }
+
+        var msg = $("#btn-primary").text();
+        $.commonUtils.confirm(msg, msg + "하시겠습니까?", "setBoardDocProc();");
+    }
+
+    function setBoardDocProc() {
+        param["board_doc_uid"] = uid;
+        param["board_key"] = boardName;
+        param["doc_contents"] = $('#editor').summernote('code');
+        param["period_yn"] = $('input[name="rdoPeriodYN"]:checked').val();
+        if (param["period_yn"] === "Y") {
+            var startHour = $("#start_time").find(".tui-timepicker-hour select");
+            var startMinute = $("#start_time").find(".tui-timepicker-minute select");
+            if (startHour.length > 0 && startMinute.length > 0) {
+                param["start_date"] = $("#start_date").val() + " " + (startHour[0].value.length > 1 ? startHour[0].value : "0" + startHour[0].value) + ":" + (startMinute[0].value.length > 1 ? startMinute[0].value : "0" + startMinute[0].value);
+            }
+            var endHour = $("#end_time").find(".tui-timepicker-hour select");
+            var endMinute = $("#end_time").find(".tui-timepicker-minute select");
+            if (endHour.length > 0 && endMinute.length > 0) {
+                param["end_date"] = $("#end_date").val() + " " + (endHour[0].value.length > 1 ? endHour[0].value : "0" + endHour[0].value) + ":" + (endMinute[0].value.length > 1 ? endMinute[0].value : "0" + endMinute[0].value);
+            }
+        }
+
+        param["attach-file"] = new Array();
+        let attachEl = $("#upload-file").find("input[type='file']");
+        if (attachEl.length > 0) {
+            attachEl.each(function (i, el) {
+                if (el.value !== '') {
+                    var uploadResult = $.ajaxUtils.getUploadData(el.id, "/api/File/Upload/Content");
+                    if (uploadResult["result"]) {
+                        param["attach-file"].push(uploadResult.file_info.filename);
+                    } else {
+                        $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                        return false;
+                    }
+                }
+            });
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Content/SetContent", $.ajaxUtils.setParameter(param), null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Content/" + boardName;
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function delAttach(obj) {
+        let targetIndex = obj.dataset.index;
+        if ($('#attach-file-' + targetIndex.toString()).val() !== '') {
+            $('#attach-file-' + targetIndex.toString()).val('');
+            $('#attach-file-' + targetIndex.toString()).attr('type', '');
+            $('#attach-file-' + targetIndex.toString()).attr('type', 'file');
+        }
+    }
+
+    function delAttachFile(uid) {
+        $.commonUtils.confirm("삭제", "첨부파일을 삭제하시겠습니까?", "delAttachFileProc(" + uid + ");");
+    }
+
+    function delAttachFileProc(uid) {
+        var param = {};
+        param["mode"] = "DELETE";
+        param["uid"] = uid;        
+        var result = $.ajaxUtils.getApiData("/api/Content/SetFileUpload", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#attach-file-" + uid).remove();
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function addAttachField() {
+        attachIndex++;
+        let cloneEl = $("#attach-template").clone();
+        cloneEl.removeAttr("id");
+        cloneEl.removeAttr("style");
+        cloneEl.find("input[type='file']").attr("id", "attach-file-" + attachIndex.toString());
+        cloneEl.find("input[type='button']").attr("data-index", attachIndex.toString());
+        $('#upload-file').append(cloneEl);
+    }
+
+</script>

@@ -1,0 +1,85 @@
+[
+  {
+    "outputFileName": "wwwroot/css/ka.fe.min.css",
+    "inputFiles": [
+      "wwwroot/css/ka.fe.css"
+    ],
+    "minify": {
+      "enabled": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/header.min.css",
+    "inputFiles": [
+      "wwwroot/css/header.css"
+    ],
+    "minify": {
+      "enabled": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/reset.min.css",
+    "inputFiles": [
+      "wwwroot/css/reset.css"
+    ],
+    "minify": {
+      "enabled": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/ka.fe.min.js",
+    "inputFiles": [
+      "wwwroot/js/ka.fe.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/ka.live.min.css",
+    "inputFiles": [
+      "wwwroot/css/ka.live.reset.css",
+      "wwwroot/css/ka.live.css",
+      "wwwroot/css/ka.live.dim.css",
+      "wwwroot/css/ka.live.video.css",
+      "wwwroot/plugins/toastr/toastr.min.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/js/ka.live.plugin.min.js",
+    "inputFiles": [
+      "wwwroot/plugins/mustache/mustache.js",
+      "wwwroot/plugins/webplayer/*.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/js/ka.live.min.js",
+    "inputFiles": [
+      "wwwroot/dist/js/ka.live.js",
+      "wwwroot/dist/js/ka.live.confirm.js",
+      "wwwroot/dist/js/ka.live.player.js",
+      "wwwroot/dist/js/ka.live.style.js",
+      "wwwroot/dist/js/ka.live.notice.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  }
+]

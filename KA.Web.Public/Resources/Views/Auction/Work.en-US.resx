@@ -1,0 +1,728 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1,000만 이상 ~ 3,000만 미만" xml:space="preserve">
+    <value>10,000,000 - less than 30,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #07</comment>
+  </data>
+  <data name="1,000만원 x 19.8% + ( 낙찰가 - 1,000만원 ) x 16.5%" xml:space="preserve">
+    <value>KRW 10,000,000 x 19.8% + (Hammer Price - KRW 10,000,000) x 16.5%</value>
+    <comment>[Work] 91.1. Data 2</comment>
+  </data>
+  <data name="1,000자 제한" xml:space="preserve">
+    <value>1,000 character limit</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기 - 2. 본문 - #2 입력 영역</comment>
+  </data>
+  <data name="100만 이상 ~ 300만 미만" xml:space="preserve">
+    <value>1,000,000 - less than 3,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #04</comment>
+  </data>
+  <data name="10만원" xml:space="preserve">
+    <value>KRW 100,000</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #3</comment>
+  </data>
+  <data name="15만원" xml:space="preserve">
+    <value>KRW 150,000</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #3</comment>
+  </data>
+  <data name="198만원 + (5,000만원 - 1,000만원) * 16.5% = 8,580,000원" xml:space="preserve">
+    <value>KRW 1,980,000 + (50,000,000 - 10,000,000) * 16.5% = KRW 8,580,000</value>
+    <comment>[Work] 91.2 예시</comment>
+  </data>
+  <data name="2억 이상 ~ 5억 미만" xml:space="preserve">
+    <value>200,000,000 - less than 500,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #10</comment>
+  </data>
+  <data name="3,000만 이상 ~ 5,000만 미만" xml:space="preserve">
+    <value>30,000,000 - less than 50,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #08</comment>
+  </data>
+  <data name="300만 이상 ~ 500만 미만" xml:space="preserve">
+    <value>3,000,000 - less than 5,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #05</comment>
+  </data>
+  <data name="30만 미만" xml:space="preserve">
+    <value>Less than 300,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #02</comment>
+  </data>
+  <data name="30만 이상 ~ 100만 미만" xml:space="preserve">
+    <value>300,000 less than 1,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #03</comment>
+  </data>
+  <data name="5,000만 이상 ~ 2억 미만" xml:space="preserve">
+    <value>50,000,000 - less than 200,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #09</comment>
+  </data>
+  <data name="500만 이상 ~ 1,000만 미만" xml:space="preserve">
+    <value>5,000,000 - less than 10,000,000</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #06</comment>
+  </data>
+  <data name="5만원" xml:space="preserve">
+    <value>KRW 50,000</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #3</comment>
+  </data>
+  <data name="5억 이상" xml:space="preserve">
+    <value>500,000,000 and over</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #11</comment>
+  </data>
+  <data name="80호 미만은 점당 3만원(추가 점당 1만원), 80호 이상은 점당 10만원(추가 점당 2만원)의 비용이 발생합니다." xml:space="preserve">
+    <value>KRW 30,000 will be charged for artworks with dimensions up to 145.5x112.1cm (KRW 10,000 for each additional artwork). KRW 100,000 will be charged for artworks with dimensions equal to or greater than 145.5x112.1cm (KRW 20,000 for each additional artwork).</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="경매 호가표" xml:space="preserve">
+    <value>Bid Increments</value>
+    <comment>[Work] 03. PC 우측 - #7. 경매 호가표</comment>
+  </data>
+  <data name="경매 호가표 안내" xml:space="preserve">
+    <value>Bidding Increment</value>
+    <comment>[Work] 93. 모달 - 경매 호가표</comment>
+  </data>
+  <data name="경매가 종료되었습니다." xml:space="preserve">
+    <value>The auction has ended.</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="국내" xml:space="preserve">
+    <value>Domestic</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #1. Table Header</comment>
+  </data>
+  <data name="그 외 국내지역" xml:space="preserve">
+    <value>Other domestic areas</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #2</comment>
+  </data>
+  <data name="기본 배송지기준" xml:space="preserve">
+    <value>Base on default destination</value>
+    <comment>[Work] 03. PC 우측 - #6. 예상 배송비 (툴팁)</comment>
+  </data>
+  <data name="나의 최고 응찰가" xml:space="preserve">
+    <value>Maximum bid amount</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #2. 나의 최고 응찰가</comment>
+  </data>
+  <data name="낙찰 및 판매 이후 7일 경과 시 입금여부와 무관하게 일 30,000원/점의 비용이 발생합니다." xml:space="preserve">
+    <value>A storage fee of KRW 30,000 per day will be charged for each lot that has not been collected 7 calendar days after purchase, regardless of whether the purchase price has been rendered in full.</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="낙찰 수수료" xml:space="preserve">
+    <value>Estimated Buyer's Premium</value>
+    <comment>[Work] 91. 모달 - 낙찰 수수료</comment>
+  </data>
+  <data name="낙찰 수수료 안내" xml:space="preserve">
+    <value>Buyer's Premium</value>
+    <comment>[Work] 91.1. Title</comment>
+  </data>
+  <data name="낙찰가 (원)" xml:space="preserve">
+    <value>Hammer Price (KRW)</value>
+    <comment>[Work] 91.1. Header 1</comment>
+  </data>
+  <data name="낙찰가 + 낙찰수수료 = 58,580,000원" xml:space="preserve">
+    <value>Hammer Price + Buyer's Premium = KRW 58,580,000</value>
+    <comment>[Work] 91.2 예시</comment>
+  </data>
+  <data name="낙찰가 5,000만원일 경우" xml:space="preserve">
+    <value>If the winning bid is KRW 50,000,000</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #1. Table Content</comment>
+  </data>
+  <data name="낙찰가의 &lt;strong&gt;19.8%&lt;/strong&gt;" xml:space="preserve">
+    <value>&lt;strong&gt;19.8%&lt;/strong&gt; of the Hammer Price</value>
+    <comment>[Work] 91.1. Data 1</comment>
+  </data>
+  <data name="남은시간" xml:space="preserve">
+    <value>Closes in</value>
+    <comment>[Work] 03. PC 우측 - #1. Lot</comment>
+  </data>
+  <data name="내용을 입력하세요." xml:space="preserve">
+    <value>Please enter your inquiry.</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기 - 2. 본문 - #2 입력 영역</comment>
+  </data>
+  <data name="내응찰" xml:space="preserve">
+    <value>My Bids</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #1. 탭</comment>
+  </data>
+  <data name="다음" xml:space="preserve">
+    <value>Next</value>
+    <comment>[Work] 01. 상단 - 유틸 버튼</comment>
+  </data>
+  <data name="단, 주류, 명품, 기업 컬렉션의 경우 10만원 미만에 한하여 호가 단위 10,000원으로 진행됨." xml:space="preserve">
+    <value>For liquor, luxury goods and corporate collection lots, the bid increment will be KRW 10,000 for bid amounts less than KRW 100,000.</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #12</comment>
+  </data>
+  <data name="담당자 연락처" xml:space="preserve">
+    <value>Contact Us</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기 - 1. 상단 - 담당자</comment>
+  </data>
+  <data name="당사 낙찰 작품에 한하여 배송 시 설치를 함께 요청하실 수 있으며, 사전 예약이 필요합니다." xml:space="preserve">
+    <value>For our winning bid only, you can request the installation at the time of delivery, and advance reservations are required.</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="대리석, 콘크리트, 가벽, 레일 등 현장 난이도에 따라 비용이 추가될 수 있습니다." xml:space="preserve">
+    <value>Additional fees may be charged depending on the condition of the installation site (marble, concrete, partitions, rails, etc.).</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="동일 경매에서 1점 초과 낙찰시, 초과분부터 1만원씩 추가 (단, 동일장소/일시인 경우에 한함)" xml:space="preserve">
+    <value>If more than one item is purchased in the same auction, a fee of KRW 10,000 per item will be charged for each additional item (limited to the same location / same time).</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #5.1</comment>
+  </data>
+  <data name="로그인하시면 서면/전화 응찰 신청이 가능합니다." xml:space="preserve">
+    <value>Please log in to place a bid.</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="로그인하시면 응찰이 가능합니다." xml:space="preserve">
+    <value>Please log in to bid</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="마감시간" xml:space="preserve">
+    <value>Closing Time</value>
+    <comment>[Work] 03. PC 우측 - #5. 마감시간</comment>
+  </data>
+  <data name="명품 및 악기는 직접 픽업이 원칙입니다." xml:space="preserve">
+    <value>Luxury goods and musical instruments must be collected in person.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #7</comment>
+  </data>
+  <data name="목록" xml:space="preserve">
+    <value>List</value>
+    <comment>[Work] 01. 상단 - 유틸 버튼</comment>
+  </data>
+  <data name="문의내용" xml:space="preserve">
+    <value>Inquiry details</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기 - 2. 본문 - #1 타이틀</comment>
+  </data>
+  <data name="미리보기" xml:space="preserve">
+    <value>Preview</value>
+    <comment>[Work] 91. 모달 - 낙찰 수수료</comment>
+  </data>
+  <data name="배송 관련 안내" xml:space="preserve">
+    <value>Shipping Fees</value>
+    <comment>[Work] 92. 모달 - 예상 배송비</comment>
+  </data>
+  <data name="배송관련 문의사항은 아래로 연락주시기 바랍니다." xml:space="preserve">
+    <value>Please contact below for shipping inquiries.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #9</comment>
+  </data>
+  <data name="별도 배송비" xml:space="preserve">
+    <value>Additional fees apply</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #4</comment>
+  </data>
+  <data name="보관" xml:space="preserve">
+    <value>Storage</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="사전 예약 없이 방문시 픽업이 불가" xml:space="preserve">
+    <value>Prior appointment is mandatory for in-person collection.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #8.2</comment>
+  </data>
+  <data name="서면/전화 응찰 신청" xml:space="preserve">
+    <value>Submit Absentee/Telephone Bid</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="신청" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="서울" xml:space="preserve">
+    <value>Seoul</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #2</comment>
+  </data>
+  <data name="설치" xml:space="preserve">
+    <value>Installation</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="설치 및 보관" xml:space="preserve">
+    <value>Installation and Storage</value>
+    <comment>[Work] 03. PC 우측 - #8. 설치 및 보관</comment>
+  </data>
+  <data name="설치 및 보관 안내" xml:space="preserve">
+    <value>Installation and Storage</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="수도권" xml:space="preserve">
+    <value>Seoul capital area</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #2</comment>
+  </data>
+  <data name="수수료율 (VAT 포함)" xml:space="preserve">
+    <value>Buyer's Premium (including VAT)</value>
+    <comment>[Work] 91.1. Header 2</comment>
+  </data>
+  <data name="시작가" xml:space="preserve">
+    <value>Starting Bid</value>
+    <comment>[Work] 03. PC 우측 - #3. 시작가</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Tel</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #9.1</comment>
+  </data>
+  <data name="예) 서울 지역 3점 낙찰 : 5만원+1만원+1만원 = 7만원" xml:space="preserve">
+    <value>Ex) Three items delivered within Seoul : KRW 50,000 + 10,000 + 10,000 = KRW 70,000</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #5.2</comment>
+  </data>
+  <data name="예상 배송비" xml:space="preserve">
+    <value>Expected shipping fee</value>
+    <comment>[Work] 03. PC 우측 - #6. 예상 배송비</comment>
+  </data>
+  <data name="예시" xml:space="preserve">
+    <value>Example</value>
+    <comment>[Work] 91.2 예시</comment>
+  </data>
+  <data name="예시) 낙찰가가 1,500만원인 경우" xml:space="preserve">
+    <value>ex) Hammer Price: KRW 15,000,000</value>
+    <comment>[Work] 91.1. Ex Title</comment>
+  </data>
+  <data name="예약 없이 요청하시는 경우, 배송일정에 따라 바로 설치를 해드리기 어려울 수 있습니다." xml:space="preserve">
+    <value>We may not be able to honor installation requests made without advance reservation.</value>
+    <comment>[Work] 94. 모달 - 설치 및 보관</comment>
+  </data>
+  <data name="온라인 경매의 낙찰작은 직접 픽업이 원칙입니다. 만약, 픽업이 불가능한 경우 배송을 요청할 수 있으며, 아래와 같이 배송비가 부과됩니다." xml:space="preserve">
+    <value>Objects purchased in online auctions must be collected in person. Shipping may be requested if in-person collection is not possible. Shipping fees will be charged as below.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #1</comment>
+  </data>
+  <data name="원" xml:space="preserve">
+    <value>KRW</value>
+    <comment>[Work] 00. 공통</comment>
+  </data>
+  <data name="응찰가" xml:space="preserve">
+    <value>Bid Price</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #3. 정보</comment>
+  </data>
+  <data name="응찰내역" xml:space="preserve">
+    <value>Bidding details</value>
+    <comment>[Work] 80. 레이어 - 응찰내역</comment>
+  </data>
+  <data name="응찰내역이 없습니다." xml:space="preserve">
+    <value>No bids.</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #5</comment>
+  </data>
+  <data name="응찰하기" xml:space="preserve">
+    <value>Place Bid</value>
+    <comment>[Work] 00. 공통 - 버튼</comment>
+  </data>
+  <data name="이전" xml:space="preserve">
+    <value>Previous</value>
+    <comment>[Work] 01. 상단 - 유틸 버튼</comment>
+  </data>
+  <data name="일반 승용차 기준 작품 전체 크기 90*120 cm까지 적재 가능하므로 픽업 전 차량의 공간과 작품 크기를 꼭 확인 필요" xml:space="preserve">
+    <value>Standard passenger vehicles can accommodate artworks up to 90x120cm. Please take the measurements of your vehicle and the artwork into consideration.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #8.3</comment>
+  </data>
+  <data name="일부 물품의 경우는 택배 발송이 가능하며, 이 경우 배송비는 5천원(단, 제주 및 도서 산간지역의 경우 배송비 1만원)입니다. 무게나 가격대에 따라 택배가 불가할 수 있습니다." xml:space="preserve">
+    <value>Courier delivery may be available for some items at a cost of KRW 5,000 (KRW 10,000 for Jeju Island and other remote regions). Availability of courier delivery may depend on the object’s weight and value.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #6</comment>
+  </data>
+  <data name="작가 설명" xml:space="preserve">
+    <value>Artist Infomation</value>
+    <comment>[Work] 05. 작가 설명</comment>
+  </data>
+  <data name="작가의 다른 작품들" xml:space="preserve">
+    <value>More works by this artist</value>
+    <comment>[Work] 10. 작가의 다른 작품들</comment>
+  </data>
+  <data name="작가의 참고 자료" xml:space="preserve">
+    <value>References for this artist</value>
+    <comment>[Work] 05. 작가 설명 - #1</comment>
+  </data>
+  <data name="작가의 영상 자료" xml:space="preserve">
+    <value>Video references for this artist</value>
+    <comment>[Work] 05. 작가 설명 - #2</comment>
+  </data>
+  <data name="작품 문의하기" xml:space="preserve">
+    <value>Inquire</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기</comment>
+  </data>
+  <data name="작품 정보" xml:space="preserve">
+    <value>Work information</value>
+    <comment>[Work] 04. 작품 정보</comment>
+  </data>
+  <data name="상세문의" xml:space="preserve">
+    <value>Inquire</value>
+    <comment>[Work] 03. PC 우측 - #10. 작품문의</comment>
+  </data>
+  <data name="작품의 참고 자료" xml:space="preserve">
+    <value>References for this work</value>
+    <comment>[Work] 04. 작품 정보 - #1</comment>
+  </data>
+  <data name="작품의 영상 자료" xml:space="preserve">
+    <value>Video references for this work</value>
+    <comment>[Work] 04. 작품 정보 - #1</comment>
+  </data>
+  <data name="전체" xml:space="preserve">
+    <value>Total</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #1. 탭</comment>
+  </data>
+  <data name="제출하기" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Work] 95. 모달 - 작품 문의하기 - 3. 버튼</comment>
+  </data>
+  <data name="직접 픽업시에는 방문을 원하시는 날짜 하루 전(주말의 경우 금요일, 연휴인 경우 연휴 시작 하루 전) 오후 5시까지 담당자와 픽업일정을 예약하신 후 방문해 주시기 바랍니다." xml:space="preserve">
+    <value>For in-person collection, please contact a K Auction specialist by 5 PM on the day prior to the desired appointment in order to arrange for collection. Appointments must be made by Friday for weekend collections or by the last business day before holiday periods for holiday collections.</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #8</comment>
+  </data>
+  <data name="총 구매대금" xml:space="preserve">
+    <value>Total Purchase Price</value>
+    <comment>[Work] 91.2 예시</comment>
+  </data>
+  <data name="최고 응찰가 설정" xml:space="preserve">
+    <value>Selecting a Maximum Bid Amount</value>
+    <comment>[Work] 99. 모달 - 최고 응찰가 설정</comment>
+  </data>
+  <data name="최고 응찰가가 동일한 경우, 먼저 등록된 응찰자에게 낙찰됩니다.​" xml:space="preserve">
+    <value>If two or more identical maximum bid amounts are registered, the bid registered first will take priority.</value>
+    <comment>[Work] 99. 모달 - 최고 응찰가 설정 #2</comment>
+  </data>
+  <data name="최고 응찰가를 선택하세요" xml:space="preserve">
+    <value>Please select a maximum bid amount.</value>
+    <comment>[Work] 80. 레이어 - 응찰내역 - #4</comment>
+  </data>
+  <data name="추정가" xml:space="preserve">
+    <value>Estimate</value>
+    <comment>[Work] 03. PC 우측 - #2. 추정가</comment>
+  </data>
+  <data name="픽업 가능시간: 월-일 10:30 am ~ 12pm/2pm~6pm" xml:space="preserve">
+    <value>Pick-up available : Mon-Sun 10:30 am - 12:00 pm / 2:00 pm - 6:00 pm</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #8.1</comment>
+  </data>
+  <data name="해외" xml:space="preserve">
+    <value>International</value>
+    <comment>[Work] 92. 모달 - 예상 배송비 #1. Table Header</comment>
+  </data>
+  <data name="현재가" xml:space="preserve">
+    <value>Current Bid</value>
+    <comment>[Work] 03. PC 우측 - #4. 현재가</comment>
+  </data>
+  <data name="현재가 구간 (원)" xml:space="preserve">
+    <value>Current Price (KRW)</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #01. Header</comment>
+  </data>
+  <data name="현재가 기준" xml:space="preserve">
+    <value>Based on current bid price</value>
+    <comment>[Work] 91. 모달 - 낙찰 수수료</comment>
+  </data>
+  <data name="현재가를 확인하시고 최고 응찰가를 설정하여 응찰하시면, 다른 응찰에 대응하여 설정한 금액까지 자동 응찰 됩니다.​" xml:space="preserve">
+    <value>Please check the current bid and select your maximum bid amount. Bids will be placed automatically against other bids up to your selected maximum bid amount.</value>
+    <comment>[Work] 99. 모달 - 최고 응찰가 설정 #1</comment>
+  </data>
+  <data name="호가 단위 (원)" xml:space="preserve">
+    <value>Bidding Increment (KRW)</value>
+    <comment>[Work] 93. 모달 - 경매 호가표 #01. Header</comment>
+  </data>
+  <data name="경매가 시작 전입니다." xml:space="preserve">
+    <value>Bidding has not yet opened</value>
+    <comment>[Work] 03. PC 우측 - #9. 버튼</comment>
+  </data>
+  <data name="별도문의" xml:space="preserve">
+    <value>Estimate upon Request</value>
+    <comment>[Work] 00. 공통 - 버튼</comment>
+  </data>
+  <data name="로그인 하시면 낙찰가를 확인하실 수 있습니다." xml:space="preserve">
+    <value>Log in to view the auction result.</value>
+    <comment>[Work] 03. PC 우측 - #3.1 낙찰가</comment>
+  </data>
+  <data name="경매 준비중" xml:space="preserve">
+    <value>Bidding has not yet opened</value>
+    <comment>[Work] 03. PC 우측 - #3.2 응찰 버튼</comment>
+  </data>
+  <data name="LOT번호 입력" xml:space="preserve">
+    <value>LOT</value>
+    <comment>[Work] 01. 상단 - 유틸 버튼</comment>
+  </data>
+  <data name="벽면 상단에 1m간격으로 눈금이 표시되어있습니다. 크기 가늠에 참고하시기 바랍니다." xml:space="preserve">
+    <value>The scale is marked at 1m intervals on the top and the bottom of the wall. Please refer to the size.</value>
+    <comment>[Work] 70. 뷰인룸 레이어 #2</comment>
+  </data>
+  <data name="벽면의 가로 폭 5m 공간에 맞게 축소 된 화면이며, 실제 작품 크기와 오차는 있을 수 있습니다." xml:space="preserve">
+    <value>It’s a screen that has been reduced to fit the space of 5m in width on the wall, and there may be an error with the actual work size.</value>
+    <comment>[Work] 70. 뷰인룸 레이어 #1</comment>
+  </data>
+  <data name="작품의 위치는 드래그하여 이동할 수 있습니다." xml:space="preserve">
+    <value>The position of the work can be moved by dragging.</value>
+    <comment>[Work] 70. 뷰인룸 레이어 #3</comment>
+  </data>
+  <data name="작품이 정상적으로 보이지 않을 경우, 새로고침으로 이미지를 갱신하시기 바랍니다. &lt;span style='cursor: pointer; color: #ff5d16; font-weight: 600;' onclick='refreshViewInRoom();'&gt;[새로고침]&lt;/span&gt;" xml:space="preserve">
+    <value>If the artwork appears abnormally sized, please refresh the page. &lt;span style='cursor: pointer; color: #ff5d16; font-weight: 600;' onclick='refreshViewInRoom();'&gt;[refresh]&lt;/span&gt;</value>
+    <comment>[Work] 70. 뷰인룸 레이어 #4</comment>
+  </data>
+  <data name="주소 정보 등록하기" xml:space="preserve">
+    <value>Add Address</value>
+    <comment>[Work] 00. 공통 - 버튼</comment>
+  </data>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #7 국가</comment>
+  </data>
+  <data name="모두 동의합니다." xml:space="preserve">
+    <value>I agree to all</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #11</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of recipient</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #9 받는사람</comment>
+  </data>
+  <data name="받는사람을 입력하세요." xml:space="preserve">
+    <value>Please enter recipients.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Detailed address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #4 주소</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter detailed address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="연락처1" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="연락처를 입력하세요." xml:space="preserve">
+    <value>Please enter your contact number.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal code</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #8 우편번호</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zip code.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="자택" xml:space="preserve">
+    <value>Home</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #12</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Address Search</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #3 버튼</comment>
+  </data>
+  <data name="주소 등록" xml:space="preserve">
+    <value>Register Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소 등록/수정" xml:space="preserve">
+    <value>Register/Modify Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="주소명" xml:space="preserve">
+    <value>Address name</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직장" xml:space="preserve">
+    <value>Office</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력" xml:space="preserve">
+    <value>Direct input</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter the direct input address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="취소1" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #5 버튼</comment>
+  </data>
+  <data name="근접배경으로 변경하기" xml:space="preserve">
+    <value>switch to narrow background</value>
+    <comment>[Work] 70. 뷰인룸 근접배경전환버튼 #1</comment>
+  </data>
+  <data name="일반배경으로 변경하기" xml:space="preserve">
+    <value>switch to wide background</value>
+    <comment>[Work] 70. 뷰인룸 근접배경전환버튼 #2</comment>
+  </data>
+  <data name="신용카드 본인인증" xml:space="preserve">
+    <value>Credit card authentication</value>
+    <comment>[Member] 90. 모달 - 인증 수단 선택 - #03 버튼</comment>
+  </data>
+  <data name="원하는 인증 수단을 선택하세요." xml:space="preserve">
+    <value>Select the authentication method</value>
+    <comment>[Member] 90. 모달 - 인증 수단 선택 - #02 설명</comment>
+  </data>
+  <data name="인증 수단 선택" xml:space="preserve">
+    <value>Select authentication</value>
+    <comment>[Member] 90. 모달 - 인증 수단 선택 - #01 제목</comment>
+  </data>
+  <data name="통신사 본인인증" xml:space="preserve">
+    <value>Mobile authentication</value>
+    <comment>[Member] 90. 모달 - 인증 수단 선택 - #03 버튼</comment>
+  </data>
+  <data name="&lt;span&gt;낙찰 시 배송을 위한&lt;/span&gt;&lt;strong&gt;배송지 주소&lt;/strong&gt;" xml:space="preserve">
+    <value>&lt;span&gt;For shipping&lt;/span&gt;&lt;strong&gt;Delivery address&lt;/strong&gt;</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="&lt;span&gt;통신사 또는 신용카드&lt;/span&gt;&lt;strong&gt;본인인증&lt;/strong&gt;" xml:space="preserve">
+    <value>&lt;span&gt;Mobile Phone or Credit Card&lt;/span&gt;&lt;strong&gt;Identity Verification&lt;/strong&gt;</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="경매 참여를 위한 준비사항​" xml:space="preserve">
+    <value>Requirements for auction participation</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="경매에 참여하려면 아래 조건 충족이 완료되어야 합니다." xml:space="preserve">
+    <value>In order to bid in the auction, the following information is needed</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="본인인증" xml:space="preserve">
+    <value>Self-authentication</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="응찰 필수정보 등록하기" xml:space="preserve">
+    <value>Register bidding required info</value>
+    <comment>[Work] 00. 공통 - 버튼</comment>
+  </data>
+  <data name="인증 된 정보는 회원정보로 활용됩니다.&lt;br /&gt;인증 수단을 선택하세요." xml:space="preserve">
+    <value>Certified information is used as member information.&lt;br /&gt;Select authentication.</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="인증받기" xml:space="preserve">
+    <value>Verify</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="입력하기" xml:space="preserve">
+    <value>Enter</value>
+    <comment>[Work] 97. 모달 - 경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="여권이나 다른 본인 인증 증명" xml:space="preserve">
+    <value>Passport or Other ID copy</value>
+    <comment>여권이나 다른 본인 인증 증명</comment>
+  </data>
+  <data name="경매 참여를 위한 준비사항" xml:space="preserve">
+    <value>Requirements for auction participation</value>
+    <comment>경매 참여를 위한 준비사항</comment>
+  </data>
+  <data name="증빙서류 검수 후 응찰이 가능합니다." xml:space="preserve">
+    <value>Bidding is possible after the verification of the supporting documents.</value>
+    <comment>증빙서류 검수 후 응찰이 가능합니다.</comment>
+  </data>
+  <data name="최고 응찰가를 선택하세요." xml:space="preserve">
+    <value>Please select a maximum bid amount.</value>
+    <comment>최고 응찰가를 선택하세요.</comment>
+  </data>
+  <data name="응찰내역을 보기 위해서 화면을 돌려주세요." xml:space="preserve">
+    <value>Please rotate the screen to view the bid history.</value>
+    <comment>응찰내역을 보기 위해서 화면을 돌려주세요.</comment>
+  </data>
+</root>

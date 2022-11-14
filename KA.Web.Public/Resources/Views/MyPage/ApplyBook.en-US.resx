@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="01. 도록 신청" xml:space="preserve">
+    <value>01. Application for a book</value>
+    <comment>[ApplicationBook] 02-1 도록신청</comment>
+  </data>
+  <data name="02. 입금" xml:space="preserve">
+    <value>02. Payment</value>
+    <comment>[ApplicationBook] 02-2 입금</comment>
+  </data>
+  <data name="03. 입금 확인" xml:space="preserve">
+    <value>03. Payment Confirmation</value>
+    <comment>[ApplicationBook] 02-3 입금 확인</comment>
+  </data>
+  <data name="※ 회원 본인 명의로 입금해 주셔야 확인이 가능합니다." xml:space="preserve">
+    <value>The wire transfer must be made under your name in order to be confirmed by K Auction.</value>
+    <comment>[ApplicationBook] 02-2 입금</comment>
+  </data>
+  <data name="계좌번호 : 하나은행 196-910005-07204 (케이옥션)" xml:space="preserve">
+    <value>Bank account number : Hana Bank 196-910005-07204 (K Auction)</value>
+    <comment>[ApplicationBook] 02-2 입금</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #7 국가</comment>
+  </data>
+  <data name="도록 구독료 : 연 10만원" xml:space="preserve">
+    <value>Subscription fee: KRW 100,000 a year</value>
+    <comment>[ApplicationBook] 02-2 입금</comment>
+  </data>
+  <data name="도록 서비스 신청하기" xml:space="preserve">
+    <value>Subscribe</value>
+    <comment>[ApplicationBook] 02-3 입금 확인</comment>
+  </data>
+  <data name="도록 서비스를 신청하시겠습니까?" xml:space="preserve">
+    <value>Would you like to apply for the service?</value>
+    <comment>[ApplicationBook] 03 확인 창</comment>
+  </data>
+  <data name="도록 신청" xml:space="preserve">
+    <value>Print Catalogue Subscription</value>
+    <comment>[ApplicationBook] 01. Breadcrumb</comment>
+  </data>
+  <data name="도록 신청이 완료 되었습니다. 입금확인 후 담당자가 연락 드리겠습니다." xml:space="preserve">
+    <value>Your application has been completed. The person in charge will contact you after checking the deposit.</value>
+    <comment>[ApplicationBook] 03 완료 창</comment>
+  </data>
+  <data name="도록신청" xml:space="preserve">
+    <value>Print Catalogue Subscription</value>
+    <comment>[ApplicationBook] 01. Breadcrumb</comment>
+  </data>
+  <data name="모두 동의합니다." xml:space="preserve">
+    <value>I agree to all</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #11</comment>
+  </data>
+  <data name="문의사항 : 02) 3479-8888" xml:space="preserve">
+    <value>Manager : +82-2-3479-8888</value>
+    <comment>[ApplicationBook] 02-2 입금</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of recipient</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #9 받는사람</comment>
+  </data>
+  <data name="받는사람을 입력하세요." xml:space="preserve">
+    <value>Please enter recipients.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Detailed address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #4 주소</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter detailed address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="연락처를 입력하세요." xml:space="preserve">
+    <value>Please enter your contact number.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal code</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #8 우편번호</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zip code.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="입금 완료 후 3일 이내에 확인 연락 드립니다." xml:space="preserve">
+    <value>K Auction staff will contact you to confirm your subscription within 3 days of the payment.</value>
+    <comment>[ApplicationBook] 02-3 입금 확인</comment>
+  </data>
+  <data name="자택" xml:space="preserve">
+    <value>Home</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #12</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Address Search</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #3 버튼</comment>
+  </data>
+  <data name="주소 등록" xml:space="preserve">
+    <value>Register Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소 등록/수정" xml:space="preserve">
+    <value>Register/Modify Address</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="주소명" xml:space="preserve">
+    <value>Address name</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직장" xml:space="preserve">
+    <value>Office</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력" xml:space="preserve">
+    <value>Direct input</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter the direct input address.</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[ApplicationBook] 99. 모달 - 주소 등록/수정 - #5 버튼</comment>
+  </data>
+  <data name="하단의 [도록 서비스 신청하기] 버튼 클릭하여 신청" xml:space="preserve">
+    <value>Click the [Subscribe] button below to subscribe to our print catalogue.</value>
+    <comment>[ApplicationBook] 02-1 도록신청</comment>
+  </data>
+</root>

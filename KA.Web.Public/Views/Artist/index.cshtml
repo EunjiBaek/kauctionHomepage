@@ -1,0 +1,603 @@
+<style>
+    .header,
+    .footer,
+    #alltop-btn,
+    #quick-menu,
+    #quick-menu-cnt {
+        display: none !important;
+    }
+
+    .list-loading-ani {
+        display: none;
+    }
+    .content {
+        padding-bottom: 0 !important;
+    }
+    .footer-padding {
+        display: none !important;
+    }
+</style>
+
+<div id="artist-scroll-box" class="artist-scroll-box">
+    <div class="artist-filter-wrap">
+        <div>
+            <ul class="lang-li langlist">
+                <li class="active">
+                    <a href="#">가나다</a>
+                </li>
+                <li>
+                    <a href="#">ABC</a>
+                </li>
+            </ul>
+            <div class="artist-scrollbox-scroll-wrap">
+                <div id="artist-tab" class="tab_cnt artist-tab-row">
+                    <div>
+                        <ul class="ko-li">
+                            <li><a href="#">가</a></li>
+                            <li><a href="#">나</a></li>
+                            <li><a href="#">다</a></li>
+                            <li><a href="#">라</a></li>
+                            <li><a href="#">마</a></li>
+                            <li><a href="#">바</a></li>
+                            <li><a href="#">사</a></li>
+                            <li><a href="#">아</a></li>
+                            <li><a href="#">자</a></li>
+                            <li><a href="#">차</a></li>
+                            <li><a href="#">카</a></li>
+                            <li><a href="#">타</a></li>
+                            <li><a href="#">파</a></li>
+                            <li><a href="#">하</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul class="en-li">
+                            <li><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                            <li><a href="#">E</a></li>
+                            <li><a href="#">F</a></li>
+                            <li><a href="#">G</a></li>
+                            <li><a href="#">H</a></li>
+                            <li><a href="#">I</a></li>
+                            <li><a href="#">J</a></li>
+                            <li><a href="#">K</a></li>
+                            <li><a href="#">L</a></li>
+                            <li><a href="#">M</a></li>
+                            <li><a href="#">N</a></li>
+                            <li><a href="#">O</a></li>
+                            <li><a href="#">P</a></li>
+                            <li><a href="#">Q</a></li>
+                            <li><a href="#">R</a></li>
+                            <li><a href="#">S</a></li>
+                            <li><a href="#">T</a></li>
+                            <li><a href="#">U</a></li>
+                            <li><a href="#">V</a></li>
+                            <li><a href="#">W</a></li>
+                            <li><a href="#">X</a></li>
+                            <li><a href="#">Y</a></li>
+                            <li><a href="#">Z</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <span class="artist-tab-gradient"></span>
+            </div>
+        </div>
+        <div class="artist-row">
+            <div class="search-wrap">
+                <i class="fas fa-search fa-fw"></i>
+                <input 
+                class="search_default" type="search" placeholder="작가명 검색">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="artist-section" class="artist-section">
+    <div class="artist-cnt">
+        <div class="artist-row">
+            <h1 class="tit">Artist DB</h1>
+        </div>
+        <div class="artist-filter-wrap">
+    
+            <ul class="lang-main-li langlist">
+                <li class="active"><a href="#">가나다</a></li>
+                <li><a href="#">ABC</a></li>
+            </ul>
+            <div class="artist-scroll-wrap">
+                <div id="artist-main-tab" class="tab_cnt artist-tab-row">
+                    <div>
+                        <ul class="ko-li">
+                            <li><a href="#">가</a></li>
+                            <li><a href="#">나</a></li>
+                            <li><a href="#">다</a></li>
+                            <li><a href="#">라</a></li>
+                            <li><a href="#">마</a></li>
+                            <li><a href="#">바</a></li>
+                            <li><a href="#">사</a></li>
+                            <li><a href="#">아</a></li>
+                            <li><a href="#">자</a></li>
+                            <li><a href="#">차</a></li>
+                            <li><a href="#">카</a></li>
+                            <li><a href="#">타</a></li>
+                            <li><a href="#">파</a></li>
+                            <li><a href="#">하</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul class="en-li">
+                            <li><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                            <li><a href="#">E</a></li>
+                            <li><a href="#">F</a></li>
+                            <li><a href="#">G</a></li>
+                            <li><a href="#">H</a></li>
+                            <li><a href="#">I</a></li>
+                            <li><a href="#">J</a></li>
+                            <li><a href="#">K</a></li>
+                            <li><a href="#">L</a></li>
+                            <li><a href="#">M</a></li>
+                            <li><a href="#">N</a></li>
+                            <li><a href="#">O</a></li>
+                            <li><a href="#">P</a></li>
+                            <li><a href="#">Q</a></li>
+                            <li><a href="#">R</a></li>
+                            <li><a href="#">S</a></li>
+                            <li><a href="#">T</a></li>
+                            <li><a href="#">U</a></li>
+                            <li><a href="#">V</a></li>
+                            <li><a href="#">W</a></li>
+                            <li><a href="#">X</a></li>
+                            <li><a href="#">Y</a></li>
+                            <li><a href="#">Z</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <span class="artist-tab-gradient"></span>
+            </div>
+
+            <div class="artist-row">
+                <div class="search-wrap">
+                    <i class="fas fa-search fa-fw"></i>
+                    <input 
+                    class="search_default" type="search" placeholder="작가명 검색">
+                </div>
+            </div>
+
+        </div>
+        <div class="artist-list-wrap">
+            <div class="artist-row">
+                <article class="common">
+                    <p class="title">
+                        가
+                    </p>
+                    <div class="artist_list">
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+                                <div>
+                                    <img src="https://s3-kauction-www-release.s3.ap-northeast-2.amazonaws.com/www/Work/0153/M0153002001.jpg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </article>
+
+                <article class="common">
+                    <p class="title">
+                        가
+                    </p>
+                    <div class="artist_list">
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+                                <div>
+                                    <img src="https://s3-kauction-www-release.s3.ap-northeast-2.amazonaws.com/www/Work/0153/M0153002001.jpg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+                        <div class="list-box">
+                            <div class="info">
+                                <strong class="ko-name">김상준</strong>
+                                <strong class="en-name">Kim sang don</strong>
+                            </div>
+
+                            <div class="img-wrap">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    
+
+        <footer class="artist-footer">
+            <div class="artist-row">
+                <strong>K Auction</strong>
+                <p>Copyright ⓒ K Auction. All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<div id="artist-modal">
+    <div class="bar">
+        <div class="close-btn"></div>
+
+        <div class="icon-wrap">
+            <div class="icon heart" data-click="0"><span></span></div>
+            <div class="icon"><span></span></div>
+        </div>
+    </div>
+    <div class="info">
+        <article class="work_info">
+            <div class="img">
+                <img src="https://s3-kauction-www-release.s3.ap-northeast-2.amazonaws.com/www/KMall/Work/0126/12605401001_L.jpg" loading="lazy" alt="" />
+            </div>
+            <div class="cnt">
+                <strong class="name">홍길동</strong>
+                <p class="en_name">gil-dong hong</p>
+                <div class="year">대한민국ㅣb.1900 ~ 1900</div>
+            </div>
+        </article>  
+        <div class="title">
+            <span>작가소개</span>
+        </div>
+        <article class="writer_info">
+            <div class="writer-img">
+                <img src="https://s3-kauction-www-release.s3.ap-northeast-2.amazonaws.com/www/Notice/20220729091244.png">
+            </div>
+            <div class="writer-desc">
+                <p>
+                홍길동 작가는 많은 이들의 추억이 있는 ‘골목 속의 구멍가게’를 그린다. 그림을 시작하고 오늘날까지 20여년간 낡은 구멍가게를 그리고 있는 작가에게 그 가게는 단순한 추억만으로 끝나지 않는다. 서울예고와 홍대를 나온 미술 엘리트 코스를 밟았음에도 불구하고 일찍 결혼을 하며 두 아이를 출산하는 바람에 자연스럽게 그림 그리기를 멈출 수 밖에 없었다. 고된 육
+                </p>
+            </div>
+        </article>
+        <div class="title">
+            <span>약력</span>
+        </div>
+        <article class="writer_history">
+            <p>2022 봄파머스가든 갤러리, 양평<br/>
+                2021 갤러리이마주, 서울 <br/>
+                2020 갤러리이마주, 서울<br/>
+                2019 서울대 관정갤러리, 서울 <br/>
+                2018 갤러리이마주, 서울<br/>
+                2017 갤러리이마주, 서울<br/>
+                2016 통인옥션갤러리, 서울<br/>
+                2015 아티온갤러리, 서울<br/>
+                2018 갤러리이마주, 서울<br/>
+                2017 갤러리이마주, 서울<br/>
+                2016 통인옥션갤러리, 서울<br/>
+                2015 아티온갤러리, 서울</p>
+        </article>
+        <div class="title">
+            <span>작가 자료</span>
+        </div>
+        <article class="writer-data">
+
+            <div class="w-video">
+                <img src="https://img.youtube.com/vi/vCvC4A0wNvo/mqdefault.jpg">
+                <img class="play-img" src="/img/icons/work-playbtn@1x.png" srcset="/img/icons/work-playbtn@1x.png 1x,/img/icons/work-playbtn@2x.png 2x,/img/icons/work-playbtn@3x.png 3x">
+                <div class="hover-box"></div>
+            </div>
+
+            <div class="no-img-link">
+                <img class="iconImg" src="/img/icons/link_cnt_icon.png">
+                <div class="link-cnt">
+                    <p>Lee Ufan: Open Dimension (출처: Hirshhorn Museum Website)</p>
+                </div>
+            </div>
+            
+        </article>
+        <div class="title">
+            <span>작품 정보</span>
+        </div>
+        <article class="work-data">
+            <div class="w-auction">
+                <img src="https://s3-kauction-www-release.s3.ap-northeast-2.amazonaws.com/www/Work/0153/T/M0153033001_L.jpg">
+                <div class="current-msg">
+                    <span class="msg">진행중</span>
+                    <span class="icon"></span>
+                </div>
+                <div class="hover-box">
+                    <div class="info">
+                        <p class="name">회귀 SH097013</p><p class="cnt">80×195cm</p>
+                        <p class="price-tit">시작가</p>
+                        <p class="start-bid">KRW <span>60,000,000</span></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        //https://www.k-auction.com/api/Auction/AuctionWorkArtists
+     
+            'use strict'
+
+
+            class ModalDispaly {
+
+                constructor(element) {
+                    this.$element = document.querySelector(`#${element}`);
+                    this.$body = document.querySelector('body');
+                }
+
+                elOpen = () => {
+                    this.$element.classList.add("on");
+                    this.$body.classList.add('scroll_lock');
+                }
+
+                elClose = () => {
+                    this.$element.classList.remove("on");
+                    this.$body.classList.remove('scroll_lock');
+                }
+
+            }
+
+            let modal = new ModalDispaly('artist-modal');
+            const artistList = document.querySelectorAll('.artist_list .list-box'),
+                artistClose = document.querySelector('#artist-modal .bar .close-btn'),
+                artistListScrollWrap = document.querySelector('.artist-scroll-wrap > .tab_cnt'),
+                artistListScrollBoxWrap = document.querySelector('.artist-scrollbox-scroll-wrap > .tab_cnt'),
+                artistLikeBtn = document.querySelector('#artist-modal .bar .icon-wrap .icon.heart')
+
+
+            artistList.forEach(el => {
+                el.addEventListener('click', e => {
+                    modal.elOpen()
+                });
+            });
+            
+            artistClose.addEventListener('click', (e) => {
+                modal.elClose()
+            });
+
+
+            const inputObj = document.querySelectorAll(".search-wrap > input");   
+
+            inputObj.forEach(el => {
+                el.addEventListener('focus', (e)=> {
+                    let target = e.currentTarget;
+                    target.parentElement.classList.add('on');
+                })
+
+                el.addEventListener('blur', (e)=> {
+                    let target = e.currentTarget;
+                    target.parentElement.classList.remove('on');
+                })
+            });
+
+
+            if (matchMedia("screen and (max-width: 768px)").matches) {
+                $.commonUtils.tabMenu($('.lang-li'), 'artist-tab');
+                $.commonUtils.tabMenu($('.lang-main-li'), 'artist-main-tab');
+            } else {
+                document.querySelectorAll('.tab_cnt > div').forEach((el) => {
+                    el.style.display = "block";
+                });
+            }
+
+
+
+            document.querySelectorAll('.artist_list .list-box .info').forEach(el => {
+                el.addEventListener('mouseenter', (el) => {
+                    el.currentTarget.nextElementSibling.style.display = 'flex';
+                });
+
+                el.addEventListener('mouseleave', (el) => {
+                    el.currentTarget.nextElementSibling.style.display = 'none';
+                });
+            });
+
+
+            const resizeScrollEvent = () => {
+                if (matchMedia("screen and (max-width: 768px)").matches) {
+                    $.commonUtils.tabMenu($('.lang-li'), 'artist-tab');
+                    $.commonUtils.tabMenu($('.lang-main-li'), 'artist-main-tab');
+                } else {
+                    document.querySelectorAll('.tab_cnt > div').forEach((el) => {
+                        el.style.display = "block";
+                    });
+                }
+            };
+
+
+        
+            function arrowScrollEvent (el, arrow) {
+                this.name = 'active';
+                this.$el = document.querySelector(`${el}`);
+                this.$arrow = document.querySelector(`${arrow}`);
+
+                this.gradientOpen = function() {
+                    if (this.$el.scrollWidth > this.$el.clientWidth) {
+                        this.addName();
+                    } else {
+                        this.removeName();   
+                    }
+                }
+
+                this.scrollEvent = function () {
+                    if (this.$el.scrollWidth - (this.$el.scrollLeft + this.$el.clientWidth) + 1 < 10) {
+                        this.removeName();
+                    } else {
+                        this.addName();
+                    }
+                }
+                
+
+                this.addName = function () {
+                    this.$arrow.classList.add(this.name);
+                }
+
+                this.removeName = function () {
+                    this.$arrow.classList.remove(this.name)
+                }
+            }
+
+
+            let element = new arrowScrollEvent('.artist-scroll-wrap > .tab_cnt', '.artist-scroll-wrap > .artist-tab-gradient');
+            let elementbox = new arrowScrollEvent('.artist-scrollbox-scroll-wrap > .tab_cnt', '.artist-scrollbox-scroll-wrap > .artist-tab-gradient');
+
+            element.gradientOpen();
+
+            artistListScrollWrap.addEventListener('scroll', function(e){
+                element.scrollEvent();
+            });
+            
+
+
+            window.addEventListener('resize', resizeScrollEvent);
+            window.addEventListener('scroll', () => { 
+                let scroll = window.scrollY;
+                const scrollBox = document.querySelector('.artist-scroll-box');
+                if (scroll > 0) {
+                    scrollBox.classList.add('on');
+                    elementbox.gradientOpen();
+                    artistListScrollBoxWrap.addEventListener('scroll', function(e){
+                        elementbox.scrollEvent();
+                    });
+                } else {
+                    scrollBox.classList.remove('on');
+                }
+            });
+
+
+            artistLikeBtn.addEventListener('click', (e) => {
+                let target = e.currentTarget;
+                if (target.getAttribute('data-click') === "0") {
+                    target.classList.add('on');
+                    target.dataset.click = "1";
+                } else {
+                    target.classList.remove('on');
+                    target.dataset.click = "0";
+                }
+            });
+
+    </script>
+}

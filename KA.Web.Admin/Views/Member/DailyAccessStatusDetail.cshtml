@@ -1,0 +1,80 @@
+﻿
+<style>
+    .jsgrid-header-cell {
+        text-align: center !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">회원 일일 접속 현황 (상세)</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left"><label id="total-record"></label></div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group" style="float: right;">
+                            <span class="btn btn-secondary" style="height: 35px; cursor: pointer; float: right;" onclick="excelDownload();">엑셀</span>
+                            <span class="btn btn-primary m-r-5" style="height: 35px; cursor: pointer; float: right;" onclick="history.back();">목록</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers"><ul class="pagination"></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var requestParam = {};
+    requestParam["proc_date"] = "@ViewBag.Date";
+
+    $(document).ready(function () {
+        getList();
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData('/api/Member/GetDailyAccessStatusDetailList', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "mem_uid", type: "text", title: "회원 고유번호", width: "10%" },
+                { name: "mem_name", type: "text", title: "회원 이름", width: "10%" },
+                { name: "type", type: "text", title: "접속 유형", width:"5%" },
+                { name: "user_agent", type: "text", title: "접속 에이전트" },
+                { name: "reg_date", type: "text", title: "최종 접속시간", width: "10%" }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function excelDownload() {
+        $("#excel-mode").val("daily_access_detail");
+        $("#excel-data").val(JSON.stringify(requestParam));
+        $("#btn-excel").click();
+    }
+
+</script>

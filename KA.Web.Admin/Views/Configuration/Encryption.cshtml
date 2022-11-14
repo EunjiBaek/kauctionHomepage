@@ -1,0 +1,51 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">암호화/복호화</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>[입력값]</label>
+                        <textarea class="form-control" rows="5" id="inputValue"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 m-t-10">
+                        <button class="btn btn-primary btn-encrypt" data-type="E">암호화</button>
+                        <button class="btn btn-secondary btn-encrypt" data-type="D" >복호화</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 m-t-10">
+                        <label>[결과]</label>
+                        <textarea class="form-control" rows="5" id="inputResult" readonly="readonly" style="background-color: #fff; color: #212121;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(".btn-encrypt").on("click", function () {
+        var value = $("#inputValue").val();
+        if (value.replace(/ /ig, "") === "") {
+            $.commonUtils.alert("암호화/복호화 할 값을 입력하세요.");
+            return false;
+        }
+
+        let param = {};
+        param["mode"] = $(this).attr("data-type");
+        param["value"] = value;
+        var result = $.ajaxUtils.getApiData("/api/Configuration/GetEncryptData", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#inputResult").html(result.message);
+        } else {
+            $.commonUtils.alert("처리중 에러가 발생하였습니다.");
+        }
+    });
+
+</script>

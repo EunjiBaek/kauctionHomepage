@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.RegisterViewModel
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    string GetAgreementTag(string value)
+    {
+        return value.Equals("Y") ? $"<span class='text-primary fs-12'>({L["필수"].Value})</span>" : $"<span class='hint-text fs-12'>({L["선택"].Value})</span>";
+    }
+}
+
+<breadcrumb titles="@L["약관 동의"].Value" />
+<div class="container m-b-20 p-b-20">
+    <div>
+        <div class="card card-transparent my-0">
+            <div class="card-body p-t-20">
+                <h3 class="m-b-20 fw-100 pull-left" style="display: block !important;">1. @L["이용 약관"]</h3>
+                <div class="clearfix"></div>
+                <h4 class="m-b-20 fw-100 pull-left" style="display: block !important;">@Html.Raw(ViewBag.Info)</h4>
+                <div class="clearfix"></div>
+                <div class="form-check fs18 checkbox-circle primary m-b-0">
+                    <input type="checkbox" id="check-agreement-all" value="">
+                    <label for="check-agreement-all" class="fs-18 fw-700 text-">@L["전체 약관에 동의합니다."]</label>
+                </div>
+            </div>
+        </div>
+        <div class="card-group horizontal" id="agreements">
+            @foreach (var item in Model.memberClauses)
+            {
+                <div class="card card-default">
+                    <div class="card-header separator" id="agreement-heading-@item.Code">
+                        <div class="card-title">
+                            <div class="form-check fs16 checkbox-circle primary m-b-0">
+                                <input type="checkbox" id="check-agreement-@item.Code" value="" data-required="@item.RequiredYN">
+                                <label for="check-agreement-@item.Code" class="fs-16 m-b-10">@item.DisplayCodeName @Html.Raw(GetAgreementTag(item.RequiredYN))</label>
+                            </div>
+                            <a class="collapsed" data-toggle="collapse" href="#collapse-agreement-@item.Code" aria-expanded="false" aria-controls="collapse-agreement-@item.Code"></a>
+                        </div>
+                    </div>
+                    <div id="collapse-agreement-@item.Code" class="collapse show" data-parent="#agreements" aria-labelledby="agreement-heading-@item.Code">
+                        <div class="card-body scrollable h-px-300">
+                            <div class="padding-20 sm-padding-10">
+                                @Html.Raw(item.DisplayContent)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card card-transparent my-0">
+        <div class="card-body">
+            <div class="row justify-content-center m-t-20 m-b-20">
+                <div class="col-lg-6">
+                    <button aria-label="" class="btn btn-cta btn-primary pull-right btn-lg btn-block fs-16" type="submit" onclick="return validate();">@L["이용 약관 동의"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id = "@ViewBag.ID";
+    var type = "@ViewBag.Type";
+    var requireMobileAuth = "@ViewBag.RequireMobileAuth";    
+
+    $('#check-agreement-all').click(function () {
+        var checkedStatus = this.checked;
+        $('#agreements').find('input:checkbox').each(function () {
+            $(this).prop('checked', checkedStatus);
+        });
+    });
+
+    function validate() {
+        var agree = true;
+        var checkEl = $('#agreements').find('input:checkbox');
+        $.each(checkEl, function (index, item) {
+            if (item.dataset.required === "Y" && !item.checked) {
+                agree = false;
+            }
+        });
+        if (!agree) {
+            $.commonUtils.alert(ka.msg.join.memAgreementEmpty);
+            return false;
+        }
+        if (requireMobileAuth === "Y") {
+            $.commonUtils.confirm(ka.msg.join.termsAgree, ka.msg.join.confirmTermsAgreeWithMobileAuth, "$.joinUtils.openAuth(" + parseInt(type, 10).toString() + ", 'M', 'A', '" + id + "');");
+        } else {
+            $.commonUtils.confirm(ka.msg.join.termsAgree, ka.msg.join.confirmTermsAgree, "requestProc();");
+        }
+    }
+
+    function requestProc(seq) {
+        var param = {};
+        param["id"] = id;
+        param["seq"] = typeof seq === "string" ? seq : "";
+        var result = $.ajaxUtils.getApiData("/api/Member/SetAgreement", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/";
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+    }
+
+</script>

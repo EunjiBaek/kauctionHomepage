@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="* 경매 추정가(estimate)/프라이빗 세일(private sale)/자산평가(estate)/보험가(insurance)/담보평가(loan collateral) 등 목적에 따라 가치평가 서비스를 이용하실 수 있습니다." xml:space="preserve">
+    <value>* We offer appraisals for all purposes, including auction estimates, private sales, estate valuations, insurance valuations, and loan collateral valuations.</value>
+    <comment>[Corporate Collections] 03. 가치평가 - 설명 #3</comment>
+  </data>
+  <data name="TEL: 02-3479-5824" xml:space="preserve">
+    <value>TEL: +82-2-3479-5824</value>
+    <comment>[Corporate Collections] 06. 하단 - 전화번호</comment>
+  </data>
+  <data name="가치평가" xml:space="preserve">
+    <value>Appraisals</value>
+    <comment>[Corporate Collections] 03. 가치평가</comment>
+  </data>
+  <data name="기업 이미지에 적합한 미술품으로 사옥 및 사무실 공간 분위기를 새롭게 할 수 있도록 작품을 선별, 제안하고 합리적인 가격으로 구매하실 수 있게 도와드립니다." xml:space="preserve">
+    <value>We assist corporations in selecting and acquiring artworks at reasonable prices to revitalize their office spaces.</value>
+    <comment>[Corporate Collections] 05. 작품구매 - 설명 #1</comment>
+  </data>
+  <data name="기업 컬렉션" xml:space="preserve">
+    <value>Corporate Collections</value>
+    <comment>[Corporate Collections] 01. 상단</comment>
+  </data>
+  <data name="기업 컬렉션의 전문적인 관리와 시스템 구축을 위해 필요한 서비스를 제공하고 있습니다." xml:space="preserve">
+    <value>We offer services to assist in creating a long-term professional management system of your corporate collection.</value>
+    <comment>[Corporate Collections] 05. 컬렉션 관리 및 특별 이벤트 - 설명 #1</comment>
+  </data>
+  <data name="또 기업 맞춤형 기획 전시와 특별 경매 등의 이벤트를 진행할 수 있습니다." xml:space="preserve">
+    <value>We also assist in planning for special exhibitions and auctions, designed to utilize your collection to the utmost.</value>
+    <comment>[Corporate Collections] 05. 컬렉션 관리 및 특별 이벤트 - 설명 #3</comment>
+  </data>
+  <data name="문의" xml:space="preserve">
+    <value>Inquiries</value>
+    <comment>[Corporate Collections] 06. 하단</comment>
+  </data>
+  <data name="미술작품의 촬영, 정보 조사, 작품 상태 확인 등 미술품의 데이터 정리 작업과 수장고 관리 등 케이옥션의 전문성과 오랜 경험을 바탕으로 한 특별한 서비스를 이용할 수 있습니다." xml:space="preserve">
+    <value>Our expertise comprises all aspects of collection management, from imaging and documentation to artwork research, inspection, and condition reporting.</value>
+    <comment>[Corporate Collections] 05. 컬렉션 관리 및 특별 이벤트 - 설명 #2</comment>
+  </data>
+  <data name="신뢰와 품격의 미술품 경매회사 케이옥션은 기업소장 미술품을 대상으로 한 다양한 서비스를 제공하고 있습니다." xml:space="preserve">
+    <value>A byword for confidence and taste, K Auction offers an array of services for corporate art collections.</value>
+    <comment>[Corporate Collections] 02. Corporate Collection Services - #1</comment>
+  </data>
+  <data name="영업관리팀" xml:space="preserve">
+    <value>Sales Management Team</value>
+    <comment>[Corporate Collections] 06. 하단 - 담당자</comment>
+  </data>
+  <data name="예산 맞춤형 컬렉션을 구성하고, 구매에 수반되는 운송과 보험, 설치 등의 부가적인 서비스를 기업의 상황에 맞게 지원함과 동시에 컬렉션의 향후 구성과 방향성까지 컨설팅해 드립니다." xml:space="preserve">
+    <value>Our specialists are available to consult with you on every aspect of building a collection, from selecting artworks within your acquisition budget, transport, insurance, and installation, to the future direction and management of your collection.</value>
+    <comment>[Corporate Collections] 05. 작품구매 - 설명 #2</comment>
+  </data>
+  <data name="이를 위해 케이옥션 전문가의 가치 평가를 바탕으로 케이옥션의 다양한 경매시스템(메이저, 프리미엄, 위클리)과 프라이빗 세일 등을 활용할 수 있습니다." xml:space="preserve">
+    <value>To this end, K-Auction's various auction systems (Major, Premium, Weekly) and private sales can be used based on the value evaluation of K-Auction experts.</value>
+    <comment>[Corporate Collections] 04. 작품판매 - 설명 #2</comment>
+  </data>
+  <data name="입체/조각/설치를 아우르는 국내외 근현대 미술품부터 한국화 및 회화, 서예, 불교미술, 도자기, 민속품에 이르는 고미술품까지 기업이 보유한 각종 미술품의 가치를 평가해 드립니다." xml:space="preserve">
+    <value>We offer appraisals for all modern and contemporary artworks including sculpture and installation as well as Korean traditional art including ink paintings, calligraphy, Buddhist art, porcelain, and craft objects.</value>
+    <comment>[Corporate Collections] 03. 가치평가 - 설명 #2</comment>
+  </data>
+  <data name="작품구매" xml:space="preserve">
+    <value>Acquisitions</value>
+    <comment>[Corporate Collections] 05. 작품구매</comment>
+  </data>
+  <data name="작품판매" xml:space="preserve">
+    <value>Sales</value>
+    <comment>[Corporate Collections] 04. 작품판매</comment>
+  </data>
+  <data name="컬렉션 관리 및 특별 이벤트" xml:space="preserve">
+    <value>Collection Management and Special Occasions</value>
+    <comment>[Corporate Collections] 05. 컬렉션 관리 및 특별 이벤트</comment>
+  </data>
+  <data name="케이옥션은 기업이 소장하고 있는 미술품의 가치를 평가(Appraisal)할 수 있는 오랜 경험을 가진 숙련된 전문가와 전문적인 시스템을 갖추고 있습니다." xml:space="preserve">
+    <value>With our knowledgeable specialists and expert system, K Auction is singularly equipped to appraise the value of your corporate collection.</value>
+    <comment>[Corporate Collections] 03. 가치평가 - 설명 #1</comment>
+  </data>
+  <data name="케이옥션은 기업컬렉션을 기업의 조건에 맞추어 최단 시간에 최대의 결과를 실현시킬 수 있는 맞춤형 매각 서비스를 제공합니다." xml:space="preserve">
+    <value>K Auction provides individualized sales strategies to achive the highest prices for your corporate collection in the quickest time frame possible.</value>
+    <comment>[Corporate Collections] 04. 작품판매 - 설명 #1</comment>
+  </data>
+  <data name="케이옥션의 각 분야 전문가들은 기업 소장품이 제대로 가치평가 받을 수 있도록 항상 노력하고 있습니다." xml:space="preserve">
+    <value>Our experts in every field will assist you to maximize the value of your collection.</value>
+    <comment>[Corporate Collections] 02. Corporate Collection Services - #2</comment>
+  </data>
+</root>

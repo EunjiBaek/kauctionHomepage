@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #7 국가</comment>
+  </data>
+  <data name="낙찰 시에는 낙찰대금 외에 15%의 구매 수수료 (부가세 별도) 및 기타 비용 (발생 시)도 같이 납부하여야 합니다." xml:space="preserve">
+    <value>In the case of a successful bid, a 15% Buyer’s Premium (excluding VAT) as well as any other applicable fees and taxes will be charged in addition to the hammer price.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #6</comment>
+  </data>
+  <data name="낙찰 후 취소하고자 하는 경우, 낙찰자는 낙찰철회비로 낙찰가의 30%에 해당하는 금액을 납부하여야 하므로 신중하게 응찰하시기 바랍니다." xml:space="preserve">
+    <value>Please bid carefully as a Buyer Withdrawal Fee of 30% of the hammer price must be paid in order to cancel a winning bid.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #7</comment>
+  </data>
+  <data name="내용을 입력하려면 동의가&lt;br /&gt; 필요합니다" xml:space="preserve">
+    <value>You need consent to enter the content.</value>
+    <comment>[BidApplication] 99. 팝업 (개인정보 수집 이용)</comment>
+  </data>
+  <data name="담당자" xml:space="preserve">
+    <value>Sales Team Specialist</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #6. 담당자</comment>
+  </data>
+  <data name="담당자 내선번호" xml:space="preserve">
+    <value>Specialist Telephone No.</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #8. 담당자 내선번호</comment>
+  </data>
+  <data name="담당자 이메일" xml:space="preserve">
+    <value>Specialist Email Address</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #7. 담당자 이메일</comment>
+  </data>
+  <data name="라이브 응찰 시 서면, 전화 응찰과 병행할 경우 이중 응찰이 될 수 있으니 주의 바랍니다." xml:space="preserve">
+    <value>Please note that if you bid live online for a lot on which you have also placed a absentee or telphone bid, you may be bidding against yourself.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #5</comment>
+  </data>
+  <data name="메이저 경매" xml:space="preserve">
+    <value>Major Auction</value>
+    <comment>[LiveRequest] 01. 상단 - Breadcrumb #1</comment>
+  </data>
+  <data name="모두 동의합니다." xml:space="preserve">
+    <value>I agree to all</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #11</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of recipient</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #9 받는사람</comment>
+  </data>
+  <data name="받는사람을 입력하세요." xml:space="preserve">
+    <value>Please enter recipients.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Detailed address</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #4 주소</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter detailed address.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="생년월일" xml:space="preserve">
+    <value>Date of Birth</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #2. 생년월일</comment>
+  </data>
+  <data name="신청 및 응찰 시 유의사항" xml:space="preserve">
+    <value>Important Notices for Online Live-Bidding</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항</comment>
+  </data>
+  <data name="신청자 정보" xml:space="preserve">
+    <value>Bidder Information</value>
+    <comment>[LiveRequest] 02. 신청자 정보</comment>
+  </data>
+  <data name="신청자는 온라인라이브응찰과 관련된 부분을 포함하여 당사 홈페이지, 경매 약관 및 유의사항 등에 기재된 내용(특히 중요 사항)을 반드시 읽고 숙지하셔야 합니다." xml:space="preserve">
+    <value>Prospective bidders must read and understand all contents (particularly with regard to the Important Notices) displayed on our website, the Auction Terms &amp; Conditions and other notices, including contents regarding online live-bidding.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #2</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Tel</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="연락처1" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #10 연락처</comment>
+  </data>
+  <data name="연락처를 입력하세요." xml:space="preserve">
+    <value>Please enter your contact number.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="온라인 라이브응찰 신청" xml:space="preserve">
+    <value>Apply for online live bidding</value>
+    <comment>[LiveRequest] 01. 상단 - Breadcrumb #2</comment>
+  </data>
+  <data name="온라인 라이브응찰 참가신청서" xml:space="preserve">
+    <value>Online live bidding application form</value>
+    <comment>[LiveRequest] 01. 상단 - Breadcrumb #2</comment>
+  </data>
+  <data name="온라인라이브응찰 가능 여부는 당사 검토 후 확정됩니다. 신청 결과는 이메일로 전달되니 이메일 주소를 다시 한번 확인해 주시기 바랍니다." xml:space="preserve">
+    <value>The availability of online live bidding will be confirmed after our review. The result will be sent to you by email, so please check your email address again.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #1</comment>
+  </data>
+  <data name="온라인라이브응찰은 실시간 응찰의 특성 상 응찰하기 버튼 클릭 즉시 응찰이 당사에 수령되고 응찰 취소가 불가합니다." xml:space="preserve">
+    <value>Bids submitted through online live-bidding are accepted as soon as the “Place Bid” button is clicked. By bidding online, you accept and agree that such bids are final and cannot be modified or retracted under any circumstances.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #3</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal code</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #8 우편번호</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zip code.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="위 내용 및 그와 관련된 내용들을 읽고 이해하였으며 동의하므로 이에 신청합니다." xml:space="preserve">
+    <value>I have read, understood, and agree to be bound by the above and related information, and therefore submit my registration.</value>
+    <comment>[LiveRequest] 04. 동의</comment>
+  </data>
+  <data name="응찰자의 단말기, 통신 환경 등에 따라 응찰 수령 속도의 차이가 있을 수 있습니다." xml:space="preserve">
+    <value>Depending on the bidder's terminal, communication environment, etc., there may be a delay in receiving bids.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #4</comment>
+  </data>
+  <data name="이름" xml:space="preserve">
+    <value>Name</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #1. 이름</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email Address</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #5. 이메일</comment>
+  </data>
+  <data name="자택" xml:space="preserve">
+    <value>Home</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Postal Address</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #3. 주소</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Address Search</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #3 버튼</comment>
+  </data>
+  <data name="주소 등록" xml:space="preserve">
+    <value>Register Address</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소 등록/수정" xml:space="preserve">
+    <value>Register/Modify Address</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소 정보 등록하기" xml:space="preserve">
+    <value>Register Address</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #11 등록버튼</comment>
+  </data>
+  <data name="주소1" xml:space="preserve">
+    <value>Address</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #12</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="주소명" xml:space="preserve">
+    <value>Address name</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직장" xml:space="preserve">
+    <value>Office</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력" xml:space="preserve">
+    <value>Direct input</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter the direct input address.</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="참여 신청" xml:space="preserve">
+    <value>Register</value>
+    <comment>[LiveRequest] 05. 버튼 - 참여 신청</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[LiveRequest] 05. 버튼 - 취소</comment>
+  </data>
+  <data name="취소1" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[BidApplication] 99. 모달 - 주소 등록/수정 - #5 버튼</comment>
+  </data>
+  <data name="한국의 문화재 및 유물로 추정되는 경매물품은 국외로 수출 및 반출이 불가합니다." xml:space="preserve">
+    <value>Korean Traditional Art and Craft lots are prohibited from export and/or expatriation from the Republic of Korea.</value>
+    <comment>[LiveRequest] 03. 신청 및 응찰 시 유의사항 - #8</comment>
+  </data>
+  <data name="휴대전화" xml:space="preserve">
+    <value>Telephone No.</value>
+    <comment>[LiveRequest] 02. 신청자 정보 - #4. 휴대전화</comment>
+  </data>
+</root>

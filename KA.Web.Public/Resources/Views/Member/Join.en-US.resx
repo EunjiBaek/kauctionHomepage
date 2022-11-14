@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 운전면허증:운전면허번호, 주민등록번호 (뒷자리 6자리) 마스킹" xml:space="preserve">
+    <value>- (ex) Driver’s license : Masking is required on the driver’s license number and the last 6 digits of the resident registration number</value>
+    <comment>[Join] Popup - 증빙서류 - #2. 본문 - 1. 설명</comment>
+  </data>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[Join] Step1.1 - #3.5 휴대전화 (힌트)</comment>
+  </data>
+  <data name="- 주민등록증:주민등록번호 (뒷자리 6자리) 마스킹" xml:space="preserve">
+    <value>- (ex) Resident registration certificate : Masking is required on the last 6 digits of the resident registration number</value>
+    <comment>[Join] Popup - 증빙서류 - #2. 본문 - 2. 설명</comment>
+  </data>
+  <data name="JPG 또는 PNG 포맷 이미지 파일" xml:space="preserve">
+    <value>JPG or PNG files</value>
+    <comment>[Join] Step1.2 - #3 증빙서류 (힌트)</comment>
+  </data>
+  <data name="SMS 발송된 인증번호 30분이내 입력" xml:space="preserve">
+    <value>Please enter the code sent by SMS within 30 minutes.</value>
+    <comment>[Join] Step1.2 - #2 인증번호 (힌트)</comment>
+  </data>
+  <data name="‘고유식별 정보’를 가려주세요" xml:space="preserve">
+    <value>Please obscure all Personally Identifiable Information.</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #1</comment>
+  </data>
+  <data name="※ 마스킹 미처리 시 증빙서류 접수가 반려될 수 있으니 유의하여 주시기 바랍니다." xml:space="preserve">
+    <value>※ Please note that verification documents without proper masking may not be accepted for registration.</value>
+    <comment>[Join] Popup - 증빙서류 - #3. 하단 설명</comment>
+  </data>
+  <data name="가입 하기" xml:space="preserve">
+    <value>Join Us</value>
+    <comment>[Join] Step3. 가입 하기</comment>
+  </data>
+  <data name="개인정보 보호법에 의거하여 지켜져야 하는 사항입니다." xml:space="preserve">
+    <value>This procedure is undertaken in accordance with the Personal Information Protection Act.</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #6 설명2</comment>
+  </data>
+  <data name="검수 후 모든 서비스 이용 가능" xml:space="preserve">
+    <value>Document verification is required to access all K Auction services</value>
+    <comment>[Join] Step1.3 - #3.5 사업자등록증 (힌트2)</comment>
+  </data>
+  <data name="고유식별 정보가 가려지지 않은 증빙서류는&lt;br/&gt; 반려될 수 있으니 유의하시기 바랍니다." xml:space="preserve">
+    <value>Please note that verification documents may not be accepted if personally identificable information has not been obscured.</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #2</comment>
+  </data>
+  <data name="고유식별정보는 자체적인 마스킹 후 첨부해주세요." xml:space="preserve">
+    <value>Please attach the unique identification information after masking itself.</value>
+    <comment>[Join] Popup - 증빙서류 - #1. 타이틀</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[Join] Step1.1 - #4.1 국가</comment>
+  </data>
+  <data name="국가를 선택하세요." xml:space="preserve">
+    <value>Please select a country.</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="국내개인고객" xml:space="preserve">
+    <value>Domestic individual</value>
+    <comment>[Join] Step1.1 - #1 국내개인고객</comment>
+  </data>
+  <data name="국내법인고객" xml:space="preserve">
+    <value>Domestic Organizations</value>
+    <comment>[Join] Step1.3 - #1 국내법인고객</comment>
+  </data>
+  <data name="기본 배송지로 설정되며, 배송지 주소는 회원 가입 후 My Page에서 수정 가능합니다." xml:space="preserve">
+    <value>It is set as the default delivery address, and the delivery address can be modified on My Page after signing up for membership.</value>
+    <comment>[Join] Step1.1 - #4 주소 (힌트)</comment>
+  </data>
+  <data name="기본 정보" xml:space="preserve">
+    <value>Basic Infomation</value>
+    <comment>[Join] Step1.1 - #3 기본 정보</comment>
+  </data>
+  <data name="남자" xml:space="preserve">
+    <value>Male</value>
+    <comment>[Join] Step1.1 - #3.4 성별</comment>
+  </data>
+  <data name="내국인의 경우" xml:space="preserve">
+    <value>Domestic Individuals</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #3 탭</comment>
+  </data>
+  <data name="담당자 명함 사본" xml:space="preserve">
+    <value>Copy of point of contact business card</value>
+    <comment>[Join] Step1.3 - #3.6 담당자 명함 (힌트)</comment>
+  </data>
+  <data name="담당자 명함 업로드" xml:space="preserve">
+    <value>Upload Point of Contact Business Card</value>
+    <comment>[Join] Step1.3 - #3.6 담당자 명함 업로드</comment>
+  </data>
+  <data name="담당자 정보" xml:space="preserve">
+    <value>Point of Contact Information</value>
+    <comment>[Join] Step1.3 - #2 담당자 정보</comment>
+  </data>
+  <data name="대표자명" xml:space="preserve">
+    <value>Name of Director</value>
+    <comment>[Join] Step1.3 - #3.2 대표자명</comment>
+  </data>
+  <data name="법인 정보" xml:space="preserve">
+    <value>Organization Information</value>
+    <comment>[Join] Step1.3 - #3 법인 정보</comment>
+  </data>
+  <data name="법인명" xml:space="preserve">
+    <value>Name of Organization</value>
+    <comment>[Join] Step1.3 - #3.1 법인명</comment>
+  </data>
+  <data name="본인 명의 국내 핸드폰 또는 신용카드 소지자" xml:space="preserve">
+    <value>Holder of domestic mobile phone or credit card</value>
+    <comment>[Join] Step1.1 - #1 국내개인고객 (힌트)</comment>
+  </data>
+  <data name="본인 명의 해외 핸드폰 소지자" xml:space="preserve">
+    <value>Possessor of mobile phone registered in your name</value>
+    <comment>[Join] Step1.2 - #1 해외개인고객 (힌트)</comment>
+  </data>
+  <data name="본인 인증 또는 증빙서류를 첨부하고 기본 정보를 입력해주세요." xml:space="preserve">
+    <value>Please attach verify your identity or attach identification documents and enter your basic information</value>
+    <comment>[Join] Step1 - #2 SubTitle</comment>
+  </data>
+  <data name="본인 인증 및 회원 정보" xml:space="preserve">
+    <value>Identity verification and membership information</value>
+    <comment>[Join] Step1 - #1 Title</comment>
+  </data>
+  <data name="본인인증 후 정보를 입력해 주시기 바랍니다." xml:space="preserve">
+    <value>Please enter your information after verifying your identity</value>
+    <comment>[Join] Step1.1 - #2.1 Verification</comment>
+  </data>
+  <data name="비밀번호" xml:space="preserve">
+    <value>Password</value>
+    <comment>[Join] Step1.1 - #3.7 비밀번호</comment>
+  </data>
+  <data name="비밀번호 확인" xml:space="preserve">
+    <value>Confirm password</value>
+    <comment>[Join] Step1.1 - #3.8 비밀번호 확인</comment>
+  </data>
+  <data name="비밀번호(확인)을 입력하세요." xml:space="preserve">
+    <value>Please enter your password(Confirm)</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="비밀번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your password</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="사업자 등록증 사본" xml:space="preserve">
+    <value>Copy of business registration certificate</value>
+    <comment>[Join] Step1.3 - #3.5 사업자등록증 (힌트)</comment>
+  </data>
+  <data name="사업자 등록증 업로드" xml:space="preserve">
+    <value>Upload Business Registration Certificate</value>
+    <comment>[Join] Step1.3 - #3.5 사업자등록증</comment>
+  </data>
+  <data name="사업자등록번호" xml:space="preserve">
+    <value>Business Registration Number</value>
+    <comment>[Join] Step1.3 - #3.4 사업자등록번호</comment>
+  </data>
+  <data name="상세 주소" xml:space="preserve">
+    <value>Detail Address</value>
+    <comment>[Join] Step1.1 - #4.4 상세주소</comment>
+  </data>
+  <data name="상세 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter your detail address</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="생년월일" xml:space="preserve">
+    <value>Date of birth</value>
+    <comment>[Join] Step1.1 - #3.3 생년월일</comment>
+  </data>
+  <data name="생년월일을 입력하세요." xml:space="preserve">
+    <value>Please enter your Date of Birth</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="선택" xml:space="preserve">
+    <value>Optional</value>
+    <comment>[Join] Step2. 이용 약관 (힌트)</comment>
+  </data>
+  <data name="성별" xml:space="preserve">
+    <value>Sex</value>
+    <comment>[Join] Step1.1 - #3.4 성별</comment>
+  </data>
+  <data name="셩별을 선택하세요." xml:space="preserve">
+    <value>Please select your gender</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="신분증 촬영 시 안내된 부분을 &lt;span&gt;가리고 찍거나,&lt;/span&gt;&lt;br/&gt;이미 촬영한 경우 사진 &lt;span&gt;편집 툴을 활용해 주요 부분을 가려주세요.&lt;/span&gt;" xml:space="preserve">
+    <value>Please photograph verification documents with the above information obscured, or obscure the above information with photo editing tools.</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #6 설명1</comment>
+  </data>
+  <data name="신용카드 본인 인증" xml:space="preserve">
+    <value>Credit card identity verification</value>
+    <comment>[Join] Step1.1 - #2.1.2 Card</comment>
+  </data>
+  <data name="아이디를 입력하세요." xml:space="preserve">
+    <value>Please enter your ID</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="여권 등 신분증 사본 첨부" xml:space="preserve">
+    <value>Copy of passport or other identification documents</value>
+    <comment>[Join] Step1.2 - #3 증빙서류 (힌트2)</comment>
+  </data>
+  <data name="여권번호 7 또는 9자리" xml:space="preserve">
+    <value>Passport number and resident registration number (if applicable)</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #5 외국인의 경우</comment>
+  </data>
+  <data name="여자" xml:space="preserve">
+    <value>Female</value>
+    <comment>[Join] Step1.1 - #3.4 성별</comment>
+  </data>
+  <data name="영문/숫자 조합 5~12자리" xml:space="preserve">
+    <value>5 to 12 alphanumeric combinations</value>
+    <comment>[Join] Step1.1 - #3.1 ID</comment>
+  </data>
+  <data name="영문과 숫자 또는 특수문자 조합 최소 10자 이상" xml:space="preserve">
+    <value>Alphabetic, numeric, or special characters at least 10 characters</value>
+    <comment>[Join] Step1.1 - #3.7 비밀번호 (힌트)</comment>
+  </data>
+  <data name="외국인의 경우" xml:space="preserve">
+    <value>International Individuals</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #3 탭</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Zipcode</value>
+    <comment>[Join] Step1.1 - #4.2 우편번호</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zipcode</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="운전면허번호 및&lt;br/&gt;주민등록번호 뒤 6자리" xml:space="preserve">
+    <value>Entire driver's license number and last 6 (six) digits of the resident registration number</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #4 내국인의 경우</comment>
+  </data>
+  <data name="유선번호" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[Join] Step1.3 - #3.3 유선번호</comment>
+  </data>
+  <data name="이름" xml:space="preserve">
+    <value>Name</value>
+    <comment>[Join] Step1.1 - #3.2 이름</comment>
+  </data>
+  <data name="이름을 입력하세요." xml:space="preserve">
+    <value>Please enter your Name</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[Join] Step1.1 - #3.6 이메일</comment>
+  </data>
+  <data name="이메일을 입력하세요." xml:space="preserve">
+    <value>Please enter your email</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="이용 약관" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>[Join] Step2. 이용 약관</comment>
+  </data>
+  <data name="인증 요청" xml:space="preserve">
+    <value>Request&lt;br /&gt;Code</value>
+    <comment>[Join] Step1.2 - #2 전화번호 인증 요청</comment>
+  </data>
+  <data name="인증 확인" xml:space="preserve">
+    <value>Verification</value>
+    <comment>[Join] Step1.2 - #2 인증번호  버튼</comment>
+  </data>
+  <data name="인증번호" xml:space="preserve">
+    <value>Verification Code</value>
+    <comment>[Join] Step1.2 - #2 인증번호</comment>
+  </data>
+  <data name="전체 동의는 필수 및 선택 정보에 대한 동의를 포함하고 있으며, 각 약관에 대한 개별적인 동의를 할 수 있습니다." xml:space="preserve">
+    <value>Agreeing to the full terms &amp; conditions includes agreeing to the optional terms &amp; conditions. You can choose to agree to individual sets of terms &amp; conditions.</value>
+    <comment>[Join] Step2. 이용 약관</comment>
+  </data>
+  <data name="전체 약관에 동의합니다." xml:space="preserve">
+    <value>I agree to the full terms &amp; conditions</value>
+    <comment>[Join] Step2. 이용 약관</comment>
+  </data>
+  <data name="주민등록번호 뒤 6자리" xml:space="preserve">
+    <value>Last 6 (six) digits of the resident registration number</value>
+    <comment>[Join] Popup - 증빙서류 #2 - #4 내국인의 경우</comment>
+  </data>
+  <data name="주민등록번호, 외국인등록번호, 여권번호, 운전면허번호 모두「개인정보 보호법상」'고유식별정보'에 해당합니다." xml:space="preserve">
+    <value>Resident registration numbers, alien registration numbers, passport numbers, and driver’s license numbers are classified as ‘Personally Identifiable Information’ by the Personal Information Protection Act.</value>
+    <comment>[Join] Popup - 증빙서류 - #2. 본문</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[Join] Step1.1 - #4.3 주소</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Address search</value>
+    <comment>[Join] Step1.1 - #4.2 우편번호 (주소 검색 버튼)</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter your address</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+  <data name="증빙서류 검수 후 모든 서비스 이용 가능" xml:space="preserve">
+    <value>Document verification is required to access all K Auction services</value>
+    <comment>[Join] Step1.2 - #3 증빙서류 (힌트3)</comment>
+  </data>
+  <data name="증빙서류 업로드" xml:space="preserve">
+    <value>Upload Verification Documents</value>
+    <comment>[Join] Step1.2 - #3 증빙서류</comment>
+  </data>
+  <data name="파일 선택" xml:space="preserve">
+    <value>Select&lt;br /&gt;file</value>
+    <comment>[Join] Step1.2 - #3 증빙서류 버튼</comment>
+  </data>
+  <data name="필수" xml:space="preserve">
+    <value>Required</value>
+    <comment>[Join] Step2. 이용 약관 (힌트)</comment>
+  </data>
+  <data name="해외개인고객" xml:space="preserve">
+    <value>International Private Individual</value>
+    <comment>[Join] Step1.2 - #1 해외개인고객</comment>
+  </data>
+  <data name="해외법인고객" xml:space="preserve">
+    <value>International Organizations</value>
+    <comment>[Join] Step1.4 - #1 해외법인고객</comment>
+  </data>
+  <data name="핸드폰 본인 인증" xml:space="preserve">
+    <value>Mobile phone identity verification</value>
+    <comment>[Join] Step1.1 - #2.1.1 Mobile</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>[Join] Popup - 증빙서류 - #4. 버튼</comment>
+  </data>
+  <data name="회원가입" xml:space="preserve">
+    <value>Join</value>
+    <comment>[Join] Step0 - Breadcrumb</comment>
+  </data>
+  <data name="휴대전화" xml:space="preserve">
+    <value>Phone Number</value>
+    <comment>[Join] Step1.1 - #3.5 휴대전화</comment>
+  </data>
+  <data name="휴대전화를 입력하세요." xml:space="preserve">
+    <value>Please enter your mobile phone.</value>
+    <comment>[Join] Step1.1 - #5 유효성 체크</comment>
+  </data>
+</root>

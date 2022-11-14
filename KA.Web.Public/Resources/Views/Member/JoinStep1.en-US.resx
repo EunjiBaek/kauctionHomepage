@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 신용카드 인증 : 이름" xml:space="preserve">
+    <value>- Credit Card Verification: Name</value>
+    <comment>[JoinStep1] 04.5.2 설명</comment>
+  </data>
+  <data name="- 신용카드 인증 : 이름, 생년월일" xml:space="preserve">
+    <value>- Credit Card Verification: Name, Date of Birth</value>
+    <comment>[JoinStep1] 04.3.2.2 설명</comment>
+  </data>
+  <data name="- 휴대전화 인증 : 이름, 생년월일, 휴대전화번호" xml:space="preserve">
+    <value>- Mobile Phone Verification: Name, Date of Birth, Mobile Phone Number</value>
+    <comment>[JoinStep1] 04.3.2.1 설명 </comment>
+  </data>
+  <data name="- 휴대전화 인증 : 이름, 휴대전화번호" xml:space="preserve">
+    <value>- Mobile Phone Verification: Name, Mobile Phone Number</value>
+    <comment>[JoinStep1] 04.5.1 설명</comment>
+  </data>
+  <data name="6자리 인증번호 입력" xml:space="preserve">
+    <value>6-digit verification code</value>
+    <comment>[JoinStep1] 04.6.2 폼 메세지</comment>
+  </data>
+  <data name="각 이용약관들과 개인정보 수집 이용에 동의합니다." xml:space="preserve">
+    <value>I agree to each of the individual Terms &amp; Conditions and the Collection &amp; Usage of Personal Information.</value>
+    <comment>[JoinStep1] 03.1.1 약관 동의 및 인증 상세</comment>
+  </data>
+  <data name="개인정보처리방침" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>[JoinStep1] 05.3 푸터</comment>
+  </data>
+  <data name="경매약관" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>[JoinStep1] 05.1 푸터</comment>
+  </data>
+  <data name="내부정보관리규정" xml:space="preserve">
+    <value>Information Management Policy</value>
+    <comment>[JoinStep1] 05.4 푸터</comment>
+  </data>
+  <data name="담당자 신용카드로 &lt;br /&gt; 인증하기" xml:space="preserve">
+    <value>Representative&lt;br /&gt;Credit Card Verification</value>
+    <comment>[JoinStep1] 04.4.2 국내법인인증</comment>
+  </data>
+  <data name="담당자 휴대전화로 &lt;br /&gt; 인증하기" xml:space="preserve">
+    <value>Representative&lt;br /&gt;Mobile Phone Verification</value>
+    <comment>[JoinStep1] 04.4.1 국내법인인증</comment>
+  </data>
+  <data name="모두 동의합니다." xml:space="preserve">
+    <value>I agree to all of the Terms &amp; Conditions.</value>
+    <comment>[JoinStep1] 03.1 약관 동의 및 인증 상세</comment>
+  </data>
+  <data name="법인 회원의 경우 전화번호 인증 외에도 사업자 증빙자료를 추가 제출 해야 합니다." xml:space="preserve">
+    <value>In the case of corporate members, in addition to phone number authentication, additional business data must be submitted.</value>
+    <comment>[JoinStep1] 04.9 해외 안내 메세지</comment>
+  </data>
+  <data name="본인 명의의 휴대전화번호를 입력하고 문자 인증을 진행하세요." xml:space="preserve">
+    <value>Please enter a mobile phone number registered to your name and proceed with SMS verification.</value>
+    <comment>[JoinStep1] 04.6.1 해외 인증</comment>
+  </data>
+  <data name="본인의 이메일 입력" xml:space="preserve">
+    <value>Email Address</value>
+    <comment>[JoinStep1] 98. 이메일 인증 팝업 설명</comment>
+  </data>
+  <data name="본인의 이메일로 인증을 진행하세요." xml:space="preserve">
+    <value>Please enter your email address and proceed with verification.</value>
+    <comment>[JoinStep1] 98. 이메일 인증 팝업 설명</comment>
+  </data>
+  <data name="선택" xml:space="preserve">
+    <value>Optional</value>
+    <comment>[JoinStep1] 03. 약관 동의 및 인증 상세</comment>
+  </data>
+  <data name="신용카드 인증" xml:space="preserve">
+    <value>Credit Card Verification</value>
+    <comment>[JoinStep1] 04.2.2 인증 유형</comment>
+  </data>
+  <data name="신용카드 인증: 이름, 생년월일" xml:space="preserve">
+    <value>Credit Card Verification: Name, Date of Birth</value>
+    <comment>[JoinStep1] 99.2 인증 팝업 설명</comment>
+  </data>
+  <data name="약관 동의 및 인증" xml:space="preserve">
+    <value>Terms &amp; Conditions &amp; Identity Verification</value>
+    <comment>[JoinStep1] 02. 약관 동의 및 인증</comment>
+  </data>
+  <data name="영어" xml:space="preserve">
+    <value>ENG</value>
+    <comment>[JoinStep1] 01.1. 상단 - 언어변경</comment>
+  </data>
+  <data name="온라인경매약관" xml:space="preserve">
+    <value>Online Terms &amp; Conditions</value>
+    <comment>[JoinStep1] 05.2 푸터</comment>
+  </data>
+  <data name="인증 된 정보는 회원정보로 활용됩니다.&lt;br /&gt;인증 수단을 선택하세요." xml:space="preserve">
+    <value>Verified information will be set as your member information. Please select a verification method.</value>
+    <comment>[JoinStep1] 04.1 국내개인/국내법인/해외개인/해외법인</comment>
+  </data>
+  <data name="인증 문자를 받지 못한 경우, “&lt;span class='btn-email-auth'&gt;여기&lt;/span&gt;”를 눌러 다른 방법으로 인증을 진행하세요." xml:space="preserve">
+    <value>If you have not received the SMS verification code, please click &lt;span class='btn-email-auth'&gt;here&lt;/span&gt; to proceed with an alternate verification method.</value>
+    <comment>[JoinStep1] 04.8 해외 안내 메세지</comment>
+  </data>
+  <data name="인증 확인" xml:space="preserve">
+    <value>Verify</value>
+    <comment>[JoinStep1] 04.6.3 버튼</comment>
+  </data>
+  <data name="인증된 정보의 종류" xml:space="preserve">
+    <value>Types of Verified Information</value>
+    <comment>[JoinStep1] 04.3.1 설명</comment>
+  </data>
+  <data name="인증번호 발송" xml:space="preserve">
+    <value>Receive Code</value>
+    <comment>[JoinStep1] 04.6.3 버튼</comment>
+  </data>
+  <data name="인증이 완료될 때 까지 창을 닫지 말아주세요." xml:space="preserve">
+    <value>Do not close this window until verification is complete.</value>
+    <comment>[JoinStep1] 98. 이메일 인증 팝업 설명</comment>
+  </data>
+  <data name="전화/신용카드 인증 외에도 사업자 증빙자료 제출 필수" xml:space="preserve">
+    <value>Company documentation will be required in addition to mobile phone/credit card verification.</value>
+    <comment>[JoinStep1] 04.5.3 설명</comment>
+  </data>
+  <data name="전화번호 입력" xml:space="preserve">
+    <value>mobile phone number</value>
+    <comment>[JoinStep1] 04.6.2 폼 메세지</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[JoinStep1] 06.2 버튼 - 취소</comment>
+  </data>
+  <data name="필수" xml:space="preserve">
+    <value>Required</value>
+    <comment>[JoinStep1] 03. 약관 동의 및 인증 상세</comment>
+  </data>
+  <data name="한국어" xml:space="preserve">
+    <value>KOR</value>
+    <comment>[JoinStep1] 01.1. 상단 - 언어변경</comment>
+  </data>
+  <data name="해외 법인 회원의 경우 전화번호 인증 외에도 사업자 증빙자료를 추가 제출 해야 합니다." xml:space="preserve">
+    <value>Company documentation will be required in addition to mobile phone verification.</value>
+    <comment>[JoinStep1] 04.7 해외 안내 메세지</comment>
+  </data>
+  <data name="홈으로 이동" xml:space="preserve">
+    <value>Home</value>
+    <comment>[JoinStep1] 01. 상단</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>[JoinStep1] 06.1 버튼 - 확인</comment>
+  </data>
+  <data name="휴대전화 인증" xml:space="preserve">
+    <value>Mobile Phone Verification</value>
+    <comment>[JoinStep1] 04.2.1 인증 유형</comment>
+  </data>
+  <data name="휴대전화 인증 회원정보 활용 항목:&lt;br /&gt;이름, 생년월일, 휴대전화번호" xml:space="preserve">
+    <value>Applicable Mobile Phone Verification Information: Name, Date of Birth, Mobile Phone Number</value>
+    <comment>[JoinStep1] 99.1 인증 팝업 설명</comment>
+  </data>
+  <data name="다시 입력" xml:space="preserve">
+    <value>Retry</value>
+    <comment>다시 입력</comment>
+  </data>
+</root>

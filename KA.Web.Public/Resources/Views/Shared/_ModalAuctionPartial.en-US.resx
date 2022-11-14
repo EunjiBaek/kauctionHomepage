@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1,000만 이상 ~ 3,000만 미만" xml:space="preserve">
+    <value>10,000,000 - less than 30,000,000</value>
+    <comment>[Mode] 003.08</comment>
+  </data>
+  <data name="1,000만원 x 19.8% + ( 낙찰가 - 1,000만원 ) x 16.5%" xml:space="preserve">
+    <value>KRW 10,000,000 x 19.8% + (Hammer Price - KRW 10,000,000) x 16.5%</value>
+    <comment>[Modal] 001.3.2 테이블 데이터2</comment>
+  </data>
+  <data name="100만 이상 ~ 300만 미만" xml:space="preserve">
+    <value>1,000,000 - less than 3,000,000</value>
+    <comment>[Mode] 003.05</comment>
+  </data>
+  <data name="10만원" xml:space="preserve">
+    <value>KRW 100,000</value>
+    <comment>[Modal] 002.3.2 Data #2</comment>
+  </data>
+  <data name="15만원" xml:space="preserve">
+    <value>KRW 150,000</value>
+    <comment>[Modal] 002.3.2 Data #3</comment>
+  </data>
+  <data name="198만원 + (5,000만원 - 1,000만원) * 16.5% = 8,580,000원" xml:space="preserve">
+    <value>KRW 1,980,000 + (50,000,000 - 10,000,000) * 16.5% = KRW 8,580,000</value>
+    <comment>[Modal] 001.4 예시3</comment>
+  </data>
+  <data name="2억 이상 ~ 5억 미만" xml:space="preserve">
+    <value>200,000,000 - less than 500,000,000</value>
+    <comment>[Mode] 003.11</comment>
+  </data>
+  <data name="3,000만 이상 ~ 5,000만 미만" xml:space="preserve">
+    <value>30,000,000 - less than 50,000,000</value>
+    <comment>[Mode] 003.09</comment>
+  </data>
+  <data name="300만 이상 ~ 500만 미만" xml:space="preserve">
+    <value>3,000,000 - less than 5,000,000</value>
+    <comment>[Mode] 003.06</comment>
+  </data>
+  <data name="30만 미만" xml:space="preserve">
+    <value>Less than 300,000</value>
+    <comment>[Mode] 003.03</comment>
+  </data>
+  <data name="30만 이상 ~ 100만 미만" xml:space="preserve">
+    <value>300,000 less than 1,000,000</value>
+    <comment>[Mode] 003.04</comment>
+  </data>
+  <data name="5,000만 이상 ~ 2억 미만" xml:space="preserve">
+    <value>50,000,000 - less than 200,000,000</value>
+    <comment>[Mode] 003.10</comment>
+  </data>
+  <data name="500만 이상 ~ 1,000만 미만" xml:space="preserve">
+    <value>5,000,000 - less than 10,000,000</value>
+    <comment>[Mode] 003.07</comment>
+  </data>
+  <data name="5만원" xml:space="preserve">
+    <value>KRW 50,000</value>
+    <comment>[Modal] 002.3.2 Data #1</comment>
+  </data>
+  <data name="5억 이상" xml:space="preserve">
+    <value>500,000,000 and over</value>
+    <comment>[Mode] 003.12</comment>
+  </data>
+  <data name="80호 미만은 점당 3만원(추가 점당 1만원), 80호 이상은 점당 10만원(추가 점당 2만원)의 비용이 발생합니다." xml:space="preserve">
+    <value>KRW 30,000 will be charged for artworks with dimensions up to 145.5x112.1cm (KRW 10,000 for each additional artwork). KRW 100,000 will be charged for artworks with dimensions equal to or greater than 145.5x112.1cm (KRW 20,000 for each additional artwork).</value>
+    <comment>[Mode] 004.02.1.1</comment>
+  </data>
+  <data name="&lt;a href='/HowTo/OnlineClause' target='_blank'&gt;온라인 경매 약관&lt;/a&gt; 및 위 응찰 유의사항을 확인하였으며,&lt;br /&gt;동의하므로 응찰을 신청합니다." xml:space="preserve">
+    <value>I have read and agree to &lt;a href='/HowTo/OnlineClause' target='_blank'&gt;the Online Auction Terms &amp; Conditions&lt;/a&gt; and the above Important Notices for Online Bidding and would like to proceed with the bid.</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #5</comment>
+  </data>
+  <data name="&lt;span&gt;위시리스트&lt;/span&gt;에 저장되었습니다." xml:space="preserve">
+    <value>This lot has been saved to &lt;span&gt;Favorite Lots&lt;/span&gt;.</value>
+    <comment>[Modal] 004. 위시리스트</comment>
+  </data>
+  <data name="경매 호가표 안내" xml:space="preserve">
+    <value>Bidding Increment</value>
+    <comment>[Mode] 003.01 경매 호가표</comment>
+  </data>
+  <data name="계속 보기" xml:space="preserve">
+    <value>Continue Browsing</value>
+    <comment>[Modal] 004.1 버튼</comment>
+  </data>
+  <data name="국내" xml:space="preserve">
+    <value>Domestic</value>
+    <comment>[Modal] 002.3.1 Table Header</comment>
+  </data>
+  <data name="그 외 국내지역" xml:space="preserve">
+    <value>Other domestic areas</value>
+    <comment>[Modal] 002.3.2 Row #3</comment>
+  </data>
+  <data name="낙찰 및 판매 이후 7일 경과 시 입금여부와 무관하게 일 30,000원/점의 비용이 발생합니다." xml:space="preserve">
+    <value>A storage fee of KRW 30,000 per day will be charged for each lot that has not been collected 7 calendar days after purchase, regardless of whether the purchase price has been rendered in full.</value>
+    <comment>[Mode] 004.03.1</comment>
+  </data>
+  <data name="낙찰 수수료" xml:space="preserve">
+    <value>Estimated Buyer's Premium</value>
+    <comment>[Modal] 001.4 예시2</comment>
+  </data>
+  <data name="낙찰 수수료 안내" xml:space="preserve">
+    <value>Buyer's Premium</value>
+    <comment>[Modal] 001.1 Title</comment>
+  </data>
+  <data name="낙찰 시 낙찰대금 외 구매 수수료(부가세 별도) 및 낙찰자 비용(있을 경우)이 부과됩니다." xml:space="preserve">
+    <value>For successful bids, a buyer’s premium (excluding VAT) and buyer’s expenses (if applicable) will be charged in addition to the hammer price.</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #1</comment>
+  </data>
+  <data name="낙찰 후 취소하고자 하는 경우, 낙찰자는 낙찰철회비로 낙찰가의 30%에 해당하는 금액을 납부하여야 하므로 신중하게 응찰하시기 바랍니다." xml:space="preserve">
+    <value>Please bid carefully as a Buyer Withdrawal Fee of 30% of the hammer price must be paid in order to cancel a winning bid.</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #3</comment>
+  </data>
+  <data name="낙찰가 (원)" xml:space="preserve">
+    <value>Hammer Price (KRW)</value>
+    <comment>[Modal] 001.2 테이블 헤더1</comment>
+  </data>
+  <data name="낙찰가 + 낙찰수수료 = 58,580,000원" xml:space="preserve">
+    <value>Hammer Price + Buyer's Premium = KRW 58,580,000</value>
+    <comment>[Modal] 001.4 예시5</comment>
+  </data>
+  <data name="낙찰가의 &lt;strong&gt;19.8%&lt;/strong&gt;" xml:space="preserve">
+    <value>&lt;strong&gt;19.8%&lt;/strong&gt; of the Hammer Price</value>
+    <comment>[Modal] 001.3.1 테이블 데이터1</comment>
+  </data>
+  <data name="단, 주류, 명품, 기업 컬렉션의 경우 10만원 미만에 한하여 호가 단위 10,000원으로 진행됨." xml:space="preserve">
+    <value>For liquor, luxury goods and corporate collection lots, the bid increment will be KRW 10,000 for bid amounts less than KRW 100,000.</value>
+    <comment>[Mode] 003.13</comment>
+  </data>
+  <data name="당사 낙찰 작품에 한하여 배송 시 설치를 함께 요청하실 수 있으며, 사전 예약이 필요합니다." xml:space="preserve">
+    <value>For our winning bid only, you can request the installation at the time of delivery, and advance reservations are required.</value>
+    <comment>[Mode] 004.02.1</comment>
+  </data>
+  <data name="대리석, 콘크리트, 가벽, 레일 등 현장 난이도에 따라 비용이 추가될 수 있습니다." xml:space="preserve">
+    <value>Additional fees may be charged depending on the condition of the installation site (marble, concrete, partitions, rails, etc.).</value>
+    <comment>[Mode] 004.02.1.2</comment>
+  </data>
+  <data name="동의 및 응찰" xml:space="preserve">
+    <value>Agree and Bid</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #5 버튼</comment>
+  </data>
+  <data name="동일 경매에서 1점 초과 낙찰시, 초과분부터 1만원씩 추가 (단, 동일장소/일시인 경우에 한함)" xml:space="preserve">
+    <value>If more than one item is purchased in the same auction, a fee of KRW 10,000 per item will be charged for each additional item (limited to the same location / same time).</value>
+    <comment>[Modal] 002.3.3 Description #1</comment>
+  </data>
+  <data name="마감 전 30초 내의 응찰이 있을 경우, 자동으로 30초 연장됩니다." xml:space="preserve">
+    <value>If a bid is placed within the last 30 seconds, the closing time for that lot will be extended by an additional 30 seconds.</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #4</comment>
+  </data>
+  <data name="명품 및 악기는 직접 픽업이 원칙입니다." xml:space="preserve">
+    <value>Luxury goods and musical instruments must be collected in person.</value>
+    <comment>[Modal] 002.3.5</comment>
+  </data>
+  <data name="모든 응찰은 응찰자가 실물을 확인한 것을 전제로 하며, 액자나 작품 컨디션을 이유로 응찰 또는 낙찰을 취소할 수 없습니다." xml:space="preserve">
+    <value>All lots are sold “as is” and the bidder shall be responsible for viewing the lot in person beforehand. All bids are irrevocable and may not be retracted based on the condition of the artwork or frame.</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #2</comment>
+  </data>
+  <data name="배송 관련 안내" xml:space="preserve">
+    <value>Shipping Fees</value>
+    <comment>[Modal] 002.1 예상 배송비</comment>
+  </data>
+  <data name="배송관련 문의사항은 아래로 연락주시기 바랍니다." xml:space="preserve">
+    <value>Please contact below for shipping inquiries.</value>
+    <comment>[Modal] 002.3.7</comment>
+  </data>
+  <data name="별도 배송비" xml:space="preserve">
+    <value>Additional fees apply</value>
+    <comment>[Modal] 002.3.2 Common</comment>
+  </data>
+  <data name="보관" xml:space="preserve">
+    <value>Storage</value>
+    <comment>[Mode] 004.03</comment>
+  </data>
+  <data name="사전 예약 없이 방문시 픽업이 불가" xml:space="preserve">
+    <value>Prior appointment is mandatory for in-person collection.</value>
+    <comment>[Modal] 002.3.6.2</comment>
+  </data>
+  <data name="서울" xml:space="preserve">
+    <value>Seoul</value>
+    <comment>[Modal] 002.3.2 Row #1</comment>
+  </data>
+  <data name="설치" xml:space="preserve">
+    <value>Installation</value>
+    <comment>[Mode] 004.02</comment>
+  </data>
+  <data name="설치 및 보관 안내" xml:space="preserve">
+    <value>Installation and Storage</value>
+    <comment>[Mode] 004.01 설치 및 보관 안내</comment>
+  </data>
+  <data name="수도권" xml:space="preserve">
+    <value>Seoul capital area</value>
+    <comment>[Modal] 002.3.2 Row #2</comment>
+  </data>
+  <data name="수수료율 (VAT 포함)" xml:space="preserve">
+    <value>Buyer's Premium (including VAT)</value>
+    <comment>[Modal] 001.2 테이블 헤더2</comment>
+  </data>
+  <data name="연락처 : 02-3479-8888" xml:space="preserve">
+    <value>Tel : +82-2-3479-8888</value>
+    <comment>[Modal] 002.3.7.1</comment>
+  </data>
+  <data name="예) 서울 지역 3점 낙찰 : 5만원+1만원+1만원 = 7만원" xml:space="preserve">
+    <value>Ex) Three items delivered within Seoul : KRW 50,000 + 10,000 + 10,000 = KRW 70,000</value>
+    <comment>[Modal] 002.3.3 Description #2</comment>
+  </data>
+  <data name="예시) 낙찰가 5,000만원일 경우" xml:space="preserve">
+    <value>ex) Hammer Price: KRW 50,000,000</value>
+    <comment>[Modal] 001.4 예시1</comment>
+  </data>
+  <data name="예약 없이 요청하시는 경우, 배송일정에 따라 바로 설치를 해드리기 어려울 수 있습니다." xml:space="preserve">
+    <value>We may not be able to honor installation requests made without advance reservation.</value>
+    <comment>[Mode] 004.02.1.3</comment>
+  </data>
+  <data name="온라인 경매의 낙찰작은 직접 픽업이 원칙입니다. 만약, 픽업이 불가능한 경우 배송을 요청할 수 있으며, 아래와 같이 배송비가 부과됩니다." xml:space="preserve">
+    <value>Objects purchased in online auctions must be collected in person. Shipping may be requested if in-person collection is not possible. Shipping fees will be charged as below.</value>
+    <comment>[Modal] 002.2 설명</comment>
+  </data>
+  <data name="온라인 응찰 유의사항" xml:space="preserve">
+    <value>Important Notices for Online Bidding</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항</comment>
+  </data>
+  <data name="위시리스트 보기" xml:space="preserve">
+    <value>Favorite Lots</value>
+    <comment>[Modal] 004.2 버튼</comment>
+  </data>
+  <data name="일반 승용차 기준 작품 전체 크기 90*120 cm까지 적재 가능하므로 픽업 전 차량의 공간과 작품 크기를 꼭 확인 필요" xml:space="preserve">
+    <value>Standard passenger vehicles can accommodate artworks up to 90x120cm. Please take the measurements of your vehicle and the artwork into consideration.</value>
+    <comment>[Modal] 002.3.6.3</comment>
+  </data>
+  <data name="일부 물품의 경우는 택배 발송이 가능하며, 이 경우 배송비는 5천원(단, 제주 및 도서 산간지역의 경우 배송비 1만원)입니다. 무게나 가격대에 따라 택배가 불가할 수 있습니다." xml:space="preserve">
+    <value>Courier delivery may be available for some items at a cost of KRW 5,000 (KRW 10,000 for Jeju Island and other remote regions). Availability of courier delivery may depend on the object’s weight and value.</value>
+    <comment>[Modal] 002.3.4</comment>
+  </data>
+  <data name="직접 픽업시에는 방문을 원하시는 날짜 하루 전(주말의 경우 금요일, 연휴인 경우 연휴 시작 하루 전) 오후 5시까지 담당자와 픽업일정을 예약하신 후 방문해 주시기 바랍니다." xml:space="preserve">
+    <value>For in-person collection, please contact a K Auction specialist by 5 PM on the day prior to the desired appointment in order to arrange for collection. Appointments must be made by Friday for weekend collections or by the last business day before holiday periods for holiday collections.</value>
+    <comment>[Modal] 002.3.6</comment>
+  </data>
+  <data name="총 구매대금" xml:space="preserve">
+    <value>Total Purchase Price</value>
+    <comment>[Modal] 001.4 예시4</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[Modal] 005. 온라인 응찰 유의사항 #5 버튼</comment>
+  </data>
+  <data name="픽업 가능시간: 월-일 10:30 am ~ 12pm/2pm~6pm" xml:space="preserve">
+    <value>Pick-up available : Mon-Sun 10:30 am - 12:00 pm / 2:00 pm - 6:00 pm</value>
+    <comment>[Modal] 002.3.6.1</comment>
+  </data>
+  <data name="해외" xml:space="preserve">
+    <value>International</value>
+    <comment>[Modal] 002.3.1 Table Header</comment>
+  </data>
+  <data name="현재가 구간 (원)" xml:space="preserve">
+    <value>Current Price (KRW)</value>
+    <comment>[Modal] 003.02. Header</comment>
+  </data>
+  <data name="호가 단위 (원)" xml:space="preserve">
+    <value>Bidding Increment (KRW)</value>
+    <comment>[Modal] 003.02 Header</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>확인</comment>
+  </data>
+</root>

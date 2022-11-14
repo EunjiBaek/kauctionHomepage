@@ -1,0 +1,119 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">회원 보증서 신청 이력</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left"><label id="total-record"></label></div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group" style="float: right;">
+                            <span class="btn btn-primary" style="height: 35px; cursor: pointer; float: right;" onclick="search();">검색</span>
+                            <input id="search" onkeydown="checkSearch(event);" style="float: right; width: 200px;" class="form-control" type="text" placeholder="검색어를 입력해 주세요." />
+                            <select id="filter" class="form-control" style="width: 100px;">
+                                <option value="name">이름 (전체)</option>
+                                <option value="id">ID (전체)</option>
+                                <option value="mobile">전화번호 (마지막4자리)</option>
+                                <option value="uid">홈페이지 고유번호 (전체)</option>
+                                <option value="koffice_uid">케이오피스 고유번호 (전체)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers"><ul class="pagination"></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["filter"] = "";
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        getList();
+        $("#search").focus();
+    });
+
+    function getTypeList(type) {
+        requestParam["type"] = type;
+        requestParam["page"] = 1;
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Member/GetWorkCertificateRequest", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        let resultCode = $.ajaxUtils.getResultCode(result);
+        if (resultCode === "00") {
+            $.listViewUtils.init({
+                target: $("#data-grid"),
+                totalCount: result.data.recordsTotal,
+                parameters: requestParam,
+                callback: getList,
+                page: requestParam["page"],
+                pagination: $(".pagination"),
+                data: result.data.data,
+                totalRecord: $("#total-record"),
+                fields: [
+                    { name: "mem_uid", type: "text", title: "고유번호", width: "30" },
+                    { name: "mem_name", type: "text", title: "회원명", width: "40" },
+                    { name: "auc_title", type: "text", title: "경매", width: "70" },
+                    {
+                        name: "work_title", type: "text", title: "작품명", width: "70",
+                        itemTemplate: function (_, item) {
+                            return "Lot." + item.lot_num + " " + _;
+                        }
+                    },
+                    {
+                        name: "receiver_address", type: "text", title: "신청정보",
+                        itemTemplate: function (_, item) {
+                            return "배송지: " + item.receiver_zipcode + " " + item.receiver_address + " " + item.receiver_address2
+                                + "<br />수신자: " + item.receiver_name + "/" + item.receiver_mobile + "/" + item.receiver_email
+                        }
+                    },
+                    { name: "state_name", type: "text", title: "상태", width: "40" },
+                    {
+                        name: "reg_date", type: "text", title: "신청일", width: "70",
+                        itemTemplate: function (_, item) {
+                            return item.reg_date + (item.state === "002" ? "<br />처리일: " + item.proc_date : "")
+                        }
+                    }
+                ]
+            });
+        } else if (resultCode === "80") {
+            $.commonUtils.alert("검색어를 입력하세요.");
+            $("#search").focus();
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 잠시후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $('#filter').val();
+        requestParam["search"] = $('#search').val();
+        if (requestParam["search"].replace(/ /g, '') === '') {
+            $.commonUtils.alert("검색어를 입력하세요.");
+            $("#search").focus();
+            return false;
+        }
+        getList();
+    }
+
+</script>

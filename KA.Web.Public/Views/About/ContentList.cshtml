@@ -1,0 +1,227 @@
+﻿
+@{
+    string GetBoardName(string name)
+    {
+        switch (name)
+        {
+            case "Notice": return "공지사항";
+            case "Press": return "언론보도";
+            case "Recruit": return "채용공고";
+            default: return "";
+        }
+    }
+
+    string GetTopAreaClassName(string name)
+    {
+        switch (name)
+        {
+            case "Notice": return "b12";
+            case "Press": return "b11";
+            case "Recruit": return "b10";
+            default: return "";
+        }
+    }
+}
+
+<div class="subtop-bn @GetTopAreaClassName(ViewData["Board"].ToString())">
+    <div class='container container-fixed-lg sm-p-l-0 sm-p-r-0'>
+        <div class='inner'>
+            <ol class='breadcrumb'>
+                <li class='breadcrumb-item depth-1'><a href='/'><i class='fas fa-home-lg-alt text-white'></i></a></li>
+                <li class='breadcrumb-item depth-2 '>ABOUT</li>
+                <li class='breadcrumb-item depth-3'>@GetBoardName(ViewData["Board"].ToString())</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container subtop">
+        <div class="subtop-desc">
+            <h1>@GetBoardName(ViewData["Board"].ToString())</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container p-b-50 bg-white board-container">
+    <div class="row board-wrap">
+        <div class="col-sm-12">
+            <table class="data-table table-hover notice-table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%">번호</th>
+                        @if (ViewData["Board"].ToString() == "Press")
+                        {
+                            <th style="width: 15%" class="media-company">매체사</th>
+                            <th>제목</th>
+                            <th style="width: 15%">등록일</th>
+                        }
+                        else
+                        {
+                            <th>제목</th>
+                            <th style="width: 15%">게시일</th>
+                            @*<th style="width: 8%">조회</th>*@
+                        }
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const totalarea = document.createElement('div');
+    const totalareaspan = document.createElement('span');
+    totalarea.className = "tatalarea";
+    totalarea.textContent = "TOTAL : ";
+    
+    document.querySelector('.board-wrap').appendChild(totalarea);
+    totalarea.appendChild(totalareaspan);
+
+
+    var boardName = "@ViewData["Board"]";
+    var responsiveHelper = undefined;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone: 480
+    };
+
+    $(document).ready(function () {
+        getList();
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData('/api/Board/' + boardName + '/GetList', null, getListComplete);
+    }
+
+    function getListComplete(result) {
+        var boardType = result.info.board_type;
+        $("#board-name-top").html(result.info.board_name);
+        $("#board-name-title").html(result.info.board_name);
+        $('.data-table').DataTable({
+            data: result.data,
+            columnDefs: boardType === "002" ? [
+                {className: "media-company-cnt", targets: 1},
+                {className: "td_title", targets: 2},
+                {className: "td_date", targets: 3}
+            ] : [
+                {className: "td_title", targets: 1},
+                {className: "td_date", targets: 2}
+            ],
+            columns: boardType === "002" ? [
+                {
+                    "data": "display_no",
+                    "render": function (data, type, row, meta) {
+                        if (type === "display" && row.display_mode === "Y") {
+                            data = '<div style="display:inline-block; background-color: #f44e05; font-size: 11px; color:#fff; padding:2px 5px; border-radius:3px; line-height: 1.5em;">공지</div>';
+                        }
+                        return data;
+                    }
+                },
+                { "data": "mem_nick"},
+                {
+                    "data": "doc_title",
+                    "render": function (data, type, row, meta) {
+                        if (type === "display") {
+                            var noticeStyle = row.display_mode === "Y" ? 'style="color: #000000;"' : '';
+                            data = boardType === "002"
+                                ? '<a href="' + row.redirect_url + '" target="_blank" onclick="viewLink(' + row.uid + ');" ' + noticeStyle + '>' + data + '</a><div class="mediaCompany"></div><div class="tddate"></div>'
+                                : '<a href="/About/' + boardName + '/' + row.uid + '" onclick="viewLink(' + row.uid + ');" ' + noticeStyle + '>' + data + '</a><div class="mediaCompany"></div><div class="tddate"></div>'
+                        }
+                        return data;
+                    }
+                },
+                { "data": "start_date" }
+            ] : [
+                {
+                    "data": "display_no",
+                    "render": function (data, type, row, meta) {
+                        if (type === "display" && row.display_mode === "Y") {
+                            data = '<div style="display:inline-block; background-color: #f44e05; font-size: 11px; color:#fff; padding:2px 5px; border-radius:3px; line-height: 1.5em;">공지</div>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    "data": "doc_title",
+                    "render": function (data, type, row, meta) {
+                        if (type === "display") {
+                            var noticeStyle = row.display_mode === "Y" ? 'style="color: #000000;"' : '';
+
+                            data = boardType === "002"
+                                ? '<a href="' + row.redirect_url + '" target="_blank" onclick="viewLink(' + row.uid + ');" ' + noticeStyle + '>' + data + '</a><div class="tddate"></div>'
+                                : '<a href="/About/' + boardName + '/' + row.uid + '" onclick="viewLink(' + row.uid + ');" ' + noticeStyle + '>' + data + '</a><div class="tddate"></div>';
+                        }
+                        return data;
+                    }
+                },
+                { "data": "start_date" }
+            ],
+            dom: "<'row'<'col-sm-12'tr>><'row'<'col-md-3'i><'col-md-6 text-center'p><'col-md-3'f>>",
+            pagingType: "simple_numbers",
+            destroy: true,
+            scrollcollapse: true,
+            ordering: false,
+            searching: false,
+            paging: true,
+            language: $.listUtils.language,
+            pageLength: 15
+        });
+
+        $('.search-table').on('keyup', function (e) {
+            if (e.which === 13) {
+                table.search(this.value).draw();
+            }
+        });
+
+        var totalPage = $("#DataTables_Table_0_info");
+        if (totalPage.length > 0) {
+            totalPage.find("b").html(result.recordsTotal);
+            totalareaspan.innerText = result.recordsTotal;
+        }
+
+        $(window).resize();
+
+        try {
+
+            /*작성일*/
+            const tdDate = document.querySelectorAll('.tddate');
+            const calendar = document.createElement('i');
+            calendar.className = "far fa-calendar";
+
+
+            for(let i = 0; i<=tdDate.length; i++ ){
+                const clone = calendar.cloneNode();
+                tdDate[i].textContent = document.querySelectorAll('.td_date')[i + 1].textContent;
+                tdDate[i].prepend(clone);
+            }
+
+
+        } catch (e) {
+            
+        }
+
+        /*매체사*/
+        if(document.getElementsByClassName('media-company-cnt') !== undefined){
+            const mediaCompany = document.querySelectorAll('.mediaCompany')
+            const newsIcon = document.createElement('i');
+            newsIcon.className = 'far fa-newspaper';
+
+            try {
+                for(let i = 0; i<=mediaCompany.length; i++ ){
+                    const cloneicon = newsIcon.cloneNode();
+                    mediaCompany[i].textContent = document.querySelectorAll('.media-company-cnt')[i + 1].textContent;
+                    mediaCompany[i].prepend(cloneicon);
+                }
+            } catch(e){
+                
+            }
+
+        }
+
+
+    }
+
+    function viewLink(obj) {
+        $.ajaxUtils.getApiData("/api/Board/UpdateRead/" + obj);
+    }
+
+</script>

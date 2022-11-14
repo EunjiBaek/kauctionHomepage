@@ -1,0 +1,888 @@
+﻿@using KA.Entities.Models.Auction;
+@using KA.Entities.Models.Main;
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var highlightWorks = commonService.GetWorkHighlight();
+    var highlightIndex = new int[4] { 0, 0, 0, 0 };
+    var highlightCount = new int[4] { highlightWorks.Count(),
+        highlightWorks.Where(a => a.AucKind.Equals("1")).Count(),
+        highlightWorks.Where(a => a.AucKind.Equals("2")).Count(),
+        highlightWorks.Where(a => a.AucKind.Equals("4")).Count()
+    };
+    var auctionSchedules = commonService.GetAuctionSchedules();
+    var auctionSchedulesBefore = new string[4] { "", "", "", "" };
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentLang = requestCulture == null ? "ko-KR" : requestCulture.RequestCulture.UICulture.Name;
+    var targetLang = currentLang.Equals("ko-KR") ? "ENG" : "KOR";
+    var currentAuction = new CurrentAuctionSchedule(commonService.GetCurrentAuctionSchedule(), targetLang.Equals("KOR") ? "ENG" : "KOR");
+
+    var mainBannerList = commonService.GetMainBannerList();
+    var mainBannerCount = mainBannerList.Count();
+
+    var crawlingDatas = commonService.GetCrawlingDatas();
+    var blogList = crawlingDatas.Where(a => a.Type.Equals("N"));
+    var blogListTotalCount = blogList.Count() > 0 ? blogList.ToArray()[0].TotalCount : 0;
+    var igtvList = crawlingDatas.Where(a => a.Type.Equals("I"));
+    var igtvListTotalCount = igtvList.Count() > 0 ? igtvList.ToArray()[0].TotalCount : 0;
+
+    var notices = commonService.GetNotices("", "image_content");
+}
+
+<style>
+    #back-btn {
+        display: none !important;
+    }
+</style>
+<div class="container-fixed-lg">
+    <div id="mainbanner">
+        <div class="swiper-container main">
+            <!-- SWIPER START -->
+            <div class="swiper-wrapper">
+                @foreach (var item in mainBannerList)
+                {
+                    <div class="swiper-slide">
+                        <div class="banner-img" style="background-color: rgba(@item.ImageBgColor);"><img src="@Config.ImageDomain/www/Main/@item.DisplayImageFileName" loading="lazy" /></div>
+                        @if (item.IsDisplayLayer)
+                        {
+                            <div class="textbox">
+                                <div class="container">
+                                    <div>
+                                        @if (!string.IsNullOrWhiteSpace(item.DisplayLayerSubTitle) || !string.IsNullOrWhiteSpace(item.DisplayLayerTitle))
+                                        {
+                                            <h1>
+                                                @if (!string.IsNullOrWhiteSpace(item.DisplayLayerSubTitle))
+                                                {
+                                                    <span style="font-size:16px; font-weight:400; word-break:keep-all; letter-spacing: 1px;">@item.DisplayLayerSubTitle<br /></span>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(item.DisplayLayerTitle))
+                                                {
+                                                    <span style="font-size:22px;">@item.DisplayLayerTitle<br /></span>
+                                                }
+                                            </h1>
+                                        }
+                                        <div class="textboxCnt">
+                                            @Html.Raw(item.DisplayLayerContent)
+                                        </div>
+                                        @if (item.DisplayButtonInfo.Count() > 0)
+                                        {
+                                            <div class="btn">
+                                                @foreach (var subItem in item.DisplayButtonInfo)
+                                                {
+                                                    @if (!string.IsNullOrWhiteSpace(subItem.Text))
+                                                    {
+                                                        @Html.Raw($"<a href='{subItem.LinkUrl}' class='' {(subItem.TargetBlank.Equals("Y") ? "target='_blank'" : "")}>{subItem.Text}</a>")
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (item.UseLinkWork != null && item.UseLinkWork.Equals("Y") && item.LinkWorkUid > 0)
+                        {
+                            <div class="banner-writer-info" style="position: absolute; width: 100%; height: 100%;">
+                                <div class="container" style="position: relative; height: 100%;">
+                                    <div><a href="@string.Format("/Auction/{0}/{1}/{2}", commonService.GetAucKindName(item.LinkWorkAucKind), item.LinkWorkAucNum, item.LinkWorkUid)" target="_self">@string.Format("Lot{0} {1} {2}", item.LinkWorkLotNum, item.DisplayLinkWorkArtistName, item.DisplayLinkWorkTitle)</a></div>
+                                </div>
+                            </div>
+                        }
+                        <div class="hero_slide--progress"></div>
+                    </div>
+                }
+            </div>
+            <!-- SWIPER END -->
+            <!-- NAVI BUTTON START -->
+            <div class="navigation">
+                <div class="container">
+                    <div>
+                        <div class="swiper-button-prev">
+                        <script>document.write(ka.icon.navigation.before);</script></div>
+                        <div class="stop s1 on">
+                        <script>document.write(ka.icon.navigation.stop);</script></div>
+                        <div class="stop s2">
+                        <script>document.write(ka.icon.navigation.play);</script></div>
+                        <div class="swiper-button-next">
+                        <script>document.write(ka.icon.navigation.next);</script></div>
+                    </div>
+                </div>
+            </div>
+            <!-- NAVI BUTTON END -->
+            <!-- PAGING START -->
+            <div class="swiper-pagination"></div>
+            <!-- PAGING END -->
+        </div>
+    </div>
+</div>
+<div class="container main-desc">
+    <div class="work-sns" style="display: none;">
+        <!-- HIGHLIGHT START -->
+        @if ((currentAuction.IsActive[0] || currentAuction.IsActive[1] || currentAuction.IsActive[2]) && highlightCount[0] > 1)
+        {
+            <div>
+                <div id="highlight" data-value="@L["주요 출품작"]">
+                    <div class="work-sns-tit">
+                        <span class="prev-text igtvCnt"><span>@L["케이옥션 인스타그램"]</span></span>
+                        <span class="next-text blogCnt"><span>@L["케이옥션 블로그"]</span></span>
+                        <img src="/img/icons/main-logo_1x.png" srcset="/img/icons/main-logo_1x.png 1x,/img/icons/main-logo_2x.png 2x,/img/icons/main-logo_3x.png 3x," style="margin-right: 10px;" />
+                        <h2>@L["주요 출품작"]</h2>
+                    </div>
+                    <div class="hl-btn">
+                        <ul>
+                            <li class="active"><a href="#">@L["전체"]</a></li>
+                            @if (currentAuction.IsActive[0] && highlightCount[1] > 0)
+                            {
+                                <li><a href="#">@L["메이저"]</a></li>
+                            }
+                            @if (currentAuction.IsActive[1] && highlightCount[2] > 0)
+                            {
+                                <li><a href="#">@L["프리미엄"]</a></li>
+                            }
+                            @if (currentAuction.IsActive[2] && highlightCount[3] > 0)
+                            {
+                                <li><a href="#">@L["위클리"]</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="hl-list">
+                        <div>
+                            <div>
+                                <ul class="hllilst clearfix">
+                                    @foreach (var item in highlightWorks)
+                                    {
+                                        <li>
+                                            <a href="#"><img src="@item.ThumFileName" loading="lazy" alt=""></a>
+                                            <div data-wish-yn="@item.WishYN" data-uid="@item.Uid" onclick="callApiAndRedirect('H', '@item.Uid', '/Auction/@item.AucKindName/@item.AucNum/@item.Uid', '_self');">
+                                                <script>document.write(@(item.WishYN.Equals("Y") ? "ka.icon.mainwishopen" : "ka.icon.mainwish"));</script>
+                                                <div class="info">
+                                                    <p class="name">@Html.Raw(item.DisplayArtistName)</p>
+                                                    <p class="tit">@Html.Raw(item.DisplayTitle)</p>
+                                                    <div>
+                                                        @if (item.SeparateInquiryYN != null && item.SeparateInquiryYN.Equals("Y"))
+                                                        {
+                                                            <p class="cr">@L["별도 문의"]</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="cr" data-display="@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)">@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)</p>
+                                                            <p class="price"><strong>KRW</strong><span>@item.DisplayPriceMaxHome</span></p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        @if (currentAuction.IsActive[0] && highlightCount[1] > 0)
+                        {
+                            <div>
+                                <div>
+                                    <ul class="hllilst clearfix">
+                                        @foreach (var item in highlightWorks.Where(a => a.AucKind.Equals("1")))
+                                        {
+                                            <li>
+                                                <a href="#"><img src="@item.ThumFileName" loading="lazy" alt=""></a>
+                                                <div data-wish-yn="@item.WishYN" data-uid="@item.Uid" onclick="callApiAndRedirect('H', '@item.Uid', '/Auction/@item.AucKindName/@item.AucNum/@item.Uid', '_self');">
+                                                    <script>document.write(@(item.WishYN.Equals("Y") ? "ka.icon.mainwishopen" : "ka.icon.mainwish"));</script>
+                                                    <div class="info">
+                                                        <p class="name">@item.DisplayArtistName</p>
+                                                        <p class="tit">@item.DisplayTitle</p>
+                                                        <div>
+                                                            @if (item.SeparateInquiryYN != null && item.SeparateInquiryYN.Equals("Y"))
+                                                            {
+                                                                <p class="cr">@L["별도 문의"]</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="cr" data-display="@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)">@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)</p>
+                                                                <p class="price"><strong>KRW</strong><span>@item.DisplayPriceMaxHome</span></p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        @if (currentAuction.IsActive[1] && highlightCount[2] > 0)
+                        {
+                            <div>
+                                <div>
+                                    <ul class="hllilst clearfix">
+                                        @foreach (var item in highlightWorks.Where(a => a.AucKind.Equals("2")))
+                                        {
+                                            <li>
+                                                <a href="#"><img src="@item.ThumFileName" loading="lazy" alt=""></a>
+                                                <div data-wish-yn="@item.WishYN" data-uid="@item.Uid" onclick="callApiAndRedirect('H', '@item.Uid', '/Auction/@item.AucKindName/@item.AucNum/@item.Uid', '_self');">
+                                                    <script>document.write(@(item.WishYN.Equals("Y") ? "ka.icon.mainwishopen" : "ka.icon.mainwish"));</script>
+                                                    <div class="info">
+                                                        <p class="name">@item.DisplayArtistName</p>
+                                                        <p class="tit">@item.DisplayTitle</p>
+                                                        <div>
+                                                            @if (item.SeparateInquiryYN != null && item.SeparateInquiryYN.Equals("Y"))
+                                                            {
+                                                                <p class="cr">@L["별도 문의"]</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="cr" data-display="@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)">@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)</p>
+                                                                <p class="price"><strong>KRW</strong><span>@item.DisplayPriceMaxHome</span></p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        @if (currentAuction.IsActive[2] && highlightCount[3] > 0)
+                        {
+                            <div>
+                                <div>
+                                    <ul class="hllilst clearfix">
+                                        @foreach (var item in highlightWorks.Where(a => a.AucKind.Equals("4")))
+                                        {
+                                            <li>
+                                                <a href="#">
+                                                    <img src="@item.ThumFileName" loading="lazy" alt="">
+                                                </a>
+                                                <div data-wish-yn="@item.WishYN" data-uid="@item.Uid" onclick="callApiAndRedirect('H', '@item.Uid', '/Auction/@item.AucKindName/@item.AucNum/@item.Uid', '_self');">
+                                                    <script>document.write(@(item.WishYN.Equals("Y") ? "ka.icon.mainwishopen" : "ka.icon.mainwish"));</script>
+                                                    <div class="info">
+                                                        <p class="name">@item.DisplayArtistName</p>
+                                                        <p class="tit">@item.DisplayTitle</p>
+                                                        <div>
+                                                            @if (item.SeparateInquiryYN != null && item.SeparateInquiryYN.Equals("Y"))
+                                                            {
+                                                                <p class="cr">@L["별도 문의"]</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="cr" data-display="@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)">@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)</p>
+                                                                <p class="price"><strong>KRW</strong><span>@item.DisplayPriceMaxHome</span></p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- HIGHLIGHT END -->
+        <!-- BLOG START-->
+        <div id="main-blog-cont">
+            <div class="main-blog" data-value="@L["케이옥션 블로그"]">
+                <div class="work-sns-tit">
+                    <span class="prev-text highlightCnt">
+                        <span>@L["주요 출품작"]</span>
+                    </span>
+                    <span class="next-text igtvCnt">
+                        <span>@L["케이옥션 인스타그램"]</span>
+                    </span>
+                    <img src="/img/icons/mainblog-logo_1x.png" srcset="/img/icons/mainblog-logo_1x.png 1x, /img/icons/mainblog-logo_2x.png 2x, /img/icons/mainblog-logo_3x.png 3x," style="margin-right: 10px;" />
+                    <h2>@L["케이옥션 블로그"]</h2>
+                </div>
+                <div class="main-blog-list clearfix">
+                    @foreach (var item in blogList)
+                    {
+                        <div style="cursor: pointer;" onclick="callApiAndRedirect('N', '@item.Uid', '@item.Link', '_blank');">
+                            <div class="main-blog-list-img" title="@Html.Raw(item.Title)"><img src="@item.ImagePath" loading="lazy" /></div>
+                            <div class="main-blog-list-desc" title="@Html.Raw(item.Title)"><p>@Html.Raw(item.Title)</p></div>
+                            @if (!item.ReadYN.Equals("Y") && !string.IsNullOrWhiteSpace(item.Etc3))
+                            {
+                                <div class="main-newicon main-newicon-blog" id="content-N-@item.Uid" style="display: none;">@item.Etc3.Trim()</div>
+                            }
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <!-- BLOG END-->
+        <!--IGTV START-->
+        <div id="main-igtv-cont">
+            <div class="main-igtv" data-value="@L["케이옥션 인스타그램"]">
+                <div class="work-sns-tit">
+                    <span class="prev-text blogCnt">
+                        <span>@L["케이옥션 블로그"]</span>
+                    </span>
+                    <span class="next-text highlightCnt">
+                        <span>@L["주요 출품작"]</span>
+                    </span>
+                    <img src="/img/icons/instagram-logo_1x.png" srcset="/img/icons/instagram-logo_1x.png 1x, /img/icons/instagram-logo_2x.png 2x, /img/icons/instagram-logo_3x.png 3x," style="margin-right: 10px;" />
+                    <h2>@L["케이옥션 인스타그램"]</h2>
+                </div>
+                <div class="main-igtv-list">
+                    @foreach (var item in igtvList)
+                    {
+                        <div style="cursor: pointer;" onclick="callApiAndRedirect('I', '@item.Uid', '@item.Link', '_blank');">
+                            <img src="@item.ImagePath" loading="lazy" />
+                            <p class="play-amount"><i class="fas fa-play" style="margin-right: 8px;"></i>@item.Etc1</p>
+                            <p class="play-time">@commonService.TimeCodeFormat(item.Etc2)</p>
+                            @if (!item.ReadYN.Equals("Y") && !string.IsNullOrWhiteSpace(item.Etc3))
+                            {
+                                <div class="main-newicon main-newicon-igtv" id="content-I-@item.Uid" style="display: none;">N</div>
+                            }
+                            <div class="igtv-list-gradation"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!--IGTV END-->
+    </div>
+    <!-- HIGHLIGHT END -->
+    <!-- ABOUT AUCTION START -->
+    <div id="auction-rel">
+        <div class="guide">
+            @if (notices.Where(x => x.Type.Equals("X")).Count() > 0)
+            {
+                var notice1 = notices.Where(x => x.Type.Equals("X")).OrderBy(x => (new Random()).Next()).First();
+                <div class="guide-item" onclick="@(string.IsNullOrWhiteSpace(notice1.Link) ? "return false;" : $"window.open('{notice1.Link}', '{notice1.Target}');")">
+                    <div class="img-wrap"><img src="@Config.ImageDomain/www/Notice/@notice1.Image" /></div>
+                    <div class="cnt-wrap">
+                        <h5>@notice1.DisplayTitle</h5>
+                        <p>@notice1.DisplaySubTitle</p>
+                        <a href="#">@notice1.DisplayProperty</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="guide-item">
+                    <div class="img-wrap"><img src="https://images.k-auction.com/www/Work/0151/M0151093001.jpg" /></div>
+                    <div class="cnt-wrap">
+                        <h5>보기만 해도 시원한 작품 속 블루</h5>
+                        <p>뜨거운 열기 속 시원한 작품들이 돋보였던 지난 5월 메이저 전시를 되돌아봅니다.</p>
+                        <a href="#">전시리뷰</a>
+                    </div>
+                </div>
+            }
+            @if (notices.Where(x => x.Type.Equals("Y")).Count() > 0)
+            {
+                var notice2 = notices.Where(x => x.Type.Equals("Y")).OrderBy(x => (new Random()).Next()).First();
+                <div class="guide-item" onclick="@(string.IsNullOrWhiteSpace(notice2.Link) ? "return false;" : $"window.open('{notice2.Link}', '{notice2.Target}');")">
+                    <div class="img-wrap"><img src="@Config.ImageDomain/www/Notice/@notice2.Image" /></div>
+                    <div class="cnt-wrap">
+                        <h5>@notice2.DisplayTitle</h5>
+                        <p>@notice2.DisplaySubTitle</p>
+                        <a href="#">@notice2.DisplayProperty</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="guide-item" onclick="location.href = '/HowTo/BidGuide'">
+                    <div class="img-wrap"><img src="/img/home/bidguide_img.png" srcset="/img/home/bidguide_img.png 1x, /img/home/bidguide_img@2x.png 2x, /img/home/bidguide_img@3x.png 3x" /></div>
+                    <div class="cnt-wrap">
+                        <h5>경매 초보를 위한 응찰 가이드</h5>
+                        <p>미술 경매에서 작품을 구입하는 방법, 가장 쉽게 알려드리겠습니다. How to 페이지에서 새로운 가이드 영상을 확인하세요.</p>
+                        <a href="#">응찰안내</a>
+                    </div>
+                </div>
+            }
+            @if (notices.Where(x => x.Type.Equals("Z")).Count() > 0)
+            {
+                var notice3 = notices.Where(x => x.Type.Equals("Z")).OrderBy(x => (new Random()).Next()).First();
+                <div class="guide-item" onclick="@(string.IsNullOrWhiteSpace(notice3.Link) ? "return false;" : $"window.open('{notice3.Link}', '{notice3.Target}');")">
+                    <div class="img-wrap"><img src="@Config.ImageDomain/www/Notice/@notice3.Image" /></div>
+                    <div class="cnt-wrap">
+                        <h5>@notice3.DisplayTitle</h5>
+                        <p>@notice3.DisplaySubTitle</p>
+                        <a href="#">@notice3.DisplayProperty</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="guide-item" onclick="location.href = '/HowTo/ConsignGuide'">
+                    <div class="img-wrap"><img src="/img/home/howtosell_img.png" srcset="/img/home/howtosell_img.png 1x, /img/home/howtosell_img@2x.png 2x, /img/home/howtosell_img@3x.png 3x" /></div>
+                    <div class="cnt-wrap">
+                        <h5>작품의 가치를 아는 당신을 위해</h5>
+                        <p>믿을 수 있는 대한민국 대표 경매회사 케이옥션에서 안전하게 작품을 보관하세요.</p>
+                        <a href="#">위탁 서비스 소개</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="schedule">
+            <div>
+                <div class="tit">
+                    <h4>@L["케이옥션"] @L["경매 일정"]</h4>
+                    <select id="Select">
+                        <option value="0" id="tab1">@L["전체"]</option>
+                        <option value="1">@L["메이저"] @L["경매"]</option>
+                        <option value="2">@L["프리미엄"] @L["경매"]</option>
+                        <option value="3">@L["위클리"] @L["경매"]</option>
+                    </select>
+                </div>
+                <div class="auc-desc">
+                    <div class="aucdesc">
+                        <ul>
+                            @foreach (var item in auctionSchedules)
+                            {
+                                <li>
+                                    @if (string.IsNullOrWhiteSpace(auctionSchedulesBefore[0]) || !auctionSchedulesBefore[0].Equals(item.StartDate.ToString("yyyy-MM-dd")))
+                                    {
+                                        <div class="aucsh-left">@item.StartDate.ToString("yyyy-MM-dd")</div>
+                                    }
+                                    <div class="aucsh-right">
+                                        @if (item.LinkYN.Equals("Y"))
+                                        {
+                                            @if (item.AucKind.Equals("1"))
+                                            {
+                                                <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @if (item.AucKind.Equals("1"))
+                                            {
+                                                <p>[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                            }
+                                            else
+                                            {
+                                                <p>[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                            }
+                                        }
+                                    </div>
+                                </li>
+                                auctionSchedulesBefore[0] = item.StartDate.ToString("yyyy-MM-dd");
+                            }
+                        </ul>
+                    </div>
+                    <div class="aucdesc" style="display: none;">
+                        <ul>
+                            @foreach (var item in auctionSchedules)
+                            {
+                                if (item.AucKind.Equals("1"))
+                                {
+                                    <li>
+                                        @if (string.IsNullOrWhiteSpace(auctionSchedulesBefore[1]) || !auctionSchedulesBefore[1].Equals(item.StartDate.ToString("yyyy-MM-dd")))
+                                        {
+                                            <div class="aucsh-left">@item.StartDate.ToString("yyyy-MM-dd")</div>
+                                        }
+                                        <div class="aucsh-right">
+                                            @if (item.LinkYN.Equals("Y"))
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                        </div>
+                                    </li>
+                                    auctionSchedulesBefore[1] = item.StartDate.ToString("yyyy-MM-dd");
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="aucdesc" style="display: none;">
+                        <ul>
+                            @foreach (var item in auctionSchedules)
+                            {
+                                if (item.AucKind.Equals("2"))
+                                {
+                                    <li>
+                                        @if (string.IsNullOrWhiteSpace(auctionSchedulesBefore[2]) || !auctionSchedulesBefore[2].Equals(item.StartDate.ToString("yyyy-MM-dd")))
+                                        {
+                                            <div class="aucsh-left">@item.StartDate.ToString("yyyy-MM-dd")</div>
+                                        }
+                                        <div class="aucsh-right">
+                                            @if (item.LinkYN.Equals("Y"))
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                        </div>
+                                    </li>
+                                    auctionSchedulesBefore[2] = item.StartDate.ToString("yyyy-MM-dd");
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="aucdesc" style="display: none;">
+                        <ul>
+                            @foreach (var item in auctionSchedules)
+                            {
+                                if (item.AucKind.Equals("4"))
+                                {
+                                    <li>
+                                        @if (string.IsNullOrWhiteSpace(auctionSchedulesBefore[3]) || !auctionSchedulesBefore[3].Equals(item.StartDate.ToString("yyyy-MM-dd")))
+                                        {
+                                            <div class="aucsh-left">@item.StartDate.ToString("yyyy-MM-dd")</div>
+                                        }
+                                        <div class="aucsh-right">
+                                            @if (item.LinkYN.Equals("Y"))
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="sch-link" style="cursor: pointer;" onclick="window.open('@item.LinkUrl', '_self');">[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @if (item.AucKind.Equals("1"))
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["온라인프리뷰시작"].Value : L["경매일"].Value)] @item.DisplayTitle</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>[@(item.DateMode.Equals("S") ? L["경매시작"].Value : L["경매종료"].Value)] @item.DisplayTitle</p>
+                                                }
+                                            }
+                                        </div>
+                                    </li>
+                                    auctionSchedulesBefore[3] = item.StartDate.ToString("yyyy-MM-dd");
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ABOUT AUCTION END -->
+    <!-- BOTTOM BANNER START -->
+    <div id="bot-banner">
+        <div class="changeimg">
+            <div class="change-list mb cl1">
+                <h2>@L["케이옥션 모바일앱 다운로드"]</h2>
+                <p>@L["어디서든 케이옥션 경매에 참여하세요."]</p>
+                <img src="/img/temp/highlight/app-download@1x.png" alt="@L["앱다운로드"]">
+            </div>
+            <div class="change-list cl2" onclick="location.href='/Services/KString'" style="cursor: pointer;">
+                <h2>K Auction & String</h2>
+                <p>@L["전문가의 케어 및 판매와 구매, 거래 등 고급 현악기 통합 서비스"]</p>
+            </div>
+            <div class="change-list cl3" onclick="location.href='/Services/KArtSpace'" style="cursor: pointer;">
+                <h2>K Art Space</h2>
+                <p>@L["대한민국 대표 미술품 경매회사 케이옥션의 전문 수장고 서비스"]</p>
+            </div>
+            <div class="change-list cl5" onclick="location.href = '/HowTo/ConsignGuide/Consign'" style="cursor: pointer;">
+                <h2>@L["케이옥션 위탁문의"]</h2>
+                <p>@L["근현대 미술품, 고서화, 목기, 민예품, 해외 작품, 그 외의 각종 희귀자료나 예술관련 물품 등"]</p>
+            </div>
+            <div class="change-list cl4" onclick="location.href='/Services/PrivateSale'" style="cursor: pointer;">
+                <h2>Private Sales</h2>
+                <p>@L["국내 최고 미술품 유통망 기반의 경매 외 미술품 거래 서비스"]</p>
+            </div>
+        </div>
+    </div>
+    <!-- BOTTOM BANNER END -->
+</div>
+
+<script>
+    var mainBannerCount = "@mainBannerCount";
+    var blogPage = 1;
+    var blogListTotalCount = "@blogListTotalCount";
+    var igtvPage = 1;
+    var igtvListTotalCount = "@igtvListTotalCount";
+    var bCheck = "@ViewBag.BCheck";
+    var mainHighlight = "@(LoginInfo.MainHighlight != null ? LoginInfo.MainHighlight : "")";
+    var isOverseas = "@(LoginInfo.Type is "002" or "004")";
+
+    $(document).ready(function () {
+        if (isLogin !== "True") {
+            var highlight = $.commonUtils.getCookie("ka-highlight-read");
+            if (highlight !== "") {
+                try {
+                    var readList = decodeURI(highlight).split('|');
+                    readList.forEach(function (item) {
+                        $("#content-" + item.split('-')[0] + "-" + item.split('-')[1]).remove();
+                    });
+                } catch (e) { }
+            }
+        } else {
+            if (bCheck === "Y") {
+                const message = isOverseas !== "True" ? ka.msg.main.birthdayCheck : ka.msg.main.overseasUserValidationCheck;
+                $.commonUtils.alert(message);
+            }
+        }
+
+        $(".changeimg").slick({
+            autoplay: true,
+            autoplaySpeed: 10000,
+            speed: 600,
+            dots: true,
+            infinite: true,
+            speed: 500,
+            fade: true,
+            arrows: true,
+            slidesToShow: 1,
+            pauseOnHover: true,
+        });
+
+        $('.aucdesc').on('mousewheel DOMMouseScroll', function (e) {
+            var e0 = e.originalEvent,
+                delta = e0.wheelDelta || -e0.detail;
+
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+        });
+
+        if (mainHighlight === '002') {
+            $("#main-igtv-cont").parent().prepend($("#main-igtv-cont"));
+        } else if (mainHighlight === '003') {
+            $("#main-igtv-cont").parent().prepend($("#main-igtv-cont"));
+            $("#main-blog-cont").parent().prepend($("#main-blog-cont"));
+        }
+        $(".work-sns").show();
+
+        (function ($) {
+            $(window).on("load", function () {
+                $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+                $.mCustomScrollbar.defaults.axis = "yx";
+                $(".aucdesc").mCustomScrollbar({
+                    theme: "inset-dark",
+                    scrollButtons: { enable: true }
+                });
+            });
+        })(jQuery);
+
+        chkPlay = true;
+        $("#bot-banner > .bot-stop").click(function (e) {
+            e.preventDefault();
+
+            if (chkPlay) {
+                $('.changeimg').slick('slickPause');
+                $(this).addClass("play");
+                chkPlay = false;
+
+            } else {
+                $('.changeimg').slick('slickPlay');
+                $(this).removeClass("play");
+                chkPlay = true;
+            }
+        });
+
+        $('.work-sns').slick({
+            infinite: true,
+            fade: true,
+            speed: 600,
+            slidesToShow: 1,
+            initialSlide : 0,
+            adaptiveHeight: true,
+            draggable : false,
+        });
+
+        const workSnsIcon = Array.prototype.slice.call(document.querySelectorAll('.work-sns-icon'));
+        workSnsIcon.forEach(function(elem){
+            elem.addEventListener('click', function(e){
+                let target = e.currentTarget;
+                let iconOn = target.classList.contains('on');
+                for(let j =0; j<workSnsIcon.length; j++){
+                    workSnsIcon[j].classList.remove('on');
+                }
+                if(!iconOn){
+                    target.classList.add('on');
+                }else{
+                    target.classList.remove('on');
+                }
+            });
+        });
+
+        let snsPrev = document.querySelector('.work-sns > .slick-prev');
+        if (snsPrev !== null) {
+            snsPrev.innerHTML = `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.56 35.71" width="17.5" height="35"><defs><style>.cls-1{fill:none;stroke:#666;}</style></defs><path class="cls-1" d="M18.5,36,1,18.5,18.5,1" transform="translate(-0.29 -0.65)"/></svg>`;
+            let prevText = document.createElement('span');
+            snsPrev.appendChild(prevText);
+        }
+
+        let snsNext = document.querySelector('.work-sns > .slick-next');
+        if (snsNext !== null) {
+            snsNext.innerHTML = `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.56 35.71" width="17.5" height="35"><defs><style>.cls-1{fill:none;stroke:#666;}</style></defs><path class="cls-1" d="M1,1,18.5,18.5,1,36" transform="translate(-0.65 -0.65)"/></svg>`;
+            let nextText = document.createElement('span');
+            snsNext.prepend(nextText);
+        }
+
+        $('.work-sns .slick-slide').css({"height": "0"});
+        $('.work-sns .slick-current').css({"height": "100%"});
+
+        $('.work-sns').on('init reInit afterChange', function(event, slick, currentSlide){
+            $('.work-sns .slick-slide').css({"height": "0"});
+            $('.work-sns .slick-current').css({"height": "100%"});
+        });
+
+        $('.work-sns').on('init reInit beforeChange', function(event, slick, currentSlide){
+            $('.work-sns .slick-slide').css({"height": "auto"});
+            $('.work-sns .slick-current').css({"height": "100%"});
+        });
+
+        function tdStr (obg) {
+            for(let i =0; i<obg.length; i++){
+            let length = 24;
+            if (obg[i].innerText.length > length) {
+                obg[i].innerText = obg[i].innerText.substr(0, length-2) + '...';
+                }
+            }
+        }
+        tdStr(document.querySelectorAll('.main-blog-list > div > .main-blog-list-desc > p'));
+
+        function mainMoreInfo (element, elmemDiv, maxLength, totalCount) {
+            try {
+                if (elmemDiv.length > maxLength) {
+                    element.classList.add('more');
+                    const moreButton = document.createElement('div');
+                    moreButton.className = "mainpage-moreBtn";
+                    moreButton.innerHTML += '<button style="position: relative; z-index: 10; width: 250px; height: 45px; display: flex; align-items: center;justify-content: center; background-color: #f7f7f7; border: 1px solid #dedede;">' + ka.msg.list.moreDetails + ' </button>';
+                    element.after(moreButton);
+                    moreButton.style.display = 'flex';
+                }
+            } catch (error) { }
+        }
+
+         mainMoreInfo(document.querySelector('.main-blog-list'), document.querySelectorAll('.main-blog-list > div'), 10, blogListTotalCount);
+         mainMoreInfo(document.querySelector('.main-igtv-list'), document.querySelectorAll('.main-igtv-list > div'), 8, igtvListTotalCount);
+
+        for(let i = 0; i < document.querySelectorAll('.hl-list > div').length; i++) {
+            mainMoreInfo(document.querySelectorAll('.hl-list > div')[i].firstElementChild, document.querySelectorAll('.hl-list > div')[i].firstElementChild.firstElementChild.children, 10, 0);
+        }
+
+        let gradationDiv = document.createElement('div');
+        gradationDiv.className = "gradationDiv";
+        const mainMore = Array.prototype.slice.call(document.querySelectorAll('.mainpage-moreBtn'));
+        for(let i = 0; i < mainMore.length; i++){
+            const clone = gradationDiv.cloneNode();
+            mainMore[i].appendChild(clone);
+        }
+
+        $(function () {
+            function mainMoreDesc(type, content, leng) {
+                if (content.length > leng) {
+                    if (type === "I" || type === "N") {
+                    }
+                    $(content).hide();
+                    $(content).slice(0, leng).css('display', 'inline-block');
+                    $(content).closest('.more').next('.mainpage-moreBtn').children().on('click', function(e){
+                        e.preventDefault();
+                        $(this).next().hide();
+                        $(content).closest('.more').removeClass('more');
+                        $(content).filter(':hidden').slice(0, leng).css('display', 'inline-block').slideDown();
+                        if($(content).filter(':hidden').length == 0) {
+                            $(this).parent().css({"display" : "none" });
+                        }
+                    });
+                }
+            }
+
+            /*작품하이라이트*/
+            mainMoreDesc ('W', $('.hl-list > div:nth-child(1) > div > ul > li'), 10);
+
+            if (!$('.hl-list > div:nth-child(2) > div > ul > li') == false) {
+                mainMoreDesc('W', $('.hl-list > div:nth-child(2) > div > ul > li'), 10);
+            }
+            if (!$('.hl-list > div:nth-child(3) > div > ul > li') == false) {
+                mainMoreDesc('W', $('.hl-list > div:nth-child(3) > div > ul > li'), 10)
+            };
+            if (!$('.hl-list > div:nth-child(4) > div > ul > li') == false) {
+                mainMoreDesc('W', $('.hl-list > div:nth-child(4) > div > ul > li'), 10)
+            };
+
+            mainMoreDesc('I', $('.main-igtv-list > div'), 8);
+            mainMoreDesc('N', $('.main-blog-list > div'), 10);
+
+        });
+
+        let newicon = document.createElement('div');
+        newicon.className = "main-newicon";
+        newicon.textContent = 'N';
+
+        const mainArticleNew = function (target) {
+            let elem = document.querySelectorAll('.' + target + "Cnt");
+            let newCnt = $('.main-newicon-' + target).length;
+            if (newCnt > 0) {
+                for (let i = 0; i < elem.length; i++) {
+                    let clone = newicon.cloneNode(true);
+                    clone.classList.add("main-newicon-" + target + "-title");
+                    if (elem[i].classList.contains('prev-text')) {
+                        clone.style.marginLeft = "8px";
+                        elem[i].appendChild(clone);
+                    } else {
+                        clone.style.marginRight = "8px";
+                        elem[i].prepend(clone);
+                    }
+                }
+                $(".main-newicon-" + target).css("display", "");
+            }
+        }
+        mainArticleNew('igtv');
+        mainArticleNew('blog');
+
+        // $(".main-blog-list > div:nth-child(1)").append(newicon.cloneNode(true));
+
+        let textNextWidth = $(".work-sns-tit > .next-text").eq(1).width();
+        let textPrevWidth = $(".work-sns-tit > .prev-text").eq(0).width();
+        $(".work-sns .slick-next > span").css({"width": textNextWidth});
+        $(".work-sns .slick-prev > span").css({"width": textPrevWidth});
+
+        $('.slick-next').hover(function(){
+            $('.next-text > span').css({"text-decoration": "underline"});
+        }, function(){
+            $('.next-text > span').css({"text-decoration": "none"});
+        });
+
+        $('.slick-prev').hover(function(){
+            $('.prev-text > span').css({"text-decoration": "underline"});
+        }, function(){
+            $('.prev-text > span').css({"text-decoration": "none"});
+        });
+    });
+
+</script>

@@ -1,0 +1,165 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.RegisterViewModel
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    var countryList = ViewData["CountryList"] as IEnumerable<KA.Entities.Models.Common.CommonCode>;
+}
+
+<div class="card-header separator" id="authentication-2">
+    <div class="card-title">
+        <div class="form-check fs16 checkbox-circle primary m-b-0 form-check-choice">
+            <input type="radio" class="card-input-element" name="check-authentication" id="check-authentication-2" value="002" data-toggle="collapse" href="#collapse-authentication-2" aria-expanded="false" aria-controls="collapse-authentication-2">
+            <label for="check-authentication-2" class="fs-16 m-b-10">@L["해외개인고객"] <span class="text-primary fs-12">(@L["본인 명의 해외 핸드폰 소지자"])</span></label>
+        </div>
+        <a class="collapsed" data-toggle="collapse" href="#collapse-authentication-2" aria-expanded="false" aria-controls="collapse-authentication-2"></a>
+    </div>
+</div>
+<div id="collapse-authentication-2" class="collapse" data-parent="#authentications" aria-labelledby="authentication-2">
+    <div class="card-body">
+        <div class="row m-b-10" style="right: 0px; left: 0px;">
+            <i class="far fa-arrow-circle-right fa-fw fs-14"></i> @L["기본 정보"]
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-id-2" class="form-group form-group-default required">
+                    <label>ID<span class="m-l-10 small-text hint-text">@L["영문/숫자 조합 5~12자리"]</span></label>
+                    <input id="id-2" type="text" class="form-control ka-id" value="@Model.ID" />
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-name-2" class="form-group form-group-default required">
+                    <label>@L["이름"]</label>
+                    <input id="name-2" type="text" class="form-control" data-msg="@L["이름을 입력하세요."]" value="@Model.Name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-sex-2" class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">@L["성별"]</label>
+                    <select id="sex-2" class="full-width" data-placeholder="" data-init-plugin="select2" data-disable-search="true" data-msg="@L["성별을 선택하세요."]">
+                        <option></option>
+                        <option value="F">@L["여자"]</option>
+                        <option value="M">@L["남자"]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-birth-date-2" class="form-group form-group-default required">
+                    <label>@L["생년월일"]<span class="m-l-10 small-text hint-text">e.g. 2000-12-30</span></label>
+                    <input id="birth-date-2" type="text" class="form-control form-birth datepicker" data-msg="@L["생년월일을 입력하세요."]" value="@Model.BirthDate">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-email-2" class="form-group form-group-default required">
+                    <label>@L["이메일"]</label>
+                    <input id="email-2" type="email" class="form-control ka-email" data-msg="@L["이메일을 입력하세요."]" value="@Model.Email">
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-country-code-2" class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">@L["국가"]</label>
+                    <select id="country-code-2" class="full-width form-country-code" data-msg="@L["국가를 선택하세요."]">
+                        <option></option>
+                        @foreach (var item in countryList)
+                        {
+                            @Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-pwd-2" class="form-group form-group-default required">
+                    <label>@L["비밀번호"]<span class="m-l-10 small-text hint-text">@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상"]</span></label>
+                    <input id="pwd-2" type="password" class="form-control ka-password" data-msg="@L["비밀번호를 입력하세요."]" />
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-pwd2-2" class="form-group form-group-default required">
+                    <label>@L["비밀번호 확인"]</label>
+                    <input id="pwd2-2" type="password" class="form-control ka-password" data-msg="@L["비밀번호(확인)을 입력하세요."]" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="fg-mobile-cont-2" class="form-group form-group-default input-group">
+                    <div id="fg-mobile-2" class="form-input-group required">
+                        <label>@L["휴대전화"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                        <input id="mobile-2" type="tel" placeholder="" class="form-control" data-msg="@L["휴대전화를 입력하세요."]" value="@Model.Mobile">
+                    </div>
+                    <div id="fg-mobile-req-btn-2" class="input-group-append inputgroup-w">
+                        <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthConfirm(2, 'M');">@L["인증 요청"]</span>
+                    </div>
+                    <div id="fg-mobile-cancel-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                        <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthCancel(2, 'M');">@L["취소"]</span>
+                    </div>
+                    <div id="fg-mobile-retry-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                        <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.retryMobileForeignAuth(2);">@L["다시 입력"]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div id="fg-mobile-auth-2" class="form-group form-group-default input-group disabled">
+                    <div id="fg-mobile-auth-num-2" class="form-input-group required">
+                        <label>@L["인증번호"]<span class="m-l-10 small-text hint-text">@L["SMS 발송된 인증번호 30분이내 입력"]</span><span id="auth-remain-time-2" class="m-l-10 small-text hint-text"></span></label>
+                        <input type="number" id="confirm-code-2" placeholder="" class="form-control" disabled>
+                    </div>
+                    <div id="fg-mobile-auth-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                        <span class="input-group-text primary fw-500 disabled" style="cursor: pointer;" onclick="$.joinUtils.setMobileForeignAuth('CONFIRM')">@L["인증 확인"]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="root-identification-2" class="form-group form-group-default input-group">
+                    <div id="fg-identification-2" class="form-input-group required">
+                        <label>@L["증빙서류 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일 또는 PDF 파일"]</span></label>
+                        <input id="identification-2" type="text" class="form-control" data-msg="@L["증빙서류 파일을 선택하세요."]" value="@Model.Identification" readonly style="color: #495057;" />
+                        <input type="file" name="identification-file-2" id="identification-file-2" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'identification-2');" />
+                    </div>
+                    <div class="input-group-append inputgroup-w">
+                        <span onclick="modalDocumentEvidence('identification-file-2'); return false;" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 dc-evidence">
+                <p class="p-t-5 hint-text">
+                    <i class="far fa-exclamation-triangle fa-fw fs-14"></i> @L["여권 등 신분증 사본 첨부"] <span class="text-primary">(@L["증빙서류 검수 후 모든 서비스 이용 가능"])</span>
+                </p>
+            </div>
+        </div>
+        <div class="row m-b-10 m-t-10" style="right: 0px; left: 0px;">
+            <i class="far fa-arrow-circle-right fa-fw fs-14"></i> @L["주소"] &nbsp;<span class="small-text hint-text">@L["기본 배송지로 설정되며, 배송지 주소는 회원 가입 후 My Page에서 수정 가능합니다."]</span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-zipcode-2" class="form-group form-group-default required">
+                    <label>@L["우편번호"]</label>
+                    <input id="zipcode-2" type="text" class="form-control" data-msg="@L["우편번호를 입력하세요."]" value="@Model.ZipCode">
+                </div>
+            </div>
+            <div class="col-lg-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-address-2" class="form-group form-group-default required">
+                    <label>@L["주소"]</label>
+                    <input id="address-2" type="text" class="form-control" data-msg="@L["주소를 입력하세요."]" value="@Model.Address">
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-address2-2" class="form-group form-group-default required">
+                    <label>@L["상세 주소"]</label>
+                    <input id="address2-2" type="text" class="form-control" data-msg="@L["상세 주소를 입력하세요."]" value="@Model.Address2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

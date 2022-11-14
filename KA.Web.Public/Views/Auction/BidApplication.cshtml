@@ -1,0 +1,473 @@
+﻿@using KA.Entities.Helpers
+@using KA.Entities.Models.Common
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@inject KA.Web.Public.Services.CommonService CommonService
+@{
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+    var bidPrePrice = CommonService.GetAuctionBidPre(int.Parse(ViewBag.Uid), "major_pre");
+    var majorLiveReqMng = CommonService.GetCodeList("MAJOR_LIV_REQ_MNG", CommonService.IsKor());
+    var manager = majorLiveReqMng != null && majorLiveReqMng.Count() > 0 ? majorLiveReqMng.Where(x => x.SubCode.Equals("001")).First() : new CommonCode();
+}
+
+<style type="text/css">
+    .form-group-default.form-group-default-select2 > label {
+        z-index: initial !important;
+    }
+
+    .select2-container {
+        width: 100% !important;
+        z-index: initial !important;
+    }
+
+    .select2-dropdown {
+        z-index: initial !important;
+    }
+
+    .select2-container.select2-container--default.select2-container--open {
+        z-index: 1700 !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: transparent !important;
+    }
+
+    @@media(max-width:768px) {
+        .card {
+            margin-bottom: 45px
+        }
+    }
+</style>
+
+@if (Model.MemberBidAllowYn)
+{
+    <div class="applyform">
+        <breadcrumb titles="Live Auction|@L["메이저 경매"].Value|@L["서면/전화 응찰 신청"].Value" />
+        <h1>@L["서면/전화 응찰 신청서"]</h1>
+    </div>
+    <div class="container">
+        <div class="written-call-apply">
+            <div>
+                <h5>@L["응찰자 정보"]</h5>
+                <table class="apply-table">
+                    <tr>
+                        <td>@L["이름"]</td>
+                        <td>@LoginInfo.Name</td>
+                    </tr>
+                    <tr>
+                        <td>@L["생년월일"]</td>
+                        <td>@LoginInfo.BirthDate</td>
+                    </tr>
+                    <tr>
+                        <td>@L["주소"]</td>
+                        @if (Model.AddressFlag)
+                        {
+                            <td>@LoginInfo.ZipCode @LoginInfo.Address @LoginInfo.Address2</td>
+                        }
+                        else
+                        {
+                            <td><button class="btn" onclick="$.mypageUtils.openAddressPopup('I');">@L["주소 정보 등록하기"]</button></td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>@L["휴대전화"]</td>
+                        <td>@LoginInfo.Mobile</td>
+                    </tr>
+                    <tr>
+                        <td>@L["이메일"]</td>
+                        <td>@LoginInfo.Email</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h5>@L["담당자 정보"]</h5>
+                <table class="apply-table">
+                    <tr>
+                        <td>@L["담당자"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.DisplayCodeName
+                            }
+                            else
+                            {
+                                @LoginInfo.MngName
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["담당자 이메일"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.Extra2
+                            }
+                            else
+                            {
+                                @LoginInfo.MngEmail
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["담당자 내선번호"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.Extra1
+                            }
+                            else
+                            {
+                                @LoginInfo.MngExTel
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h5>@L["응찰 작품 정보"]</h5>
+                <table class="apply-table">
+                    <tr>
+                        <td>@L["작품이미지"]</td>
+                        <td>
+                            <div class="write-info-img">
+                                @if (Model.AuctionWorkImages != null && Model.AuctionWorkImages.Count > 0)
+                                {
+                                    <img src="@Model.AuctionWorkImages[0].ImgFileName">
+                                }
+                                else
+                                {
+                                    <img src="/img/list_noimg.jpg">
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["응찰방식"]</td>
+                        <td>
+                            <div class="auc-choice">
+                                <div>
+                                    <input id="bid_type_1" type="radio" name="bid_type" value="0" onchange="javascript:chgBidType(this.value);" checked="checked"><label for="bid_type_1" style="cursor: pointer;">@L["서면응찰"]</label>
+                                </div>
+                                <div>
+                                    <input id="bid_type_2" type="radio" name="bid_type" value="2" onchange="javascript:chgBidType(this.value);"><label for="bid_type_2" style="cursor: pointer;">@L["전화응찰"]</label>
+                                </div>
+                                <div>
+                                    <input id="bid_type_3" type="radio" name="bid_type" value="3" onchange="javascript:chgBidType(this.value);"><label for="bid_type_3" style="cursor: pointer;">@L["서면응찰"] &amp; @L["전화응찰"]</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["경매명"]</td>
+                        <td>
+                            @Model.AuctionWork.DisplayAucTitle
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lot</td>
+                        <td>@Model.AuctionWork.LotNum</td>
+                    </tr>
+                    <tr>
+                        <td>@L["작가명"]</td>
+                        <td>@Model.AuctionWork.DisplayArtistName</td>
+                    </tr>
+                    <tr>
+                        <td>@L["작품명"]</td>
+                        <td>@Model.AuctionWork.DisplayTitle</td>
+                    </tr>
+                    <tr>
+                        <td>@L["작품 정보"]</td>
+                        <td>
+                            @Model.AuctionWork.WorkInfo
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["낮은 추정가"]</td>
+                        <td>
+                            KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedLow)
+                        </td>
+                    </tr>
+                    <tr id="div_price_bid_pre">
+                        <td>@L["최대 응찰 가격"]</td>
+                        <td>
+                            <div>
+                                <select id="price_bid_pre">
+                                    @foreach (var item in bidPrePrice)
+                                    {
+                                        <option value="@Convert.ToInt64(item.PriceBid)">KRW @StringHelper.GetMoneyFormat(item.PriceBid)</option>
+                                    }
+                                </select>
+
+                                <p style="margin: 10px 0;">@L["※ 해당 경매 작품에 대한 최대 응찰 가능한 가격이며, 최대응찰가격 내에서 응찰이 실행됩니다."]</p>
+
+                                <p>@L["※ 응찰 제출 후 가격 변경이 필요한 경우, 변경하실 가격으로 재신청하시면 응찰가로 반영됩니다. (경매 당일 오후 3시까지 가능)"]</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bid-write-info-agree">
+                <h5>@L["이용약관 동의 (필수동의)"]</h5>
+                <div class="row r1 p-r-30 p-l-30 sign-agree" style="border: 0;">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div>1.</div>
+                            <div>
+                                @L["어떠한 법적 의무를 부과함 없이, 본인은 케이옥션이 해당 경매물품에 대하여 최대응찰가격(Maximum Bid price)까지 응찰해 줄 것을 요청합니다. 본인은 케이옥션의 담당자가 최대응찰가격 한도 내에서 내정가를 감안하여 최대한 낮은 가격에 서면응찰 실행을 노력할 것임을 이해합니다. 본인은 케이옥션이 본인의 편의를 위하여 이러한 서비스를 제공하는 것이며 케이옥션은 응찰 실행의 실패에 대해 책임지지 않을 것임을 이해합니다."]
+                                <p class="realchk">
+                                    <input type="checkbox" id="chkAgree1" name="chkAgree1" class="agreeRequired ui-helper-hidden-accessible">
+                                    <label for="chkAgree1"><span></span>@L["확인하였습니다."]</label>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div>2.</div>
+                            <div>
+                                @L["본인은 경매 물품이 낙찰된 경우, 경매 물품의 구매가는 낙찰가와 구매수수료를 합산한 금액임을 이해합니다. 서면 응찰과 전화 응찰을 모두 신청한 경우 전화 연결이 안되면 케이옥션 담당자가 최대응찰가격 한도 내에서 서면응찰 실행을 노력할 것임을 이해합니다. 동일한 경매물품에 대하여 동일한 응찰가의 서면 응찰이 접수된 경우 K옥션에 먼저 접수된 서면응찰이 우선한다는 점을 이해합니다."]
+                                <p class="realchk">
+                                    <input type="checkbox" id="chkAgree2" name="chkAgree2" class="agreeRequired ui-helper-hidden-accessible">
+                                    <label for="chkAgree2"><span></span>@L["확인하였습니다."]</label>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div>3.</div>
+                            <div>
+                                @L["본인은 경매 도록에 기재된 본 양식, 경매 약관 및 유의사항을 읽었고 이해했으며 그에 따를 것에 동의합니다."]
+                                <p class="realchk">
+                                    <input type="checkbox" id="chkAgree3" name="chkAgree3" class="agreeRequired ui-helper-hidden-accessible">
+                                    <label for="chkAgree3"><span></span>@L["확인하였습니다."]</label>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div>4.</div>
+                            <div>
+                                @L["접수된 응찰 내역은 당사의 승인과 함께 효력을 가지게 됩니다. 응찰 신청은 회사에서 규정하는 바에 의거하여 거부될 수 있음에 동의합니다."]
+                                <p class="realchk">
+                                    <input type="checkbox" id="chkAgree4" name="chkAgree4" class="agreeRequired ui-helper-hidden-accessible">
+                                    <label for="chkAgree4"><span></span>@L["확인하였습니다."]</label>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div>5.</div>
+                            <div>
+                                @L["본인은 낙찰을 취소하고자 하는 경우, 낙찰철회비로 낙찰가의 30%에 해당하는 금액을 납부하여야 한다는 것에 동의합니다."]
+                                <p class="realchk">
+                                    <input type="checkbox" id="chkAgree5" name="chkAgree5" class="agreeRequired ui-helper-hidden-accessible">
+                                    <label for="chkAgree5"><span></span>@L["확인하였습니다."]</label>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="all-agree-check">
+                    <p class="realchk">
+                        <input type="checkbox" id="allchkAgree" name="allchkAgree" class="allchkAgee">
+                        <label for="allchkAgree"><span></span>@L["위 약관에 모두 동의합니다."]</label>
+                    </p>
+                </div>
+            </div>
+            <div class="apply-btn">
+                <a href="#" onclick="history.back();">@L["취소"]</a>
+                @if (Model.AddressFlag)
+                {
+                    <a href="#" onclick="chkBid(0);">@L["응찰 신청"]</a>
+                }
+                else
+                {
+                    <a class="bid-address-btn" href="javascript:$.mypageUtils.openAddressPopup('I');">@L["주소 정보 등록하기"]</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL - ADDRESS MANAGE START -->
+    <partial name="_Partial/_AddressModalPartial" />
+    <!-- MODEL - ADDRESS MANAGE END -->
+
+    <script>
+
+        var isKor = "@CommonService.IsKor()";
+        var addressFlag = "@Model.AddressFlag";
+        var param = {};
+        var process = false;
+
+        const selectAll = document.querySelector(".allchkAgee");
+        if (selectAll != null) {
+            selectAll.addEventListener('click', function () {
+                const objs = document.querySelectorAll(".agreeRequired");
+                for (i = 0; i < objs.length; i++) {
+                    objs[i].checked = selectAll.checked;
+                };
+            }, false);
+        }
+
+        const objs = document.querySelectorAll(".agreeRequired");
+        if (objs != null) {
+            for (i = 0; i < objs.length; i++) {
+                objs[i].addEventListener('click', function () {
+                    const selectAll = document.querySelector(".allchkAgee");
+                    for (j = 0; j < objs.length; j++) {
+                        if (objs[j].checked === false) {
+                            selectAll.checked = false;
+                            return;
+                        };
+                    };
+                    selectAll.checked = true;
+                }, false);
+            }
+        }
+
+        $(document).ready(function () {
+            if (addressFlag === 'False') {
+                let work_address_tooltip = document.createElement('div');
+                work_address_tooltip.className = "work_address_tooltip";
+                work_address_tooltip.innerHTML = `<i class="fas fa-times"></i><p>` + ka.msg.auction.regAddrForBid + `</p>`;
+
+                document.querySelectorAll('.bid-address-btn')[0].append(work_address_tooltip);
+
+                if (isKor !== 'True') {
+                    $(".work_address_tooltip").css("top", "-78px");
+                }
+
+                $('.form-country-code').select2({
+                    placeholder: '',
+                    templateSelection: $.addressUtils.formatCountry,
+                    templateResult: $.addressUtils.formatCountry,
+                    escapeMarkup: function (m) { return m; }
+                }).on('select2:select', function () {
+                    $(this).parents('.form-group').removeClass('focused');
+                    if ($(this).val()) {
+                        $(this).closest('.form-group').find('label').addClass('fade');
+                    } else {
+                        $(this).closest('.form-group').find('label').removeClass('fade');
+                    }
+                });
+
+                $("#modal-country-code").val("KOR").trigger('change');
+
+                $.mypageUtils.openAddressPopup('I');
+            }
+        });
+
+
+        $(".search_addr_btn").click(function (e) {
+            e.preventDefault();
+            let keyword = $("#search_addr").val();
+
+            if (keyword.replace(/ /ig, '') !== "") {
+                $("#addrKeyword").val(keyword);
+                event.keyCode = 0;
+                getAddr();
+            }
+            return;
+        });
+
+        function chkBid(flag) {
+            param["price_bid_pre"] = $("#price_bid_pre option:selected").val();
+            param["bid_type"] = $("input:radio[name=bid_type]:checked").val();
+            param["work_uid"] = "@ViewBag.Uid";
+
+            var agree = true;
+
+            if (flag < 1) {
+                for (var i = 1; i < 6; i++) {
+                    if (!$("input:checkbox[id='chkAgree" + i.toString() + "']").is(":checked")) {
+                        agree = false;
+                    }
+                }
+
+                if (!agree) {
+                    $.commonUtils.alert(ka.msg.join.memAgreementEmpty);
+                    return;
+                }
+
+                if (param["bid_type"] == "0" || param["bid_type"] == "3") {
+                    if (param["price_bid_pre"] === '@Convert.ToInt64(Model.PriceBidPreType0)') {
+                        $.commonUtils.alert(ka.msg.auction.bidPreExistTypeEqual.replace("{PRICE}", $.stringUtils.comma('@Convert.ToInt64(Model.PriceBidPreType0)')));
+                        return;
+                    }
+
+                    if (parseInt('@Model.AuctionWork.PriceEstimatedLow', 10) * 2 < parseInt(param["price_bid_pre"])) {
+                        $.commonUtils.confirmWithTarget("warning-withStep1", ka.msg.auction.Notice, ka.msg.auction.HighBidPrice, "chkBid(1);");
+                        return;
+                    }
+                }
+            }
+
+            if (flag < 2) {
+                if (param["bid_type"] == "2") {
+                    @if (Model.ExistBidPreType2)
+                    {
+                        @:$.commonUtils.alert(ka.msg.auction.bidPreExistType2);
+                        @:return;
+                    }
+                }
+
+                if (param["bid_type"] == "0" || param["bid_type"] == "3") {
+                    @if (Model.ExistBidPreType0)
+                    {
+                        @:$.commonUtils.confirmWithTarget("warning-withStep2", ka.msg.auction.Notice, ka.msg.auction.bidPreExistType0.replace("{PRICE}", $.stringUtils.comma('@Convert.ToInt64(Model.PriceBidPreType0)')), "chkBid(2);");
+                        @:return;
+                    }
+                }
+            }
+
+            var confirmMsg = "";
+            if (param["bid_type"] === "0" || param["bid_type"] == "3") {
+                confirmMsg = ka.msg.auction.majorBidConfirm.replace("{PRICE}", $.stringUtils.comma(param["price_bid_pre"]));
+            } else {
+                confirmMsg = ka.msg.auction.majorBidPhoneConfirm;
+            }
+
+            $.commonUtils.confirm(ka.msg.auction.apply, confirmMsg, "requestProc();");
+
+            return;
+        }
+
+        function requestProc() {
+            if (process) return false;
+            process = true;
+
+            var result = $.ajaxUtils.getApiData("/api/Auction/SetBidApplication/" + param["work_uid"], param, null, false);
+            var resultCode = $.ajaxUtils.getResultCode(result);
+            if (resultCode === "00") {
+                try {
+                    if (useGA === "Y") {
+                        gtag('event', 'Bid', { 'event_category': 'Major' });
+                    }
+                } catch (e) { }
+                window.location.href = "/myPage/bids";
+            } else {
+                process = false;
+                $.commonUtils.alert(resultCode.indexOf("ka") > -1 ? eval(resultCode) : result.message);
+            }
+        }
+
+        function chgBidType(bid_type) {
+            if (bid_type == "2") {
+                $("#div_price_bid_pre").css("display", "none");
+            } else {
+                $("#div_price_bid_pre").css("display", "");
+            }
+        }
+    </script>
+}
+else
+{
+    <script>
+        $(document).ready(function () {
+            $.commonUtils.alertWithFn(ka.msg.auction.bid_block, "", "history.back();");
+        });
+    </script>
+}

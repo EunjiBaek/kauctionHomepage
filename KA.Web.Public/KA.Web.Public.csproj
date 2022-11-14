@@ -1,0 +1,117 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>13889579-d0f2-4948-b633-e7e771ff12fa</UserSecretsId>
+    <SpaRoot>wwwroot\liveclient\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="Properties\PublishProfiles\master_webDeploy.pubxml.user" />
+    <None Include="Properties\PublishProfiles\release_webDeploy.pubxml.user" />
+    <None Include="wwwroot\plugins\jquery-ui\jquery-ui-1.10.4.custom.min.js" />
+    <None Include="wwwroot\plugins\jsgrid\jsgrid.min.js" />
+    <None Include="wwwroot\plugins\mustache\mustache.js" />
+    <None Include="wwwroot\plugins\slick\fonts\slick.svg" />
+    <None Include="wwwroot\plugins\jquery-countdown\jquery.countdown.js" />
+    <None Include="wwwroot\plugins\jquery-countdown\jquery.countdown.min.js" />
+    <None Include="wwwroot\plugins\toastr\toastr.min.js" />
+    <None Include="wwwroot\plugins\tui.file-uploader\tui-code-snippet.min.js" />
+    <None Include="wwwroot\plugins\tui.file-uploader\tui-file-uploader.js" />
+    <None Include="wwwroot\plugins\tui.file-uploader\tui-file-uploader.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KA.Entities\KA.Entities.csproj" />
+    <ProjectReference Include="..\KA.Repositories\KA.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.25" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.17" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OkCert3ComLib">
+      <HintPath>..\..\..\Application\OkCert 2.0.1\OkCert3ComLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\img\about\aboutk02.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+        <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+
+    <Exec Command="npm install -g yarn" />
+    <Exec Command="yarn install" />
+    <Exec Command="yarn build:babel" />
+    <Exec Command="yarn build:webpack" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- Ensure yarn is installed -->
+    <Exec Command="yarn --v" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="yarn is required to build and run this project." />
+    <Message Importance="high" Text="Restoring dependencies using 'yarn'. This may take several minutes..." />
+
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build:iis" />
+
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+</Target>
+</Project>

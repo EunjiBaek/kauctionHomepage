@@ -1,0 +1,157 @@
+﻿@{
+    var member = ViewBag.MemberData;
+    var admin = ViewBag.AdminData;
+}
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">문의 작품 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-12 topdesc1">@member.DisplayAucTitle</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-12 topdesc1">Lot. @member.LotNum / @member.DisplayTitle</div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(member.ImgFileUrl))
+                {
+                    <div class="row r1 h-px-30 toptit top-tit lh-30">
+                        <div class="col-sm-12 topdesc1">
+                            <img class="w-100" src="@member.ImgFileUrl" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">회원 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>회원 유형</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.MemTypeName</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>이름</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.MemName</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>휴대전화</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.MemMobile</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>이메일</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.MemEmail</div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">상세 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>문의 유형</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.TypeName</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>카테고리</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.DisplayCategoryName</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>문의 일자</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.RegDate</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>문의 내용</strong></div>
+                    <div class="col-sm-9 topdesc1">@member.Contents</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-secondary" onclick="history.back();">목록</button>
+            <button class="btn btn-primary" onclick="popReply();">답변</button>
+        </div>
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">답변 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                @if (admin.Count > 0)
+                {
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 15%;">담당부서</th>
+                                <th scope="col" style="width: 15%;">담당자</th>
+                                <th scope="col">내용</th>
+                                <th scope="col" style="width: 25%;">답변일자</th>
+                                <th scope="col" style="width: 25%;">메일발송</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in admin)
+                            {
+                                <tr>
+                                    <td>@item.GrpName</td>
+                                    <td>@item.MngName</td>
+                                    <td>@Html.Raw(item.Contents.Replace("\n", "<br />"))</td>
+                                    <td>@item.RegDate</td>
+                                    <td>@(!string.IsNullOrWhiteSpace(item.MailYn) && item.MailYn.Equals("Y") ? "Y" : "-")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="row r1 h-px-30 toptit top-tit lh-30">
+                        <div class="col-sm-12 topdesc1">답변 정보가 없습니다.</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var uid = "@member.Uid";
+
+    function popReply() {
+        $(".modal-content-body").empty();
+        $(".modal-content-body").append($('<textarea />', {
+            "id": "modal-content-body-text",
+            "style": "width: 100%; height: 156px; border-color: #ebebeb;"
+        }));
+
+        var el = $("#modal-content");
+        el.find(".modal-header").html("답변 <span class='fs-13'>- 저장 시 고객에게 메일이 발송됩니다.</span>");
+        el.find('#btn-content-confirm').attr("onclick", "setReply();");
+        document.querySelector('#modal-content-body-text').value = '문의하신 내용은 담당자가 별도 소통하여 답변 완료 처리 되었습니다.';
+        el.modal('show');
+    }
+
+    function setReply() {
+        $.commonUtils.confirm("답변", "등록하시겠습니까?", "setReplyProc();");
+    }
+
+    function setReplyProc() {
+        var param = {};
+        param["uid"] = uid;
+        param["contents"] = $("#modal-content-body-text").val();
+        var result = $.ajaxUtils.getApiData("/api/Inquiry/Reply", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.reload();
+        } else {
+            $.commonUtils.alert("답변 처리 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+        }
+    }
+
+</script>

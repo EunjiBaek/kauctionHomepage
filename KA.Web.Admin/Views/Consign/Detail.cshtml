@@ -1,0 +1,408 @@
+﻿@using KA.Entities.Helpers
+@model KA.Web.Admin.ViewModels.Consign.ConsignViewModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">위탁인 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>이름</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MemName</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>주소</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MemAddress</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>휴대전화</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MemMobile</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>이메일</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MemEmail</div>
+                </div>
+            </div>
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">위탁작품 정보</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작가명</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.Artist</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작품명</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.Title</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작품의 재료</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MaterialName
+                        @if (!string.IsNullOrWhiteSpace(Model.MemberConsign.Material))
+                        {
+                            <span class="m-r-10">- @Model.MemberConsign.Material</span>
+                        }
+                    </div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작품의 크기(cm)</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.WorkY X @Model.MemberConsign.WorkX X @Model.MemberConsign.WorkZ / @Model.MemberConsign.Ho 호</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>Edition</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.Edition</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>제작연도</strong></div>
+                    <div class="col-sm-9 topdesc1">@Model.MemberConsign.MakeDate</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작품설명</strong></div>
+                    <div class="col-sm-9 topdesc1">
+                        @Html.Raw(Model.MemberConsign.Desc.Replace("\r\n", "<br />").Replace("\r", "<br />").Replace("\n", "<br />"))
+                    </div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>기타</strong></div>
+                    <div class="col-sm-9 topdesc1">
+                        @Html.Raw(Model.MemberConsign.Etc.Replace("\r\n", "<br />").Replace("\r", "<br />").Replace("\n", "<br />"))
+                    </div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>작품이미지</strong></div>
+                    <div class="col-sm-9 topdesc1">
+                        @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("F")).Count() > 0)
+                        {
+                            <div style="display: inline-block;">
+                                <div class="info-tit"><strong>앞면</strong></div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("F")))
+                                {
+                                    <div class="float-left m-t-10 m-r-10 m-l-10 m-b-10" style="height: 200px;">
+                                        <img onclick="window.open(this.src, '_blank');" style="max-width: 200px; max-height: 200px; margin-bottom: 20px; cursor: pointer;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                        @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("B")).Count() > 0)
+                        {
+                            <div style="display: inline-block;">
+                                <div class="info-tit"><strong>뒷면</strong></div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("B")))
+                                {
+                                    <div class="float-left m-t-10 m-r-10 m-l-10 m-b-10" style="height: 200px;">
+                                        <img onclick="window.open(this.src, '_blank');" style="max-width: 200px; max-height: 200px; margin-bottom: 20px; cursor: pointer;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                        @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("S")).Count() > 0)
+                        {
+                            <div style="display: inline-block;">
+                                <div class="info-tit"><strong>서명</strong></div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("S")))
+                                {
+                                    <div class="float-left m-t-10 m-r-10 m-l-10 m-b-10" style="height: 200px;">
+                                        <img onclick="window.open(this.src, '_blank');" style="max-width: 200px; max-height: 200px; margin-bottom: 20px; cursor: pointer;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                        @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("P")).Count() > 0)
+                        {
+                            <div style="display: inline-block;">
+                                <div class="info-tit"><strong>구매서류</strong></div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("P")))
+                                {
+                                    <div class="float-left m-t-10 m-r-10 m-l-10 m-b-10" style="height: 200px;">
+                                        <img onclick="window.open(this.src, '_blank');" style="max-width: 200px; max-height: 200px; margin-bottom: 20px; cursor: pointer;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                        @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("D")).Count() > 0)
+                        {
+                            <div style="display: inline-block;">
+                                <div class="info-tit"><strong>상세사진</strong></div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("D")))
+                                {
+                                    <div class="float-left m-t-10 m-r-10 m-l-10 m-b-10" style="height: 200px;">
+                                        <img onclick="window.open(this.src, '_blank');" style="max-width: 200px; max-height: 200px; margin-bottom: 20px; cursor: pointer;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>구입가 (KRW)</strong></div>
+                    <div class="col-sm-9 topdesc1">@StringHelper.GetMoneyFormat(Model.MemberConsign.PricePurchase)</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>희망가 (KRW)</strong></div>
+                    <div class="col-sm-9 topdesc1">@StringHelper.GetMoneyFormat(Model.MemberConsign.PriceDesired)</div>
+                </div>
+            </div>
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">위탁문의 검토 현황</div>
+            </div>
+            <div class="card-body c1 apply">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-3 info-tit"><strong>검토상태</strong></div>
+                    <div class="col-sm-9 topdesc1">
+                        <div class="row">
+                            <div class="col-lg-12 mt-3">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item text-center"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><span style="text-decoration: line-through;">미확인</span></a></li>
+                                    @if (Model.MemberConsign.State.Equals("002"))
+                                    {
+                                        <li class="nav-item text-center"><a class="nav-link active" aria-current="page" href="javascript:;">확인</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item text-center"><a class="nav-link disabled" href="javascript:;" style="text-decoration: line-through;">확인</a></li>
+                                    }
+                                    @if (Model.MemberConsign.State.Equals("006"))
+                                    {
+                                        <li class="nav-item text-center"><a class="nav-link active" aria-current="page" href="javascript:;">접수검토</a></li>
+                                    }
+                                    else
+                                    {
+                                        @if (Model.MemberConsign.State.Equals("004") || Model.MemberConsign.State.Equals("005"))
+                                        {
+                                            <li class="nav-item text-center"><a class="nav-link disabled" href="javascript:;" style="text-decoration: line-through;">접수검토</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item text-center"><a class="nav-link disabled" href="javascript:;">접수검토</a></li>
+                                        }
+                                    }
+                                    @if (Model.MemberConsign.State.Equals("004") || Model.MemberConsign.State.Equals("005"))
+                                    {
+                                        <li class="nav-item text-center"><a class="nav-link active" aria-current="page" href="javascript:;">@Model.MemberConsign.StateName</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row inline">
+                            <div class="col-lg-12 border m-3">
+                                <ul class="mt-2">
+                                    <li>미확인 : 신청서 제출 상태</li>
+                                    <li>확인 : 제출된 내용을 경매부서에서 확인중인 상태</li>
+                                    <li>접수 검토 : 1차 확인된 사항을 토대로 고객팀에서 검토중인 상태</li>
+                                    <li>접수 진행 : 접수 검토 후 출품을 준비해볼 만한 작품인 경우 메일로 고객 안내</li>
+                                    <li>접수 불가 : 접수 검토 후 출품 붋가한 경우 메일로 고객 안내</li>
+                                </ul>
+                            </div>
+                        </div>
+                        @if (Model.MemberConsign.State.Equals("002"))
+                        {
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <select id="receipt_yn" class="form-control">
+                                        <option value="Y">적합</option>
+                                        <option value="N">부적합</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input id="recommended_price" value="@StringHelper.GetMoneyFormat(Model.MemberConsign.RecommendedPrice, true)" class="form-control w-75 float-left ka-num" type="text" placeholder="권고가 입력" numberOnly /><span class="ml-1"> 원</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt-3">
+                                    <span>메모(내부용)</span>
+                                    <textarea id="memo" class="form-control" rows="10">@Model.MemberConsign.Memo</textarea>
+                                    <input type="checkbox" id="chk_email" value="Y" />
+                                    <label for="chk_email" class="v-align-middle">담당자에게 알리기 (@Model.MemberConsign.MngName)</label>
+                                    <div>
+                                        <ul style="padding-inline-start: 20px;">
+                                            <li>담당자에게 알리기 후 접수검토 상태로 진행됩니다.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.MemberConsign.State.Equals("004") || Model.MemberConsign.State.Equals("005") || Model.MemberConsign.State.Equals("006"))
+                        {
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="fs-12 w-25">확인항목 (경매팀)</th>
+                                                <th class="fs-12">확인결과 (경매팀)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>입고여부</td>
+                                                @if (string.IsNullOrWhiteSpace(Model.MemberConsign.ReceiptYn))
+                                                {
+                                                    <td>-</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@(Model.MemberConsign.ReceiptYn.Equals("Y") ? "적합" : (Model.MemberConsign.ReceiptYn.Equals("N") ? "부적합" : ""))</td>
+                                                }
+                                            </tr>
+                                            <tr>
+                                                <td>권고가</td>
+                                                <td>@StringHelper.GetMoneyFormat(Model.MemberConsign.RecommendedPrice, true) 원</td>
+                                            </tr>
+                                            <tr>
+                                                <td>메모</td>
+                                                <td>@(Model.MemberConsign.Memo == null ? "" : Html.Raw(Model.MemberConsign.Memo.Replace("\n", "<br />")))</td>
+                                            </tr>
+                                            <tr>
+                                                <td>최종검토자(일자)</td>
+                                                <td>
+                                                    @Model.MemberConsign.ReviewName (@Model.MemberConsign.ReviewDate)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            @if (Model.MemberConsign.State.Equals("004") || Model.MemberConsign.State.Equals("005"))
+                            {
+                                <div class="row">
+                                    <div class="col-lg-12 mt-3">
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="fs-12 w-25">확인항목 (영업팀)</th>
+                                                    <th class="fs-12">확인결과 (영업팀)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>접수 메모 (내부용)</td>
+                                                    <td>@(Model.MemberConsign.MemoSalesTeam == null ? "" : Html.Raw(Model.MemberConsign.MemoSalesTeam.Replace("\n", "<br />")))</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>최종검토자(일자)</td>
+                                                    <td>
+                                                        @Model.MemberConsign.ReviewSalesTeamName (@Model.MemberConsign.ReviewSalesTeamDate)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-lg-12 mt-3">
+                                        <span>접수 메모(내부용)</span>
+                                        @if (LoginInfo.ContainAuth("MngConsign"))
+                                        {
+                                            <textarea id="memo_sales_team" class="form-control" rows="10">@Model.MemberConsign.MemoSalesTeam</textarea>
+                                        }
+                                        else
+                                        {
+                                            <div class="border p-3">
+                                                @if (Model.MemberConsign.MemoSalesTeam != null)
+                                                {
+                                                    @Html.Raw(Model.MemberConsign.MemoSalesTeam.Replace("\n", "<br />"))
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-secondary" onclick="window.open('/consign' + ('@Model.Query' !== '' ? '@Model.Query' : ''), '_self');">목록</button>
+                @if (LoginInfo.ContainAuth("MngConsign") && Model.MemberConsign.State.Equals("006"))
+                {
+                    <button class="btn btn-primary" onclick="sendMail('A');">접수메일</button>
+                    <button class="btn btn-danger" onclick="sendMail('R');">불가메일</button>
+                    <button class="btn btn-info" onclick="del();">삭제</button>
+                }
+                @if (Model.MemberConsign.State.Equals("006") && LoginInfo.ContainAuth("MngConsign") || Model.MemberConsign.State.Equals("002") && LoginInfo.ContainAuth("MngConsignInspection"))
+                {
+                    <button class="btn btn-secondary" onclick="saveState();">검토상태 저장</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const receiptYn = "@Model.MemberConsign.ReceiptYn";
+    const state = "@Model.MemberConsign.State";
+    const uid = "@Model.MemberConsign.Uid";
+
+    $(document).ready(function () {
+        if (receiptYn && document.querySelector("#receipt_yn")) {
+            document.querySelector("#receipt_yn").value = receiptYn;
+        }
+    });
+
+    $("input:text[numberOnly]").on("keyup", function () {
+        $(this).val($.stringUtils.comma($(this).val().replace(/[^0-9]/g, "")));
+    });
+
+    function sendMail(type) {
+        window.location.href = "/Common/MailSend?mode=consign&type=" + type + "&uid=@Model.MemberConsign.Uid";
+    }
+
+    function del() {
+        $.commonUtils.confirm("삭제", "삭제하시겠습니까?", "delProc();");
+    }
+
+    function delProc() {
+        var param = {};
+        param["uid"] = '@Model.MemberConsign.Uid';
+
+        var result = $.ajaxUtils.getApiData("/api/Consign/DelConsign", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Consign";
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function saveState() {
+        $.commonUtils.confirm("저장", "저장하시겠습니까?", "saveStateProc();");
+    }
+
+    function saveStateProc() {
+        var param = {};
+        param["uid"] = uid;
+        param["state"] = state;
+
+        const receipt = document.querySelector("#receipt_yn > option:checked");
+        if (receipt) {
+            param["receipt_yn"] = receipt.value;
+        } else {
+            param["receipt_yn"] = '';
+        }
+
+        param["recommended_price"] = document.querySelector("#recommended_price") ? document.querySelector("#recommended_price").value : '';
+        param["memo"] = document.querySelector("#memo") ? document.querySelector("#memo").value : '';
+        param["memo_sales_team"] = document.querySelector("#memo_sales_team") ? document.querySelector("#memo_sales_team").value : '';
+
+        const chkEmail = document.querySelector("#chk_email:checked");
+        if (chkEmail) {
+            param["chk_email"] = chkEmail.value;
+        } else {
+            param["chk_email"] = '';
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Consign/SetReview", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alertWithFn("저장하였습니다.", "success", "window.location.reload();");
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+</script>

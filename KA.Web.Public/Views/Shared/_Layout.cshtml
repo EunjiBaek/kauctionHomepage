@@ -1,0 +1,2308 @@
+﻿@using KA.Entities.Models.Auction
+@using KA.Entities.Models.Main
+@using KA.Web.Public.Models
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject IViewLocalizer L
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentLang = requestCulture == null ? "ko-KR" : requestCulture.RequestCulture.UICulture.Name;
+    var targetLang = currentLang.Equals("ko-KR") ? "ENG" : "KOR";
+
+    var path = Context.Request.Path.Value.Split('/');
+    var notices = commonService.GetNotices(path.Length > 3 ? String.Join('/', path, 0, 3) : Context.Request.Path.Value);
+    var currentAuction = new CurrentAuctionSchedule(commonService.GetCurrentAuctionSchedule(), targetLang.Equals("KOR") ? "ENG" : "KOR");
+
+    var menus = commonService.GetMenus();
+    var rootMenus = menus.Where(x => x.SubCode.Equals("000") && x.Type.Equals("TOP"));
+    var utilMenus = menus.Where(x => x.Type.Equals("UTIL"));
+
+    var pwdNoti = "";
+    if (HttpContextAccessor.HttpContext.Request.Cookies["K-Auction.PwdNoti"] != null)
+    {
+        pwdNoti = HttpContextAccessor.HttpContext.Request.Cookies["K-Auction.PwdNoti"].ToString();
+        HttpContextAccessor.HttpContext.Response.Cookies.Delete("K-Auction.PwdNoti");
+    }
+    var searchTerms = commonService.GetSearchTerms();
+    var recommendedWordFlag = false;
+    var lang = commonService.IsKor() ? "ko-KR" : "en-US";
+}
+
+<!DOCTYPE html>
+<html lang="@lang">
+<head>
+    @if (Config.UseGoogleTagManager != null && Config.UseGoogleTagManager.Equals("Y"))
+    {
+        <!-- Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-WZ8T7W4');</script>
+        <!-- End Google Tag Manager -->
+    }
+    <!-- TITLE -->
+    <title>@(ViewData["Title"] == null ? L["케이옥션"].Value : ViewData["Title"])</title>
+    <!-- START META -->
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="description" content="@L["작품을 사고 팔 땐 미술품 경매회사, 케이옥션"]" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, shrink-to-fit=no" viewport-fit=cover />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-itunes-app" content="app-id=397892527" />
+    <meta name="google-play-app" content="app-id=com.kauctionapp.kauction" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@L["케이옥션"]" />
+    <meta property="og:description" content="@L["작품을 사고 팔 땐 미술품 경매회사, 케이옥션"]" />
+    <meta property="og:image" content="@(string.IsNullOrWhiteSpace(ViewBag.SiteThumbNailImage) ? $"{Config.ServiceDomain}/img/kauction_thumbnail.jpg" : ViewBag.SiteThumbNailImage)" />
+    @if (Config.ImageDomain.ToLower().Contains("https"))
+    {
+        <meta property="og:image:secure_url" content="@(string.IsNullOrWhiteSpace(ViewBag.SiteThumbNailImage) ? $"{Config.ServiceDomain}/img/kauction_thumbnail.jpg" : ViewBag.SiteThumbNailImage)" />
+    }
+    <meta property="og:url" content="@Config.ServiceDomain" />
+    <!-- END META -->
+    <!-- START ICON -->
+    <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" href="/img/favicon/60_black.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/152.png">
+    <!-- END ICON -->
+    <!-- START CSS -->
+    <link rel="stylesheet" type="text/css" href="~/plugins/pace/pace.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-scrollbar/jquery.scrollbar.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/rangeslider//css//rangeslider.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-datatables/css/datatables.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/switchery/switchery.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/swiper/css/swiper.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/select2/css/select2.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/outdated/css/outdated.min.css">
+    <link rel="stylesheet" type="text/css" href="~/plugins/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/slick/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/viewerjs/viewer.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.mypage.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.fe.css" class="main-stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.header.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.reset.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.work.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.howto.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.home.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.16/css/intlTelInput.css" integrity="sha512-gxWow8Mo6q6pLa1XH/CcH8JyiSDEtiwJV78E+D+QP0EVasFs8wKXq16G8CLD4CJ2SnonHr4Lm/yY2fSI2+cbmw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- START WEB FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- END WEB FONT -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+    <!-- END CSS -->
+    <!--9월9일임시-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @await RenderSectionAsync("Styles", required: false)
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- BEGIN PLUGIN JS -->
+    <script src="https://unpkg.com/core-js-bundle@3.1.4/index.js"></script>
+    <script src="https://unpkg.com/regenerator-runtime@0.13.3/runtime.js"></script>
+    <script src="~/plugins/pace/pace.min.js"></script>
+    <script src="~/plugins/modernizr/modernizr.min.js"></script>
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/jquery/jquery.easy.min.js"></script>
+    <script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+    <script src="~/plugins/jquery-unveil/jquery.unveil.min.js"></script>
+    <script src="~/plugins/jquery-ioslist/jquery.ioslist.min.js"></script>
+    <script src="~/plugins/jquery-actual/jquery.actual.min.js"></script>
+    <script src="~/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/plugins/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/plugins/jquery-scrollify/jquery.scrollify.min.js"></script>
+    <script src="~/plugins/jquery-maskedinput/jquery.maskedinput.min.js"></script>
+    <script src="~/plugins/jquery-datatables/js/datatables.min.js"></script>
+    <script src="~/plugins/jquery-countdown/jquery.countdown.min.js"></script>
+    <script src="~/plugins/jquery-typist/typist.js"></script>
+    <script src="~/plugins/jsgrid/jsgrid.min.js"></script>
+    <script src="~/plugins/lodash/lodash.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script src="~/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/plugins/rangeslider/js/rangeslider.min.js"></script>
+    <script src="~/plugins/classie/classie.min.js"></script>
+    <script src="~/plugins/switchery/switchery.min.js"></script>
+    <script src="~/plugins/velocity/velocity.min.js"></script>
+    <script src="~/plugins/swiper/js/swiper.min.js"></script>
+    <script src="~/plugins/mixitup/mixitup.min.js"></script>
+    <script src="~/plugins/outdated/js/outdated.min.js"></script>
+    <script src="~/plugins/slick/slick.min.js"></script>
+    <script src="~/plugins/jquery-mCustomScrollbar/js/jquery.mCustomScrollbar.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/plugins/gsap/gsap.min.js"></script>
+    <script src="~/plugins/viewerjs/viewer.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.16/js/intlTelInput.min.js" integrity="sha512-Po9nSdYOcWIcoADdRjkAbRYPpR8OHjxzA/3RDUERZcDewTLzRTxbG4bUX7Sr7lVEcO3wTCzphdOBWgNFKVmxaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.16/js/utils.js" integrity="sha512-wPy1fNW7ZZpTsbOIUHi0FOpKiEmyeFUH3GXMk7EBE/SbyAzAUEMa8V0JVORN9UmLhHfhRJPog0lGC7Zb9Ab1Ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <!-- calendar 라이브러리 -->
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>*@
+    <link href="~/plugins/flatpickr/flatpickr.min.css" rel="stylesheet" />
+    <script src="~/plugins/flatpickr/flatpickr.min.js"></script>
+    <script src="~/plugins/flatpickr/ko.js"></script>
+    <script src="~/plugins/dayjs/package/dayjs.min.js"></script>
+    <!-- //calendar 라이브러리 -->
+    <!-- END PLUGIN JS -->
+    <!-- BEGIN LANG/ICON JS -->
+    <script src="@(commonService.IsKor() ? "~/js/ka.msg.js" : "~/js/ka.msg.en.js")" asp-append-version="true"></script>
+    <!-- END LANG/ICON JS -->
+    <!-- START SCRIPT -->
+    <script>
+        window.onload = function () { // fix for windows 8
+            document.body.style.removeProperty("zoom");
+            if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+                document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="/css/windows.chrome.fix.min.css" />'
+        }
+    </script>
+</head>
+<body alink="darkgreen" vlink="darkgreen">
+    @if (Config.UseGoogleTagManager != null && Config.UseGoogleTagManager.Equals("Y"))
+    {
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZ8T7W4"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    }
+    <nav id="mobile-bottom-menu">
+        <ul>
+            <li id="bottomList1">
+                <a href="javascript:" onclick="window.open('/', '_self')" ;>
+                    <div class="mobileBottomImg">
+                        <img src="/img/mobile/mobile-home@1x.png" alt="home icon" srcset="/img/mobile/mobile-home@1x.png 1x,/img/mobile/mobile-home@2x.png 2x,/img/mobile/mobile-home@3x.png 3x" />
+                    </div>
+                    <span>@L["홈"]</span>
+                </a>
+            </li>
+            <li id="bottomList2">
+                <a href="#">
+                    <div class="mobileBottomImg on">
+                        <img src="/img/mobile/mobile-auction@1x.png" alt="home icon" srcset="/img/mobile/mobile-auction@1x.png 1x, /img/mobile/mobile-auction@2x.png 2x, /img/mobile/mobile-auction@3x.png 3x" />
+                        <div class="auction-new"><span>0</span></div>
+                    </div>
+                    <span>@L["경매"]</span>
+                </a>
+            </li>
+            <li id="bottomList3">
+                <a href="#">
+                    <div class="mobileBottomImg"><img src="/img/mobile/mobile-search@1x.png" alt="home icon" srcset="/img/mobile/mobile-search@1x.png 1x,/img/mobile/mobile-search@2x.png 2x,/img/mobile/mobile-search@3x.png 3x" /></div>
+                    <span>@L["검색"]</span>
+                </a>
+            </li>
+            <li id="bottomList4">
+                <a href="javascript:" onclick="$.wishlist.login();">
+                    <div class="mobileBottomImg"><img src="/img/mobile/mobile-heart@1x.png" alt="home icon" srcset="/img/mobile/mobile-heart@1x.png 1x,/img/mobile/mobile-heart@2x.png 2x,/img/mobile/mobile-heart@3x.png 3x" /></div>
+                    <span>@L["위시리스트"]</span>
+                </a>
+            </li>
+            <li id="bottomList5">
+                <a href="#" data-ka="header-toggle" data-ka-element="#header">
+                    <div class="mobileBottomImg"><img src="/img/mobile/mobile-ham@1x.png" alt="home icon" srcset="/img/mobile/mobile-ham@1x.png 1x,/img/mobile/mobile-ham@2x.png 2x,/img/mobile/mobile-ham@3x.png 3x" /></div>
+                    <span>@L["메뉴"]</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <nav id="mobile-bottom-auction">
+        <div class="mobile-bottom-auction-bar"></div>
+        <div>
+            @if (currentAuction.IsActive[0])
+            {
+                <div class="mobile-bottom-auction-major" onclick="window.open('/Auction/Major/@currentAuction.AucNum[0]', '_self');">
+                    <img src="/img/mobile/mobile_arrow_1x.png" alt="arrow" srcset="/img/mobile/mobile_arrow_1x.png 1x,/img/mobile/mobile_arrow_2x.png 2x,/img/mobile/mobile_arrow_3x.png 3x" />
+                    <h3 class="bot-auc-tit">@currentAuction.AucTitleOrg[0]</h3>
+                    <p>@currentAuction.AucPeriod[0]</p>
+                </div>
+            }
+            @if (currentAuction.IsActive[1])
+            {
+                <div class="mobile-bottom-auction-premium" onclick="window.open('/Auction/Premium/@currentAuction.AucNum[1]', '_self');">
+                    <img src="/img/mobile/mobile_arrow_1x.png" alt="arrow" srcset="/img/mobile/mobile_arrow_1x.png 1x,/img/mobile/mobile_arrow_2x.png 2x,/img/mobile/mobile_arrow_3x.png 3x" />
+                    <h3 class="bot-auc-tit">@currentAuction.AucTitleOrg[1]</h3>
+                    <p>@currentAuction.AucPeriod[1]</p>
+                </div>
+            }
+            @if (currentAuction.IsActive[2])
+            {
+                <div class="mobile-bottom-auction-premium" onclick="window.open('/Auction/Weekly/@currentAuction.AucNum[2]', '_self');">
+                    <img src="/img/mobile/mobile_arrow_1x.png" alt="arrow" srcset="/img/mobile/mobile_arrow_1x.png 1x,/img/mobile/mobile_arrow_2x.png 2x,/img/mobile/mobile_arrow_3x.png 3x" />
+                    <h3 class="bot-auc-tit">@currentAuction.AucTitleOrg[2]</h3>
+                    <p>@currentAuction.AucPeriod[2]</p>
+                </div>
+            }
+        </div>
+    </nav>
+    <div class="cursor">
+        <script>document.write(ka.icon.cursor)</script>
+    </div>
+
+
+    <div id="mb-consign-btn">
+        @if (User.Identity.IsAuthenticated || LoginInfo.Uid > 0)
+        {
+            <span onclick="window.location.href = '/MyPage/ConsignRequest';">@L["위탁<br />문의"]</span> 
+        }
+        else
+        {
+            <span onclick="$.commonUtils.openLogin();">@L["위탁<br />문의"]</span> 
+        }
+    </div>
+
+    <!-- 퀵메뉴 -->
+    <div id="quick-menu">
+        <span>@L["빠른메뉴"]</span>
+        <div class="cta">
+            <svg class="arrow primera next bounceAlpha" id="quick_menu_arrow_01" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8.67 12.52">
+                <defs>
+                    <style>.clsd-1 {fill: none;stroke: #fbb89b;stroke-width: 2.31px;}</style>
+                </defs>
+                <path class="clsd-1" d="M1,1.81,7.16,7.2,1,12.59" transform="translate(-0.24 -0.94)"/>
+            </svg>
+            <svg class="arrow segunda next bounceAlpha" id="quick_menu_arrow_02" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8.67 12.52">
+                <defs>
+                    <style>.clsd-2 {fill: none;stroke: #F89569;stroke-width: 2.31px;}</style>
+                </defs>
+                <path class="clsd-2" d="M1,1.81,7.16,7.2,1,12.59" transform="translate(-0.24 -0.94)"/>
+            </svg>
+        </div>
+    </div>
+    <!-- //퀵메뉴 -->
+    <div id="quick-menu-cnt" class="active">
+
+        <div class="consign-btn">
+            @{
+                var quickMenuConsignRequestJs = User.Identity.IsAuthenticated || LoginInfo.Uid > 0 ? "window.location.href = '/MyPage/ConsignRequest';" : "$.commonUtils.openLogin();";
+            }
+            <span onclick="@quickMenuConsignRequestJs">@L["위탁<br />문의"]</span> 
+        </div>
+
+        <div class="auction">
+            <div class="tit">Auctions</div>
+            <div class="cnt">
+                <div data-val="N" data-selected="0">
+                    <div class="auc_btn" data-menu="menu_001_001"><strong class="@(currentAuction.IsActive[0] && currentAuction.dtAucPreview[0] <= DateTime.Now ? "on" : "")">M</strong><span>Major</span></div>
+                    <div class="auc_state" style="display: none">
+                        @if (!currentAuction.IsActive[0])
+                        {
+                            <div>
+                                <span class="tit">@L["프리뷰 오픈"]</span>
+                                <div style="color: #0E1B36;">@L["준비중"]</div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (DateTime.Now <= currentAuction.dtAucPreview[0])
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucPreview[0].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-major-contdown" data-remain-date="@currentAuction.dtAucPreview[0].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-major-contdown" data-remain-date="@currentAuction.dtAucPreview[0].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucDate[0] <= DateTime.Now)
+                            {
+                                <div>
+                                    <span class="tit">@L["라이브 경매"]</span>
+                                    <div class="on">
+                                        <span>@L["진행중"]</span>
+                                    </div>
+                                </div>
+                            }
+                            else if (DateTime.Now.ToString("yyyy-MM-dd").Equals(currentAuction.dtAucDate[0].ToString("yyyy-MM-dd")))
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 시작"]</span>
+                                    <div class="on">
+                                        <!-- @L["오후 4시"] 
+                                        <br />-->
+                                        <span id="quick-menu-major-contdown" data-remain-date="@currentAuction.dtAucDate[0].ToString("yyyy-MM-dd HH:mm:ss")">HH:MM:SS</span></div>
+                                </div>
+                            }
+                            else if (currentAuction.dtAucStartDate[0] <= DateTime.Now && DateTime.Now <= currentAuction.dtAucDate[0])
+                            {
+                                <div>
+                                    <span class="tit">@L["라이브 경매"]</span>
+                                    <div>D-<span id="quick-menu-major-contdown" data-remain-date="@currentAuction.dtAucDate[0].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    <div style="color: #0E1B36;">@L["준비중"]</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div data-val="N" data-selected="0">
+                    <div class="auc_btn" data-menu="menu_002_001"><strong class="@(currentAuction.IsActive[1] && currentAuction.dtAucPreview[1] <= DateTime.Now ? "on" : "")">P</strong><span>Premium</span></div>
+                    <div class="auc_state" style="display: none">
+                        @if (!currentAuction.IsActive[1])
+                        {
+                            <div>
+                                <span class="tit">@L["프리뷰 오픈"]</span>
+                                <div style="color: #0E1B36;">@L["준비중"]</div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (DateTime.Now <= currentAuction.dtAucPreview[1])
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucPreview[1].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucPreview[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucPreview[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucPreview[1] <= DateTime.Now && DateTime.Now <= currentAuction.dtAucStartDate[1])
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 오픈까지"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucStartDate[1].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucStartDate[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucStartDate[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucStartDate[1] <= DateTime.Now && DateTime.Now <= currentAuction.dtAucDate[1])
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 마감까지"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucDate[1].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucDate[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-premium-contdown" data-remain-date="@currentAuction.dtAucDate[1].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucDate[1] <= DateTime.Now)
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 마감까지"]</span>
+                                    <div class="on">
+                                        <span id="quick-menu-premium-contdown">@L["마감중"]</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    <div style="color: #0E1B36;">@L["준비중"]</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div data-val="N" data-selected="0">
+                    <div class="auc_btn" data-menu="menu_002_002"><strong class="@(currentAuction.IsActive[2] && currentAuction.dtAucPreview[2] <= DateTime.Now ? "on" : "")">W</strong><span>Weekly</span></div>
+                    <div class="auc_state" style="display: none">
+                        @if (!currentAuction.IsActive[2])
+                        {
+                            <div>
+                                <span class="tit">@L["프리뷰 오픈"]</span>
+                                <div style="color: #0E1B36;">@L["준비중"]</div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (DateTime.Now <= currentAuction.dtAucPreview[2])
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucPreview[2].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucPreview[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucPreview[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucPreview[2] <= DateTime.Now && DateTime.Now <= currentAuction.dtAucStartDate[2])
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 오픈까지"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucStartDate[2].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucStartDate[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucStartDate[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucStartDate[2] <= DateTime.Now && DateTime.Now <= currentAuction.dtAucDate[2])
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 마감까지"]</span>
+                                    @if (DateTime.Now <= currentAuction.dtAucDate[2].AddHours(-24))
+                                    {
+                                        <div>D-<span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucDate[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div><span id="quick-menu-weekly-contdown" data-remain-date="@currentAuction.dtAucDate[2].ToString("yyyy-MM-dd HH:mm:ss")">N</span></div>
+                                    }
+                                </div>
+                            }
+                            else if (currentAuction.dtAucDate[2] <= DateTime.Now)
+                            {
+                                <div>
+                                    <span class="tit">@L["경매 마감까지"]</span>
+                                    <div class="on">
+                                        <span id="quick-menu-weekly-contdown">@L["마감중"]</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <span class="tit">@L["프리뷰 오픈"]</span>
+                                    <div style="color: #0E1B36;">@L["준비중"]</div>
+                                </div>
+                            }
+                        }
+
+                        <!--//프리뷰 오픈후-->
+                        <!--온라인 경매 재개 이후 48시간 이내-->
+                        @*<div style="display: none">
+                            <span class="tit">@L["경매 마감까지"]</span>
+                            <div class="on"><span id="quick-menu-weekly-contdown">HH:MM:SS</span></div>
+                            </div>*@
+                        <!--//온라인 경매 재개 이후 48시간 이내-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="links">
+            <div class="tit">Links</div>
+            <div class="cnt">
+                <div data-toggle="modal" data-target="#qrcode_popup">@L["앱다운"]</div>
+            </div>
+        </div>
+        <div class="quick-menu-cnt-close">
+            <div>
+                <span>@L["닫기"]</span>
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- START TOP BUTTON -->
+    <div id="alltop-btn">
+        <img class="topbtn" src="/img/icons/alltop-btn.png" alt="GO TO TOP" srcset="/img/icons/alltop-btn.png 1x, /img/icons/alltop-btn@2x.png 2x, /img/icons/alltop-btn@3x.png 3x">
+    </div>
+    <!-- END TOP BUTTON -->
+    <!-- START HISTORY BACK BUTTON -->
+    <div id="back-btn" onclick="history.back();"><img src="/img/icons/back-btn@1x.png" alt="History back button" srcset="/img/icons/back-btn@1x.png 1x, /img/icons/back-btn@2x.png 2x, /img/icons/back-btn@3x.png 3x" /></div>
+    <!-- END HISTORY BACK BUTTON -->
+    <!-- MAIN POPUP START -->
+    @if (notices.Where(x => x.Type.Equals("L")).Count() > 0)
+    {
+        <div id="main-popup">
+            <div class="popup-container">
+                <div class="popup-row">
+                    @foreach (var item in notices.Where(x => x.Type.Equals("L")))
+                    {
+                        <div class="mainpopup mainpopup_m1" name="mainpopup_m1" id="mainpopup_m1_@item.Uid" data-id="layer-notice-@item.Uid">
+                            @if (!string.IsNullOrWhiteSpace(item.Link))
+                            {
+                                <div class="mainpopup-desc" onclick="callApiAndRedirect('L', '@item.Uid', '@item.Link', '@item.Target');"><img src="@Config.ImageDomain/www/Notice/@item.Image" alt=""></div>
+                            }
+                            else
+                            {
+                                <div class="mainpopup-desc" style="cursor: pointer;" onclick="closeLayerNotice('mainpopup_m1', '@item.Uid');"><img src="@Config.ImageDomain/www/Notice/@item.Image" alt=""></div>
+                            }
+                            <div class="main-close">
+                                @if (!(item.TodayFlag != null && item.TodayFlag.Equals("N")))
+                                {
+                                    <input type="checkbox" name="chkbox" id="mainpopup_m1_chk_@item.Uid" data-id="layer-notice-@item.Uid">
+                                    <label for="mainpopup_m1_chk_@item.Uid"><span></span>@L["하루동안 이 창을 열지 않음"]</label>
+                                }
+                                <a href="#" class="maincl-btn" onclick="closeLayerNotice('mainpopup_m1', '@item.Uid');"><img src="/img/icons/closeimg.png" alt="Close"></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="mainpopup-bg"></div>
+    }
+    <!-- MAIN POPUP END -->
+    @if (commonService.IsIE() && !commonService.GetPage.Contains("/About/Notice") && !commonService.GetPage.Contains("/Auction/Major") && !commonService.GetPage.Contains("/Auction/Premium") && !commonService.GetPage.Contains("/Auction/Weekly"))
+    {
+        <div id="temporary-popup">
+            <div class="temporary-popup-div">
+                <div class="temporary-popup-cnt">
+                    <div class="img-cnt" style="cursor: pointer;" onclick="window.open('/About/Notice/3632', '_self');"><img src="/img/temporary-popupimg@1x.png" alt="IE Notice Popup" srcset="/img/temporary-popupimg@1x.png 1x, /img/temporary-popupimg@2x.png 2x, /img/temporary-popupimg@3x.png 3x"></div>
+                    <div class="close-btn"><img src="/img/icons/closeimg.png" alt="Close" onclick="temporaryPopupClose(); return false;" /></div>
+                </div>
+            </div>
+            <div class="bg" onclick="temporaryPopupClose(); return false;"></div>
+        </div>
+    }
+    <!-- START BANNER -->
+    @if (notices.Where(x => x.Type.Equals("T")).Count() > 0)
+    {
+        <div id="change-notice" data-id="change-notice-@notices.First().TargetMenuUid" style="display: none;">
+            <div>
+                <div class="notice">
+                    <ul class="@(notices.Where(x => x.Type.Equals("T")).Count() > 1 ? "rolling" : "")">
+                        @foreach (var item in notices.Where(x => x.Type.Equals("T")))
+                        {
+                            @if (!string.IsNullOrWhiteSpace(item.DisplayTitle))
+                            {
+                                @if (string.IsNullOrWhiteSpace(item.Link))
+                                {
+                                    <li>@item.DisplayTitle</li>
+                                }
+                                else
+                                {
+                                    <li><span style="cursor:pointer;" data-click="callApiAndRedirect('T', '@item.Uid', '@item.Link', '@item.Target');" value="javascript:callApiAndRedirect('T', '@item.Uid', '@item.Link', '@item.Target');">@item.DisplayTitle</span></li>
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="todaycl-btn">
+                    <a href="#" value="1">@L["오늘 하루 표시하지 않기"]</a>
+                    <a href="#" value="2">@L["창닫기"]</a>
+                </div>
+                <div class="today-close"><img src="/img/icons/closeimg.png" alt="Close"></div>
+            </div>
+        </div>
+        <div id="notice-popup">
+            <div class="noticedesc">
+                <h1>@L["알립니다."]</h1>
+                <div class="notice-close"><img src="/img/icons/closeimg.png" alt="Close"></div>
+            </div>
+            <div class="noticebg"></div>
+        </div>
+    }
+    <!-- END BANNER -->
+    <!-- START HEADER -->
+    <nav class="header header-down" data-ka="header" style="border-bottom: 1px solid #f0f0f0;">
+        <div class="container header-wrap relative">
+            <div class="container" style="position: relative;">
+                <!-- START DESKTOP -->
+                <div class="header_in clear">
+                    <div class="logo">
+                        <h1>
+                            <a href="/">
+                                <script>document.write(ka.icon.logo);</script>
+                            </a>
+                        </h1>
+                    </div>
+                    <div class="top_nav">
+                        <ul class="topmenu">
+                            @foreach (var rootMenu in rootMenus)
+                            {
+                                <li>
+                                    <a href="@rootMenu.Link">@rootMenu.DisplayName</a>
+                                    <ul class="smenu">
+                                        @foreach (var menu in menus.Where(x => x.Code.Equals(rootMenu.Code) && !x.SubCode.Equals("000") && x.Type.Equals("TOP")))
+                                        {
+                                            if (menu.LoginYN.Equals("Y") && !User.Identity.IsAuthenticated || menu.AuthFlag.Equals("A") && !LoginInfo.AdminYN.Equals("Y")) continue;
+
+                                            if (menu.Option.Equals("Major") || menu.Option.Equals("Premium") || menu.Option.Equals("Weekly"))
+                                            {
+                                                if (currentAuction.IsActive[int.Parse(menu.Option2)])
+                                                {
+                                                    <li class="on @menu.Option-on">
+                                                        <a id="menu_@(menu.Code)_@(menu.SubCode)" href="/Auction/@menu.Option/@currentAuction.AucNum[int.Parse(menu.Option2)]">
+                                                            @menu.DisplayName
+                                                            @if (currentAuction.dtAucPreview[int.Parse(menu.Option2)] <= DateTime.Now)
+                                                            {
+                                                                <script>document.write(ka.icon.on);</script>
+                                                            }
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a id="menu_@(menu.Code)_@(menu.SubCode)" href="javascript:$.commonUtils.confirmAuction('', '@L["현재 진행중인 경매가 없어 소개페이지로 이동합니다."]', '@menu.Option3');">@menu.DisplayName</a></li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@menu.Link" target="@menu.Target" class="nav-dropmenu-item"><span class="depth">@menu.DisplayName</span></a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="header-util-container text-right">
+                        <div class="header-util">
+                            @if (User.Identity.IsAuthenticated || LoginInfo.Uid > 0)
+                            {
+                                <div class="profile-wrapper dropdown d-xl-block d-none inline ">
+                                    <a href="#" class="profile-dropdown-toggle text-uppercase" id="profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Page</a>
+                                    <div class="dropdown-menu profile-dropdown" aria-labelledby="profile">
+                                        @foreach (var item in utilMenus)
+                                        {
+                                            if (item.DisplayName.Equals("----------"))
+                                            {
+                                                <div class="dropdown-divider"></div>
+                                            }
+                                            else
+                                            {
+                                                <a class="dropdown-item" href="@(item.Link.Contains("Logout") ? item.Link + "?redirect=" + commonService.GetPage : item.Link)" target="@item.Target">@item.DisplayName</a>
+                                            }
+                                        }
+                                        @if (commonService.GetHost.ToLower().Contains("www.dev.") || commonService.GetHost.ToLower().Contains("www.release.") || commonService.GetHost.ToLower().Contains("localhost"))
+                                        {
+                                            <a class="dropdown-item" href="/MyPage/Payment" target="_self">결제 및 출고요청</a>
+                                        }
+                                        @if (LoginInfo.ID.Equals("kjpark") || LoginInfo.ID.Equals("zang0804"))
+                                        {
+                                            <a class="dropdown-item" href="http://www.release.k-auction.com" target="_self">RELEASE</a>
+                                            <a class="dropdown-item" href="http://www.dev.k-auction.com" target="_self">DEV</a>
+                                        }
+                                    </div>
+                                </div>
+                                <a href="/MyPage/Info" class="text-uppercase p-l-5">Wish List</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:$.commonUtils.openLogin();" class="text-uppercase">Login</a>
+                                <a asp-controller="Member" asp-action="JoinStep1" class="text-uppercase p-l-5">Join</a>
+                            }
+                            <a href="/Home/SetLanguage?culture=@targetLang"><span>@targetLang</span></a>
+                            <button class="btn-search btn-xs btn-desktop-search" role="menuitem" aria-haspopup="true" aria-expanded="false"><i class="fas fa-search fa-fw d-xl-block d-none"></i></button>
+                        </div>
+                        <!-- START DESKTOP SEARCH -->
+                        <div id="search-desktop-popup">
+                            <div>
+                                <div class="search-desktop-popup-input">
+                                    <input type="text" id="search-input-desktop" class="search-input" placeholder="@L["작가명 또는 작품명 검색"]" aria-label="@L["작가명 또는 작품명 검색"]">
+                                    <div class="btnClear">
+                                        <img src="/img/icons/search_close@1x.png" alt="close-btn" srcset="/img/icons/search_close@1x.png 1x, /img/icons/search_close@2x.png 2x, /img/icons/search_close@3x.png 3x">
+                                        <div class="search_line"></div>
+                                    </div>
+                                    <div class="search-desktop-popup-btn">
+                                        <button class="" type="button" onclick="searchLayer('desktop');"><i class="fas fa-search fa-fw"></i></button>
+                                    </div>
+                                </div>
+                                <div class="search-desktop-popup-latest">
+                                    <span class="btnSearchInit" onclick="$.searchUtils.clearSearchHistory();">@L["초기화"]</span>
+                                    <p>@L["최근 검색어"]</p>
+                                    <div id="search-history-cont"></div>
+                                </div>
+                                <div class="search-desktop-popup-recommend">
+                                    <p>@L["추천 검색어"]</p>
+                                    <div>
+                                        @foreach (var item in searchTerms.Where(x => x.Lang.Equals(currentLang.Contains("KR") ? "K" : "E")))
+                                        {
+                                            recommendedWordFlag = true;
+                                            <div><span style="cursor: pointer;" onclick="window.location.href='/Home/Search?key=' + encodeURI('@item.Term');">@item.Term</span></div>
+                                        }
+                                        @if (!recommendedWordFlag)
+                                        {
+                                            <div><span>@L["표시할 내용이 없습니다."]</span></div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="search-desktop-total-btn"><button type="button" onclick="searchLayer('desktop');">@L["검색하기"]</button></div>
+                            </div>
+                        </div>
+                        <!-- END DESKTOP SEARCH -->
+                        <div class="search d-xl-block d-none">
+                            <div class="search-container-wrap">
+                                <div class="search-container">
+                                    <div class="container-fluid"><a href="#" class="search-close fs-18"><i class="fal fa-times"></i></a></div>
+                                    <div class="container-fluid">
+                                        <input class="no-border search-input bg-transparent" placeholder="Search..." autocomplete="off" spellcheck="false">
+                                        <div class="m-l-10"><p class="fs-14 m-t-10 hint-text">@L["김환기, 이우환, 김창열, 박서보, 쿠사마, 호크니..."]</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DESKTOP -->
+                <!-- START MOBILE -->
+                <div class="pull-left">
+                    <div class="header-inner">
+                        <div class="logo">
+                            <h1>
+                                <a href="/">
+                                    <script>document.write(ka.icon.logo);</script>
+                                </a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <div class="header-inner">
+                        <div class="mobile-toggle-container">
+                            <div class="toggle-search d-xl-none">
+                                <!--tablet 버튼-->
+                                <button type="button" class="btn-search btn-mobile-search_01" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                                    <span class="blind">열기</span>
+                                    <i class="fas fa-search fa-fw d-xl-none"></i>
+                                </button>
+                                <!--//tablet 버튼-->
+                                <!--모바일 버튼-->
+                                <button type="button" class="btn-search btn-mobile-search_02" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                                    <span class="blind">열기</span>
+                                    <i class="fas fa-search fa-fw d-xl-none"></i>
+                                </button>
+                                <!--//모바일 버튼-->
+                            </div>
+                            <div class="d-xl-none nav-menu-toggler p-l-10 m-r-10" data-ka="header-toggle" data-ka-element="#header">
+                                <div class="one"></div>
+                                <div class="two"></div>
+                                <div class="three"></div>
+                            </div>
+                        </div>
+                        <div class="search d-xl-none">
+                            <div class="search-container-wrap">
+                                <div class="search-container">
+                                    <div class="container-fluid"><a href="#" class="search-close fs-14 p-r-20"><i class="fal fa-times"></i></a></div>
+                                    <div class="container-fluid">
+                                        <input class="no-border search-input bg-transparent" placeholder="Search..." autocomplete="off" spellcheck="false">
+                                        <div class="m-l-10">
+                                            <p class="fs-10 m-t-10 hint-text">@L["김환기, 이우환, 김창열, 박서보, 윤형근, 정상화, 이건용, 쿠사마, 호크니..."]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-menu-content clearfix" data-ka-direction="slide-right" id="header">
+                    <div class="mobile-logo">
+                        <img src="/img/logo_black@1x.png" alt="K-Auction" srcset="/img/logo_black@1x.png 1x, /img/logo_black@2x.png 2x, /img/logo_black@3x.png 3x,">
+                    </div>
+                    <div class="nav-menu-top2"><i class="fas fa-arrow-right"></i></div>
+                    <div class="header-inner">
+                        <div class="nav-container">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <div class="nav-header m-b-0 mobile">
+                                    <div>
+                                        <div class="w-100 p-r-20">
+                                            <div class="btn-group d-flex" role="group">
+                                                <a class="btn btn-default fs-12 text-uppercase" href="javascript:$.commonUtils.openLogin();">Login</a>
+                                                <a class="btn btn-default fs-12 text-uppercase" asp-controller="Member" asp-action="JoinStep1">Join</a>
+                                                <a class="btn btn-default fs-12 text-uppercase" href="/Home/SetLanguage?culture=@targetLang">@targetLang</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="nav-header m-b-0 mobile">
+                                    <div>
+                                        <div class="w-100 p-r-20">
+                                            <div class="btn-group d-flex" role="group">
+                                                <a class="btn btn-default fs-12 text-uppercase" asp-controller="Member" asp-action="WishWork">WishList</a>
+                                                <a class="btn btn-default fs-12 text-uppercase" href="/Member/Logout?redirect=@commonService.GetPage">Logout</a>
+                                                <a class="btn btn-default fs-12 text-uppercase" href="/Home/SetLanguage?culture=@targetLang">@targetLang</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <ul class="nav-menu" role="menu">
+                                <!-- Menu : Home (Default) -->
+                                <li class="nav-menu-list mobile active"><a href="/" class="nav-menu-item"><i class="fas fa-home fa-fw mobile"></i>Home</a></li>
+                                @foreach (var rootMenu in rootMenus)
+                                {
+                                    <li class="nav-menu-list" role="menuitem" aria-haspopup="true" data-root="@rootMenu.RootTarget">
+                                        <a href="@rootMenu.Link" aria-expanded="false" class="nav-menu-item"><i class="fas @rootMenu.Icon fa-fw mobile"></i>@rootMenu.DisplayName</a>
+                                        <ul class="nav-dropmenu-wrap">
+                                            <li>
+                                                <ul class="nav-dropmenu">
+                                                    @foreach (var menu in menus.Where(x => x.Code.Equals(rootMenu.Code) && !x.SubCode.Equals("000") && x.Type.Equals("TOP")))
+                                                    {
+                                                        if (menu.Option.Equals("Major") || menu.Option.Equals("Premium") || menu.Option.Equals("Weekly"))
+                                                        {
+                                                            if (currentAuction.IsActive[int.Parse(menu.Option2)])
+                                                            {
+                                                                <li class="on">
+                                                                    <a target="@menu.Target" href="/Auction/@menu.Option/@currentAuction.AucNum[int.Parse(menu.Option2)]" class="nav-dropmenu-item">
+                                                                        <span class="depth" style="font-weight: 900;">@menu.DisplayName</span>
+                                                                        <script>document.write(ka.icon.on);</script>
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li><a href="javascript:$.commonUtils.redirectAlert('@L["현재 진행중인 경매가 없어 소개페이지로 이동합니다."]', 'success', '@menu.Option3');" class="nav-dropmenu-item"><span class="depth" style="font-weight: 900;">@menu.DisplayName</span></a></li>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <li><a href="@menu.Link" target="@menu.Target" class="nav-dropmenu-item"><span class="depth">@menu.DisplayName</span></a></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-menu-list mobile" role="menuitem" aria-haspopup="true">
+                                        <a href="#" aria-expanded="false" class="nav-menu-item"><i class="fas fa-user fa-fw mobile"></i>My Page</a>
+                                        <ul class="nav-dropmenu-wrap">
+                                            @foreach (var item in utilMenus)
+                                            {
+                                                if (!item.DisplayName.Equals("----------"))
+                                                {
+                                                    <li>
+                                                        <ul class="nav-dropmenu">
+                                                            <li>
+                                                                <a class="nav-dropmenu-item" href="@item.Link" target="@item.Target"><strong><span>@item.DisplayName</span></strong></a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="blog-link-area">
+                                @if (notices.Where(x => x.Type.Equals("M")).Count() > 0)
+                                {
+                                    var menuBanner = notices.Where(x => x.Type.Equals("V") || x.Type.Equals("M")).OrderBy(x => (new Random()).Next()).First();
+                                    if (!string.IsNullOrWhiteSpace(menuBanner.Image))
+                                    {
+                                        <div class="blog-link-img-wrap" onclick="callApiAndRedirect('M', '@menuBanner.Uid', '@menuBanner.Link', '@menuBanner.Target');">
+                                            <img style="max-width: 180px;" src="@Config.ImageDomain/www/Notice/@menuBanner.Image" alt="" />
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MOBILE -->
+            </div>
+        </div>
+        <!-- START MENU IMAGE BANNER-->
+        <div class="bg_box">
+            @if (notices.Where(x => x.Type.Equals("M")).Count() > 0 || notices.Where(x => x.Type.Equals("V")).Count() > 0)
+            {
+                var menuBannerR = notices.Where(x => x.Type.Equals("M")).Count() > 0 ? notices.Where(x => x.Type.Equals("M")).OrderBy(x => (new Random()).Next()).First() : new Notice();
+                var menuBannerL = notices.Where(x => x.Type.Equals("V")).Count() > 0 ? notices.Where(x => x.Type.Equals("V")).OrderBy(x => (new Random()).Next()).First() : new Notice();
+                <div class="container" style="position: relative;">
+                    <!-- START MENU IMAGE (Vertical) BANNER-->
+                    @if (menuBannerL != null && !string.IsNullOrWhiteSpace(menuBannerL.Image))
+                    {
+                        <div class="bg-box-banner-01">
+                            <img src="@Config.ImageDomain/www/Notice/@menuBannerL.Image" alt="" onclick="callApiAndRedirect('V', '@menuBannerL.Uid', '@menuBannerL.Link', '@menuBannerL.Target');" />
+                        </div>
+                    }
+                    <!-- END MENU IMAGE (Vertical) BANNER-->
+                    @if (menuBannerR != null && !string.IsNullOrWhiteSpace(menuBannerR.Image))
+                    {
+                        <div class="bg-box-banner" onclick="callApiAndRedirect('M', '@menuBannerR.Uid', '@menuBannerR.Link', '@menuBannerR.Target');">
+                            <img style="max-width: 180px;" src="@Config.ImageDomain/www/Notice/@menuBannerR.Image" alt="" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <!-- END MENU IMAGE BANNER-->
+    </nav>
+    <!-- END HEADER -->
+    <!-- START KA-CONTAINER -->
+    <div class="ka-container ">
+        <!-- START CONTENT WRAPPER -->
+        <div class="ka-content-wrapper">
+            <!-- START CONTENT SECTION -->
+            <div class="content">@RenderBody()</div>
+            <!-- END CONTENT SECTION -->
+            <!-- BEGIN CORE JS -->
+            <script src="~/js/ka.fe.min.js" asp-append-version="true"></script>
+            <script src="~/js/ka.common.js" asp-append-version="true"></script>
+            <script src="~/js/ka.util.js" asp-append-version="true"></script>
+            <script src="~/js/ka.auction.js" asp-append-version="true"></script>
+            <script src="~/js/ka.main.js" asp-append-version="true"></script>
+            <script src="~/js/ka.resize.js" asp-append-version="true"></script>
+            @if (commonService.IsIE())
+            {
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+            }
+            <!-- END SCRIPT -->
+            <!-- END CORE JS -->
+            <!-- START FOOTER -->
+            <div class="footer-padding"></div>
+            @if (commonService.GetPage.ToUpper() != "/MEMBER/LOGIN")
+            {
+                <footer>
+                    <div class="footer sm-p-l-20 sm-p-r-20 m-t-50">
+                        <div class="row no-gutters">
+                            <div class="col-lg-12 bottom-menu text-center">
+                                <div class="text-zoom">
+                                    <span class="zoom-minus"><a href="#" onclick="zoomOut();return false;"><i class="fas fa-minus"></i></a></span>
+                                    <span class="zoom-text">@L["글자크기"]</span>
+                                    <span class="zoom-plus"><a href="#" onclick="zoomIn(); zommScroll(); return false;"><i class="fas fa-plus"></i></a></span>
+                                    <span class="zoom-reload" onclick="zoomReset(); return false;"><a href="#"><i class="fas fa-redo"></i></a></span>
+                                </div>
+
+                                <div class="company_about_list">
+                                    <ul>
+                                        @foreach (var item in menus.Where(x => x.Type.Equals("FOOTER")))
+                                        {
+                                            <li><a href="@item.Link" target="@item.Target">@item.DisplayName</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <ul class="policy">
+                                    <li class="policy_list_dropdown_wrap">
+                                        <a href="#">@L["이용약관"]</a>
+                                        <div class="policy_list_dropdown">
+                                            <div class="caret_up">
+                                                <span></span>
+                                            </div>
+                                            <ul>
+                                                <li class="w-100"><a href="/HowTo/Clause/Join/001">@L["온라인 회원약관"]</a></li>
+                                                <li class="w-100"><a href="/HowTo/MajorClause">@(commonService.IsKor() ? "경매약관" : "Auction")</a></li>
+                                                <li class="w-100"><a href="/HowTo/OnlineClause">@L["온라인 경매약관"]</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li><a class="PrivacyClause" asp-controller="HowTo" asp-action="PrivacyClause">@L["개인정보처리방침"]</a></li>
+                                    @if (commonService.IsKor())
+                                    {
+                                        <li><a target="_self" href="/HowTo/Clause/InfoMng">내부정보관리규정</a></li>
+                                    }
+                                    <li class="pcbtn"><a href="javascript:desktopMode();">@L["PC버전보기"]</a></li>
+                                </ul>
+                                <p class="address">
+                                    @L["사업자등록번호 101-86-17910"] <span class="address-bar"></span> @L["통신판매업신고번호 : 서울강남 제 2008-537호"] <span class="address-bar"></span>&nbsp;@L["대표이사 : 도현순"]<br />
+                                    @L["주소 : 서울특별시 강남구 언주로 172길 23 아트타워"] <span class="address-bar"></span> @L["대표전화 : 02-3479-8888"] <span class="address-bar"></span> @L["팩스 : 02-3479-8889"]
+                                </p>
+                                <ul class="sns clearfix">
+                                    <li class="foot-insta"><a href="https://www.instagram.com/k_auction/" target="_blank" title="@L["인스타그램"]">Instagram</a></li>
+                                    <li class="foot-blog"><a href="https://blog.naver.com/k-auction" target="_blank" title="@L["네이버 블로그"]">Naver Blog</a></li>
+                                    <li class="foot-post"><a href="https://post.naver.com/k-auction" target="_blank" title="@L["네이버 포스트"]">Naver Post</a></li>
+                                    <li class="foot-kakao"><a href="http://pf.kakao.com/_xgjzMM" target="_blank" title="@L["카카오톡 채널"]">Kakao Channel</a></li>
+                                    <li class="foot-isms">
+                                        <a href="@(!commonService.IsKor() ? "/img/isms/ISMS_02_certificate_ENG.pdf" : "/img/isms/ISMS_01_certificate_KOR.pdf")" target="_blank">
+                                            <div class="img"></div>
+                                            <div class="cnt">
+                                                <span>@L["케이옥션 온라인 서비스"]</span>
+                                                <span>2022-05-04 ~ 2025-05-03</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                                <p class="copyright">
+                                    <span>Copyright ⓒ <a href="http://www.k-auction.com">K Auction.</a> All Rights Reserved</span>
+                                </p>
+                                <p class="footer-announcement" style="color: #4e4e4e; margin-top: 15px; line-height: 1.3em;">@L["케이옥션 사이트의 이미지 및 영상, 문자 등의 자료 또는 정보(웹사이트 화면 포함)에 대한 무단복제, 전송, 배포, 크롤링/스크래핑 등의 행위는 저작권법, 부정경쟁방지 및 영업비밀보호에 관한 법률 등 관련 법령에 의하여 엄격히 금지됩니다."]</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            }
+            <!-- END FOOTER -->
+        </div>
+    </div>
+    <!-- END KA-CONTAINER -->
+    <!-- START MODAL -->
+    <div class="modal fade" id="modal-common" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel1" aria-hidden="false" style="z-index: 9999;">
+        <div class="modal-dialog  modal-dialog-centered" style="display: flex;" role="document">
+            <div class="modal-content modal-popup">
+                <div>
+                    <img src="/img/icons/safety-icon@1x.png" alt="@L["알림"]" id="img-safety" style="display: none;"
+                         srcset="/img/icons/safety-icon@1x.png 1x,/img/icons/safety-icon@2x.png 2x,/img/icons/safety-icon@3x.png 3x">
+                    <img src="/img/icons/warning-icon@1x.png" alt="@L["알림"]" id="img-warning" style="display: none;"
+                         srcset="/img/icons/warning-icon@1x.png 1x,/img/icons/warning-icon@2x.png 2x,/img/icons/warning-icon@3x.png 3x">
+                    <h2 id="modal-common-title">@L["알림"]</h2>
+                    <div class="modal-cnt"><span id="modal-message"></span></div>
+                    <div class="modal-btn">
+                        <a href="#" class="btn-ok" data-dismiss="modal" aria-label="Close">@L["확인"]</a>
+                        <a class="cancel btn-ok" href="#" data-dismiss="modal" aria-label="Close">@L["취소"]</a>
+                    </div>
+                    <div class="applyBook_content" id="applybook-form">
+                        <div class="list">
+                            <div class="address_tit">@L["구독 주소지"]<a href="/Mypage/Member">@L["주소관리"]</a></div>
+                            <select id="apply-book-address" class="join_country_select"></select>
+                        </div>
+                        <div class="list">
+                            <p>@L["구독자 이름"]</p>
+                            <input id="apply-book-name" class="default_type" type="text" placeholder="">
+                            <div id="apply-book-name-msg" class="fs-12 text-primary"></div>
+                        </div>
+                        <div class="list">
+                            <p>@L["구독자 연락처"]</p>
+                            <input id="apply-book-mobile" class="default_type" type="tel" placeholder="">
+                            <div id="apply-book-mobile-msg" class="fs-12 text-primary"></div>
+                        </div>
+                        <div class="agree_wrap">
+                            <div class="tit"><a href="/HowTo/Clause/J001" target="_blank">@L["개인정보 제 3자 제공 동의"]</a></div>
+                            <div class="agree">
+                                <input type="checkbox" name="join-conditions" class="join-conditions join-accordion_condition" id="apply_book_agree">
+                                <label for="apply_book_agree"><div><span><i class="fas fa-check"></i></span></div><strong>@L["개인정보(주소)를 제 3차(배송업체)에게 제공하는데 동의합니다."]</strong></label>
+                            </div>
+                        </div>
+                        <div id="apply_book_agree_msg" class="fs-12 text-primary"></div>
+                        <div id="apply_book_btn_wrap" class="btn_wrap">
+                            <button class="cancel" onclick="$('#modal-common').modal('hide');">@L["취소하기"]</button>
+                            <button class="submit" onclick="$.mypageUtils.setApplyBook();">@L["제출하기"]</button>
+                        </div>
+                    </div>
+                    <div class="applyBook_content" id="certificate-form">
+                        <div class="list">
+                            <div class="address_tit">@L["보증서 배송 주소지"]<a href="/Member/MyPage/Address">@L["주소관리"]</a></div>
+                            <select id="certificate-address" class="join_country_select"></select>
+                        </div>
+                        <div class="list">
+                            <p>@L["수신자 이름"]</p>
+                            <input id="certificate-receiver-name" class="default_type" type="text" placeholder="" value="@LoginInfo.Name">
+                            <div id="apply-book-name-msg" class="fs-12 text-primary"></div>
+                        </div>
+                        <div class="list">
+                            <p>@L["수신자 연락처"]</p>
+                            <input id="certificate-receiver-mobile" class="default_type" type="tel" placeholder="" value="@LoginInfo.Mobile.Replace("-", "")">
+                            <div id="apply-book-mobile-msg" class="fs-12 text-primary"></div>
+                        </div>
+                        <div class="list">
+                            <p>@L["이메일 (알림용)"]</p>
+                            <input id="certificate-receiver-email" class="default_type" type="email" placeholder="" value="@LoginInfo.Email">
+                            <div id="apply-book-mobile-msg" class="fs-12 text-primary"></div>
+                        </div>
+                        <div class="agree_wrap">
+                            <div class="agree">
+                                <input type="checkbox" name="join-conditions" class="join-conditions join-accordion_condition" id="certificate-info-agree" value="Y">
+                                <label for="certificate-info-agree"><div><span><i class="fas fa-check"></i></span></div><strong>@L["배송정보를 회원 주소정보에 업데이트"]</strong></label>
+                            </div>
+                        </div>
+                        <div id="certificate_agree_msg" class="fs-12 text-primary"></div>
+                        <input type="hidden" id="certificate-work-uid" class="fs-12 text-primary"></input>
+                        <div id="apply_book_btn_wrap" class="btn_wrap">
+                            <button class="cancel" onclick="$('#modal-common').modal('hide');">@L["취소하기"]</button>
+                            <button class="submit" onclick="$.mypageUtils.setCertificateService();">@L["제출하기"]</button>
+                        </div>
+                    </div>
+                    <div class="applyBook_content applyBook_content_complete">
+                        <div class="text-center fs-16" id="applyBookCompleteTitle">@L["신청이 접수 되었습니다.<br />구독료 입금을 진행해주세요."]</div>
+                        <div class="agree_wrap" id="applyBookCompleteContent">
+                            <div class="m-l-10 m-t-10">@L["도록 구독료 : 연 10만원"]</div>
+                            <div class="m-l-10 m-t-5">@L["계좌번호 : 하나은행 196-910005-07204 (케이옥션)"]</div>
+                            <div class="m-l-10 m-t-5 m-b-10 applybook-info-tel">@L["문의사항 : 02) 3479-8888"]</div>
+                        </div>
+                        <div class="btn_wrap text-center" style="display: block;">
+                            <button id="btn-modal-common-close" class="submit" onclick="location.reload();">@L["확인"]</button>
+                        </div>
+                    </div>
+                </div>
+                <img src="/img/icons/popup-close@1x.png" alt="Close" srcset="/img/icons/popup-close@1x.png 1x,/img/icons/popup-close@2x.png 2x,/img/icons/popup-close@3x.png 3x" class="modal-close">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-content" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel2" aria-hidden="false">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content-wrapper">
+                <div class="modal-content" style="min-height: 40%;">
+                    <div class="modal-header clearfix">
+                        <h5 id="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-warning" tabindex="-1" role="dialog" aria-labelledby="modal-warning" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content modal-popup">
+                <div>
+                    <img src="/img/icons/Error-icon@1x.png" alt="Notice"
+                         srcset="/img/icons/Error-icon@1x.png 1x,/img/icons/Error-icon@2x.png 2x,/img/icons/Error-icon@3x.png 3x">
+                    <h2 id="modal-warning-title">@L["알림"]</h2>
+                    <div class="modal-cnt">
+                        <span id="modal-warning-message"></span>
+                    </div>
+                    <div class="modal-section-btn">
+                        <a href="javascript:" onclick="$('#modal-warning').click();">@L["취소"]</a>
+                        <a id="btn-warning-confirm" href="#">@L["확인"]</a>
+                    </div>
+                </div>
+                <img src="/img/icons/popup-close@1x.png" alt="Close"
+                     srcset="/img/icons/popup-close@1x.png 1x,/img/icons/popup-close@2x.png 2x,/img/icons/popup-close@3x.png 3x" class="modal-close">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-warning-login" tabindex="-1" role="dialog" aria-labelledby="modal-warning-login" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content modal-popup">
+                <div>
+                    <img src="/img/icons/Error-icon@1x.png" alt="Notice"
+                         srcset="/img/icons/Error-icon@1x.png 1x,/img/icons/Error-icon@2x.png 2x,/img/icons/Error-icon@3x.png 3x">
+                    <h2 id="modal-warning-login-title">@L["알림"]</h2>
+                    <div class="modal-cnt">
+                        <span id="modal-warning-login-message"></span>
+                    </div>
+                    <div class="modal-section-btn">
+                        <a id="btn-warning-login-close" href="javascript:" onclick="$('#modal-warning-login').click();">@L["취소"]</a>
+                        <a id="btn-warning-login-confirm" href="#">@L["확인"]</a>
+                    </div>
+                </div>
+                <img src="/img/icons/popup-close@1x.png" alt="Close"
+                     srcset="/img/icons/popup-close@1x.png 1x,/img/icons/popup-close@2x.png 2x,/img/icons/popup-close@3x.png 3x" class="modal-close">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-warning-withStep1" tabindex="-1" role="dialog" aria-labelledby="modal-warning" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="px-3 pt-3">
+                        <div class="modal-alert">
+                            <div class="modal-icon modal-warning scaleWarning">
+                                <span class="modal-line pulseWarningIns"></span>
+                                <span class="modal-dot pulseWarningIns"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="pt-3" id="warning-withStep1-title"></h3>
+                        <p class="text-muted" id="warning-withStep1-message"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">@L["취소"]</a>
+                        <a id="btn-warning-withStep1" href="#" class="btn btn-cstm-danger" data-dismiss="modal" aria-label="Close">@L["진행"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-warning-withStep2" tabindex="-1" role="dialog" aria-labelledby="modal-warning" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="px-3 pt-3">
+                        <div class="modal-alert">
+                            <div class="modal-icon modal-warning scaleWarning">
+                                <span class="modal-line pulseWarningIns"></span>
+                                <span class="modal-dot pulseWarningIns"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="pt-3" id="warning-withStep2-title"></h3>
+                        <p class="text-muted" id="warning-withStep2-message"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">@L["취소"]</a>
+                        <a id="btn-warning-withStep2" href="#" class="btn btn-cstm-danger" data-dismiss="modal" aria-label="Close">@L["진행"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-bid-notification" tabindex="-1" role="dialog" aria-labelledby="modal-warning" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content" style="width:780px !important;">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3 class="pt-3" id="bid_notification-title"></h3>
+                        <p class="text-muted" id="bid_notification-message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>LOGIN</h3>
+                    </div>
+                    <form role="form" class="login-form">
+                        <div class="row">
+                            <div class="loginForm-wrap">
+                                <div class="form-group required m-b-10">
+                                    <input id="modal-login-id" type="text" class="form-control" required onkeydown="return $.eventUtils.enter(event, $.loginUtils.proc);" placeholder="@L["아이디"]">
+                                </div>
+                                <div class="form-group required m-b-10">
+                                    <input id="modal-login-pwd" type="password" class="form-control" required onkeydown="return $.eventUtils.enter(event, $.loginUtils.proc);" placeholder="@L["비밀번호"]">
+                                </div>
+                                <div id="validation-message" class="text-primary"></div>
+                                <div id="login-captcha-form" style="padding: 15px; background-color: #f5f5f5; margin: 10px 0 10px 0; display: none;">
+                                    <div id="login-captcha" class="text-center"></div>
+                                    <div id="validation-captcha-message" class="text-center m-b-10"></div>
+                                    <input id="modal-login-captcha" type="text" class="form-control" maxlength="6" onkeydown="return $.eventUtils.enter(event, $.loginUtils.proc);" />
+                                </div>
+                                <div class="form-check checkbox-circle primary loginForm-bottom">
+                                    <div>
+                                        <input type="checkbox" id="check-login" value="0">
+                                        <label for="check-login">@L["로그인 상태 유지"]</label>
+                                    </div>
+
+                                    <div>
+                                        <a href="/Member/FindId">@L["아이디찾기"]</a>
+                                        <a href="/Member/FindPass">@L["비밀번호찾기"]</a>
+                                    </div>
+                                </div>
+                                <button aria-label="" type="button" class="btn btn-block btn-primary btn-lg m-t-10 m-b-10" onclick="$.loginUtils.proc();">
+                                    <span>@L["로그인"]</span>
+                                </button>
+                            </div>
+                            <div class="bottom-join">
+                                <p>@L["아직 케이옥션 회원이 아니세요?"]<a href="/Member/JoinStep1">@L["회원가입"]</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal qrcode fade show" id="qrcode_popup" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal_wrap">
+            <div class="modal-content">
+                <div class="modal_header">
+                    <p class="name">K Auction</p>
+                    <p class="desc">@L["대한민국 대표 미술품 경매 서비스 케이옥션를<br />모바일 앱으로 손쉽게 이용하세요."]</p>
+                </div>
+                <div class="qrcode_img_wrap"><div class="img"></div></div>
+                <div class="appstore_img_wrap">
+                    <div class="ios" onclick="window.open('https://apps.apple.com/kr/app/kbs-kong/id397892527', '_blank');"></div>
+                    <div class="android" onclick="window.open('https://play.google.com/store/apps/details?id=com.kauctionapp.kauction', '_blank');"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade join_address_modal show" id="join_member_address_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="z-index: 999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="tit">
+                    <h6>@L["우편번호 검색"]</h6>
+                    <button class="close_btn" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="detail">
+                    <div class="address_input_wrap">
+                        <div class="join_text_box">
+                            <input type="text" class="join_writer_registration_input ui-autocomplete-input" placeholder="@L["검색어를 입력해주세요"]" maxlength="25" onkeyup="$.addressUtils.enterAddrSearch();" id="search_addr" autocomplete="off">
+                            <div class="text_box_clearbtn"><img src="/img/icons/input_closebtn@1x.png" alt="close-btn" srcset="/img/icons/input_closebtn@1x.png 1x, /img/icons/input_closebtn@2x.png 2x, /img/icons/input_closebtn@3x.png 3x"></div>
+                        </div>
+                        <button class="search_addr_btn" type="button" onclick="$.addressUtils.addrSearch();">@L["검색"]</button>
+                    </div>
+                    <div class="result">
+                        <div class="modal_desc text-left" id="addr_list" style="overflow: auto; height: 240px; display: none;"></div>
+                        <div class="tip">
+                            <h5>TIP</h5>
+                            <div class="desc">@L["아래와 같이 검색하면 더욱 정확한 결과가 검색됩니다."]</div>
+                            <p class="cnt">@L["· 도로명 + 건물번호"]</p><span>@L["예) 영동대로 513,  제주 첨단로 242"]</span>
+                            <p class="cnt">@L["· 지역명(동/리) + 번지"]​</p><span>@L["예) 삼성동 25, 제주 영평동 2181"]</span>
+                            <p class="cnt">@L["· 지역명(동/리) + 건물명(아파트명)"]​</p><span>@L["예) 분당 주공, 삼성동 코엑스"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (LoginInfo.Uid > 0 && HttpContextAccessor.HttpContext.Request.Cookies["K-Auction.ReceivingAdvertisingInfo"] != null && HttpContextAccessor.HttpContext.Request.Cookies["K-Auction.ReceivingAdvertisingInfo"].ToString().Equals("Y") && !HttpContextAccessor.HttpContext.Request.Path.Value.ToLower().Contains("joincomplete"))
+    {
+        <div class="modal" id="dormant-account-modal" tabindex="-1" role="dialog" aria-labelledby="dormant-account-modal" aria-hidden="true">
+            <div class="modal-dialog" style="width: 100%; height: 100%; margin: 0; max-width: 100%;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>@L["광고성 정보 수신 동의"]</h4>
+                        <p>@L["케이옥션의 경매정보 제공, 경매일정 안내 등 서비스 이용을 위한 광고성 정보에 대해 관심이 있다면, 원하는 항목을 선택하여 주시기 바랍니다."]</p>
+                        <div class="dormant-account-modal-list">
+                            <div>
+                                <input type="checkbox" id="receive-ad-chk_01" name="receive-ad-chk" class="receive-ad-chk">
+                                <label for="receive-ad-chk_01"><span><i class="fas fa-check"></i></span>@L["문자 메세지"]</label>
+                                <span>@L["수신거부"]</span>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="receive-ad-chk_02" name="receive-ad-chk" class="receive-ad-chk">
+                                <label for="receive-ad-chk_02"><span><i class="fas fa-check"></i></span>@L["이메일"]</label>
+                                <span>@L["수신거부"]</span>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="receive-ad-chk_03" name="receive-ad-chk" class="receive-ad-chk">
+                                <label for="receive-ad-chk_03"><span><i class="fas fa-check"></i></span>@L["전화"]</label>
+                                <span>@L["수신거부"]</span>
+                            </div>
+                        </div>
+                        <div class="dormant-account-modal-btn"><button onclick="$.loginUtils.updateRecevingAdvertising();">@L["반영하기"]</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("input[name='receive-ad-chk']").each(function () {
+                $(this).click(function (e) {
+                    let textCnt = $(this).next().next();
+                    if ($(this).is(":checked") == true) {
+                        textCnt.text(ka.msg.common.accepted);
+                        textCnt.css({ "color": "#FF5D16", "font-weight": "600" })
+                    } else {
+                        textCnt.text(ka.msg.common.notAccepted);
+                        textCnt.css({ "color": "#cccccc", "font-weight": "400" })
+                    }
+                });
+            });
+            $("#dormant-account-modal").modal();
+        </script>
+    }
+    <!-- END MODAL -->
+    <!-- START BID LIST -->
+    <div id="cur-sit">
+        <script>document.write(ka.icon.closeCursit);</script>
+        <div class="cursit-tit"><p>@L["응찰현황"]</p></div>
+        <div class="cursit-cont">
+            <div class="cursit-desc">
+                <table class="cursit-tab">
+                    <thead>
+                        <tr>
+                            <th class="text-center">@L["회원ID"]</th>
+                            <th class="text-center">@L["응찰가"]</th>
+                            <th class="text-center">@L["응찰일자"]</th>
+                            <th class="text-center">@L["비고"]</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl-bid-body"></tbody>
+                </table>
+            </div>
+            <ul>
+                <li>@L["동일한 금액이 응찰된 경우에는 응찰 시간이 빠른 응찰자가 최종 낙찰자로 인정됩니다."]</li>
+                <li>@L["비고에 낙찰로 표시된 응찰자가 최종 낙찰자입니다."]</li>
+                <li>@L["경매참여자 순위 20위까지만 볼 수 있습니다."]</li>
+            </ul>
+        </div>
+    </div>
+    <div class="cursit-bg"></div>
+    <!-- END BID LIST -->
+
+    <div class="header-bg modal-bg"></div>
+    <div id="outdated"></div>
+
+    <!-- MOBILE SEARCH LAYER -->
+    <div id="search-mobile-popup">
+        <div class="mobile-bottom-search-bar" style="display: block;"></div>
+        <div>
+            <div class="search-mobile-popup-input">
+                <input type="text" id="search-input-mobile" class="search-input" placeholder="@L["작가명 또는 작품명 검색"]" aria-label="@L["작가명 또는 작품명 검색"]">
+                <div class="btnClear">
+                    <img src="/img/icons/search_close@1x.png" alt="close-btn" srcset="/img/icons/search_close@1x.png 1x, /img/icons/search_close@2x.png 2x, /img/icons/search_close@3x.png 3x">
+                    <div class="search_line"></div>
+                </div>
+                <div class="search-mobile-popup-btn"><button class="" type="button" onclick="searchLayer('mobile');"><i class="fas fa-search fa-fw"></i></button></div>
+            </div>
+            <div class="search-mobile-popup-latest">
+                <span class="btnSearchInit" onclick="$.searchUtils.clearSearchHistory();">@L["초기화"]</span>
+                <p>@L["최근 검색어"]</p>
+                <div id="search-history-cont-mobile"></div>
+            </div>
+
+            <div class="search-mobile-popup-recommend">
+                <p>@L["추천 검색어"]</p>
+                <div>
+                    @foreach (var item in searchTerms.Where(x => x.Lang.Equals(currentLang.Contains("KR") ? "K" : "E")))
+                    {
+                        recommendedWordFlag = true;
+                        <div><span style="cursor: pointer;" onclick="window.location.href='/Home/Search?key=' + encodeURI('@item.Term');">@item.Term</span></div>
+                    }
+                    @if (!recommendedWordFlag)
+                    {
+                        <div><span>@L["표시할 내용이 없습니다."]</span></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <form name="form" id="address-form" method="post">
+        <input type="hidden" name="currentPage" value="1" />
+        <input type="hidden" name="countPerPage" value="200" />
+        <input type="hidden" name="resultType" value="json" />
+        <input type="hidden" name="confmKey" value="U01TX0FVVEgyMDIxMTIyODEzMTk0NjExMjA3Mzg=" />
+        <input type="hidden" name="keyword" id="addrKeyword" value="" />
+    </form>
+    <!-- MOBILE SEARCH LAYER -->
+    <script>
+
+        var imageDomain = "@Config.ImageDomain";
+        var isLogin = "@User.Identity.IsAuthenticated";
+        var isMobile = "@commonService.IsMobile()";
+        var isApp = "@commonService.IsApp()";
+        var isKor = "@commonService.IsKor()";
+        var useGA = "@Config.UseGoogleAnalytics";
+        var pwdNoti = "@pwdNoti";
+        var bottomNav = "Y";
+        var activeAuction = ["@currentAuction.IsActive[0]", "@currentAuction.IsActive[1]", "@currentAuction.IsActive[2]"];
+
+        $(document).ready(function () {
+            const quickMajor = document.querySelector("#quick-menu-major-contdown");
+            const quickPremium = document.querySelector("#quick-menu-premium-contdown");
+            const quickWeekly = document.querySelector("#quick-menu-weekly-contdown");
+            if (activeAuction[0] === "True" && quickMajor && quickMajor.dataset.remainDate)
+            {
+                $.commonScript.countDownTimer("dayContDown", quickMajor.dataset.remainDate, 'quick-menu-major-contdown');
+            }
+            if (activeAuction[1] === "True" && quickPremium && quickPremium.dataset.remainDate)
+            {
+                $.commonScript.countDownTimer("dayContDown", quickPremium.dataset.remainDate, 'quick-menu-premium-contdown');
+            }
+            if (activeAuction[2] === "True" && quickWeekly && quickWeekly.dataset.remainDate)
+            {
+                $.commonScript.countDownTimer("dayContDown", quickWeekly.dataset.remainDate, 'quick-menu-weekly-contdown');
+            }
+
+            @* document.getElementById('appdown_btn').addEventListener('click', (e) => {
+                e.preventDefault();
+            }) *@
+
+            const topNotice = $("#change-notice");
+            if (topNotice.length > 0) {
+                const name = $.commonUtils.getCookie("ka-" + topNotice.get(0).dataset.id);
+                if (name === "") {
+                    topNotice.show();
+                }
+            }
+
+            const layerNotice = $(".mainpopup");
+            let layerNoticeFlag = false;
+            if (layerNotice.length > 0) {
+                $.each(layerNotice, function (index, item) {
+                    const name = $.commonUtils.getCookie("ka-" + item.dataset.id);
+                    if (name === "Y") {
+                        item.style.display = "none";
+                    } else {
+                        layerNoticeFlag = true;
+                    }
+                });
+            }
+
+            if (layerNoticeFlag) {
+                $("#main-popup").show();
+                $(".mainpopup-bg").show();
+
+                $("body").css({ "overflow-y": "hidden", "height": "100%", "touch-action": "none" }).bind('scroll touchmove mousewheel', function (e) { e.preventDefault() });
+                $("#main-popup").css({ "overflow-y": 'scroll' });
+            }
+
+            $(".nav-menu-top2").click(function (e) {
+                $("body").toggleClass("nav-menu-opened");
+                $(".d-xl-none.nav-menu-toggler").removeClass("on");
+            });
+
+            $(".header-bg").click(function (e) {
+                $("body").toggleClass("nav-menu-opened");
+                $(".d-xl-none.nav-menu-toggler").removeClass("on");
+            });
+
+            $(".topmenu>li").hover(function () {
+                $(this).find("ul").css({ "background": "#fff" });
+            }, function () {
+                $(this).find("ul").css({ "background": "#f7f7f7" });
+            });
+
+            $(".top_nav").mouseenter(function () {
+                $(this).find(".topmenu>li>.smenu").stop().slideDown();
+                $(".bg_box").stop().slideDown();
+            });
+
+            $(".header.header-down").mouseleave(function () {
+                $(this).find(".topmenu>li>.smenu").stop().slideUp();
+                $(".bg_box").stop().slideUp();
+            });
+
+            $(".maincl-btn1").click(function () {
+                if ($("input").is(':checked')) {
+                    setCookie("topPop", "done", 1);
+                }
+                $(this).parent().parent().hide();
+            });
+
+            $(".maincl-btn2").click(function () {
+                if ($("input").is(':checked')) {
+                    setCookie("topPop", "done", 1);
+                }
+                $(this).parent().parent().hide();
+            });
+
+            $("#main-popup > form:last-child > .main-close > a").click(function () {
+                if ($("input").is(':checked')) {
+                    setCookie("topPop", "done", 1);
+                }
+                $(this).parent().parent().hide();
+                $(".mainpopup-bg").hide();
+            });
+
+            const curSitBtn = $(".cursit-bg");
+            const curSitCloseBtn = $('#cursit-close').css("cursor", "pointer");
+
+            curSitBtn.click(function (e) {
+                e.preventDefault();
+                $("#cur-sit").css("display", "none");
+                $(this).css("display", "none");
+            });
+
+            curSitCloseBtn.click(function (e) {
+                e.preventDefault();
+                $("#cur-sit").css("display", "none");
+                curSitBtn.css("display", "none");
+            });
+
+            document.querySelectorAll('.modal-close').forEach(function(elem) {
+                elem.addEventListener("click", function () {
+                    $(this).parent().parent().parent().click();
+                });
+            });
+
+            if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+                document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="/css/windows.chrome.fix.min.css" />';
+
+            if (document.querySelector('.pcbtn') !== null) {
+                if (isMobile === "True" || navigator.userAgent.toLowerCase().indexOf('ipad') > -1 || (navigator.userAgent.toLowerCase().indexOf('android') > -1 && navigator.userAgent.toLowerCase().indexOf('mobile') == -1)) {
+                    document.querySelector('.pcbtn').style.display = "inline-block";
+                } else {
+                    document.querySelector('.pcbtn').style.display = "none";
+                }
+            }
+
+            if (document.querySelector('.swiper-container.main > .swiper-wrapper > .swiper-slide > .banner-img > img') !== null) {
+                let bannerImg = document.querySelectorAll('.swiper-container.main > .swiper-wrapper > .swiper-slide > .banner-img > img');
+
+                if (isMobile === "True" || navigator.userAgent.toLowerCase().indexOf('ipad') > -1 || (navigator.userAgent.toLowerCase().indexOf('android') > -1 && navigator.userAgent.toLowerCase().indexOf('mobile') == -1)) {
+                    for (let i = 0; i < bannerImg.length; i++){
+                        bannerImg[i].style.height = 'initial';
+                        bannerImg[i].style.width = '100%';
+                    }
+                } else {
+                    for (let i = 0; i < bannerImg.length; i++){
+                        bannerImg[i].style.height = '100%';
+                        bannerImg[i].style.width = 'auto';
+                    }
+                }
+            }
+
+            if (desktopModeTF === "true") {
+                $(".pcbtn > a").html(ka.msg.menu.viewMobileVersion); //모바일버전 보기
+            } else {
+                $(".pcbtn > a").html(ka.msg.menu.viewPCVersion); // pc버전 보기
+            }
+
+            if (pwdNoti === "Y") {
+                $.commonUtils.confirmLogin(ka.msg.auction.Notice, ka.msg.main.changePwdMsg, "location.href='/Member/MyPage';");
+            }
+
+            $("#apply-book-address").change(function (e) {
+                try {
+                    let el = e.currentTarget[e.currentTarget.selectedIndex];
+                    $("#apply-book-name").val(el.dataset.receiver);
+                    $("#apply-book-mobile").val(el.dataset.contact.replace(/-/ig, ''));
+                } catch (e) {}
+            });
+
+            const quickAucBtn = document.querySelectorAll(".auc_btn");
+            quickAucBtn.forEach(function (item, index) {
+                item.addEventListener("click", function (e) {
+                    if (this.dataset.menu) {
+                        document.querySelector("#" + this.dataset.menu).click();
+                    }
+                });
+            });
+
+            $.searchUtils.getSearchHistory();
+        });
+
+
+
+        $(".subtop-bn.b2, .subtop-bn.b3, .subtop-bn.b4,.subtop-bn.b5,.subtop-bn.b6,.subtop-bn.b7,.subtop-bn.b8,.subtop-bn.b9,.subtop-bn.b10,.subtop-bn.b11,.subtop-bn.b12,.subtop-bn.b13").addClass("subtop-h");
+
+        // 윈도우창크기
+        let desktopPopup = $("#search-desktop-popup");
+
+        // 데스크탑/타블렛일경우 검색팝업창 위치이동
+        $(window).resize(function() {
+            var windowWidth = $(this).width();
+            if (windowWidth < 1200) {
+                //창 가로 크기가 1200 작을 경우
+                $(".pull-right .header-inner").after(desktopPopup);
+                desktopPopup.css("right", "17px");
+            } else {
+                $(".header-util-container .header-util").after(desktopPopup);
+                desktopPopup.css("right", "0px");
+            }
+
+            if (windowWidth > 450) {
+                $("#search-mobile-popup").removeClass("active");
+            } else {
+                desktopPopup.removeClass("active");
+            }
+        });
+
+        // 데스크탑 검색팝업창 열기
+        function deskSearchPopup_open () {
+            if (desktopPopup.hasClass('active') == false ) {
+                desktopPopup.addClass('active');
+            } else {
+                desktopPopup.removeClass('active');
+            }
+        }
+
+        // 데스크탑 버튼 클릭시 검색팝업창 열기
+        $(".btn-desktop-search").click(function(e){
+            e.preventDefault();
+            deskSearchPopup_open();
+        });
+
+        // 타블렛일경우 검색팝업창열기
+        $(".btn-mobile-search_01").click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            deskSearchPopup_open();
+            /* desktopPopup.toggleClass("active");*/
+        });
+
+        // 모바일일경우 검색팝업창열기
+        $(".btn-mobile-search_02").click(function(e) {
+            e.preventDefault();
+            /* $("#search-mobile-popup").removeClass("slideDown"); */
+            $("#search-mobile-popup").addClass("slideUp");
+            mobileDim.style.display = "block";
+            document.querySelector('body').classList.add('yhidden');
+            $("#mobile-bottom-menu").css({
+                "bottom": "-72px",
+                "box-shadow": "none"
+            });
+        });
+
+        $("#modal-login-id").keyup(function (e) {
+            if (!(e.keyCode >= 37 && e.keyCode <= 40)) {
+                var v = $(this).val();
+                $(this).val(v.replace(/[^a-z0-9_]/gi, ''));
+            }
+        });
+
+        /* 검색팝업 input value 초기화 버튼 */
+        var $ipt = $('#search-desktop-popup .search-input'),
+            $clearIpt = $('#search-desktop-popup .btnClear');
+
+        $ipt.keyup(function(){
+            $("#search-desktop-popup .btnClear").toggle(Boolean($(this).val()));
+            $("#search-desktop-popup .search-desktop-popup-input").addClass("on");
+
+            if($ipt.val() == '') {
+                $("#search-desktop-popup .search-desktop-popup-input").removeClass("on");
+            }
+        });
+
+        $clearIpt.toggle(Boolean($ipt.val()));
+        $clearIpt.click(function(){
+            $(".search-desktop-popup-input").removeClass("on");
+            $ipt.val('').focus();
+            $(this).hide();
+        });
+
+        $(window).resize(function(){
+            $ipt.val('');
+        });
+
+        var $ipt_02 = $('#search-mobile-popup .search-input'),
+            $clearIpt_02 = $('#search-mobile-popup .btnClear');
+
+        $ipt_02.keyup(function(e){
+            $clearIpt_02.css("display", "flex");
+            $(this).parent().addClass('on');
+
+            if ($(this).val() == '') {
+                $(this).parent().removeClass('on');
+                $clearIpt_02.css("display", "none");
+            }
+        });
+
+        $clearIpt_02.click(function(){
+            $("#search-mobile-popup .search-mobile-popup-input").removeClass("on");
+            $ipt_02.val('').focus();
+            $(this).css("display", "none");
+        });
+
+        function closeLayerNotice(obj, uid) {
+            if (typeof obj === "string" && obj !== "") {
+                if ($("#" + obj + "_chk_" + uid).is(":checked")) {
+                    var mainPopup = $("#" + obj + "_" + uid);
+                    $.commonUtils.setCookie00("ka-" + mainPopup.get(0).dataset.id, "Y", 1);
+                }
+            }
+
+            $("#" + obj + "_" + uid).hide();
+
+            if ($(".popup-row > div:visible").length < 1) {
+                $("#main-popup").hide();
+                $(".mainpopup-bg").hide();
+
+                $("body").css({ "overflow-y": 'scroll', "position": "static", "touch-action": "auto" }).unbind('scroll touchmove mousewheel');
+                $("#main-popup").css({ "overflow-y": 'hidden' });
+            }
+        }
+
+        $('.main-close > input').click(function (e) {
+            $.commonUtils.setCookie00("ka-" + e.target.dataset.id, "Y", 1);
+            $(this).parent().parent().hide();
+
+            if ($(".popup-row > div:visible").length < 1) {
+                $("#main-popup").hide();
+                $(".mainpopup-bg").hide();
+
+                $("body").css({ "overflow-y": 'scroll', "position": "static", "touch-action": "auto" }).unbind('scroll touchmove mousewheel');
+                $("#main-popup").css({ "overflow-y": 'hidden' });
+            }
+        });
+
+        function getCookie(key) {
+            var result = null;
+            var cookie = document.cookie.split(';');
+            cookie.some(function (item) {
+                item = item.replace(' ', '');
+                var dic = item.split('=');
+                if (key === dic[0]) {
+                    result = dic[1];
+                    return true;
+                }
+            });
+            return result;
+        }
+
+        var desktopModeTF = getCookie("K-Auction.DesktopMode");
+        var Scale = getCookie("K-Auction.DesktopModeScale");
+        var defWidth = 1280;
+
+        if (desktopModeTF == "true") {
+            document.write('<meta name="viewport" content="width=' + defWidth + ', user-scalable=yes, initial-scale=' + Scale + '">');
+            document.querySelector('.swiper-container.main > .swiper-wrapper').classList.add('autoHeight');
+        } else {
+            document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">');
+            if(document.querySelector('.swiper-container.main > .swiper-wrapper') !== null){
+                document.querySelector('.swiper-container.main > .swiper-wrapper').classList.remove('autoHeight');
+            }
+        }
+
+        function desktopMode() {
+            if (getCookie("K-Auction.DesktopMode") == "true") {
+                setModeCookie(false);
+            } else {
+                setModeCookie(true);
+            }
+            window.scrollTo(0, 0);
+            location.reload();
+        }
+
+        function setModeCookie(switchOn) {
+            var now = new Date();
+            var time = now.getTime();
+            time += 3600 * 1000;
+            now.setTime(time);
+            document.cookie = 'K-Auction.DesktopMode=' + switchOn + '; path=/; expires=' + now.toUTCString();
+            if (switchOn) {
+                document.cookie = "K-Auction.DesktopModeScale=" + $('html').width() / defWidth + '; path=/; expires=' + now.toUTCString();
+            }
+        }
+
+        let nowZoom = 100;
+
+        function zoomOut() {   // 화면크기축소
+            nowZoom -= 10;
+            if(nowZoom <= 70) nowZoom = 70   // 화면크기 최대 축소율 70%
+            zooms();
+        }
+
+        function zoomIn() {   // 화면크기확대
+            nowZoom += 10;
+            if(nowZoom >= 130) nowZoom = 130 // 화면크기 최대 확대율 200%
+            zooms();
+        }
+
+        function zoomReset() {
+            nowZoom = 100; //화면 크기 리셋
+            zooms();
+        }
+
+        function zooms() {
+            document.body.style.zoom = nowZoom + "%";
+            document.querySelector('.zoom-text').innerText = nowZoom + "%";
+            localStorage.setItem("zoom", nowZoom)
+            localStorage.setItem("text", document.querySelector('.zoom-text').innerText);
+        }
+
+        function zommScroll() {
+            document.documentElement.scrollTop = document.documentElement.clientHeight + document.documentElement.scrollTop;
+        }
+
+        window.onload = function () {
+            document.body.style.removeProperty("zoom");
+            if(localStorage.getItem("zoom") !== null) {
+                nowZoom = localStorage.getItem("zoom");
+                document.body.style.zoom = localStorage.getItem("zoom") + "%";
+                zoomOut()
+                zoomIn()
+            }
+        }
+
+        function callApiAndRedirect(type, uid, url, target) {
+            if (type === "I" || type === "N") {
+                // N 아이콘 제거
+                $("#content-" + type + "-" + uid.toString()).remove();
+                if ($('.main-newicon-' + (type === "I" ? "igtv" : "blog")).length < 1) {
+                    $('.main-newicon-' + (type === "I" ? "igtv" : "blog") + "-title").remove();
+                }
+
+                // 쿠키 처리
+                if (isLogin !== "True") {
+                    var highlight = $.commonUtils.getCookie("ka-highlight-read");
+                    if (highlight === "") {
+                        var readList = [];
+                        readList.push(type + "-" + uid.toString());
+                        $.commonUtils.setCookie("ka-highlight-read", readList.join('|'));
+                    } else {
+                        var readList = decodeURI(highlight).split('|');
+                        var isExist = false;
+                        readList.forEach(function (item) {
+                            if (item === (type + "-" + uid.toString())) {
+                                isExist = true;
+                            }
+                        });
+                        if (!isExist) {
+                            readList.push(type + "-" + uid.toString());
+                            $.commonUtils.setCookie("ka-highlight-read", readList.join('|'));
+                        }
+                    }
+                }
+            }
+
+            var param = {};
+            param["type"] = type;
+            param["url"] = url;
+            param["target"] = uid;
+            $.ajaxUtils.callApiAndRedirect("/api/Home/SetContentHistory", param, url, target);
+        }
+
+        // 모바일 체크
+        var mobileArr = ["iPhone", "iPod", "iPad", "BlackBerry", "Android", "Windows CE", "LG", "MOT", "SAMSUNG", "SonyEricsson"];
+        for(var txt in mobileArr) {
+            if(navigator.userAgent.match(mobileArr[txt]) != null){
+                if( bottomNav == "Y" && bottomNav != "undefined" ) {
+                    document.getElementById("mobile-bottom-menu").style.display = "block";
+                    document.querySelector(".mobile-bottom-auction-bar").style.display = "block";
+                }
+
+                try {
+                    document.querySelector("#back-btn").style.bottom = "76px";
+                    document.querySelector("#quick-menu").style.display = "none"
+                    document.querySelector("#quick-menu-cnt").style.display = "none";
+                    document.querySelector("#list-scrollbtn").style.bottom = "76px";
+
+                    document.querySelector(".search-pannel-btn-wrap").classList.add("mobile");
+                    document.querySelector(".search-pannel-btn-wrap").focus({
+                        preventScroll: true
+                    });
+
+                    document.querySelector("#search-pannel").style.overflowY = "scroll";
+                    document.querySelector("#search-pannel .search-pannel-cnt-wrap").classList.add("mobile");
+
+                    document.querySelector("#material").addEventListener("click", function(e){
+                        e.preventDefault();
+                        $(".search-pannel-cnt-wrap").animate({ scrollTop: $(".panel-heading").eq(2).offset().top * 2.5}, 500);
+                    });
+                } catch (e) { }
+
+                $(function(){
+                    var lastScrollTop = 0,
+                    delta = 15;
+                    $(window).scroll(function(event) {
+                        var st = $(this).scrollTop();
+                        if(Math.abs(lastScrollTop - st) <= delta) return;
+
+                        if ((st > lastScrollTop) && (lastScrollTop>0)) {
+                            $("#mobile-bottom-menu").css({
+                                "bottom": "-72px",
+                                "box-shadow": "none"
+                            });
+                            $(".mobile-bottom-auction-bar").css({"display": "none"});
+                        } else {
+                            $("#mobile-bottom-menu").css({
+                                "bottom": "0px",
+                                "box-shadow": "0 4px 10px 0 rgba(0, 0, 0, 0.5)"
+                            });
+                            $(".mobile-bottom-auction-bar").css({"display": "block"});
+                        }
+                        lastScrollTop = st;
+                    });
+                });
+
+                break;
+            }
+        }
+
+        const mobileBottomList = Array.prototype.slice.call(document.querySelectorAll('#mobile-bottom-menu > ul > li'));
+        let mobileAuc = document.querySelector('#mobile-bottom-auction');
+
+        // dim처리 배경
+        let mobileDim = document.createElement('div');
+        mobileDim.className = "mobileDim";
+        document.querySelector('body').append(mobileDim);
+
+        function mobileDimfunc () {
+            mobileDim.style.display = "block";
+        }
+
+        let policy_list_dropdown_wrap = document.querySelector('li.policy_list_dropdown_wrap');
+        let policy_list_dropdown = document.querySelector('.policy_list_dropdown')
+
+        if (policy_list_dropdown_wrap) {
+            policy_list_dropdown_wrap.addEventListener('mouseenter', (e) => {
+                policy_list_dropdown.style.display = 'block';
+            });
+
+            policy_list_dropdown_wrap.addEventListener('mouseleave', (e) => {
+                policy_list_dropdown.style.display = 'none';
+            });
+        }
+
+        // dim처리 배경 (검색패널)
+        let search_pannel_dim = $("<div />", { "class": "search-pannel-dim" });
+        $('body').append(search_pannel_dim);
+
+        // 마우스 터치 변수
+        var mstartX = 0, mendX = 0,mstartY = 0, mendY = 0;
+        var startX,startY, endX,endY;
+        let clicked = 0;
+
+        function dispalyNone() {
+
+        }
+
+
+        mobileBottomList.forEach(function (elem) {
+            elem.addEventListener('click', function(e) {
+                e.preventDefault();
+                let target = e.currentTarget;
+
+                if (!clicked) {
+                    clicked = 1;
+                } else {
+                    mobileAuc.style.transform = "translateY(470px)";
+                    document.querySelector("#search-mobile-popup").classList.remove("slideUp");
+                    clicked = 0;
+                }
+
+                if (target == mobileBottomList[1]) {
+                    mobileAuc.style.transform = "translateY(0px)";
+                    document.body.classList.add('yhidden');
+                    mobileDimfunc();
+
+                    if (!clicked) {
+                        mobileAuc.style.transform = "translateY(470px)";
+                        document.body.classList.remove('yhidden');
+                        mobileDim.style.display = "none";
+                        clicked = 0;
+                    }
+                } else if (target == mobileBottomList[2]) {
+                    /* document.querySelector("#search-mobile-popup").classList.remove("slideDown"); */
+                    document.querySelector("#search-mobile-popup").classList.add("slideUp");
+                    document.body.classList.add('yhidden');
+                    mobileDimfunc();
+
+                    if (!clicked) {
+                        document.querySelector("#search-mobile-popup").classList.remove("slideUp");
+                        document.body.classList.remove('yhidden');
+                        mobileDim.style.display = "none";
+                        clicked = 0;
+                    }
+                } else {
+                    mobileAuc.style.transform = "translateY(470px)";
+                    mobileDim.style.display = "none";
+                    document.body.classList.remove('yhidden');
+
+                    document.querySelector("#search-mobile-popup").classList.remove("slideUp");
+                    mobileDim.style.display = "none";
+                    document.body.classList.remove('yhidden');
+                    clicked = 0;
+                }
+
+                let focusoutParent = document.querySelector("#search-mobile-popup .search-input");
+                document.querySelector("#search-mobile-popup .search-mobile-popup-input").addEventListener("click", function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.getElementById("mobile-bottom-menu").style.bottom = '-70px';
+                });
+                focusoutParent.addEventListener("focusout", function(e){
+                    document.getElementById("mobile-bottom-menu").style.bottom = '0px';
+                });
+
+                if (mobileAuc.style.transform == "translateY(0px)") {
+                    $("#mobile-bottom-auction").on('mousedown',function(event){
+                        mstartX = event.pageX;
+                        mstartY = event.pageY;
+                    });
+
+                    $("#mobile-bottom-auction").on('mouseup',function(event) {
+                        mendX=event.pageX;
+                        mendY=event.pageY;
+                        if ( mstartY-mendY < 30 ) {
+                            $('#mobile-bottom-auction').css({"transform" : "translateY(470px)"});
+                            mobileDim.style.display = "none";
+                            document.body.classList.remove('yhidden');
+                            clicked = 0;
+                        }
+                    });
+
+                    $("#mobile-bottom-auction").on('touchstart',function(event) {
+                        startX = event.originalEvent.changedTouches[0].screenX;
+                        startY = event.originalEvent.changedTouches[0].screenY;
+                    });
+
+                    $("#mobile-bottom-auction").on('touchend',function(event) {
+                        endX=event.originalEvent.changedTouches[0].screenX;
+                        endY=event.originalEvent.changedTouches[0].screenY;
+                        if( startY-endY < 50 ){
+                            $('#mobile-bottom-auction').css({ "transform" : "translateY(470px)", "transition" : "all 0.5s ease" });
+                            mobileDim.style.display = "none";
+                            bottomMenuList_remove_class();
+                            document.body.classList.remove('yhidden');
+                            clicked = 0;
+                        }
+                    });
+                }
+            });
+
+            // pc 클릭이벤트
+            var pcLong = 0;
+            elem.addEventListener('mousedown', function(e){
+                let target = e.currentTarget;
+                target.style.backgroundColor = "#e5e5e5";
+                pcLong = Date.now();
+            });
+
+            elem.addEventListener('mouseup', function(e){
+                let target = e.currentTarget;
+                target.style.backgroundColor = "#ffffff";
+                var result = Date.now() - pcLong;
+                if(Number(result) > 800){
+                    target.style.backgroundColor = "#ffffff";
+                }
+            });
+
+
+            // 모바일 클릭이벤트
+            var mobileLong = 0;
+            elem.addEventListener('touchstart', function(e){
+                let target = e.currentTarget;
+                mobileLong = Date.now();
+                target.style.backgroundColor = "#e5e5e5";
+            });
+
+
+            elem.addEventListener('touchend', function(e){
+                let target = e.currentTarget;
+                var result = Date.now() - mobileLong;
+                target.style.backgroundColor = "#ffffff";
+                if(Number(result) > 800){
+                    target.style.backgroundColor = "#ffffff";
+                }
+            });
+
+        });
+
+        (function(){
+            // home일때 liston
+            if (window.location.pathname == '/') {
+                mobileBottomList[0].classList.add('liston');
+            } else {
+                mobileBottomList[0].classList.remove('liston');
+            }
+
+            //  경매리스트페이지 liston
+            if (window.location.pathname.indexOf('Auction') == 1) {
+                mobileBottomList[1].classList.add('liston');
+            } else {
+                mobileBottomList[1].classList.remove('liston');
+            }
+
+            if (window.location.pathname.indexOf('Home') == 1) {
+                mobileBottomList[2].classList.add('liston');
+            } else {
+                mobileBottomList[2].classList.remove('liston');
+            }
+
+            //  위시리스트페이지 liston
+            if (window.location.pathname.indexOf('Member') == 1) {
+                mobileBottomList[3].classList.add('liston');
+            } else {
+                mobileBottomList[3].classList.remove('liston');
+            }
+        })();
+
+        // 모바일 팝업창 닫기
+        function mobilePopupClose (el) {
+            el.parentNode.parentNode.classList.remove('slideUp');
+        @* el.parentNode.parentNode.classList.add('slideDown'); *@
+            mobileDim.style.display = "none";
+            document.querySelector('body').classList.remove('yhidden');
+            clicked = 0;
+        }
+
+        mobileDim.addEventListener("click", function(e){
+            e.preventDefault();
+            e.currentTarget.style.display = "none";
+            mobileAuc.style.transform = "translateY(470px)";
+            document.body.classList.remove('yhidden');
+
+            if (document.querySelector("#search-mobile-popup").classList.contains("slideUp")) {
+                document.querySelector("#search-mobile-popup").classList.remove("slideUp");
+        @* document.querySelector("#search-mobile-popup").classList.add("slideDown"); *@
+            }
+            clicked = 0;
+        });
+
+        $("input[name='receive-ad-chk']").each(function(){
+            $(this).click(function(e){
+                let textCnt = $(this).next().next();
+                if( $(this).is(":checked") == true ){
+                    textCnt.text("동의");
+                    textCnt.css({
+                        "color" : "#FF5D16",
+                        "font-weight": "600"
+                    })
+                } else {
+                    textCnt.text("수신거부");
+                    textCnt.css({
+                        "color" : "#cccccc",
+                        "font-weight": "400"
+                    })
+                }
+            });
+        });
+
+        // 즉시 실행함수 업데이트된 경매 개수
+        (function(){
+            document.querySelector('#mobile-bottom-menu > ul > li > a > .mobileBottomImg.on > .auction-new > span').textContent = document.querySelectorAll("#mobile-bottom-auction > div > div").length;
+        })();
+
+        function searchLayer(type) {
+            if ($("#search-input-" + type).val().replace(/ /ig, "") === "") return false;
+
+            $.searchUtils.setSearchKey("T", $("#search-input-" + type).val(), false);
+
+            window.location.href = "/Home/Search?key=" + encodeURI($("#search-input-" + type).val());
+        }
+
+        @* 주소지 등록/수정에 개인정보수집동의 영역 추가 address_info_check / address_agree_add *@
+
+        function address_info_check (All, Check) {
+            Check.forEach(function(el){
+                el.addEventListener('click', function(){
+                    for(var i = 0, len = Check.length; i < len; ++i) {
+                        if(!Check[i].checked) {
+                            All.checked = false;
+                            return;
+                        }
+                    }
+                    All.checked = true;
+                });
+            });
+
+            All.addEventListener('change', function(e){
+                for(let i = 0; i < Check.length; i++){
+                    Check[i].checked = e.target.checked;
+                }
+            });
+        }
+
+    </script>
+
+    @if (Config.UseGoogleAnalytics.Equals("Y"))
+    {
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90943423-1"></script>
+        <script>
+                    window.dataLayer = window.dataLayer || [];
+                    if (isLogin === "True") {
+                        dataLayer.push({ 'user_id': '@LoginInfo.Uid' });
+                    }
+                    function gtag() { dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'UA-90943423-1');
+        </script>
+    }
+
+    @if (Config.UseLogger.Equals("Y"))
+    {
+        <!-- LOGGER(TM) TRACKING SCRIPT V.40 FOR logger.co.kr / 101259 : COMBINE TYPE / DO NOT ALTER THIS SCRIPT. -->
+        <script type="text/javascript">var _TRK_LID = "101259"; var _L_TD = "ssl.logger.co.kr"; var _TRK_CDMN = ".k-auction.com";</script>
+        <script type="text/javascript">
+            var _CDN_DOMAIN = location.protocol == "https:" ? "https://fs.bizspring.net" : "http://fs.bizspring.net";
+            (function (b, s) { var f = b.getElementsByTagName(s)[0], j = b.createElement(s); j.async = true; j.src = "//fs.bizspring.net/fsn/bstrk.1.js"; f.parentNode.insertBefore(j, f); })(document, "script");
+        </script>
+        <noscript><img alt="Logger Script" width="1" height="1" src="http://ssl.logger.co.kr/tracker.1.tsp?u=101259&amp;js=N"/></noscript>
+    }
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

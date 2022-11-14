@@ -1,0 +1,143 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+
+<div class="container">
+    <div class="memberSearch">
+        <h2>@L["아이디 찾기"]</h2>
+        <div class="memberSearch-radiobtn">
+            <div class="active" data-country="email-desc"><input type="radio" id="emailAddress" name="selector"/><label for="emailAddress"><span></span>@L["이메일주소"]</label></div>
+            <div data-country="phonenum-desc"><input type="radio" id="phoneNumber" name="selector"/><label for="phoneNumber"><span></span>@L["핸드폰번호"]</label></div>
+        </div>
+        <div class="memberSearch-desc">
+            <div id="email-desc" class="active">
+                <form onsubmit="return false;">
+                    <div><input data-target="email" id="name-email" type="text" placeholder="@L["이름"]" class="form-control" /></div>
+                    <div><input data-target="email" id="email" type="text" placeholder="@L["이메일주소"]" class="formControl" /></div>
+                    <div><button data-type="email" type="button" class="btn-request btn-request-email">@L["확인"]</button></div>
+                </form>
+            </div>
+            <div id="phonenum-desc">
+                <form onsubmit="return false;">
+                    <div><input data-target="mobile" id="name-mobile" type="text" placeholder="@L["이름"]" class="form-control" /></div>
+                    <div><input data-target="mobile" type="tel" id="mobile" placeholder="@L["핸드폰번호"]" class="phonenumBack w-100" /></div>
+                    <div><button data-type="mobile" type="button" class="btn-request btn-request-mobile">@L["확인"]</button></div>
+                </form>
+            </div>
+        </div>
+        <div class="memberSearch-link">
+            <p>@L["비밀번호를 모르시나요?"]</p>
+            <span><a href="/Member/FindPass">@L["비밀번호 찾기"]</a></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    let process = false;
+    const mem_Searchlink = document.querySelectorAll(".memberSearch-radiobtn > div");
+    const mem_Searchcnt = document.querySelectorAll(".memberSearch-desc > div");
+
+    document.querySelector('.memberSearch-radiobtn > div.active input').checked = true;
+
+    mem_Searchlink.forEach(function(el) {
+        el.addEventListener("click", openDesc);
+    });
+
+    function openDesc(el) {
+        el.preventDefault();
+        const btnTarget = el.currentTarget;
+        const country = btnTarget.dataset.country;
+        mem_Searchcnt.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelectorAll('.memberSearch-radiobtn > div input').checked = false;
+        mem_Searchlink.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelector("#" + country).classList.add("active");
+        btnTarget.classList.add("active");
+        btnTarget.firstElementChild.checked = true;
+    }
+
+    $(document).ready(function () {
+        $("#mobile").focus(focused);
+        $("#mobile").blur(blured);
+    });
+
+    $("input").on("keydown", function (e) {
+        if ((e.target.type === "text" || e.target.type === "number") && e.keyCode === 13) {
+            $(".btn-request-" + e.target.dataset.target).trigger("click");
+        }
+    });
+
+    $(".btn-request").click(function (e) {
+        var type = e.target.dataset.type;
+        if ($("#name-" + type).val().replace(/ /ig, '') === "") {
+            $.commonUtils.alert(ka.msg.join.nameEmpty);
+            $("#name-" + type).focus();
+            return false;
+        }
+
+        if ($("#" + type).val().replace(/ /ig, '') === "") {
+            $.commonUtils.alert(type === "email" ? ka.msg.findIdPwd.emptyEmail : ka.msg.findIdPwd.emptyMobile);
+            $("#" + type).focus();
+            return false;
+        }
+
+        if (type === "email") {
+            if (!$.validateUtils.checkEmail(type)) {
+                $.commonUtils.alert(ka.msg.join.memEmailRule);
+                return false;
+            }
+        }
+
+        if (process) return false;
+        process = true;
+
+        var param = {};
+        param["type"] = type === "email" ? "E" : "M";
+        param["name"] = $("#name-" + type).val();
+        param["email"] = type === "email" ? $("#email").val() : "";        
+        param["mobile"] = type === "email" ? "" : $("#mobile").val();
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetFindId", param, null, false);
+        if (typeof result !== "undefined") {
+            if (typeof result.code === "string" && result.code !== "") {
+                if (result.message === "ka.msg.findIdPwd.findId" || result.message === "ka.msg.findIdPwd.findPwd") {
+                    var msg = eval(result.message);
+                    if (typeof result.data.name === "string") {
+                        msg = msg.replace(/{Name}/ig, result.data.name).replace(/{Email}/ig, result.data.email);
+                    }
+                    if (typeof result.data.id === "string") {
+                        msg = msg.replace(/{Id}/ig, result.data.id);
+                    }
+                    $.commonUtils.alert(msg, result.code);
+                } else {
+                    $.commonUtils.alert(eval(result.message), result.code);
+                }
+            }
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+        process = false;
+    });
+
+    function focused(){
+        var input = $("#mobile").val();
+        var phone = input.replace( /-/gi, '');
+        $("#mobile").prop('type', 'number');
+        $("#mobile").val(phone);
+    }
+
+    function blured(){
+        var input = $("#mobile").val();  
+        var phone = chkItemPhone(input);
+        $("#mobile").prop('type', 'text');
+        $("#mobile").val(phone);
+    }
+
+    function chkItemPhone(temp) {
+        return temp.replace(/[^0-9]/g, "");
+    }
+
+</script>

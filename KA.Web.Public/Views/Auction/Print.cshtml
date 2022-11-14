@@ -1,0 +1,439 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using KA.Entities.Helpers
+@model KA.Web.Public.ViewModels.Auction.AuctionWorkViewModel
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    Layout = null;
+
+    var firstFlag = true;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/ka.reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ka.fe.css" />
+    <style>
+
+        p {
+            margin-bottom: 0;
+        }
+
+        h1, h3 {
+            margin: 0;
+        }
+
+        #print-form {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .print-title {
+            position: relative;
+            padding: 20px 0;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .print-title > div > .print-btn {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background-color: #a1a1a1;
+            border-radius: 5px;
+        }
+
+        .print-title > div > .print-btn > a {
+            display: block;
+            padding: 6px 12px;
+            color: #fff;
+        }
+
+        .print-title span {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .print-title p {
+            margin: 0 !important;
+            color: #333333;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .print-row {
+            padding: 0 20px;
+        }
+
+        .pring-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .printform .print-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 0;
+        }
+
+        .printform .print-img > img {
+            max-width: 350px;
+        }
+
+        .print-price {
+            padding: 20px 0;
+            border-top: 1px solid rgb(228, 228, 228);
+            border-bottom: 1px solid rgb(228, 228, 228);
+        }
+
+        .print-price > div {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .print-price > div:last-child {
+            margin-bottom: 0;
+        }
+
+        .print-price > div > strong {
+            display: inline-block;
+            font-size: 14px;
+            color: #666666;
+            font-weight: 700;
+            width: 80px;
+        }
+
+        .print-price > div > span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            line-height: 1.3em;
+        }
+
+        .print-price > div:last-child > span {
+            color: #ff5d16;
+        }
+
+        .print-cont > .cont-tit > .lot {
+            font-size: 20px;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .print-cont > .cont-tit > .tit {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .print-cont > .cont-tit > .date {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .print-cont > .cont-tit > .sub-tit {
+            font-size: 20px;
+            color: #333333;
+            margin: 13px 0;
+        }
+
+        .print-cont > .cont-tit > .material {
+            padding-bottom: 20px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .print-info {
+            padding: 20px 0 40px 0;
+        }
+
+        .print-info > div > h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .print-info > div > p {
+            font-weight: 14px;
+            color: #666666;
+        }
+    </style>
+    <!-- BEGIN LANG/ICON JS -->
+    <script src="@(commonService.IsKor() ? "~/js/ka.msg.js" : "~/js/ka.msg.en.js")" asp-append-version="true"></script>
+    <!-- END LANG/ICON JS -->
+</head>
+<body>
+    <div id="print-form">
+        <div class="pring-logo">
+            <a href="/">
+                <script>document.write(ka.icon.logo);</script>
+            </a>
+        </div>
+        <div class="print-title">
+            <div class="print-row">
+                @Model.BreadcrumbLevel1 > <span>@Model.BreadcrumbLevel2</span>
+                <p>@Model.AuctionWork.DisplayAucTitle - <span>LOT @Model.AuctionWork.LotNum</span></p>
+                <div class="print-btn" id="print-btn" >
+                    <a href="javascript:printPage();">@L["인쇄하기"]</a>
+                </div>
+            </div>            
+        </div>
+        <div class="printform">
+            <div class="print-row">                
+                <!-- IMAGE START -->                
+                <div class="print-img">
+                @foreach (var item in Model.AuctionWorkImages)
+                {
+                    if (item.ImgType.Equals("04") && firstFlag)
+                    {                        
+                        <img @(Model.AuctionWork.MinimalImageYN.Equals("Y") ? "width=80px;" : "") onerror="this.src='/img/list_noimg.jpg'" src="@item.ImgFileNameThum" />
+
+                        firstFlag  = false;
+                    }
+                }                
+                </div>               
+                <!-- IMAGE END -->                  
+                <div class="print-cont">
+                    <div class="cont-tit">
+                        <p class="lot">LOT @Model.AuctionWork.LotNum</p>
+                        <p class="tit">@Model.AuctionWork.DisplayArtistName
+                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.ArtistExtraInfo)){
+                            <p class="date">@Model.AuctionWork.ArtistExtraInfo</p>
+                        }                                                
+                        <p class="sub-tit">@Model.AuctionWork.DisplayTitle</p>
+                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMaterial)){
+                            <p class="material">
+                                @Model.AuctionWork.DisplayMaterial
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.Edition))
+                                {
+                                    @Model.AuctionWork.DisplayEdition
+                                }
+                            </p>
+                        }   
+                        
+                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) || !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate)) { 
+                            <p class="material">
+                                
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize)) {
+                                    @Model.AuctionWork.DisplaySize
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate)) {
+                                    @:|
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate)) {
+                                    @Model.AuctionWork.DisplayMakeDate
+                                }
+                            </p>
+                        }
+                    </div>
+                </div>
+
+                <div class="print-price">
+                    <div>
+                        <strong>@L["추정가"]</strong>&nbsp;&nbsp;&nbsp;
+                        <span>
+                            @if (Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y"))
+                            {
+                                @L["별도문의"]
+                            }
+                            else
+                            {
+                                @:KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedLow) ~ @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedHigh)
+                            }
+                        </span>
+                    </div>
+                    @if (!ViewBag.AucKind.Equals("1")){
+                    <div>
+                        <strong>@L["시작가"]</strong>&nbsp;&nbsp;&nbsp;<span>KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)</span>
+                    </div>
+                    <div>
+                        <strong>@L["현재가"]</strong>&nbsp;&nbsp;&nbsp;<span>KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceMax)</span>
+                    </div>
+                    }
+                </div>
+
+                <div class="print-info">
+                    <div class="info i1">
+                        <h3>@L["작품 정보"]</h3>
+                        <div class="cont">
+                            <p>@Html.Raw(Model.AuctionWork.DisplayDesc)</p>
+                            @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.Copyright))
+                            {
+                                <p>@Html.Raw(Model.AuctionWork.Copyright)</p>
+                            }
+                        </div>       
+                    </div>
+                </div>
+                @if (Model.WorkAddtionalInfo.ToList().Count > 0){
+                <div class="print-info">
+                    <div class="info i1">
+                        <h3>@L["작품의 참고 자료"]</h3>
+                        @foreach (var item in Model.WorkAddtionalInfo){
+                            <p class="refer-link">                                
+                            @if (item.Flag.Equals("EB"))
+                            {
+                                <img src="@item.ImageUrl" alt="Image" style="height: 100px !important;" />
+                            }
+                            else
+                            {
+                                @item.Value1
+                                <script>document.write(ka.icon.reference);</script>
+                            }                                
+                            </p>
+                        }
+                     </div>
+                </div>
+                }
+
+                @if (Model.WorkAdditionalImages.ToList().Count > 0){
+                <div class="print-info">
+                    <div class="info i1">
+                        <h3>@L["작품의 영상 자료"]</h3>
+                        <ul>
+                            @foreach (var item in Model.WorkAdditionalImages){
+                                @if (item.Flag.Equals("EI")){
+                                    @if (item.Value1 != null && !string.IsNullOrWhiteSpace(item.Value1)){
+                                        <li style="width: 100%; overflow: auto;">@Html.Raw(item.Value1)</li>
+                                    }
+                                } else if (item.Flag.Equals("EU") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2))) {
+                                    <li>
+                                        <img src="https://img.youtube.com/vi/@(item.Value2.Contains("watch?v=") ? item.Value2.ToString().Split('=')[1] : "")/mqdefault.jpg" />
+                                    </li>
+                                } else if (item.Flag.Equals("ED") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2))) {
+                                    @if (!string.IsNullOrWhiteSpace(item.YoutubeThum))
+                                    {
+                                        <li>
+                                            @Html.Raw($"<img src='{Config.ImageDomain}/{item.YoutubeThum}' alt='image' />")
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+                <div class="print-info">
+                    <div class="info i1">                        
+                        <h3>Condition Report</h3>                                                    
+                        <div class="cont">
+                            <ul>
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayCondition))
+                                {
+                                    <li>
+                                        <img src="/img/icons/bullet.png" alt="">
+                                        @Html.Raw(Model.AuctionWork.DisplayCondition)
+                                    </li>
+                                }
+
+                                @foreach (var item in Model.AuctionWorkCondition)
+                                {
+                                    <li>
+                                        <img src="/img/icons/bullet.png" alt="">
+                                        @Html.Raw(item.ConditionText)
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="print-info">
+                    <div class="info i1">                        
+                        <h3>@L["작가 설명"]</h3>
+                        <div class="writer-detail">
+                            <div class="writer-desc">
+                                <h6 class="writer-name">@Model.AuctionWork.DisplayArtistName</h6>
+
+                                @if (Model.AuctionWork.DisplayOption.Contains("EC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayEtc))
+                                {
+                                    <p>@Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayEtc))</p>
+                                }
+                                @if (Model.AuctionWork.DisplayOption.Contains("SC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySchoolCareer))
+                                {
+                                    <div class="degree">
+                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplaySchoolCareer))
+                                    </div>
+                                }
+                                @if (Model.AuctionWork.DisplayOption.Contains("EH") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayExhibition))
+                                {
+                                    <div class="achieve">
+                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayExhibition))
+                                    </div>
+                                }
+                                @if (Model.AuctionWork.DisplayOption.Contains("RI") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayReferenceInfo))
+                                {
+                                    <div class="reference">
+                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayReferenceInfo))
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.ArtistAdditionalInfo.ToList().Count > 0){
+                <div class="print-info">
+                    <div class="info i1">
+                    <h3>@L["작가의 참고 자료"]</h3>
+                    @foreach (var item in Model.ArtistAdditionalInfo){
+                        <p class="refer-link">
+                            <a href="@item.Href">
+                                @if (item.Flag.Equals("EB")){
+                                    <img src="@item.ImageUrl" alt="Image" style="height: 100px !important;" />
+                                } else {
+                                    @item.Value1
+                                    <script>document.write(ka.icon.reference);</script>
+                                }
+                            </a>
+                        </p>
+                    }
+                   </div>
+                </div>
+                }
+
+                @if (Model.ArtistAdditionalImages.ToList().Count > 0){
+                <div class="print-info">
+                    <div class="info i1">
+                    <h3>@L["작가의 영상 자료"]</h3>
+                        <ul>
+                            @foreach (var item in Model.ArtistAdditionalImages){
+                                if (item.Flag.Equals("EI")){
+                                    if (item.Value1 != null && !string.IsNullOrWhiteSpace(item.Value1)){
+                                        <li style="width: 100%; overflow: auto;">@Html.Raw(item.Value1)</li>
+                                    }
+                                } else if (item.Flag.Equals("EU") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2))) {
+                                    <li>
+                                        <img src="https://img.youtube.com/vi/@(item.Value2.Contains("watch?v=") ? item.Value2.ToString().Split('=')[1] : "")/mqdefault.jpg" />
+                                    </li>
+                                } else if (item.Flag.Equals("ED") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2))) {
+                                    if (!string.IsNullOrWhiteSpace(item.YoutubeThum)){
+                                        <li>
+                                            @Html.Raw($"<img src='{Config.ImageDomain}/{item.YoutubeThum}' alt='image' />")
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>    
+    <script type="text/javascript">
+        function printPage() {            
+            document.getElementById("print-btn").style.display = "none";
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+<div class="jumbotron bg-transparent m-b-0">
+    <breadcrumb titles="My page|@L["위탁내역"].Value" />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg12 w-100 text-right">
+                <button class="btn btn-primary m-r-15 text-right" onclick="window.open('/MyPage/ConsignRequest', '_self');">@L["위탁 신청"]</button>
+            </div>
+            <!-- 데이터그리드 영역 -->
+            <div class="col-lg-12 m-t-20" id="data-grid"></div>
+            <!-- 페이지네이션 영역 -->
+            <div class="col-lg-12">
+                <div class="dataTables_wrapper m-b-50">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                            <div class="dataTables_paginate paging_full_numbers">
+                                <ul class="pagination text-center" style="display: inherit;"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var imageDomain = "@Config.ImageDomain";
+    var requestParam = {};
+    requestParam["page"] = 1;
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+        }
+
+        getList();
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData('/api/MyPage/ConsignList', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html(ka.msg.list.total + ' ' + result.data.recordsTotal.toString() + ka.msg.list.total2);
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: result.data.recordsTotal,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: result.data.draw,
+                                pageSize: 10
+                            });
+                        } else {
+                            $('#total-record').html(ka.msg.list.total + ' 0' + ka.msg.list.total2);
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: 0,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: 1,
+                                pageSize: 10
+                            });
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "no", type: "text", title: ka.msg.list.fieldNo },
+                {
+                    name: "images", type: "text", title: ka.msg.list.fieldWork,
+                    itemTemplate: function (value) {
+                        if (typeof value === "string" && value !== "") {
+                            var images = value.split('^');
+                            if (images.length > 0) {
+                                return "<img src='" + imageDomain + "/www/Consign/" + images[0] + "' style='max-width: 100%; max-height: 200px;' />";
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                { name: "artist", type: "text", title: ka.msg.list.fieldArtist },
+                { name: "title", type: "text", title: ka.msg.list.fieldWork2 },
+                { name: "reg_date", type: "text", title: ka.msg.list.fieldInquiryDate },
+                { name: "state_name", type: "text", title: ka.msg.list.fieldReceive }
+            ],
+            rowClick: function (args) {
+                window.open('/Mypage/Consign/' + args.item.uid, '_self');
+            },
+            noDataContent: ka.msg.list.emptySeach,
+            loadMessage: ka.msg.list.moment,
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+</script>

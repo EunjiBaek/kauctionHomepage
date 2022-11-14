@@ -1,0 +1,1290 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using KA.Web.Public.Services
+@model KA.Web.Public.ViewModels.Member.MyPageViewModel
+@inject CommonService CommonService
+@inject IRsaCryptoService RsaCryptoService
+@inject IViewLocalizer L
+@{
+    var jobList = CommonService.GetCodeList("MEM_JOB");
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+    var memValidatePeriod = CommonService.GetCodeList("MEM_VALIDATE_PERIOD", CommonService.IsKor());
+
+    ViewData["CountryList"] = countryList;
+    ViewData["Mode"] = "M";
+}
+
+<style type="text/css">
+    .form-group-default.form-group-default-select2 > label { z-index: initial !important; }
+    .select2-container { z-index: initial !important; }
+    .select2-dropdown { z-index: initial !important; }
+    .select2-container.select2-container--default.select2-container--open { z-index: 1700 !important; }
+    .select2-container--default .select2-selection--single { background-color: transparent !important; }
+</style>
+
+<breadcrumb titles="MY PAGE|@L["정보수정"].Value" />
+
+<div class="container m-b-20 p-b-20 modify">
+    <div class="modify-tabbtn">
+        <ul>
+            <li class="active" id="root-tab-1"><a href="#">@L["비밀번호"]</a></li>
+            <li id="root-tab-2"><a href="#" id="btnModify">@L["회원정보"]</a></li>
+            <li id="root-tab-3"><a href="#">@L["주소관리"]</a></li>
+            <li id="root-tab-4"><a href="#">@L["회원탈퇴"]</a></li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+    <div class="tab-content" style="display: none;">
+        <!-- 1. 비밀번호변경 탭 -->
+        <div class="tab-pane" id="tab-1">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-default tab1">
+                        <div class="card-header tab">
+                            <div class="card-title"><div class="fs-16">@L["비밀번호 변경"]<span class="text-primary"></span></div></div>
+                        </div>
+                        <div class="password-sub">
+                            <p>@L["비밀번호 변경을 원하신다면, 현재 비밀번호를 기입 후, '새 비밀번호'란에 변경할 비밀번호를 입력하세요."]</p>
+                        </div>
+                        <div class="card-body tabbody t1">
+                            <div class="row">
+                                <div class="col-lg-3"><label>@L["현재 비밀번호"]</label></div>
+                                <div class="col-lg-9">
+                                    <div class="form-group form-group-default required"><input id="password-old" type="password" class="form-control" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"><label>@L["새 비밀번호"]</label></div>
+                                <div class="col-lg-9">
+                                    <div id="fg-password-new" class="form-group form-group-default required"><input id="password-new" type="password" class="form-control" onkeyup="$.joinUtils.checkPassword(this.id);" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"><label>@L["새 비밀번호 확인"]</label></div>
+                                <div class="col-lg-9">
+                                    <div id="fg-password-new-confirm" class="form-group form-group-default required"><input id="password-new-confirm" type="password" class="form-control" onkeyup="$.joinUtils.checkPassword(this.id);" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-9"><label class="error">@Html.ValidationMessageFor(model => model.Message1)</label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-transparent my-0 tab1btn">
+                        <div class="card-body">
+                            <div class="row justify-content-center m-t-20 m-b-20">
+                                <div class="col-lg-6 tab1btn">
+                                    <button onclick="return $.mypageUtils.validatePassword();" aria-label="" class="btn btn-cta btn-primary pull-right btn-lg btn-block fs-16" type="button">@L["수정"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 회원정보 탭 -->
+        <div class="tab-pane" id="tab-2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- 2.1. 국내개인고객 -->
+                    @if (ViewBag.Member.Type.Equals("001"))
+                    {
+                        <div>
+                            <div class="card card-default" id="mobile-auth-1">
+                                <div class="card-header tab">
+                                    <div class="card-title">
+                                        <div class="fs-16">@L["회원 정보 변경"]<span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body tabbody authenticate-container">
+                                    <ul class="fa-ul m-l-25 tab2-desc">
+                                        <li class="hint-text">@L["비밀번호 외의 정보를 변경하려면 본인인증 후 정보를 입력해 주시기 바랍니다."]</li>
+                                    </ul>
+                                    <div class="row justify-content-center m-t-40 authenticate">
+                                        <div>
+                                            <img src="/img/icons/phone-cer@1x.png" alt="" srcset="/img/icons/phone-cer@1x.png 1x,/img/icons/phone-cer@2x.png 2x,/img/icons/phone-cer@3x.png 3x">
+                                            <p>@L["휴대폰 인증"]</p>
+                                            <span>@L["고객님의 휴대폰 번호로 인증"]</span>
+                                            <button id="mobile-auth-1-m" type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(1, 'M', 'M');">
+                                                <span>@L["인증하기"]</span>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <img src="/img/icons/card-cer@1x.png" alt="" srcset="/img/icons/card-cer@1x.png 1x,/img/icons/card-cer@2x.png 2x,/img/icons/card-cer@3x.png 3x">
+                                            <p>@L["신용카드 인증"]</p>
+                                            <span>@L["고객님의 신용카드로 인증"]</span>
+                                            <button id="mobile-auth-1-c" type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(1, 'C', 'M');">
+                                                <span>@L["인증하기"]</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-default">
+                                <div class="card-header subtab">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["개인정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body tabbody2">
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="ID" id="id-1" root-class="required disabled" value="@ViewBag.Member.ID" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이름"].Value" id="name-1" root-class="required disabled" value="@ViewBag.Member.Name" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["생년월일"].Value" id="birth-date-1" root-class="required disabled" value="@ViewBag.Member.BirthDate" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-sex-1" class="form-group form-group-default form-group-default-select2">
+                                                <label class="">@L["성별"]</label>
+                                                <select id="sex-1" class="full-width form-sex" data-placeholder="" data-init-plugin="select2" data-disable-search="true">
+                                                    <option></option>
+                                                    <option value="F">@L["여성"]</option>
+                                                    <option value="M">@L["남성"]</option>
+                                                    <option value="H">@L["비공개"]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["휴대전화"].Value" id="mobile-1" root-class="required disabled" value="@ViewBag.Member.Mobile" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이메일"].Value" id="email-1" root-class="required" value="@ViewBag.Member.Email" msg="@L["이메일을 입력하세요."].Value" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-country-code-1" class="form-group form-group-default form-group-default-select2 required">
+                                                <label class="">@L["국가"]</label>
+                                                <select id="country-code-1" class="full-width form-country-code" data-msg="@L["국가를 선택하세요."]">
+                                                    <option></option>
+                                                    <option data-iso-alpha2="KR" value="KOR">@L["대한민국"]</option>
+                                                    <option></option>
+                                                    @foreach (var item in countryList)
+                                                    {@Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                    </div>
+                                </div>
+                                <div class="card-header subtab">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["추가정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body tabbody2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-job-code-1" class="form-group form-group-default form-group-default-select2">
+                                                <label class="">@L["직업"]</label>
+                                                <select id="job-code-1" class="full-width form-job" data-placeholder="" data-init-plugin="select2" data-disable-search="true">
+                                                    <option></option>
+                                                    @foreach (var item in jobList)
+                                                    {
+                                                        <option value="@item.SubCode">@item.CodeName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <member label="@L["직장명"].Value" id="company-name-1" value="@ViewBag.Member.CompanyName" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-tel-1" class="form-group form-group-default">
+                                                <label>@L["직장 전화번호"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                <input id="company-tel-1" type="tel" class="form-control" value="@(ViewBag.Member.CompanyTel != null ? ViewBag.Member.CompanyTel.Replace("-", "") : "")" maxlength="20" oninput="$.validateUtils.maxLength(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-fax-1" class="form-group form-group-default">
+                                                <label>@L["직장 팩스번호"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                <input id="company-fax-1" type="number" pattern="[0-9\-]+" class="form-control" value="@(ViewBag.Member.CompanyFax != null ? ViewBag.Member.CompanyFax.Replace("-", "") : "")" maxlength="20" oninput="$.validateUtils.maxLength(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (ViewBag.Member.BidAllowYN.Equals("N") && ViewBag.AuthFlag)
+                                {
+                                    <div class="card-header subtab">
+                                        <div class="card-title">
+                                            <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["인증정보"] <span class="text-primary"></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body tabbody2">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div id="root-identification-1" class="form-group form-group-default input-group">
+                                                    <div id="fg-identification-1" class="form-input-group">
+                                                        <label>@L["증빙서류 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일"]</span></label>
+                                                        <input id="identification-1" type="text" class="form-control" data-msg="@L["증빙서류 파일을 선택하세요."]" value="@ViewBag.Member.Identification" readonly style="color: #495057;" />
+                                                        <input type="file" name="identification-file-1" id="identification-file-1" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'identification-1');" style="display: none;" />
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span onclick="$('#identification-file-1').click();" class="input-group-text primary fw-500">@L["파일 선택"]</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    <!-- 2.2. 해외개인고객 -->
+                    @if (ViewBag.Member.Type.Equals("002"))
+                    {
+                        <div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["개인정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <member label="ID" id="id-2" root-class="required disabled" value="@ViewBag.Member.ID" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <member label="@L["이름"].Value" id="name-2" root-class="required disabled" value="@ViewBag.Member.Name" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-sex-2" class="form-group form-group-default form-group-default-select2 required">
+                                                <label class="">@L["성별"]</label>
+                                                <select id="sex-2" class="full-width form-sex" data-placeholder="" data-init-plugin="select2" data-disable-search="true">
+                                                    <option></option>
+                                                    <option value="F">@L["여성"]</option>
+                                                    <option value="M">@L["남성"]</option>
+                                                    <option value="H">@L["비공개"]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <member label="@L["생년월일"].Value" id="birth-date-2" root-class="required disabled" value="@ViewBag.Member.BirthDate" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이메일"].Value" id="email-2" value="@ViewBag.Member.Email" msg="@L["이메일을 입력하세요."].Value" style="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "color: #212121;" : "")" root-class="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "required disabled" : "required")" disabled="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "disabled" : "")" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-country-code-2" class="form-group form-group-default form-group-default-select2 required">
+                                                <label class="">@L["국가"]</label>
+                                                <select id="country-code-2" class="full-width form-country-code" data-msg="@L["국가를 선택하세요."]">
+                                                    <option></option>
+                                                    <option data-iso-alpha2="KR" value="KOR">@L["대한민국"]</option>
+                                                    <option></option>
+                                                    @foreach (var item in countryList)
+                                                    {
+                                                        @Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-mobile-cont-2" class="form-group form-group-default input-group disabled">
+                                                <div id="fg-mobile-2" class="form-input-group required">
+                                                    <label>@L["휴대전화"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                    <input id="mobile-2" type="number" placeholder="" class="form-control" data-msg="@L["휴대전화를 입력하세요."]" disabled value="@ViewBag.Member.Mobile.Replace("-", "")">
+                                                </div>
+                                                <div id="fg-mobile-change-btn-2" class="input-group-append inputgroup-w">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthChange(2);">@L["변경"]</span>
+                                                </div>
+                                                <div id="fg-mobile-req-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthConfirm(2, 'M', 'M');">@L["인증 요청"]</span>
+                                                </div>
+                                                <div id="fg-mobile-cancel-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthCancel(2, 'M');">@L["취소"]</span>
+                                                </div>
+                                                <div id="fg-mobile-retry-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.retryMobileForeignAuth(2);">@L["다시 입력"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-mobile-auth-2" class="form-group form-group-default input-group disabled">
+                                                <div id="fg-mobile-auth-num-2" class="form-input-group required">
+                                                    <label>@L["인증번호"]<span class="m-l-10 small-text hint-text">@L["SMS 발송된 인증번호 30분이내 입력"]</span><span id="auth-remain-time-2" class="m-l-10 small-text hint-text"></span></label>
+                                                    <input type="number" id="confirm-code-2" placeholder="" class="form-control" disabled>
+                                                </div>
+                                                <div id="fg-mobile-auth-btn-2" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500 disabled" style="cursor: pointer;" onclick="$.joinUtils.setMobileForeignAuth('CONFIRM')">@L["인증 확인"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="root-identification-2" class="form-group form-group-default input-group">
+                                                <div id="fg-identification-2" class="form-input-group">
+                                                    <label>@L["증빙서류 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일 또는 PDF 파일"]</span></label>
+                                                    <input id="identification-2" type="text" class="form-control" data-msg="@L["증빙서류 파일을 선택하세요."]" value="" readonly style="color: #495057;" />
+                                                    <input type="file" name="identification-file-2" id="identification-file-2" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'identification-2');" style="display: none;" />
+                                                </div>
+                                                <div class="input-group-append inputgroup-w">
+                                                    <span onclick="$('#identification-file-2').click()" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="p-t-5 hint-text">
+                                                <i class="far fa-exclamation-triangle fa-fw fs-14"></i> @L["여권 등 신분증 사본 첨부"] <span class="text-primary">(@L["증빙서류 검수 후 모든 서비스 이용 가능"])</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["추가정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-job-code-2" class="form-group form-group-default form-group-default-select2">
+                                                <label>@L["직업"]</label>
+                                                <select id="job-code-2" class="full-width form-job select2-hidden-accessible" data-placeholder="" data-init-plugin="select2" data-disable-search="true" data-select2-id="job-code-1" tabindex="-1" aria-hidden="true">
+                                                    <option></option>
+                                                    @foreach (var item in jobList)
+                                                    {
+                                                        <option value="@item.SubCode">@item.CodeName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-name-2" class="form-group form-group-default">
+                                                <label>@L["직장명"]</label>
+                                                <input id="company-name-2" type="text" class="form-control" value="@ViewBag.Member.CompanyName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-tel-2" class="form-group form-group-default">
+                                                <label>@L["직장 전화번호"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                <input id="company-tel-2" type="number" class="form-control" value="@(ViewBag.Member.CompanyTel != null ? ViewBag.Member.CompanyTel.Replace("-", "") : "")" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-fax-2" class="form-group form-group-default">
+                                                <label>@L["직장 팩스번호"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                <input id="company-fax-2" type="number" class="form-control" value="@(ViewBag.Member.CompanyFax != null ? ViewBag.Member.CompanyFax.Replace("-", "") : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- 2.3. 국내법인고객 -->
+                    @if (ViewBag.Member.Type.Equals("003"))
+                    {
+                        <div>
+                            <div class="card card-default" id="mobile-auth-3">
+                                <div class="card-header tab">
+                                    <div class="card-title">
+                                        <div class="fs-16">@L["회원 정보 변경"]<span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body tabbody authenticate-container">
+                                    <ul class="fa-ul m-l-25 tab2-desc">
+                                        <li class="hint-text">@L["비밀번호 외의 정보를 변경하려면 본인인증 후 정보를 입력해 주시기 바랍니다."]</li>
+                                    </ul>
+                                    <div class="row justify-content-center m-t-40 authenticate">
+                                        <div>
+                                            <img src="/img/icons/phone-cer@1x.png" alt="" srcset="/img/icons/phone-cer@1x.png 1x,/img/icons/phone-cer@2x.png 2x,/img/icons/phone-cer@3x.png 3x">
+                                            <p>@L["휴대폰 인증"]</p>
+                                            <span>@L["고객님의 휴대폰 번호로 인증"]</span>
+                                            <button id="mobile-auth-1-m" type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(3, 'M', 'M');">
+                                                <span>@L["인증하기"]</span>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <img src="/img/icons/card-cer@1x.png" alt="" srcset="/img/icons/card-cer@1x.png 1x,/img/icons/card-cer@2x.png 2x,/img/icons/card-cer@3x.png 3x">
+                                            <p>@L["신용카드 인증"]</p>
+                                            <span>@L["고객님의 신용카드로 인증"]</span>
+                                            <button id="mobile-auth-1-c" type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(3, 'C', 'M');">
+                                                <span>@L["인증하기"]</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["담당자정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="ID" id="id-3" root-class="required disabled" value="@ViewBag.Member.ID" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이름"].Value" id="name-3" root-class="required disabled" value="@ViewBag.Member.Name" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["생년월일"].Value" id="birth-date-3" root-class="required disabled" value="@ViewBag.Member.BirthDate" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-sex-3" class="form-group form-group-default form-group-default-select2">
+                                                <label class="">@L["성별"]</label>
+                                                <select id="sex-3" class="full-width form-sex" data-placeholder="" data-init-plugin="select2" data-disable-search="true">
+                                                    <option></option>
+                                                    <option value="F">@L["여성"]</option>
+                                                    <option value="M">@L["남성"]</option>
+                                                    <option value="H">@L["비공개"]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["휴대전화"].Value" id="mobile-3" root-class="required disabled" value="@ViewBag.Member.Mobile.Replace("-", "")" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이메일"].Value" id="email-3" root-class="required" value="@ViewBag.Member.Email" msg="@L["이메일을 입력하세요."].Value" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-company-tel-3" class="form-group form-group-default required">
+                                                <label>@L["직장 전화번호"]<span class="small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                <input id="company-tel-3" type="tel" class="form-control" data-msg="@L["직장 전화번호를 입력하세요."]" value="@(ViewBag.Member.CompanyTel != null ? ViewBag.Member.CompanyTel.Replace("-", "") : "")">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-business-card-3" class="form-group form-group-default input-group">
+                                                <div class="form-input-group">
+                                                    <label>@L["담당자 명함 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일"]</span></label>
+                                                    <input id="company-business-card-3" type="text" class="form-control" data-msg="@L["담당자 명함 파일을 선택하세요."]" readonly style="color: #495057;" />
+                                                    <input type="file" name="company-business-card-file-3" id="company-business-card-file-3" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'company-business-card-3');" style="display: none;" />
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#company-business-card-file-3').click()" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16">
+                                            <i class="fal fa-arrow-circle-right fa-fw"></i> @L["법인정보"] <span class="text-primary"></span>
+                                            &nbsp;<span class="fs-16">(&nbsp;<input type="checkbox" id="ckbChangeCorp" name="ckbChangeCorp" />&nbsp;<label for="ckbChangeCorp">@L["체크 시 법인정보 변경"]</label>&nbsp;)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["법인명"].Value" id="company-name-3" root-class="required" value="@ViewBag.Member.CompanyName" msg="@L["법인명을 입력하세요."].Value" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["대표자명"].Value" id="company-president-3" root-class="required" value="@ViewBag.Member.CompanyPresident" msg="@L["대표자명을 입력하세요."].Value" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-company-rep-tel-3" class="form-group form-group-default required">
+                                                <label>@L["대표번호"]</label>
+                                                <input id="company-rep-tel-3" type="number" class="form-control" data-msg="@L["대표번호를 입력하세요."]" value="@(ViewBag.Member.CompanyRepTel != null ? ViewBag.Member.CompanyRepTel.Replace("-", "") : "")" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["사업자등록번호"].Value" id="company-reg-no-3" root-class="required" value="@ViewBag.Member.CompanyRegNo" msg="@L["사업자등록번호를 입력하세요."].Value" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-reg-doc-3" class="form-group form-group-default input-group">
+                                                <div class="form-input-group">
+                                                    <label>@L["사업자 등록증 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일"]</span></label>
+                                                    <input id="company-reg-doc-3" type="text" class="form-control" data-msg="@L["사업자 등록증 파일을 선택하세요."]" readonly style="color: #495057;" />
+                                                    <input type="file" name="company-reg-doc-file-3" id="company-reg-doc-file-3" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'company-reg-doc-3');" style="display: none;" />
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#company-reg-doc-file-3').click()" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- 2.4. 해외법인고객 -->
+                    @if (ViewBag.Member.Type.Equals("004"))
+                    {
+                        <div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["담당자 정보"] <span class="text-primary"></span></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <member label="ID" id="id-4" root-class="required disabled" value="@ViewBag.Member.ID" disabled="disabled" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이름"].Value" id="name-4" root-class="required" value="@ViewBag.Member.Name" style="color: #212121;" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["생년월일"].Value" id="birth-date-4" root-class="required" input-class="datepicker" value="@ViewBag.Member.BirthDate" style="color: #212121;" />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-sex-4" class="form-group form-group-default form-group-default-select2">
+                                                <label class="">@L["성별"]</label>
+                                                <select id="sex-4" class="full-width form-sex" data-placeholder="" data-init-plugin="select2" data-disable-search="true" data-msg="@L["성별을 선택하세요."]">
+                                                    <option></option>
+                                                    <option value="F">@L["여성"]</option>
+                                                    <option value="M">@L["남성"]</option>
+                                                    <option value="H">@L["비공개"]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["이메일"].Value" id="email-4" value="@ViewBag.Member.Email" msg="@L["이메일을 입력하세요."].Value" style="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "color: #212121;" : "")" root-class="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "required disabled" : "required")" disabled="@(ViewBag.Member.Auth != null && ViewBag.Member.Auth.Equals("E") ? "disabled" : "")" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div id="fg-mobile-cont-4" class="form-group form-group-default input-group disabled">
+                                                <div id="fg-mobile-4" class="form-input-group required">
+                                                    <label>@L["휴대전화"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                                                    <input id="mobile-4" type="number" placeholder="" class="form-control" data-msg="@L["휴대전화를 입력하세요."]" disabled value="@ViewBag.Member.Mobile.Replace("-", "")">
+                                                </div>
+                                                <div id="fg-mobile-change-btn-4" class="input-group-append inputgroup-w">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthChange(4);">@L["변경"]</span>
+                                                </div>
+                                                <div id="fg-mobile-req-btn-4" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthConfirm(4, 'M', 'M');">@L["인증 요청"]</span>
+                                                </div>
+                                                <div id="fg-mobile-cancel-btn-4" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.openAuthCancel(4, 'M');">@L["취소"]</span>
+                                                </div>
+                                                <div id="fg-mobile-retry-btn-4" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500" style="cursor: pointer;" onclick="$.joinUtils.retryMobileForeignAuth(4);">@L["다시 입력"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-mobile-auth-4" class="form-group form-group-default input-group disabled">
+                                                <div id="fg-mobile-auth-num-4" class="form-input-group required">
+                                                    <label>@L["인증번호"]<span class="m-l-10 small-text hint-text">@L["SMS 발송된 인증번호 10분이내 입력"]</span><span id="auth-remain-time-4" class="m-l-10 small-text hint-text"></span></label>
+                                                    <input type="number" id="confirm-code-4" placeholder="" class="form-control" disabled>
+                                                </div>
+                                                <div id="fg-mobile-auth-btn-4" class="input-group-append inputgroup-w" style="display: none;">
+                                                    <span class="input-group-text primary fw-500 disabled" style="cursor: pointer;" onclick="$.joinUtils.setMobileForeignAuth('CONFIRM')">@L["인증 확인"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["법인정보"] <span class="text-primary"></span></div>
+                                        &nbsp;<span class="fs-16">(&nbsp;<input type="checkbox" id="ckbChangeCorp" name="ckbChangeCorp" />&nbsp;<label for="ckbChangeCorp">@L["체크 시 법인정보 변경"]</label>&nbsp;)</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["법인명"].Value" id="company-name-4" root-class="required" value="@ViewBag.Member.CompanyName" msg="@L["법인명을 입력하세요."].Value" />
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["대표자명"].Value" id="company-president-4" root-class="required" value="@ViewBag.Member.CompanyPresident" msg="@L["대표자명을 입력하세요."].Value" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-country-code-4" class="sm-m-b-10 form-group form-group-default form-group-default-select2 required">
+                                                <label class="">@L["국가"]</label>
+                                                <select id="country-code-4" class="full-width form-country-code" data-msg="@L["국가를 선택하세요."]">
+                                                    <option></option>
+                                                    @foreach (var item in countryList)
+                                                    {
+                                                        @Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 required">
+                                            <div id="fg-company-tel-4" class="form-group form-group-default required">
+                                                <label>@L["유선번호"]</label>
+                                                <input id="company-tel-4" type="number" class="form-control" data-msg="@L["유선번호를 입력하세요."]" value="@(ViewBag.Member.CompanyTel != null ? ViewBag.Member.CompanyTel.Replace("-", "") : "")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row not-pad">
+                                        <div class="col-lg-6 required">
+                                            <member label="@L["사업자등록번호"].Value" id="company-reg-no-4" root-class="required" value="@ViewBag.Member.CompanyRegNo" msg="@L["사업자등록번호를 입력하세요."].Value" />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-reg-doc-4" class="form-group form-group-default input-group">
+                                                <div class="form-input-group">
+                                                    <label>@L["사업자 등록증 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일"]</span></label>
+                                                    <input id="company-reg-doc-4" type="text" class="form-control" data-msg="@L["사업자 등록증 파일을 선택하세요."]" readonly style="color: #495057;" />
+                                                    <input type="file" name="company-reg-doc-file-4" id="company-reg-doc-file-4" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'company-reg-doc-4');" style="display: none;" />
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#company-reg-doc-file-4').click()" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row not-pad">
+                                        <div class="col-lg-6">
+                                            <div id="fg-company-business-card-4" class="form-group form-group-default input-group">
+                                                <div class="form-input-group">
+                                                    <label>@L["담당자 명함 업로드"]<span class="m-l-10 small-text hint-text">@L["JPG 또는 PNG 포맷 이미지 파일"]</span></label>
+                                                    <input id="company-business-card-4" type="text" class="form-control" data-msg="@L["담당자 명함 파일을 선택하세요."]" readonly style="color: #495057;" />
+                                                    <input type="file" name="company-business-card-file-4" id="company-business-card-file-4" class="form-control custom-file-input" onchange="$.joinUtils.handleFile(this.files, 'company-business-card-4');" style="display: none;" />
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span onclick="$('#company-business-card-file-4').click()" class="input-group-text primary fw-500" style="cursor: pointer;">@L["파일 선택"]</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="p-t-5 hint-text">
+                                                <i class="far fa-exclamation-triangle fa-fw fs-14"></i> @L["사업자 등록증 사본"], @L["담당자 명함 사본"] <span class="text-primary">(@L["증빙서류 검수 후 모든 서비스 이용 가능"])</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="card card-default">
+                        <div class="card-header subtab">
+                            <div class="card-title">
+                                <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["정보 수신 방법"] <span class="text-primary"></span></div>
+                            </div>
+                        </div>
+                        <div class="card-body tabbody2 modify-receivead-way">
+                            <div>
+                                <div>
+                                    <p><a href="javascript:$('#modal-advertising-info').modal();">@L["광고성 정보 수신 동의"]</a></p>
+
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox" name="ad-chkbox" id="ad-chkbox_01" class="ad-chkbox" @(ViewBag.Member.ReceiveSmsInfo.Equals("Y") ? "checked" : "") />
+                                            <label for="ad-chkbox_01"><span></span>@L["문자메시지"]</label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" name="ad-chkbox" id="ad-chkbox_02" class="ad-chkbox" @(ViewBag.Member.ReceiveEmailInfo.Equals("Y") ? "checked" : "") />
+                                            <label for="ad-chkbox_02"><span></span>@L["이메일"]</label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" name="ad-chkbox" id="ad-chkbox_03" class="ad-chkbox" @(ViewBag.Member.ReceivePhoneInfo.Equals("Y") ? "checked" : "") />
+                                            <label for="ad-chkbox_03"><span></span>@L["전화"]</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-header subtab">
+                            <div class="card-title">
+                                <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["휴면 전환 조건 설정"] <span class="text-primary"></span></div>
+                            </div>
+                        </div>
+                        <div class="card-body tabbody2 modify-receivead-way">
+                            <div>
+                                <div>
+                                    <ul>
+                                        @foreach (var item in memValidatePeriod)
+                                        {
+                                            <li>
+                                                <input type="checkbox" name="ad-period-chkbox" id="ad-period-chkbox-@item.SubCode" class="ad-period-chkbox" onclick='checkOnlyOne(this)' value="@item.SubCode" @(ViewBag.Member.InfoValidatePeriod.Equals(item.SubCode) ? "checked" : "") />
+                                                <label for="ad-period-chkbox-@item.SubCode">
+                                                    <span></span>@item.DisplayCodeName
+                                                    @if (item.Extra1.Equals("Y"))
+                                                    {
+                                                        <strong style="font-size: 12px; color: #ff5d16; font-weight: 400; margin-left: 3px;">(@L["기본"])</strong>
+                                                    }
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (!ViewBag.Member.Type.Equals("001"))
+                    {
+                        <div class="card card-default">
+                            <div class="card-header">                                
+                                <div class="card-title">
+                                    <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["심사정보"] <span class="text-primary"></span></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row not-pad">
+                                    <div class="col-lg-12">
+                                        <ul class="">
+                                            @foreach (var item in ViewBag.MemberActivity)
+                                            {
+                                                <li>[@item.DisplayActivityCodeName] - @item.DisplayStateName (@item.ModDate)</li>
+                                                @if (item.State.Equals("D"))
+                                                {
+                                                    <li>@(item.BidAllowYn.Equals("Y") ? @L["- 변경된 서류 심사중입니다."].Value : @L["- 현재 온라인 응찰 심사중입니다."].Value) </li>
+                                                }
+                                                else if (item.State.Equals("R"))
+                                                {
+                                                    <li>@L["- 사업자 등록증 및 담당자 명함을 다시 첨부한 뒤 저장해 주시기 바랍니다."]</li>
+                                                }
+                                                else if (item.State.Equals("A"))
+                                                {
+                                                    <li>@L["- 심사가 승인되어 응찰이 가능합니다."]</li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="card card-transparent my-0 tab1btn">
+                        <div class="card-body">
+                            <div class="row justify-content-center m-t-20 m-b-20">
+                                <div class="col-lg-6 tab1btn">
+                                    <button aria-label="" class="btn btn-cta btn-primary pull-right btn-lg btn-block fs-16" onclick="return $.mypageUtils.validateInfo();" type="button">@L["수정"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="join-type" value="@ViewBag.Member.Type" />
+            <input type="hidden" id="join-mobile-original" value="@ViewBag.Member.Mobile.Replace("-", "")" />
+            <input type="hidden" id="join-identification-original" value="@ViewBag.Member.Identification" />
+            <input type="hidden" id="join-company-reg-doc-original" value="@ViewBag.Member.CompanyRegDoc" />
+            <input type="hidden" id="join-company-business-card-original" value="@ViewBag.Member.CompanyBusinessCard" />
+            <input type="hidden" id="join-company-name" value="@ViewBag.Member.CompanyName" />
+            <input type="hidden" id="join-company-president" value="@ViewBag.Member.CompanyPresident" />
+            <input type="hidden" id="join-company-tel" value="@(ViewBag.Member.CompanyTel != null ? ViewBag.Member.CompanyTel.Replace("-", "") : "")" />
+            <input type="hidden" id="join-company-rep-tel" value="@(ViewBag.Member.CompanyRepTel != null ? ViewBag.Member.CompanyRepTel.Replace("-", "") : "")" />
+            <input type="hidden" id="join-company-reg-no" value="@ViewBag.Member.CompanyRegNo" />
+            <input type="hidden" id="join-info-validate-period" value="@ViewBag.Member.InfoValidatePeriod" />
+            <input type="hidden" id="join-receive-sms-info" value="@ViewBag.Member.ReceiveSmsInfo" />
+            <input type="hidden" id="join-receive-email-info" value="@ViewBag.Member.ReceiveEmailInfo" />
+            <input type="hidden" id="join-receive-phone-info" value="@ViewBag.Member.ReceivePhoneInfo" />
+            <input type="hidden" id="join-mobile-auth-seq" value="@ViewBag.Key" />
+        </div>
+
+        <!-- 3. 주소관리 탭 -->
+        <div class="tab-pane" id="tab-3">
+            <div class="row">
+                <div class="col-lg-12" style="max-width: 100% !important;">
+                    <div class="card card-default">
+                        <div class="card-header tab">
+                            <div class="card-title">@L["주소 관리"]</div>
+                        </div>
+                        <div class="card-body tabbody">
+                            <ul class="fa-ul m-l-25 tab2-desc tab2desc2">
+                                <li class="hint-text">@L["예상 배송비는 기본 주소에 따라 변경됩니다."]</li>
+                            </ul>
+                            <div class="table-responsive">
+                                <table class="table address-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">@L["주소명"]</th>
+                                            <th scope="col">@L["우편번호"]</th>
+                                            <th scope="col">@L["국가"]</th>
+                                            <th scope="col">@L["주소"]</th>
+                                            <th scope="col">@L["받는사람"]</th>
+                                            <th scope="col">@L["연락처"]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="address-list"></tbody>
+                                </table>
+                            </div>
+                            <div class="row m-t-20 add-btn">
+                                <div class="col-6 col-xs-6 addbtn1">
+                                    <a onclick="$.mypageUtils.setPrimary();" class="btn btn-default">@L["기본 주소 설정"]</a>&nbsp;
+                                    <a onclick="$.mypageUtils.openAddressPopup('U');" class="btn btn-default">@L["수정"]</a>&nbsp;
+                                    <a onclick="$.mypageUtils.delete();" class="btn btn-default">@L["삭제"]</a>
+                                </div>
+                                <div class="col-6 col-xs-6 text-right addbtn2">
+                                    <a class="btn btn-outline-black" onclick="$.mypageUtils.openAddressPopup('I');">
+                                        <i class="far fa-plus fa-fw"></i>@L["주소 추가"]
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 회원탈퇴 탭 -->
+        <div class="tab-pane" id="tab-4">
+            <form name="form-retire" id="form-retire" role="form">
+                <div class="tab member">
+                    <div>@L["회원탈퇴"]</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-default">
+                            <div class="card-header separator">
+                                <div class="card-title">
+                                    <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["탈퇴사유"] <span class="text-primary"></span></div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row my-3" style="margin: 0;">
+                                    @foreach (var item in CommonService.GetCodeList("MEM_RETIRE", CommonService.IsKor()))
+                                    {
+                                        <div class="col-lg-4 col-md-6" style="padding: 0px 7px;">
+                                            <div class="form-check checkbox-circle primary">
+                                                <input name="retire-option" type="checkbox" id="reason-@item.SubCode" value="@item.SubCode">
+                                                <label for="reason-@item.SubCode">@item.DisplayCodeName</label>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row m-t-10">
+                                    <div class="col-12">
+                                        <div class="form-group form-group-default required">
+                                            <label>@L["탈퇴 사유"]</label>
+                                            <textarea id="retire-reason" class="form-control h-px-50" placeholder="@L["탈퇴 사유를 입력해 주시면 사이트 개선에 적극 반영하겠습니다."]" required="" name="RetireReason"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-default">
+                            <div class="card-header separator">
+                                <div class="card-title">
+                                    <div class="fs-16"><i class="fal fa-arrow-circle-right fa-fw"></i> @L["탈퇴신청"] <span class="text-primary"></span></div>
+                                </div>
+                            </div>
+                            <div class="card-body memberbody">
+                                <ul class="fa-ul m-l-25 member-desc">
+                                    <li class="hint-text"><span class="fa-li"><i class="far fa-exclamation-triangle"></i></span>@L["아이디와 비밀번호를 한번 더 입력한 후 [탈퇴신청]을 해 주시기 바랍니다."]</li>
+                                </ul>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-group-default required">
+                                            <label>ID</label>
+                                            <input id="input_id" type="text" class="form-control" required="">
+                                        </div>
+                                        <label class="error">
+                                            <span class="field-validation-valid" data-valmsg-for="ID" data-valmsg-replace="true"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-group-default required">
+                                            <label>@L["비밀번호"]<span class="m-l-10 small-text hint-text"></span></label>
+                                            <input id="input_pwd" type="password" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-lg-12">
+                                        <ul class="fa-ul m-l-25">
+                                            <li><span class="fa-li"><i class="far fa-check"></i></span>@L["회원이 응찰한 경매가 진행중인 경우에는 해당경매가 마감되기 전까지 탈퇴가 불가능 합니다."]</li>
+                                            <li><span class="fa-li"><i class="far fa-check"></i></span>@L["관련 법령 등에서 달리 정하지 않는 한, 탈퇴 후 30일 내 정보가 파기됩니다."]</li>
+                                            <li><span class="fa-li"><i class="far fa-check"></i></span>@L["낙찰자에 한해 낙찰대금을 모두 지불하기 전 까지는 탈퇴가 불가능 합니다."]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-check checkbox-circle primary">
+                                            <input type="checkbox" id="retire-agreement" value="">
+                                            <label for="retire-agreement" class="">@L["회원 탈퇴 내용에 동의합니다."]</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-transparent my-0 tab1btn">
+                            <div class="card-body">
+                                <div class="row justify-content-center m-t-20 m-b-20">
+                                    <div class="col-lg-6 tab1btn">
+                                        <button onclick="return $.mypageUtils.validateRetire();" aria-label="" class="btn btn-cta btn-primary pull-right btn-lg btn-block fs-16" type="submit">@L["회원 탈퇴"]</button>
+                                        <label class="error">
+                                            <span class="field-validation-valid" data-valmsg-for="Message4" data-valmsg-replace="true"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-address" tabindex="-1" role="dialog" aria-labelledby="modal-address" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body py-sm-4 px-sm-5">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="text-center py-2">
+                    <h3 class="fw-100">@L["주소 등록/수정"]</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group form-group-default required">
+                            <label>@L["주소명"]</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type1" value="001" checked onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type1">@L["자택"]</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type2" value="002" onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type2">@L["직장"]</label>
+                            </div>
+                            @*<div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="modal-type" id="modal-type3" value="003" onclick="$.mypageUtils.checkAddressType(this);">
+                                    <label class="form-check-label" for="modal-type3">@L["배송"]</label>
+                                </div>*@
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type4" value="004" onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type4">@L["직접입력"]</label>
+                            </div>
+                        </div>
+                        <div id="fg-modal-etc" class="form-group form-group-default" style="display: none;">
+                            <label>@L["직접입력"]</label>
+                            <input id="modal-etc" type="text" class="form-control" maxlength="50" data-msg="@L["직접입력 주소를 입력하세요."]" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-country-code" class="form-group form-group-default form-group-default-select2 required2">
+                            <label style="z-index:1602 !important;">@L["국가"]</label>
+                            <select id="modal-country-code" class="full-width" data-placeholder="" data-init-plugin="select2" data-disable-search="true" onchange="$.mypageUtils.checkCountry(this);">
+                                @foreach (var item in countryList)
+                                {@Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row search-address">
+                    <div class="col-lg-6 col-sm-6">
+                        <div id="fg-modal-zipcode" class="form-group form-group-default required">
+                            <label>@L["우편번호"]</label>
+                            <input id="modal-zipcode" type="text" class="form-control" data-msg="@L["우편번호를 입력하세요."]" required disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <button id="modal-search-btn" type="button" class="m-b-15 btn btn-cta btn-block btn-secondary fs-14 form-group form-group-default" onclick="$.joinUtils.showZipCodeLayer('modal-address-wrap', 'modal-zipcode', 'modal-address1', 'modal-address2');">
+                            <span><i class="far fa-search fa-fw m-r-5"></i> @L["주소 검색"]</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="modal-address-wrap" style="display: none; overflow: scroll; min-height: 100px; max-height: 300px;">
+                        <div class="m-b-15">
+                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="$.joinUtils.hideZipCodeLayer()" alt="접기 버튼">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-address1" class="form-group form-group-default required">
+                            <label>@L["주소"]</label>
+                            <input id="modal-address1" type="text" class="form-control" data-msg="@L["주소를 입력하세요."]" required disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-address2" class="form-group form-group-default required">
+                            <label>@L["상세주소"]</label>
+                            <input id="modal-address2" type="text" class="form-control" data-msg="@L["상세주소를 입력하세요."]" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-receiver" class="form-group form-group-default required">
+                            <label>@L["받는사람"]</label>
+                            <input id="modal-receiver" type="text" class="form-control" data-msg="@L["받는사람을 입력하세요."]" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-contact" class="form-group form-group-default required">
+                            <label>@L["연락처"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                            <input id="modal-contact" type="number" class="form-control" data-msg="@L["연락처를 입력하세요."]" required maxlength="20">
+                        </div>
+                    </div>
+                </div>
+                <div class="row address-button">
+                    <div class="col-lg-6">
+                        <button aria-label="" type="button" class="btn btn-block btn-primary btn-lg m-t-10 m-b-10" onclick="$.mypageUtils.updateAddressResult();">
+                            <span id="modal-address-btn"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button aria-label="" type="button" class="btn btn-block btn-secondary btn-lg m-t-10 m-b-10" onclick="$('#modal-address').modal('hide');">
+                            <span id="modal-close-btn">@L["취소"]</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-advertising-info" tabindex="-1" role="dialog" aria-labelledby="modal-advertising-info" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    @Html.Raw(ViewBag.AdvertisingInfo)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-popup-employees modal-show-popup" id="modal-retire-error" style="display: none;">
+    <div>
+        <div>
+            <img src="/img/icons/popup-close@1x.png" alt="닫기버튼" srcset="/img/icons/popup-close@1x.png 1x,/img/icons/popup-close@2x.png 2x,/img/icons/popup-close@3x.png 3x" class="modal-employees-close">
+            <div class="img"><img src="/img/icons/Error-icon@1x.png" alt="알림 팝업창" srcset="/img/icons/Error-icon@1x.png 1x,/img/icons/Error-icon@2x.png 2x,/img/icons/Error-icon@3x.png 3x"></div>
+            <h2>@L["죄송합니다. 회원님은 아래 사유 중 1개 이상에 해당하여 온라인 상 즉시 탈퇴가 불가합니다."]</h2>
+            <ul class="employees-number">
+                <li>@L["1. 진행 중인 경매에 응찰한 경우 -> 라이브 경매 서면/전화 응찰 신청 포함"]</li>
+                <li>@L["2. ㈜케이옥션과 진행 중인 거래내역이 있을 경우"]</li>
+                <li><span class="m-l-5">@L["1) 미수금이 남아 있는 경우(낙찰대금, 배송비, 기타 비용 등)"]</span></li>
+                <li><span class="m-l-5">@L["2) 미지급액이 남아 있는 경우"]</span></li>
+                <li><span class="m-l-5">@L["3) 케이 아트 스페이스 계약기간이 종료되지 않은 경우"]</span></li>
+                <li><span class="m-l-5">@L["4) 담보 계약이 종료되지 않은 경우"]</span></li>
+                <li><span class="m-l-5">@L["5) 도록 회원 만료일이 지나지 않은 경우"]</span></li>
+                <li><span class="m-l-5">@L["6) 케이옥션에 보관된 작품이 있는 경우 (위 사항과 중복이 있을 수 있음)"]</span></li>
+            </ul>
+            <p>@L["담당자가 회원님의 상세내용을 확인한 후 탈퇴 처리를 도와드리겠습니다."]</p>
+            <div class="modal-btn bidagree-btn">
+                <a href="javascript:;" onclick="$('.modal-employees-close').click();">@L["확인"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+<textarea id="public-key" style="display: none;">@Html.Raw(RsaCryptoService.GetPublicKey())</textarea>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+<script>
+    var isProcess = false;
+    var requestParam = {};
+
+    let memName = "@ViewBag.Member.Name";
+    let memMobile = "@ViewBag.Member.Mobile";
+
+    let authResult = "@ViewBag.Result";
+    let authKey = "@ViewBag.Key";
+
+    let directMenu = "@ViewBag.Menu";
+
+    let modifyBtn = $(".modify-tabbtn > ul > li");
+    let modifyCont = $(".tab-content > div");
+
+    modifyCont.hide().eq(0).show();
+    modifyBtn.click(function (e) {
+        e.preventDefault();
+
+        let target = $(this);
+        let index = target.index();
+        modifyBtn.removeClass("active");
+        target.addClass("active");
+        modifyCont.css("display", "none");
+        modifyCont.eq(index).css("display", "block");
+    });
+
+    $(document).ready(function () {
+        if (directMenu !== '' && directMenu.toLowerCase() === 'info') {
+            $('#root-tab-2').trigger("click");
+        } else if (directMenu !== '' && directMenu.toLowerCase() === 'address') {
+            $('#root-tab-3').trigger("click");
+        }
+        $(".tab-content").show();
+
+        getAddressList();
+
+        $('.form-country-code').select2({
+            placeholder: '',
+            templateSelection: formatCountry,
+            templateResult: formatCountry,
+            escapeMarkup: function (m) { return m; }
+        }).on('select2:select', function () {
+            $(this).parents('.form-group').removeClass('focused');
+            if ($(this).val()) {
+                $(this).closest('.form-group').find('label').addClass('fade');
+            } else {
+                $(this).closest('.form-group').find('label').removeClass('fade');
+            }
+        });
+
+        $(".form-birth").mask('9999-99-99');
+        $('.form-sex').val('@ViewBag.Member.Sex').trigger('change');
+        $('.form-country-code').val('@ViewBag.Member.CountryCode').trigger('change');
+        $('.form-job').val('@ViewBag.Member.JobCode').trigger('change');
+
+        $("#modal-country-code").val("KOR").trigger('change');
+
+        for (i = 8; i <= 14; i++) {
+            document.querySelectorAll('.row')[i].classList.add('not-pad');
+        }
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            startView: "decades",
+            language: isKor === "True" ? "ko" : "en"
+        });
+
+        if (authResult === "T" && authKey !== "") {
+            $("#btnModify").trigger("click");
+            $.joinUtils.setAuthResult(authKey, "M");
+        }
+    });
+    
+    function submitPassword() {
+        const crypto = new JSEncrypt();
+        crypto.setPublicKey($("#public-key").val());
+        const param = {
+          password_old: crypto.encrypt($("#password-old").val()),
+          password_new: crypto.encrypt($("#password-new").val()),
+          password_new_confirm: crypto.encrypt($("#password-new-confirm").val())
+        };
+        
+        $.mypageUtils.validatePasswordSubmit(param);
+    }
+
+    function formatCountry(country) {
+        if (!country.id) {
+            return country.text;
+        }
+        var countryOption = country.element;
+        return "<span class='m-r-10 m-b-1 flag flag-" + $(countryOption).data('iso-alpha2').toLowerCase() + "'></span><span class='text-uppercase'>" + country.text + "</span>";
+    }
+
+    function getAddressList() {
+        $.ajaxUtils.getApiData('/api/Member/AddressList', null, getAddressListComplete);
+    }
+
+    function getAddressListComplete(result) {
+        isProcess = false;
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $('#address-list').empty();
+            var totalCount = 0;
+            $.each(result.data, function (index, item) {
+                var tr = $('<tr />', { "id": "tr-" + item.uid });
+                tr.attr("data-primary", item.primary);
+                tr.attr("data-apply-book", item.apply_book_yn);
+                tr.attr("data-type", item.type);
+                tr.attr("data-etc", item.etc);
+                tr.attr("data-zipcode", item.zipcode);
+                tr.attr("data-country-code", item.country_code);
+                tr.attr("data-address1", item.address);
+                tr.attr("data-address2", item.address2);
+                tr.attr("data-receiver", item.receiver);
+                tr.attr("data-contact", item.contact);
+
+                var el = $('<div />', { "class": "form-check primary" });
+                var elCheck = $('<input />', { "type": "radio", "name": "address", "value": item.uid, "id": "address-" + item.uid, "style": "opacity: 1;" }).append(
+                    $('<label />', { "for": "address-" + item.uid })
+                );
+                if (item.primary === "Y") elCheck.attr("checked", "checked");
+
+                var tdCheck = $('<td />').append(el.append(elCheck));
+                var tdType;
+                if (item.type === "004") {
+                    tdType = $('<td />').append(item.etc);
+                } else {
+                    tdType = $('<td />').append(item.type_name);
+                }
+
+                if (item.primary === "Y") tdType.append(" <span style='color: #F47104'>[" + ka.msg.mypage.default + "]</span>");
+                if (item.apply_book_yn === 'Y') tdType.append(" <span style='color: blue'>[" + ka.msg.mypage.applyBook + "]</span>");
+
+                var tdZipCode = $('<td />').append(item.zipcode);
+                var tdCountry = $('<td />').append(item.country_name);
+                var tdAddress = $('<td />').append(item.address + ' ' + item.address2);
+                var tdReceiver = $('<td />').append(item.receiver);
+                var tdContact = $('<td/ >').append(item.contact);
+
+                tr.append(tdCheck, tdType, tdZipCode, tdCountry, tdAddress, tdReceiver, tdContact);
+
+                $('#address-list').append(tr);
+
+                totalCount = index + 1;
+            });
+
+            if (totalCount < 1) {
+                $('#address-list').append(
+                    $('<tr />').append(
+                        $('<td />', { "colspan": "7", "class": "text-center" }).append('@L["정보가 없습니다."]'))
+                );
+            }
+        }
+        else { $.commonUtils.alert("@L["처리 중 오류가 발생하였습니다."]"); }
+    }
+
+    let mypageBtn = document.querySelector('.modal-employees-close').parentElement.parentElement.parentElement;
+
+    document.querySelector('.modal-employees-close').addEventListener('click', function(e){
+        e.preventDefault();
+        let parentModal = document.querySelector('.modal-employees-close').parentElement.parentElement.parentElement;
+        parentModal.classList.remove('block');
+        document.querySelector('body').classList.remove('yhidden');
+        document.querySelector('.modal-bg').classList.remove('block');
+    });
+
+    function checkOnlyOne(element) {
+        const checkboxes = document.getElementsByName("ad-period-chkbox");
+        checkboxes.forEach(function(cb){
+            cb.checked = false;
+        });
+        element.checked = true;
+        $("#join-info-validate-period").val(element.value);
+    }
+
+</script>

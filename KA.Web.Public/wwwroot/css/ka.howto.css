@@ -1,0 +1,1665 @@
+﻿#Howto {
+    display: flex;
+    align-items: flex-start;
+    margin: 60px 0;
+}
+#Howto > .howtobtn {
+    width: 20%;
+    margin-right: 100px;
+    background-color: #fff;
+}
+#Howto > .howtobtn.fixed {
+    width: 222px;
+    position: fixed;
+    top: 25px;
+}
+#Howto > .howto-desc {
+    width: 80%;
+}
+.howto-desc.fixed {
+    width: 888px !important;
+    margin-left: 322px;
+}
+
+/*2월8일수정*/
+#Howto > .howtobtn.pos {
+    position: fixed;
+    top: 0;
+    z-index: 480;
+}
+/* #Howto > .howtobtn.pos > ul {
+    margin-right: 40px;
+} */
+
+
+/*2월8일수정*/
+/* .howto-subbtn.pos {
+    position: fixed;
+    top: 0px;
+    width: 91%;
+    padding: 5px 0;
+    background-color: #fff;
+    z-index: 500;
+} */
+
+
+.howtobtn > ul > li {
+    padding-left: 0;
+    padding: 20px 0;
+    border-top: solid 1px #cccccc;
+}
+.howtobtn > ul > li:last-child {
+    margin-bottom: 40px;
+}
+.howtobtn > ul > li.active {
+    border-top: 1px solid #0d0d0d;
+}
+.howtobtn > ul > li > a {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    color: #666666;
+}
+.howtobtn > ul > li.active > a {
+    font-weight: 600;
+    color: #0d0d0d;
+}
+.howtobtn > ul > li > div {
+    margin-top: 20px;
+}
+.howtobtn > ul > li > div > ul > li {
+    padding-left: 0;  
+}
+.howtobtn > ul > li > div > ul > li:hover > a{
+    text-decoration: underline;
+}
+.howtobtn > ul > li > div > ul > li > a {
+    position: relative;
+    color: #666666;
+}
+.howtobtn > ul > li > div > ul > li.active > a {
+    position: relative;
+    font-weight: 600;
+    color: #0d0d0d;
+}
+
+.howtobtn > ul > li > div > ul > li.active > a:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 50%; right: -8px;
+    transform: translateY(-50%);
+    width: 3px; height: 3px;
+    border-radius: 3px;
+    background-color: #0d0d0d;
+}
+
+/*1월*/
+/* .howto-desc > div {
+    display: none;
+}
+.howto-desc > div:nth-child(2) {
+    display: block;
+} */
+
+
+/*경매소개 css*/
+.auc-intro > div {
+    margin-bottom: 100px;
+}
+.auc-intro > div > h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0d0d0d;
+    margin-bottom: 20px;
+}
+.auc-intro > div > p {
+    font-size: 16px;
+    line-height: 1.8em;
+    color: #666666;
+    margin-bottom: 30px;
+}
+.auc-intro > div:first-child > div {
+    border: 1px solid #cccccc;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.auc-intro > div:first-child > div > .auc-img01 {
+    width: 100%;
+    height: 363px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+}
+.auc-intro > div:first-child > div > .auc-img01 > img {
+    max-width: 100%;
+}
+.auc-intro > div:first-child > div > .auc-desc {
+    padding: 30px 30px;
+}
+.auc-intro > div:first-child > div > div > h4 {
+    font-size: 16px !important;
+    font-weight: 500 !important; 
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+ }
+ .auc-intro > div:first-child > div > div > h4 > img {
+     max-width: 100%;
+ }
+ .auc-intro > div:first-child > div > div > h4 > img:first-child {
+    margin-left: 10px;
+}
+.auc-intro > div:first-child > div > div > p {
+    font-size: 14px;
+    color: #0d0d0d;
+}
+.auc-intro > div:first-child > div > div > p.check {
+    margin-top: 10px;
+    border-bottom: none;
+    width: 370px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    background-color: #f44e05;
+}
+.auc-intro > div:first-child > div > div > p.check > a {
+    display: block;
+    color: #ffffff;
+}
+
+
+
+.auc-intro > div:nth-child(2) > div {
+    display: flex;
+}
+.auc-intro > div:nth-child(2) > div > div {
+    width: 48.5%;
+    height: 847px;
+    border: 1px solid #cccccc;
+    display: flex;
+    flex-direction: column;
+}
+.auc-intro > div:nth-child(2) > div > div > .img {
+    width: 100%;
+    height: 382px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.auc-intro > div:nth-child(2) > div > div > .img > img {
+    width: auto;
+    max-height: 382px;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child {
+    padding: 30px 30px;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > h4 {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > h4 > img {
+    max-width: 100%;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > h4 > img:first-child {
+    margin-left: 20px;
+    margin-right: 5px;
+}
+.auc-intro > div:nth-child(2) > div > div:first-child {
+    margin-right: 3%;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > p {
+    font-size: 14px;
+    line-height: 1.8em;
+    color: #666666;
+    border-bottom: 1px solid #cccccc;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > p.desc {
+    padding-bottom: 10px;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > p.date {
+    padding: 10px 0;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > p.check {
+    margin-top: 10px;
+    border-bottom: none;
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    background-color: #f44e05;
+}
+.auc-intro > div:nth-child(2) > div > div > div:last-child > p.check > a {
+    display: block;
+    color: #ffffff;
+}
+
+
+#sns {
+    background-color: #f9f9f9;
+    padding: 30px 30px;
+}
+#sns > .sns-tit {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+#sns > .sns-tit > img {
+    margin-right: 5px;
+}
+#sns > .sns-desc {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 20px;
+}
+#sns > ul {
+    display: flex;
+    justify-content: center;
+    padding: 0 70px;
+}
+#sns > ul > li {
+    width: 25%;
+    padding-left: 0;
+}
+#sns > ul > li > img {
+    margin-right: 5px;
+}
+#sns > ul > li > a {
+    font-size: 14px;
+    color: #0d0d0d;
+}
+
+
+
+/*응찰안내*/
+/*응찰안내 제목 사이즈*/
+.bid-guide > div {
+    margin-bottom: 90px;
+}
+.bid-guide > div:last-child {
+    margin-bottom: 0;
+}
+.bid-guide > div > strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #f44e05;
+}
+.bid-guide > div > h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+.bid-guide > div > p {
+    font-size: 16px;
+    line-height: 1.6em;
+    margin-bottom: 20px;
+    color: #666666;
+}
+
+
+/*step.1 회원가입*/
+.step1-desc {
+    font-size: 0;
+}
+.step1-desc > div {
+    display: inline-block;
+    width: 32.3334%;
+    vertical-align: top;
+    overflow: hidden;
+    height: 498px;
+    margin-right: 1.5%;
+    border: 1px solid #cccccc;
+}
+.step1-desc > div:last-child {
+    margin-right: 0;
+}
+.step1-desc > div > .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 186px;
+    overflow: hidden;
+}
+.step1-desc > div > .img > img {
+    max-height: 200px;
+}
+.step1-desc > div > div:last-child {
+    padding: 30px 30px;
+}
+.step1-desc > div > div:last-child > h6 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.step1-desc > div > div:last-child > p {
+    font-size: 14px;
+    line-height: 1.8em;
+    color: #666666;
+}
+
+/*프리뷰 css*/
+.preview-img {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.preview-img > div {
+    width: 48.5%;
+    height: 260px;
+    overflow: hidden;
+    position: relative;
+}
+.preview-img > div:first-child {
+    margin-right: 3%;
+}
+.preview-img > div > img {
+    max-width: 100%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+/*step.3 응찰 css*/
+.bid-guide > div > div > h4 {
+    position: relative;
+    font-size: 16px;
+    padding-left: 28px;
+    line-height: 1.6em;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+div.howto-sub-wrap > h4::before {
+    position: absolute;
+    content: '01';
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    background-color: #cccccc;
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+}
+div.online-auc.howto-sub-wrap > h4::before {
+    content: '02';
+}
+div.live-auc.howto-sub-wrap > p,
+div.online-guide.howto-sub-wrap > p {
+    font-size: 16px;
+    line-height: 1.75em;
+    color: #666666;
+}
+
+.liveauc-guide {
+    font-size: 0;
+    margin: 20px 0 30px 0;
+}
+.liveauc-guide > div {
+    display: inline-block;
+    vertical-align: top;
+    width: 48.5%;
+    height: 512px;
+    margin-right: 3%;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+}
+.liveauc-guide > div > .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+}
+.liveauc-guide > div > .img > img {
+    max-height: 100%;
+}
+.liveauc-guide > div:nth-child(2),
+.liveauc-guide > div:last-child {
+    margin-right: 0;
+}
+.liveauc-guide > div > div:last-child {
+    padding: 30px 30px;
+}
+.liveauc-guide > div > div:last-child > h6 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.liveauc-guide > div > div:last-child > p {
+    font-size: 14px;
+    line-height: 1.8em;
+    color: #666666;
+}
+
+/*서브박스디자인(공통)*/
+.sub-box {
+    background-color: #f9f9f9;
+    padding: 30px 30px;
+}
+.sub-box > ul > li {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 0;
+    margin-bottom: 5px;
+}
+.sub-box > ul > li > img {
+    max-width: 100%;
+}
+.sub-box > ul > li > p {
+    font-size: 14px;
+    line-height: 1.6em;
+}
+.sub-box > ul > li > p > span {
+    color: #f44e05;
+}
+.sub-box > ul > li > p > a {
+    color: #f44e05;
+    text-decoration: underline;
+}
+.sub-box.online-fee > ul > li:first-child {
+    margin-bottom: 0;
+}
+
+
+
+
+.online-auc > p {
+    margin-bottom: 30px;
+}
+.sub-box.beware > p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.sub-box.beware > p > img {
+    margin-right: 5px;
+}
+
+
+/*step.4 낙찰 결과 확인 및 결제*/
+.bid-01 {
+    margin-bottom: 80px;
+}
+div.bid-01.howto-sub-wrap > h4 {
+    position: relative;
+    font-size: 16px;
+    padding-left: 28px;
+    font-weight: 500;
+}
+div.bid-01.howto-sub-wrap > h4::before {
+    position: absolute;
+    content: '01';
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    background-color: #cccccc;
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+}
+div.bid-02.howto-sub-wrap > h4::before {
+    content: '02';
+}
+div.bid-01.howto-sub-wrap > p, 
+div.bid-02.howto-sub-wrap > p {
+    font-size: 16px;
+    line-height: 1.75em;
+    margin-bottom: 20px;
+    color: #666666;
+}
+.sub-box.online-fee > p {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.sub-box.online-fee > ul > p {
+    font-size: 14px;
+    padding-left: 21px;
+    color: #f44e05;
+    margin-bottom: 5px;
+}
+.sub-box.online-fee > p.exam {
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.bidtableb2 {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.bidtableb2 thead th {
+    background-color: #cccccc;
+    color: #202020;
+    text-align: center;
+    font-weight: 400;
+    padding: 8px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+}
+
+.bidtableb2 thead th:nth-child(1) {
+    width: 25%;
+}
+.bidtableb2 thead th:nth-child(2) {
+    width: 25%;
+}
+.bidtableb2 thead th:nth-child(3) {
+    width: 50%;
+    border-right: none;
+}
+
+.bidtableb2 tbody tr td {
+    color: #32314a;
+    text-align: center;
+    padding: 8px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+}
+.bidtableb2 tbody tr td:last-child {
+    border-right: none;
+}
+.bid-02 > .sub-box > p {
+    margin-bottom: 5px;
+}
+
+
+/*step.5 배송, 설치 및 보관 css*/
+div.dilivery-01,
+div.dilivery-02 {
+    margin-bottom: 60px;
+}
+div.dilivery-01 > h4 {
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 28px;
+    position: relative;
+}
+div.dilivery-01.howto-sub-wrap > h4::before {
+    position: absolute;
+    content: '01';
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    background-color: #cccccc;
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+}
+div.dilivery-02.howto-sub-wrap > h4::before {
+    content: '02';
+}
+div.dilivery-03.howto-sub-wrap > h4::before {
+    content: '03';
+}
+.bid-guide > div:nth-child(5) > div > p {
+    font-size: 16px;
+    line-height: 1.75em;
+    color: #666666;
+    margin-bottom: 20px;
+}
+
+.dilivery-01 ul.dilivery-01-list li,
+.bid-guide > div:nth-child(5) > div > ul > li {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 0;
+}
+.dilivery-01 ul.dilivery-01-list li > div,
+.bid-guide > div:nth-child(5) > div > ul > li > div {
+    width: 20px; height: 28px;
+    min-width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dilivery-01 ul.dilivery-01-list li > div > img,
+.bid-guide > div:nth-child(5) > div > ul > li > div > img {
+    max-width: 100%;
+}
+.dilivery-01 ul.dilivery-01-list li > p ,
+.bid-guide > div:nth-child(5) > div > ul > li > p {
+    font-size: 16px;
+    line-height: 1.75em;
+    color: #666666;
+}
+
+
+.dilivery-01 > .sub-box {
+    margin-bottom: 30px;
+}
+.dilivery-01 > .sub-box > p.tit {
+    font-weight: 500;
+}
+.dilivery-01 > .sub-box > p {
+    font-size: 14px;
+}
+.dilivery-02 > .sub-box > p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.dilivery-02 > .sub-box > p > img {
+    margin-right: 5px;
+}
+
+
+.bidtableb3 {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.bidtableb3 th {
+    background-color: #cccccc;
+    font-weight: 400;
+    text-align: center;
+    padding: 8px 0;
+}
+.bidtableb3 th:last-child {
+    background-color: rgb(189, 189, 189);
+}
+
+.bidtableb3 tr td {
+    width: 25%;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    padding: 6px 3px;
+    color: #32314a;
+}
+
+.bidtableb3 tr td:nth-child(3) {
+    background-color: #dfdede;
+}
+
+
+/*위탁안내*/
+.cos-guide > div {
+    /*padding-bottom: 80px;*/
+    padding-bottom: 10px;
+}
+.cos-guide > div:first-child {
+    border-bottom: 1px solid #0d0d0d;
+}
+.cos-guide > div:last-child {
+    /*padding-top: 80px;*/
+    padding-top: 10px;
+    }
+.cos-guide > div > h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.cos-guide > div > p {
+    font-size: 16px;
+    color: #666666;
+}
+.cosguide-01 > p {
+    margin-bottom: 20px;
+}
+.cosguide-01 > div {
+    display: flex;
+    align-items: center;
+    height: auto;
+    margin-bottom: 60px;
+}
+.cosguide-01 > div > .img {
+    width: 30%;
+    margin-right: 5%;
+}
+.cosguide-01 > div > .img > img {
+    max-width: 100%;
+}
+
+.cosguide-01 > div > .cont {
+    width: 65%;
+}
+.cosguide-01 > div > .cont > h3 {
+    font-size: 16px;
+    line-height: 1.6em;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.cosguide-01 > div > .cont > p {
+    font-size: 14px;
+    color: #666666;
+}
+
+.cosguide-result {
+    flex-direction: column;
+    padding: 40px 40px;
+    background-color: #f9f9f9;
+}
+.cosguide-result > p {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+.cosguide-result > div {
+    width: 100%;
+    font-size: 0;
+    display: flex;
+}
+.cosguide-result > div > div {
+    width: 50%;
+}
+.cosguide-result > div > div:first-child {
+    margin-right: 90px;
+}
+
+.cos-result > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    word-break: keep-all;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    color: #f44e05;
+}
+.cos-result > ul > li {
+    width: 47.5%;
+    margin-right: 5%;
+    padding-left: 0;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.cos-result > ul > li:last-child {
+    margin-right: 0;
+}
+.cos-result > ul > li > .img {
+    width: 100%;
+    height: 158px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cos-result > ul > li > .img > img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.cos-result > ul > li > strong.price {
+    display: block;
+    margin: 10px 0px;
+    font-size: 16px;
+    word-break: keep-all;
+}
+.cos-result > ul > li > .date {
+    font-size: 14px;
+    margin-top: 5px;
+    word-break: keep-all;
+}
+.cos-result > ul > li > .info {
+    font-size: 14px;
+    color: #666666;
+}
+
+/*위탁안내 > 위탁절차 css*/
+.cosproce-btn {
+    margin-bottom: 30px;
+}
+.cosproce-btn > ul {
+    font-size: 0;
+}
+.cosproce-btn > ul > li {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-left: 0;
+    width: 23.875%;
+    height: 90px;
+    text-align: center;
+    margin-right: 1.5%;
+    cursor: pointer;
+}
+.cosproce-btn > ul > li:first-child {
+    background-color: #f9f9f9;
+}
+.cosproce-btn > ul > li:nth-child(2) {
+    background-color: #e6e6e6;
+}
+.cosproce-btn > ul > li:nth-child(3) {
+    background-color: #d9d9d9;
+}
+.cosproce-btn > ul > li:last-child {
+    margin-right: 0;
+    background-color: #cccccc;
+}
+.cosproce-btn > ul > li > strong {
+    display: block;
+    color: #f44e05;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+.cosproce-btn > ul > li > p {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cosproce-btn > ul > li.active {
+    background-color: #f44e05;
+}
+.cosproce-btn > ul > li.active > strong {
+    color: #fff;
+}
+.cosproce-btn > ul > li.active > p {
+    color: #fff;
+}
+
+
+/*1월*/
+/* .cosproce-desc > div {
+    display: none;
+}
+.cosproce-desc > div:nth-child(4) {
+    display: block;
+} */
+
+
+.cosproce-desc > div > p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+
+.cosproce-desc .desc01 .bot-desc {
+    margin-top: 20px;
+}
+.cosproce-desc .desc01 .bot-desc > ul > li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+.cosproce-desc .desc01 .bot-desc > ul > li > div {
+    width: 10px;
+    height: 24px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.cosproce-desc .desc01 .bot-desc > ul > li > div > span {
+    color: #666666;
+}
+.cosproce-desc .desc01 .bot-desc > ul > li > p {
+    width: 95%;
+    font-size: 16px;
+    color: #666666;
+}
+
+
+.cosproce-desc > div > p > span {
+    color: #f44e05;
+}
+.cosproce-desc > div > .cos-inquire-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0;
+}
+.cosproce-desc > div > .cos-inquire-btn > a {
+    display: block;
+    padding: 8px 75px;
+    background-color: #0d0d0d;
+    color: #ffffff;
+}
+
+/*위탁절차 > step.1 작품 문의*/
+.cosproce-desc > .desc01 > .desc01-sub {
+    padding: 20px 25px;
+    border: 1px solid #cccccc;
+}
+.cosproce-desc > .desc01 > .desc01-sub > div {
+    margin-bottom: 20px;
+}
+.cosproce-desc > .desc01 > .desc01-sub > div:last-child {
+    margin-bottom: 0px;
+}
+.cosproce-desc > .desc01 > .desc01-sub > div > h6 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.cosproce-desc > .desc01 > .desc01-sub > div > p {
+    font-size: 14px;
+    line-height: 1.6em;
+}
+.cosproce-desc > .desc01 > .desc01-sub > div > p > span {
+    color: #f44e05;
+}
+
+/*위탁절차 > step.2 위탁 상담 및 출고*/
+.cosproce-desc > .desc02 > .desc02-sub {
+    padding: 30px 20px;
+    border: 1px solid #cccccc;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div {
+    display: flex;
+    align-items: flex-start;
+    margin-right: 10px;
+    max-width: 230px;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div:last-child {
+    margin-right: 0;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div > .desc02-icon {
+    text-align: center;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div > .desc02-icon > p {
+    font-size: 14px;
+    font-weight: 500;
+    word-break: keep-all;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div > .desc02-icon > img {
+    margin-bottom: 10px;
+}
+.cosproce-desc > .desc02 > .desc02-sub > div > img {
+    max-width: 100%;
+    margin-top: 14px;
+}
+.cosproce-desc > .desc02 > ul {
+    margin-top: 20px;
+}
+.cosproce-desc > .desc02 > ul > li {
+    display: flex;
+    padding-left: 0;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+.cosproce-desc > .desc02 > ul > li:last-child {
+    margin-bottom: 0px;
+}
+.cosproce-desc > .desc02 > ul > li > img {
+    max-width: 100%;
+}
+.cosproce-desc > .desc02 > ul > li > p {
+    font-size: 14px;
+}
+
+
+
+
+/*위탁절차 > step.3 출품 및 전시*/
+.cosproce-desc > .desc03 > .desc03-sub {
+    border: 1px solid #cccccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 50px;
+}
+.cosproce-desc > .desc03 > div > ul {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.cosproce-desc > .desc03 > .desc03-sub > ul > li {
+    width: 32%;
+    margin-right: 2%;
+    padding-left: 0;
+    text-align: center;
+}
+.cosproce-desc > .desc03 > .desc03-sub > ul > li > h5 {
+    font-size: 14px;
+    line-height: 1.4em;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.cosproce-desc > .desc03 > .desc03-sub > ul > li > p {
+    font-size: 12px;
+    line-height: 1.8em;
+    word-break: keep-all;
+}
+.cosproce-desc > .desc03 > .desc03-sub > ul > li:last-child {
+    margin-right: 0;
+}
+
+/*위탁절차 > step.4 대금정산*/
+.cosproce-desc > .desc04 > div:first-child {
+    margin-bottom: 20px;
+}
+.cosproce-desc > .desc04 > div > h4 {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+.cosproce-desc > .desc04 > div > div {
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+}
+.cosproce-desc > .desc04 > div > p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.cosproce-desc > .desc04 > div:first-child > div > p {
+    font-size: 16px;
+    text-align: center;
+}
+.cosproce-desc > .desc04 > div:nth-child(2) > ul > li {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 0;
+    line-height: 1.8em;
+}
+.cosproce-desc > .desc04 > div:nth-child(2) > ul > li > img {
+    max-width: 100%;
+}
+.cosproce-desc > .desc04 > div:nth-child(2) > ul > li > p {
+    font-size: 14px;
+}
+
+
+
+@media (max-width: 1275px){
+    .subtop-bn.b14 {
+        background: none;
+        height: 60px;
+    }
+    .subtop-bn.b14 > .subtop {
+        display: none;
+    }
+
+
+    #Howto {
+        flex-direction: column;
+        margin: 20px 60px 60px 60px;
+    }
+    #Howto > .howtobtn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .howtobtn > ul > li.active {
+        border: none;
+    }
+    .a1, .a2, .a3 {
+        font-size: 0;
+    }
+    #Howto > .howtobtn.pos > ul {
+        margin-right: 159px;
+    }
+
+
+    /*2월8일수정*/
+    .howto-subbtn {
+        display: none !important;
+    }
+
+    .howto-subbtn > ul > li {
+        margin-right: 20px;
+    }
+    .howto-subbtn > ul > li:last-child {
+        margin-right: 0;
+    }
+    .a1 > li,
+    .a2 > li,
+    .a3 > li {
+        vertical-align: top;
+        display: inline-block;
+    }
+    .a1 > li > a,
+    .a2 > li > a,
+    .a3 > li > a {
+        font-size: 14px;
+    }
+    .howtobtn > ul {
+        display: flex;
+        align-items: flex-start;
+        border-bottom: 1px solid #dadada;
+    }
+    .howtobtn > ul > li {
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        width: 130px;
+        height: 45px;
+        line-height: 45px;
+        border: none;
+        padding: 0;
+    }
+    .howtobtn > ul > li.active > a:after {
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 2px;
+        content: '';
+        background-color: #000;
+    }
+    .howtobtn > ul > li:last-child {
+        margin-bottom: 0;
+    }
+
+    /*2월8일수정*/
+    /* .howtobtn > ul > li > a {
+        display: none;
+    } */
+    #Howto > .howto-desc {
+        width: 100%;
+    }
+    .auc-intro > div:first-child > div > .auc-img01 > img {
+        max-width: initial;
+        max-height: 110%;
+    }
+    #sns > ul {
+        padding: 0 30px;
+    }
+
+
+    /*응찰안내 미디어쿼리*/
+    .step1-desc > div > .img > img {
+        max-height: 265px;
+    }
+    .step1-desc > div > div:last-child {
+        padding: 20px 20px;
+    }
+    .liveauc-guide > div > div:last-child {
+        padding: 20px 20px;
+    }
+
+    /*위탁안내 미디어쿼리*/
+    .cosguide-result > div > div:first-child {
+        margin-right: 30px;
+    }
+}
+@media (max-width: 965px) {
+    .auc-intro > div:nth-child(2) > div {
+        flex-direction: column;
+    }
+    .auc-intro > div:nth-child(2) > div > div {
+        width: 100%;
+        height: auto;
+    }
+    .auc-intro > div:nth-child(2) > div > div:first-child {
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > .img {
+        height: 363px;
+        align-items: flex-start;
+    }
+    .auc-intro > div:nth-child(2) > div > div > .img > img {
+        max-height: initial;
+        max-width: 100%;
+    }
+    .auc-intro > div:first-child > div > div > p.check {
+        width: 100%;
+    }
+
+
+    /*응찰안내 미디어쿼리*/
+    .step1-desc > div {
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .step1-desc > div:last-child {
+        margin-bottom: 0;
+    }
+    .step1-desc > div > .img > img {
+        max-height: initial;
+        width: 100%;
+        height: auto;
+    }
+
+    .liveauc-guide > div {
+        width: 100%;
+        margin-right: 0;
+        height: auto;
+    }
+    .liveauc-guide > div > .img > img {
+        max-height: initial;
+        max-width: 100%;
+    }
+
+
+    /*위탁안내 미디어쿼리*/
+    .cosguide-result > div {
+        flex-direction: column;
+    }
+    .cosguide-result > div > div {
+        width: 100%;
+    }
+    .cosguide-result > div > div:first-child {
+        margin-right: 0;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 920px){
+    #sns > ul {
+        padding: 0 0px;
+    }
+}
+
+@media (max-width: 865px){
+    #sns > ul {
+        font-size: 0;
+        display: initial;
+    }
+    #sns > ul > li {
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+    }
+    #sns > ul > li:first-child,
+    #sns > ul > li:nth-child(2) {
+        margin-bottom: 15px;
+    }
+    #sns > ul > li > img {
+        margin-right: 10px;
+    }
+    #sns > ul > li > a {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+@media (max-width: 768px) {
+    #Howto {
+        margin: 20px 40px 60px 40px;
+    }
+    #Howto > .howtobtn.pos > ul {
+        margin-right: 120px;
+    }
+
+
+    /*응찰안내 미디어쿼리*/
+    .bid-guide > div > strong {
+        line-height: 1.6em;
+        margin-right: 10px;
+    }
+    .bid-guide > div > h2 {
+        display: inline-block;
+    }
+
+    .cosproce-desc > .desc02 > .desc02-sub {
+        display: block;
+        font-size: 0;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div {
+        display: inline-block;
+        max-width: 100%;
+        width: 49%;
+        vertical-align: top;
+        margin-right: 2%;
+        margin-bottom: 10px;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div:nth-child(3),
+    .cosproce-desc > .desc02 > .desc02-sub > div:last-child {
+        margin-bottom: 0;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div:nth-child(2),
+    .cosproce-desc > .desc02 > .desc02-sub > div:last-child {
+        margin-right: 0;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div > .desc02-icon {
+        display: flex;
+        align-items: center;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div > .desc02-icon > img {
+        margin-bottom: 0;
+        margin-right: 24px;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div > img {
+        display: none;
+    }
+
+
+}
+
+
+@media (max-width: 710px) {
+    #Howto {
+        margin: 20px 20px 60px 20px;
+    }
+    #Howto > .howtobtn.pos > ul {
+        margin-right: 80px;
+    }
+
+    /*위탁안내 미디어쿼리*/
+    .cos-guide > div > p {
+        font-size: 14px;
+    }
+    .cosguide-01 > div {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+        flex-direction: column;
+        border: 1px solid #cccccc;
+    }
+    .cosguide-result {
+        padding: 30px 20px !important;
+        margin-bottom: 0 !important;
+    }
+    .cosguide-result > p {
+        margin-bottom: 20px;
+    }
+    .cos-result > h2 {
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+    .cosguide-01 > div > .img {
+        width: 100%;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0;
+        overflow: hidden;
+    }
+    .cosguide-01 > div > .img > img {
+        max-width: initial;
+        max-height: 100%;
+    }
+    .cosguide-01 > div > .cont {
+        width: 100%;
+        padding-top: 20px;
+    }
+    .cosguide-01 > div > .cont > p {
+        font-size: 12px;
+    }
+    .cos-guide > div {
+        padding-bottom: 0;
+    }
+    .cos-guide > div:first-child {
+        border: none;
+    }
+    .cosproce-btn > ul > li {
+        width: 49%;
+        margin-right: 2%;
+    }
+    .cosproce-btn > ul > li:first-child,
+    .cosproce-btn > ul > li:nth-child(2) {
+        margin-bottom: 12px;
+    }
+    .cosproce-btn > ul > li:nth-child(2),
+    .cosproce-btn > ul > li:last-child {
+        margin-right: 0;
+    }
+    .cosproce-btn {
+        margin-bottom: 20px;
+    }
+    .cosproce-desc > div > p {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+    .cosproce-desc > .desc01 > .desc01-sub {
+        padding: 18px 15px;
+    }
+    .cosproce-desc > .desc01 > .desc01-sub > div > h6 {
+        font-size: 12px;
+    }
+    .cosproce-desc > .desc01 > .desc01-sub > div > p {
+        font-size: 12px;
+    }
+    .cosproce-desc > div > p.bot-desc {
+        font-size: 14px;
+    }
+    .cosproce-desc > div > .cos-inquire-btn {
+        margin: 30px 0;
+    }
+
+    .cosproce-desc > .desc04 > div > p {
+        margin-bottom: 20px;
+    }
+    .cosproce-desc > .desc04 > div:first-child > div > p {
+        font-size: 14px;
+    }
+    .cosproce-desc > .desc04 > div > div {
+        padding: 15px 20px;
+    }
+    .cosproce-desc > .desc04 > div:nth-child(2) > ul > li {
+        margin-bottom: 3px;
+    }
+    .cosproce-desc > .desc04 > div:nth-child(2) > ul > li > p {
+        font-size: 12px;
+        line-height: 1.8em;
+    }
+    .cosproce-desc .desc01 .bot-desc > ul > li > p {
+        font-size: 14px;
+    }
+    .cosproce-desc .desc01 .bot-desc > ul > li > div {
+        height: 22px;
+    }
+
+}
+
+@media (max-width: 590px) {
+    #Howto {
+        margin: 20px 0px;
+    }
+    #Howto > .howtobtn.pos > ul {
+        margin-right: 40px;
+    }
+    .auc-intro > div {
+        margin-bottom: 40px;
+    }
+    .auc-intro > div > p {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    .auc-intro > div:first-child > div > .auc-img01 {
+        height: 155px;
+    }
+    .auc-intro > div:first-child > div > .auc-img01 > img {
+        max-height: initial;
+        max-width: 100%;
+    }
+    .auc-intro > div:first-child > div > .auc-desc {
+        padding: 20px 15px;
+    }
+    .auc-intro > div:first-child > div > div > h4 {
+        margin-bottom: 10px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > .img {
+        height: 155px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > .img {
+        align-items: center;
+    }
+    .auc-intro > div:first-child > div > div > p.check > a {
+        font-size: 12px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > div:last-child {
+        padding: 20px 15px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > div:last-child > p {
+        font-size: 12px;
+    }
+    .auc-intro > div:nth-child(2) > div > div > div:last-child > h4 {
+        margin-bottom: 10px;
+    }
+    #sns {
+        padding: 20px 15px;
+    }
+    #sns > .sns-desc {
+        font-size: 12px;
+    }
+    #sns > ul > li > a {
+        font-size: 12px;
+    }
+
+    /*응찰안내 미디어쿼리*/
+    .bid-guide > div {
+        margin-bottom: 40px;
+    }
+    .bid-guide > div > h2 {
+        margin-bottom: 20px;
+    }
+    .bid-guide > div > p {
+        font-size: 14px;
+    }
+    .step1-desc > div > .img {
+        height: 155px;
+    }
+    .step1-desc > div > div:last-child {
+        padding: 20px 15px;
+    }
+    .step1-desc > div > div:last-child > p {
+        font-size: 12px;
+    }
+    .preview-img {
+        flex-direction: column;
+    }
+    .preview-img > div {
+        width: 100%;
+        height: 155px;
+    }
+    .preview-img > div:first-child {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .liveauc-guide > div:last-child {
+        margin-bottom: 0;
+    }
+    .bid-guide > div:nth-child(3) > div > p {
+        font-size: 14px;
+    }
+    .liveauc-guide > div > .img {
+        height: 155px;
+    }
+    .liveauc-guide > div > div:last-child {
+        padding: 20px 15px;
+    }
+    .liveauc-guide > div > div:last-child > p {
+        font-size: 12px;
+    }
+    .sub-box {
+        padding: 20px 15px;
+    }
+    .sub-box > ul > li {
+        font-size: 12px;
+    }
+    .bid-guide > div:nth-child(3) > div > p {
+        margin-bottom: 40px;
+    }
+    .bid-guide > div:nth-child(4) > div > p {
+        font-size: 14px;
+    }
+    .bid-guide > div:nth-child(5) > div > p {
+        font-size: 14px;
+    }
+    .dilivery-01 ul.dilivery-01-list li > p,
+    .bid-guide > div:nth-child(5) > div > ul > li > p {
+        font-size: 14px;
+    }
+    .bidtableb2 {
+        margin: 20px 0 10px 0;
+    }
+    .bid-01 {
+        margin-bottom: 40px;
+    }
+    .dilivery-01 > .sub-box {
+        margin-bottom: 10px;
+    }
+
+
+
+    /*위탁안내 미디어쿼리*/
+    .cosguide-result {
+        margin-top: 40px;
+    }
+    .cosproce-btn > ul > li > strong {
+        font-size: 14px;
+    }
+    .cosproce-btn > ul > li > p {
+        font-size: 14px;
+    }
+    .cos-result > ul > li > strong.price {
+        font-size: 14px;
+    }
+    .cos-result > h2 {
+        font-size: 16px;
+    }
+    .cosproce-desc > div > p.bot-desc {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    .cosproce-desc > .desc02 > ul {
+        margin-top: 10px;
+    }
+    .cosproce-desc > .desc02 > ul > li {
+        margin-bottom: 0;
+    }
+    .cosproce-desc > .desc02 > ul > li > p {
+        font-size: 12px;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub {
+        padding: 30px 30px;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div {
+        width: 100%;
+        margin-right: 0;
+    }
+    .cosproce-desc > .desc02 > .desc02-sub > div:nth-child(3),
+    .cosproce-desc > .desc02 > .desc02-sub > div:last-child {
+        margin-bottom: 10px;
+    }
+
+    .cosproce-desc > .desc03 > .desc03-sub {
+        padding: 20px 10px;
+    }
+    .cosproce-desc > .desc04 > div > p {
+        font-size: 14px;
+    }
+}
+@media (max-width: 490px) {
+    .step1-desc > div:first-child > .img > img {
+        max-height: 110% !important;
+        width: initial !important;
+    }
+}
+@media (max-width: 450px) {
+    .auc-intro > div:first-child > div > .auc-img01 > img {
+        max-width: initial;
+        max-height: 100%;    
+    }
+    .howtobtn > ul > li > a {
+        font-size: 16px;
+    }
+    
+}
+
+
+    
+
+
+
+
+
+
+
+
+
+
+

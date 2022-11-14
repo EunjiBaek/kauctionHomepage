@@ -1,0 +1,1055 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    Layout = "_LayoutForLive";
+}
+<!--팝업창-->
+<div class="modal details" id="divBidHstList"></div>
+<!--//팝업창-->
+<!-- top -->
+<section id="top"></section>
+
+<section class="preparing" style="display:none;">
+    @L["Landding_Msg"]
+    <svg id="preparingImg" data-name="preparingImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301.51 301.51" width="270px" height="270px">
+        <defs>
+            <style>
+                .cls-1 {
+                    fill: #efefef;
+                }
+
+                .cls-2 {
+                    fill: #ccc;
+                }
+
+                .cls-3 {
+                    fill: #fff;
+                }
+
+                .cls-4 {
+                    fill: #e2e3e5;
+                }
+
+                .cls-5 {
+                    fill: #b6b6b6;
+                }
+            </style>
+        </defs>
+        <circle class="cls-1" cx="150.76" cy="150.76" r="150.76" />
+        <polygon class="cls-2" points="147.43 222.36 198.94 222.36 198.94 212.06 147.43 212.06 147.43 222.36" />
+        <polygon class="cls-3" points="95.92 222.36 147.43 222.36 147.43 212.06 95.92 212.06 95.92 222.36" />
+        <polygon class="cls-3" points="95.92 83.28 147.43 83.28 147.43 72.97 95.92 72.97 95.92 83.28" />
+        <polygon class="cls-2" points="142.28 83.28 198.94 83.28 198.94 72.97 142.28 72.97 142.28 83.28" />
+        <polygon class="cls-4" points="103.65 222.36 191.22 222.36 191.22 212.06 103.65 212.06 103.65 222.36" />
+        <polygon class="cls-4" points="103.65 83.28 191.22 83.28 191.22 72.97 103.65 72.97 103.65 83.28" />
+        <path class="cls-2" d="M178.08,168l-30.65-20.35v64.4h38.64V183.23a18.44,18.44,0,0,0-8-15.2" transform="translate(0 -0.02)" />
+        <path class="cls-3" d="M116.78,168l30.65-20.35v64.4H108.8V183.23a18.46,18.46,0,0,1,8-15.2" transform="translate(0 -0.02)" />
+        <path class="cls-3" d="M116.78,127.34l30.65,20.34V83.29H108.8v28.85a18.46,18.46,0,0,0,8,15.2" transform="translate(0 -0.02)" />
+        <path class="cls-4" d="M170.36,168l-22.93-20.35L124.51,168a17.82,17.82,0,0,0-8,15.2v28.85h61.81V183.23a18.46,18.46,0,0,0-8-15.2" transform="translate(0 -0.02)" />
+        <path class="cls-2" d="M147.43,83.29v64.39l30.65-20.34a17.83,17.83,0,0,0,8-15.2V83.29Z" transform="translate(0 -0.02)" />
+        <path class="cls-4" d="M124.51,127.34l22.92,20.34,22.93-20.34a17.82,17.82,0,0,0,8-15.2V83.29H116.53v28.85a18.46,18.46,0,0,0,8,15.2" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,137.38a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M157.74,132.23a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M142.28,132.23a2.58,2.58,0,1,1-2.57-2.57,2.43,2.43,0,0,1,2.57,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M134.55,127.08A2.58,2.58,0,1,1,132,124.5a2.43,2.43,0,0,1,2.57,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M165.46,127.08a2.58,2.58,0,1,1-2.57-2.58,2.43,2.43,0,0,1,2.57,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M173.19,121.93a2.58,2.58,0,1,1-2.58-2.58,2.43,2.43,0,0,1,2.58,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M126.83,121.93a2.58,2.58,0,1,1-2.58-2.58,2.43,2.43,0,0,1,2.58,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,127.08a2.58,2.58,0,1,1-2.58-2.58,2.43,2.43,0,0,1,2.58,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,158a2.58,2.58,0,1,1-2.58-2.58A2.43,2.43,0,0,1,150,158" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,165.71a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,173.44a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,181.17a2.58,2.58,0,1,1-2.58-2.58,2.43,2.43,0,0,1,2.58,2.58" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,188.89a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M150,196.62a2.58,2.58,0,1,1-2.58-2.57,2.44,2.44,0,0,1,2.58,2.57" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M199,225h-103a2.43,2.43,0,0,1-2.58-2.57v-10.3a2.44,2.44,0,0,1,2.58-2.58H199a2.43,2.43,0,0,1,2.57,2.58v10.3A2.43,2.43,0,0,1,199,225ZM98.5,219.8h97.87v-5.15H98.5Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M186.07,214.65H108.8a2.43,2.43,0,0,1-2.58-2.57V183.23A20.4,20.4,0,0,1,115.5,166h0l30.65-20.35a2.81,2.81,0,0,1,2.83,0L179.63,166a21.05,21.05,0,0,1,9.27,17.26v28.85A2.81,2.81,0,0,1,186.07,214.65Zm-74.7-5.15h72.12V183.23a15.33,15.33,0,0,0-7-12.88l-29.11-19.57-29.1,19.31a15.36,15.36,0,0,0-7,12.88V209.5Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M95.92,225H85.62a2.58,2.58,0,1,1,0-5.15h10.3a2.58,2.58,0,1,1,0,5.15Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M209.25,225H199a2.58,2.58,0,1,1,0-5.15h10.3a2.58,2.58,0,0,1,0,5.15Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M199,85.87h-103a2.44,2.44,0,0,1-2.58-2.58V73a2.43,2.43,0,0,1,2.58-2.57H199A2.43,2.43,0,0,1,201.52,73v10.3A2.43,2.43,0,0,1,199,85.87ZM98.5,80.72h97.87V75.57H98.5Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M147.43,150.26a3.62,3.62,0,0,1-1.54-.52L115.24,129.4A21,21,0,0,1,106,112.14V83.29a2.43,2.43,0,0,1,2.57-2.57h77.27a2.43,2.43,0,0,1,2.57,2.57v28.85a20.39,20.39,0,0,1-9.27,17.26l-30.65,20.34C148.46,150,148,150.26,147.43,150.26ZM111.37,85.87v26.27a15.34,15.34,0,0,0,7,12.88h0l29.1,19.57,29.11-19.31a15.35,15.35,0,0,0,7-12.88V85.87Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M95.92,75.57H85.62a2.58,2.58,0,1,1,0-5.15h10.3a2.58,2.58,0,1,1,0,5.15Z" transform="translate(0 -0.02)" />
+        <path class="cls-5" d="M209.25,75.57H199a2.58,2.58,0,1,1,0-5.15h10.3a2.58,2.58,0,0,1,0,5.15Z" transform="translate(0 -0.02)" />
+    </svg>
+</section>
+
+<!-- mid -->
+<section id="mid-content" style="display:none;">
+    <div class="container">
+        <div class="row">
+            <div class="content-sec">
+                <div class="left">
+                    <div class="left-tapbtn" id="div_snb_left_tabs">
+
+                    </div>
+                    <div class="tap-content" id="div_snb_left">
+
+                    </div>
+                </div>
+                <div class="mid">
+                    <div id="div_snb_mid_top"></div>
+
+                    <div class="mid-middle">
+                        <div class="video">
+
+                        </div>
+                        <div class="notice-all">
+                            <div class="notice">
+                                <span>NOTICE</span>
+                                <div id="notice_list">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                            <div class="notice-tooltip">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mid-bottom">
+                        <div class="midbt-btn">
+                            <ul>
+                                <li class="active"><a href="#">@L["Mid_Bottom_Tab_CurrLotInfo"]</a></li>
+                                <li><a href="#" onclick="LiveFunc.fn_mybid_list(); return false;" id="mybidhst">@L["Mid_Bottom_Tab_MyBidHst"]</a></li>
+                                <li><a href="#" onclick="LiveFunc.fn_wish_list(); return false;" id="mywishlist">@L["Mid_Bottom_Tab_MyWishList"]</a></li>
+                            </ul>
+                        </div>
+                        <div class="midbt-content">
+                            <div class="ct c1" id="tg_selected_lotinfo"></div>
+                            <div class="ct c2" id="tg_mybidlist"></div>
+                            <div class="ct c3" id="tg_mywishlist"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="col1" id="div_snb_right">
+
+                    </div>
+                    <div class="col2" id="div_snb_right_bidhst">
+                        <div class="list">
+                            <ul id="ul_snb_right_bidlist"></ul>
+                        </div>
+                        <p class="more" id="auc_bidhst_more">@L["Mid_Right_Bottom_ViewMore"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--footer-->
+<section id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer">
+                <address>
+                    Copyright © 2020 K Auction Co.,  LTD. All Rights Reserved.
+                </address>
+                <ul>
+                    <li><a href="@L["Gnb_Footer_Link_AucTerms"]" target="_blank">@L["Gnb_Footer_AucTerms"]</a></li>
+                    <li><a href="@L["Gnb_Footer_Link_OnlineAucTerms"]" target="_blank">@L["Gnb_Footer_OnlineAucTerms"]</a></li>
+                    <li><a href="@L["Gnb_Footer_Link_Home"]" target="_blank">@L["Gnb_Footer_GotoMain"]</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<input type="hidden" id="lot_num" />
+
+<!-- 템플릿 -->
+<script id="tp_header" type="text/template">
+    {{#rows}}
+    <!--top-->
+    <div class="container">
+        <div class="row">
+            <div class="header-wrap clearfix">
+                <h1>
+                    <a href="@L["Gnb_Footer_Link_Home"]" target="_blank"><img src="/img/live/logo.png" alt="logo"></a>
+                </h1>
+                <h2>
+                    {{auc_title}}
+                    <svg id="liveicon1" data-name="liveicon1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 13" width="35px" height="13px">
+                        <defs>
+                            <style>
+                                .liveicon1 {
+                                    fill: #f44e05;
+                                }
+                            </style>
+                        </defs>
+                        <path class="liveicon1" d="M12.36,3.6h.81V8.68h2.58V9.4H12.36Z" />
+                        <path class="liveicon1" d="M16.78,3.6h.81V9.4h-.81Z" />
+                        <path class="liveicon1" d="M18.47,3.6h.87l1.95,4.91L23.24,3.6h.85l-2.4,5.8h-.84Z" />
+                        <path class="liveicon1" d="M25,3.6h4.1v.72H25.78V6.11h2.94v.72H25.78V8.68h3.39V9.4H25Z" />
+                        <polygon class="liveicon1" points="10.52 6.5 5.83 3.84 5.83 9.16 10.52 6.5" />
+                        <path class="liveicon1" d="M28.38,13H6.62A6.57,6.57,0,0,1,0,6.5,6.57,6.57,0,0,1,6.62,0H28.38A6.57,6.57,0,0,1,35,6.5,6.57,6.57,0,0,1,28.38,13ZM6.62.93A5.63,5.63,0,0,0,1,6.5a5.63,5.63,0,0,0,5.67,5.57H28.38A5.63,5.63,0,0,0,34.05,6.5,5.63,5.63,0,0,0,28.38.93Z" />
+                    </svg>
+                </h2>
+                <div class="live-gnb">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                {{#isMyPaddleNum}}
+                                @L["Gnb_MyPaddleNum"]<span>#{{my_paddle_num}}</span>
+                                {{/isMyPaddleNum}}
+                                {{^isMyPaddleNum}}
+                                GUEST
+                                {{/isMyPaddleNum}}
+                            </a>
+                        </li>
+                        <li class="kor">
+                            <a href="#" class="op">
+                                <span>@(commonService.IsKor() ? "KOR" : "ENG")</span>
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                            <a href="#" class="close">
+                                <span>@(commonService.IsKor() ? "KOR" : "ENG")</span>
+                                <i class="fas fa-angle-up"></i>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#">KOR</a></li>
+                                <li><a href="#">ENG</a></li>
+                            </ul>
+                        </li>
+                        <li class="krw">
+                            <a href="#" class="op">
+                                <span>
+                                    {{#isKRW}}KRW{{/isKRW}}
+                                    {{#isUSD}}USD{{/isUSD}}
+                                    {{#isJPY}}JPY{{/isJPY}}
+                                    {{#isHKD}}HKD{{/isHKD}}
+                                    {{#isCNY}}CNY{{/isCNY}}
+                                    {{#isEUR}}EUR{{/isEUR}}
+                                </span>
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                            <a href="#" class="close">
+                                <span>
+                                    {{#isKRW}}KRW{{/isKRW}}
+                                    {{#isUSD}}USD{{/isUSD}}
+                                    {{#isJPY}}JPY{{/isJPY}}
+                                    {{#isHKD}}HKD{{/isHKD}}
+                                    {{#isCNY}}CNY{{/isCNY}}
+                                    {{#isEUR}}EUR{{/isEUR}}
+                                </span>
+                                <i class="fas fa-angle-up"></i>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#">KRW</a></li>
+                                <li><a href="#">USD</a></li>
+                                <li><a href="#">JPY</a></li>
+                                <li><a href="#">HKD</a></li>
+                                <li><a href="#">CNY</a></li>
+                                <li><a href="#">EUR</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            @if (commonService.IsLogin)
+                            {
+                                <a href="#" id="logout">@L["Gnb_Logout"]</a>
+                            }
+                            else
+                            {
+                                <a href="#" id="login">@L["Gnb_Login"]</a>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//top-->
+    {{/rows}}
+</script>
+
+<script id="tp_snb_left_tabs" type="text/template">
+    <ul>
+        {{#rows}}
+        <li><a href="#" data-t_num="{{t_num}}" data-t_seq="{{t_seq}}">{{t_name}}</a></li>
+        {{/rows}}
+    </ul>
+</script>
+
+<script id="tp_snb_left" type="text/template">
+    {{#rows}}
+    <div class="view t{{t_num}}" id="t_seq_{{t_seq}}" style="display:block;">
+        <ul>
+            {{#lotinfos}}
+            <li data-lot_num="{{lot_num}}" class="{{^successful_bid}}succ{{/successful_bid}}">
+                <div class="works-img lotinfoforselect" data-lot_num="{{lot_num}}" onclick="LiveFunc.fn_selected_lotinfo(event);">
+                    <img class="lazy lotinfoforselect" src="/img/live/list_noimg.jpg" data-src="{{img_file_name}}" onerror="this.src='/img/live/list_noimg.jpg'" alt="{{w_name}}" title="{{w_name}}" loading="lazy" data-lot_num="{{lot_num}}">
+                </div>
+                <div class="works-desc lotinfoforselect" data-lot_num="{{lot_num}}" onclick="LiveFunc.fn_selected_lotinfo(event);">
+                    <h6 data-lot_num="{{lot_num}}" class="lotinfoforselect">{{lot_num}}</h6>
+                    <p class="tit lotinfoforselect" data-lot_num="{{lot_num}}">{{a_name}}</p>
+                    <p class="sub-tit lotinfoforselect" data-lot_num="{{lot_num}}">{{w_name}}</p>
+                    <p class="price lotinfoforselect" data-lot_num="{{lot_num}}">
+                        {{^successful_bid}}
+                        @L["Mid_Left_SuccessBidPrice"] KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}
+                        {{/successful_bid}}
+                        {{#successful_bid}}
+                        KRW {{#PriceComma}}{{w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{w_high_price}}{{/PriceComma}}
+                        {{/successful_bid}}
+                    </p>
+                </div>
+                <div class="like" data-work_seq="{{work_seq}}">
+                    <a href="#" onclick="LiveFunc.fn_wish_insert();return false;" class="like" data-work_seq="{{work_seq}}">
+                        {{^isWish}}
+                        <img src="/img/live/invalid-name.png" alt="nomal image" class="like" data-work_seq="{{work_seq}}">
+                        {{/isWish}}
+                        {{#isWish}}
+                        <img src="/img/live/invalid-name2.png" class="like" data-work_seq="{{work_seq}}">
+                        {{/isWish}}
+                    </a>
+                </div>
+            </li>
+            {{/lotinfos}}
+        </ul>
+    </div>
+    {{/rows}}
+</script>
+
+<script id="tp_snb_left_row" type="text/template">
+    {{#rows}}
+    <li data-lot_num="{{lot_num}}" class="{{^successful_bid}}succ{{/successful_bid}}">
+        <div class="works-img lotinfoforselect" data-lot_num="{{lot_num}}" onclick="LiveFunc.fn_selected_lotinfo(event);">
+            <img class="lazy lotinfoforselect" src="/img/live/list_noimg.jpg" data-src="{{img_file_name}}" onerror="this.src='/img/live/list_noimg.jpg'" alt="{{w_name}}" title="{{w_name}}" loading="lazy" data-lot_num="{{lot_num}}">
+        </div>
+        <div class="works-desc lotinfoforselect" data-lot_num="{{lot_num}}" onclick="LiveFunc.fn_selected_lotinfo(event);">
+            <h6 data-lot_num="{{lot_num}}" class="lotinfoforselect">{{lot_num}}</h6>
+            <p class="tit lotinfoforselect" data-lot_num="{{lot_num}}">{{a_name}}</p>
+            <p class="sub-tit lotinfoforselect" data-lot_num="{{lot_num}}">{{w_name}}</p>
+            <p class="price lotinfoforselect" data-lot_num="{{lot_num}}">
+                {{^successful_bid}}
+                @L["Mid_Left_SuccessBidPrice"] KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}
+                {{/successful_bid}}
+                {{#successful_bid}}
+                KRW {{#PriceComma}}{{w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{w_high_price}}{{/PriceComma}}
+                {{/successful_bid}}
+            </p>
+        </div>
+        <div class="like" data-work_seq="{{work_seq}}">
+            <a href="#" onclick="LiveFunc.fn_wish_insert();return false;" class="like" data-work_seq="{{work_seq}}">
+                {{^isWish}}
+                <img src="/img/live/invalid-name.png" alt="nomal image" class="like" data-work_seq="{{work_seq}}">
+                {{/isWish}}
+                {{#isWish}}
+                <img src="/img/live/invalid-name2.png" class="like" data-work_seq="{{work_seq}}">
+                {{/isWish}}
+            </a>
+        </div>
+    </li>
+    {{/rows}}
+</script>
+
+
+
+<script id="tp_snb_right" type="text/template">
+    <div class="top">
+        <p><span>LOT {{lot_num}}</span></p>
+        <p><strong>{{lot_row_num}}</strong>/{{lot_total_cnt}}</p>
+    </div>
+
+    <div class="mid">
+        {{#lotinfo}}
+        <div class="img">
+            <img src="{{img_file_name}}" onerror="this.src='/img/live/list_noimg.jpg';" alt="{{w_name}}" title="{{w_name}}">
+        </div>
+        <div class="img-desc">
+            <p>{{a_name}}</p>
+            <p>{{w_name}}</p>
+            <p class="price">
+                KRW {{#PriceComma}}{{w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{w_high_price}}{{/PriceComma}}
+                {{#isUSD}}<br />USD {{#PriceComma}}{{usd_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{usd_w_high_price}}{{/PriceComma}}{{/isUSD}}
+                {{#isJPY}}<br />JPY {{#PriceComma}}{{jpy_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{jpy_w_high_price}}{{/PriceComma}}{{/isJPY}}
+                {{#isCNY}}<br />CNY {{#PriceComma}}{{cny_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{cny_w_high_price}}{{/PriceComma}}{{/isCNY}}
+                {{#isHKD}}<br />HKD {{#PriceComma}}{{hkd_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{hkd_w_high_price}}{{/PriceComma}}{{/isHKD}}
+                {{#isEUR}}<br />EUR {{#PriceComma}}{{eur_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{eur_w_high_price}}{{/PriceComma}}{{/isEUR}}
+            </p>
+        </div>
+        {{/lotinfo}}
+    </div>
+
+    <div class="bottom">
+        {{#isMyPaddleNum}}
+        <!--응찰하기-->
+        {{^successful_bid}}
+        <div class="bot b3">
+            <p>@L["Mid_Right_Msg_SoldPrc"]<br /><span>KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}</span></p>
+            <div class="btn">
+                <div class="button b1">
+                    <span>@L["Mid_Right_Msg_Sold"] {{#isSuccessPaddleNum}}(#{{successful_paddle_num}}){{/isSuccessPaddleNum}}</span>
+                </div>
+            </div>
+        </div>
+        {{/successful_bid}}
+
+        {{#successful_bid}}
+        {{#isStart}}
+        {{^isBidRestricted}}
+        <div class="bot b2">
+            <p>
+                {{#isBidHst}}@L["Mid_Right_Msg_CurrPrc"]{{/isBidHst}}<br />
+                <span>KRW {{#PriceComma}}{{bid_price}}{{/PriceComma}}</span>
+                {{#isUSD}}<br />(USD {{#PriceComma}}{{usd_bid_price}}{{/PriceComma}}){{/isUSD}}
+                {{#isJPY}}<br />(JPY {{#PriceComma}}{{jpy_bid_price}}{{/PriceComma}}){{/isJPY}}
+                {{#isCNY}}<br />(CNY {{#PriceComma}}{{cny_bid_price}}{{/PriceComma}}){{/isCNY}}
+                {{#isHKD}}<br />(HKD {{#PriceComma}}{{hkd_bid_price}}{{/PriceComma}}){{/isHKD}}
+                {{#isEUR}}<br />(EUR {{#PriceComma}}{{eur_bid_price}}{{/PriceComma}}){{/isEUR}}
+            </p>
+            <div class="btn">
+                <div class="button b1">
+                    <span>@L["Mid_Right_Msg_Restricted"] </span>
+                </div>
+            </div>
+        </div>
+        {{/isBidRestricted}}
+        {{#isBidRestricted}}
+        <div class="bot b1">
+            <p>
+                {{#isBidHst}}@L["Mid_Right_Msg_CurrPrc"]{{/isBidHst}}<br />
+                <span>KRW {{#PriceComma}}{{bid_price}}{{/PriceComma}}</span>
+                {{#isUSD}}<br>(USD {{#PriceComma}}{{usd_bid_price}}{{/PriceComma}}){{/isUSD}}
+                {{#isJPY}}<br>(JPY {{#PriceComma}}{{jpy_bid_price}}{{/PriceComma}}){{/isJPY}}
+                {{#isCNY}}<br>(CNY {{#PriceComma}}{{cny_bid_price}}{{/PriceComma}}){{/isCNY}}
+                {{#isHKD}}<br>(HKD {{#PriceComma}}{{hkd_bid_price}}{{/PriceComma}}){{/isHKD}}
+                {{#isEUR}}<br>(EUR {{#PriceComma}}{{eur_bid_price}}{{/PriceComma}}){{/isEUR}}
+            </p>
+            {{#isPreBid}}
+            <a href="#" class="btn" id="btnBidding"
+               data-bid_hst_seq="{{bid_hst_seq}}"
+               data-bid_reg_date="{{bid_reg_date}}"
+               data-bid_price="{{bid_price}}"
+               data-next_bid_price="{{next_bid_price}}" onclick="return false;">
+                <div class="button b1">
+                    <span>@L["Mid_Right_Btn_Bid"]</span>
+                    <span>
+                        KRW {{#PriceComma}}{{next_bid_price}}{{/PriceComma}}
+                        {{#isUSD}}<br>(USD {{#PriceComma}}{{usd_next_bid_price}}{{/PriceComma}}){{/isUSD}}
+                        {{#isJPY}}<br>(JPY {{#PriceComma}}{{jpy_next_bid_price}}{{/PriceComma}}){{/isJPY}}
+                        {{#isCNY}}<br>(CNY {{#PriceComma}}{{cny_next_bid_price}}{{/PriceComma}}){{/isCNY}}
+                        {{#isHKD}}<br>(HKD {{#PriceComma}}{{hkd_next_bid_price}}{{/PriceComma}}){{/isHKD}}
+                        {{#isEUR}}<br>(EUR {{#PriceComma}}{{eur_next_bid_price}}{{/PriceComma}}){{/isEUR}}
+                    </span>
+                </div>
+            </a>
+            {{/isPreBid}}
+            {{^isPreBid}}
+            <div class="btn">
+                <div class="button b1">
+                    <span>@L["Mid_Right_Msg_LotStat_A"]</span>
+                </div>
+                <div class="tooltip">@L["Mid_Right_Msg_LotStat_A_Desc"]</div>
+            </div>
+            {{/isPreBid}}
+        </div>
+        {{/isBidRestricted}}
+        {{/isStart}}
+        {{^isStart}}
+        <div class="bot b2">
+            <p>
+                {{#isBidHst}}@L["Mid_Right_Msg_CurrPrc"]{{/isBidHst}}<br />
+                <span>KRW {{#PriceComma}}{{bid_price}}{{/PriceComma}}</span>
+                {{#isUSD}}<br>(USD {{#PriceComma}}{{usd_bid_price}}{{/PriceComma}}){{/isUSD}}
+                {{#isJPY}}<br>(JPY {{#PriceComma}}{{jpy_bid_price}}{{/PriceComma}}){{/isJPY}}
+                {{#isCNY}}<br>(CNY {{#PriceComma}}{{cny_bid_price}}{{/PriceComma}}){{/isCNY}}
+                {{#isHKD}}<br>(HKD {{#PriceComma}}{{hkd_bid_price}}{{/PriceComma}}){{/isHKD}}
+                {{#isEUR}}<br>(EUR {{#PriceComma}}{{eur_bid_price}}{{/PriceComma}}){{/isEUR}}
+            </p>
+            <div class="btn">
+                <div class="button b1">
+                    @*{{#isAbsentee}}
+                        <span>@L["Mid_Right_Msg_LotStat_A"]</span>
+                        {{/isAbsentee}}*@
+                    {{#isSuccessBidIng}}
+                    <span>@L["Mid_Right_Msg_LotStat_N"]</span>
+                    {{/isSuccessBidIng}}
+                    {{#isPause}}
+                    <span>@L["Mid_Right_Msg_LotStat_P"]</span>
+                    {{/isPause}}
+                    {{#isWait}}
+                    <span>@L["Mid_Right_Msg_LotStat_W"]</span>
+                    {{/isWait}}
+                    {{#isFinish}}
+                    {{#isBidHst}}
+                    <span>@L["Mid_Right_Msg_LotStat_F"]</span>
+                    {{/isBidHst}}
+                    {{^isBidHst}}
+                    <span>@L["Mid_Right_Msg_Pass"]</span>
+                    {{/isBidHst}}
+                    {{/isFinish}}
+                </div>
+            </div>
+        </div>
+        {{/isStart}}
+        {{/successful_bid}}
+        {{/isMyPaddleNum}}
+
+        {{^isMyPaddleNum}}
+        <div class="bot b4">
+            {{^successful_bid}}
+            <p>@L["Mid_Right_Msg_SoldPrc"]<br /><span style="color: #f44e05;"><strong>KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}</strong></span></p>
+            {{/successful_bid}}
+            {{#successful_bid}}
+            <p>
+                {{#isBidHst}}@L["Mid_Right_Msg_CurrPrc"]{{/isBidHst}}<br />
+                <strong>KRW {{#PriceComma}}{{bid_price}}{{/PriceComma}}</strong>
+                {{#isUSD}}<br /><span>(USD {{#PriceComma}}{{usd_bid_price}}{{/PriceComma}})</span>{{/isUSD}}
+                {{#isJPY}}<br /><span>(JPY {{#PriceComma}}{{jpy_bid_price}}{{/PriceComma}})</span>{{/isJPY}}
+                {{#isCNY}}<br /><span>(CNY {{#PriceComma}}{{cny_bid_price}}{{/PriceComma}})</span>{{/isCNY}}
+                {{#isHKD}}<br /><span>(HKD {{#PriceComma}}{{hkd_bid_price}}{{/PriceComma}})</span>{{/isHKD}}
+                {{#isEUR}}<br /><span>(EUR {{#PriceComma}}{{eur_bid_price}}{{/PriceComma}})</span>{{/isEUR}}
+            </p>
+            {{/successful_bid}}
+            <div class="btn">
+                <div class="button b1">
+                    <span>VIEW ONLY</span>
+                </div>
+            </div>
+        </div>
+        {{/isMyPaddleNum}}
+    </div>
+</script>
+
+<script id="tp_snb_right_bidhst" type="text/template">
+    <li class="{{mybid}} {{isCancel}} {{successful_bid}}" data-bid_hst_seq="{{bid_hst_seq}}" data-bid_price="{{org_bid_price}}" data-bid_stat_cd="{{bid_stat_cd}}">
+        <div class="li-left">
+            <p>{{bid_reg_date}}</p>
+            <div class="num">
+                {{paddle_num}} {{bid_type_name}}
+                @(commonService.IsKor() ? "{{successful_ko_bid_img}}" : "{{successful_en_bid_img}}")
+                {{mybidlayer}}
+            </div>
+        </div>
+        <div class="li-right">
+            KRW {{bid_price}}
+        </div>
+    </li>
+</script>
+
+<script id="tp_snb_right_bidlist" type="text/template">
+    <div class="details-bg">
+        <div class="details-cont">
+            <p>LOT {{lot_num}}<span>{{total_cnt}}@L["Mid_Right_Bottom_Mdl_BidHst_Bids"]</span></p>
+            <ul>
+                {{#Table}}
+                <li {{#isCancel}} class="cancel" {{/isCancel}}>
+                    <div class="left">
+                        <p>{{#ConvertRegDate}}{{bid_reg_date}}{{/ConvertRegDate}}</p>
+                        <p class="field">
+                            {{paddle_num}}
+                            {{#ConvertBidTypeName}}{{bid_type_cd}}{{/ConvertBidTypeName}}
+                            @*{{#ConvertBidStatName}}{{bid_stat_cd}}{{/ConvertBidStatName}}*@
+                            {{^successful_bid}}
+                            @if (commonService.IsKor())
+                            {
+                                <img src="/img/live/suc2.png" srcset="/img/live/suc2.png 1x, /img/live/suc2@2x.png 2x, /img/live/suc2@3x.png 3x" alt="my bid">
+                            }
+                            else
+                            {
+                                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 13" width="23px" style="vertical-align: top;">
+                                    <defs>
+                                        <style>
+                                            .cls-1 {
+                                                fill: #de5456;
+                                                fill-rule: evenodd;
+                                            }
+
+                                            .cls-2, .cls-3 {
+                                                isolation: isolate;
+                                            }
+
+                                            .cls-3 {
+                                                font-size: 8px;
+                                                fill: #fff;
+                                                font-family: Arial-BoldMT, Arial;
+                                                font-weight: 700;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <path class="cls-1" d="M6.5,0h10A6.5,6.5,0,0,1,23,6.5h0A6.5,6.5,0,0,1,16.5,13H6.5A6.5,6.5,0,0,1,0,6.5H0A6.5,6.5,0,0,1,6.5,0Z" transform="translate(0 0)" />
+                                    <g class="cls-2"><text class="cls-3" transform="translate(3.4 9)">Sold</text></g>
+                                </svg>
+                            }
+                            {{/successful_bid}}
+                            {{#ConvertMyBid}}{{paddle_num}}{{/ConvertMyBid}}
+                        </p>
+                    </div>
+                    <p class="right">KRW {{#PriceComma}}{{bid_price}}{{/PriceComma}}</p>
+                </li>
+                {{/Table}}
+                {{^Table}}
+                <li>
+                    <div style="width:100%;text-align:center;">
+                        <p>@L["Mid_Right_Bottom_BidHst_Empty"]</p>
+                    </div>
+                </li>
+                {{/Table}}
+            </ul>
+
+            <a href="#" class="close">
+                <span></span>
+                <span></span>
+            </a>
+        </div>
+    </div>
+</script>
+
+<script id="tp_lotinfo" type="text/template">
+    {{#.}}
+    <p class="move">{{^isCurrLot}}<i class="xi-angle-left-min"></i><span id="curr_lot_num" onclick="LiveFunc.fn_selected_lotinfo(event);">@L["Mid_Bottom_Tab_CurrLotInfo_GotoCurr"]</span>{{/isCurrLot}}</p>
+    <div class="work">
+        <div class="work-img">
+            <img src="{{img_file_name}}" onerror="this.src='/img/live/list_noimg.jpg'" alt="{{w_name}}" title="{{w_name}}">
+        </div>
+        <div class="work-desc">
+            <h6 class="num">{{lot_num}}</h6>
+            <p class="write">{{a_name}}</p>
+            <p class="write-tit">{{w_name}}</p>
+            <p class="write-sub">{{w_make_date}} | {{w_unit}}<br />{{w_size}}</p>
+            <div class="price">
+                {{^successful_bid}}
+                <span style="color: #f44e05;"><strong>@L["Mid_Left_SuccessBidPrice"] KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}</strong></span>
+                {{/successful_bid}}
+                {{#successful_bid}}
+                KRW {{#PriceComma}}{{w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{w_high_price}}{{/PriceComma}}<br />
+                {{#isUSD}}<span>USD {{#PriceComma}}{{usd_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{usd_w_high_price}}{{/PriceComma}}</span>{{/isUSD}}
+                {{#isJPY}}<span>JPY {{#PriceComma}}{{jpy_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{jpy_w_high_price}}{{/PriceComma}}</span>{{/isJPY}}
+                {{#isCNY}}<span>CNY {{#PriceComma}}{{cny_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{cny_w_high_price}}{{/PriceComma}}</span>{{/isCNY}}
+                {{#isHKD}}<span>HKD {{#PriceComma}}{{hkd_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{hkd_w_high_price}}{{/PriceComma}}</span>{{/isHKD}}
+                {{#isEUR}}<span>EUR {{#PriceComma}}{{eur_w_low_price}}{{/PriceComma}} ~ {{#PriceComma}}{{eur_w_high_price}}{{/PriceComma}}</span>{{/isEUR}}
+                {{/successful_bid}}
+            </div>
+            <div class="detail-btn"><a href="/Auction/Major/@ViewBag.AucNum/{{work_seq}}" target="_blank" title="{{w_name}}">@L["Mid_Bottom_Tab_CurrLotInfo_GotoDetail"]</a></div>
+        </div>
+    </div>
+    {{/.}}
+</script>
+
+<script id="tp_mybidlist" type="text/template">
+    <!--응찰한 내역이 있을때-->
+    <div class="board-list">
+        <table class="board-table" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th scope="col" class="th-lot">@L["Mid_Bottom_Tab_MyBidHst_Table_Col1"]</th>
+                    <th scope="col" class="th-write">@L["Mid_Bottom_Tab_MyBidHst_Table_Col2"]</th>
+                    <th scope="col" class="th-tit">@L["Mid_Bottom_Tab_MyBidHst_Table_Col3"]</th>
+                    <th scope="col" class="th-date">@L["Mid_Bottom_Tab_MyBidHst_Table_Col4"]</th>
+                    <th scope="col" class="th-price">@L["Mid_Bottom_Tab_MyBidHst_Table_Col5"]</th>
+                    <th scope="col" class="th-ing">@L["Mid_Bottom_Tab_MyBidHst_Table_Col6"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#Table}}
+                <tr>
+                    <td>{{lot_num}}</td>
+                    <td>{{a_name}}</td>
+                    <td class="content"><div><span>{{w_name}}</span></div></td>
+                    <td>{{#DateTme}}{{bid_reg_date}}{{/DateTme}}</td>
+                    <td class="price">{{#PriceComma}}{{bid_price}}{{/PriceComma}}</td>
+                    {{^successful_bid}}
+                    @if (!commonService.IsKor())
+                    {
+                        <td class="sold">
+                            <svg id="soldico" data-name="soldico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.87 45.35" width="31px" height="16px">
+                                <defs>
+                                    <style>
+                                        .soldico1 {
+                                            fill: #f44e05;
+                                        }
+
+                                        .soldico2 {
+                                            fill: #fff;
+                                        }
+                                    </style>
+                                </defs>
+                                <rect class="soldico1" width="87.87" height="45.35" rx="22.05" />
+                                <path class="soldico2" d="M28.76,32A6,6,0,0,1,27,33.28a6.62,6.62,0,0,1-2.31.63,8.75,8.75,0,0,1-1.45,0,14.8,14.8,0,0,1-1.54-.17c-.5-.08-.95-.18-1.36-.27a4.69,4.69,0,0,1-.88-.29,1.6,1.6,0,0,1-.48-.28c-.06-.07-.07-.2,0-.4l.19-2a.35.35,0,0,1,.13-.27c.08,0,.21,0,.41.08a8,8,0,0,0,.92.31,10.53,10.53,0,0,0,1.33.3,12,12,0,0,0,1.47.15A5.12,5.12,0,0,0,24.7,31a3.86,3.86,0,0,0,1.27-.5,2.62,2.62,0,0,0,.78-.73,2.58,2.58,0,0,0,.39-.92,5,5,0,0,0,.11-1,2.67,2.67,0,0,0-.67-1.41,6.23,6.23,0,0,0-1.9-1.63c-1-.59-1.89-1.15-2.63-1.66a11.36,11.36,0,0,1-1.83-1.53A5.48,5.48,0,0,1,19.15,20a4.54,4.54,0,0,1-.35-1.79,5,5,0,0,1,.47-2.12,5.72,5.72,0,0,1,1.3-1.78,6.32,6.32,0,0,1,2-1.2,6.9,6.9,0,0,1,2.53-.45,12.33,12.33,0,0,1,2.32.18,10.31,10.31,0,0,1,1.55.42.71.71,0,0,1,.37.23.4.4,0,0,1,0,.31L29,15.5a.68.68,0,0,1-.18.41q-.12.11-.42,0c-.27-.09-.56-.18-.89-.26s-.66-.15-1-.2a8.81,8.81,0,0,0-1-.11,3.86,3.86,0,0,0-.85,0,3.33,3.33,0,0,0-2.13,1,2.89,2.89,0,0,0-.61,1.88,2.44,2.44,0,0,0,.71,1.5,8.18,8.18,0,0,0,2.06,1.64c1.13.68,2.07,1.3,2.8,1.84a10.13,10.13,0,0,1,1.73,1.56,4.53,4.53,0,0,1,.89,1.5,5.1,5.1,0,0,1,.26,1.65A5.65,5.65,0,0,1,28.76,32Z" transform="translate(0 0)" />
+                                <path class="soldico2" d="M45.44,31.37a6.49,6.49,0,0,1-2.33,1.85,7,7,0,0,1-3.06.64A7.24,7.24,0,0,1,37,33.24a6.48,6.48,0,0,1-2.22-1.71A7.43,7.43,0,0,1,33.43,29a10.86,10.86,0,0,1,0-6.12,7.33,7.33,0,0,1,1.34-2.5A6.39,6.39,0,0,1,37,18.7a7.89,7.89,0,0,1,6.13,0,6.25,6.25,0,0,1,2.22,1.69,7.17,7.17,0,0,1,1.34,2.5A10.2,10.2,0,0,1,47.12,26a9.91,9.91,0,0,1-.44,3A7.34,7.34,0,0,1,45.44,31.37ZM40.05,20.73a3.5,3.5,0,0,0-1.83.46A3.88,3.88,0,0,0,37,22.39a5.53,5.53,0,0,0-.73,1.68,7.19,7.19,0,0,0,0,3.76,5.64,5.64,0,0,0,.73,1.7,3.84,3.84,0,0,0,1.25,1.22,3.6,3.6,0,0,0,1.83.46,3.55,3.55,0,0,0,1.83-.46,4,4,0,0,0,1.26-1.22,5.9,5.9,0,0,0,.73-1.7A7.51,7.51,0,0,0,44.11,26a7.4,7.4,0,0,0-.24-1.85,5.78,5.78,0,0,0-.73-1.68,4.08,4.08,0,0,0-1.26-1.22A3.46,3.46,0,0,0,40.05,20.73Z" transform="translate(0 0)" />
+                                <path class="soldico2" d="M50.45,33.48q-.3,0-.3-.33V11.82a.32.32,0,0,1,.09-.23.33.33,0,0,1,.23-.09h2.28a.31.31,0,0,1,.32.32V33.15a.32.32,0,0,1-.09.23.29.29,0,0,1-.23.1Z" transform="translate(0 0)" />
+                                <path class="soldico2" d="M66.58,33.51c-.27,0-.4-.15-.4-.44V32a4.2,4.2,0,0,1-1.6,1.28,4.87,4.87,0,0,1-2.14.51,5.92,5.92,0,0,1-2.61-.55,5.28,5.28,0,0,1-1.95-1.6,7.4,7.4,0,0,1-1.22-2.52,12.35,12.35,0,0,1-.42-3.36,12,12,0,0,1,.43-3.28A7.41,7.41,0,0,1,57.91,20a5.46,5.46,0,0,1,2-1.59,5.69,5.69,0,0,1,2.58-.57,4.88,4.88,0,0,1,2,.43,5.26,5.26,0,0,1,1.7,1.22V11.77a.48.48,0,0,1,.06-.29.43.43,0,0,1,.26-.06h2.22a.3.3,0,0,1,.35.35v21.3a.39.39,0,0,1-.13.33.48.48,0,0,1-.3.11ZM62.74,20.62A2.88,2.88,0,0,0,60.17,22a6.92,6.92,0,0,0-.9,3.82,7,7,0,0,0,.92,4,2.94,2.94,0,0,0,2.55,1.33,2.73,2.73,0,0,0,1.33-.35,3.42,3.42,0,0,0,1.09-1,5.19,5.19,0,0,0,.75-1.66,8.59,8.59,0,0,0,.27-2.26,6.84,6.84,0,0,0-.91-3.9A2.94,2.94,0,0,0,62.74,20.62Z" transform="translate(0 0)" />
+                            </svg>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="bidsuccess">
+                            <svg id="bidsucico" data-name="bidsucico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.87 45.35" width="31px" height="16px">
+                                <defs>
+                                    <style>
+                                        .bidsucico1 {
+                                            fill: #f44e05;
+                                        }
+
+                                        .bidsucico2 {
+                                            fill: #fff;
+                                        }
+                                    </style>
+                                </defs>
+                                <rect class="bidsucico1" width="87.87" height="45.35" rx="22.05" />
+                                <path class="bidsucico2" d="M33.88,21.65a.46.46,0,0,1-.23.12,21.79,21.79,0,0,1-2.76.54c-1,.15-2.07.26-3.13.34s-2.09.14-3.1.16-1.91,0-2.71,0a2.1,2.1,0,0,1-1.55-.53A2.19,2.19,0,0,1,20,20.85V11.29a.41.41,0,0,1,.12-.27.33.33,0,0,1,.25-.13h2.33A.37.37,0,0,1,23,11a.41.41,0,0,1,.12.27v8.45c0,.18,0,.29.11.34a.93.93,0,0,0,.4.09q.87.06,2,0c.75,0,1.55-.06,2.39-.12s1.7-.15,2.57-.26,1.74-.25,2.59-.43a.47.47,0,0,1,.3,0,.27.27,0,0,1,.19.2L34,21.39A.28.28,0,0,1,33.88,21.65Zm4.3,13.72a.33.33,0,0,1-.25.13H35.6a.39.39,0,0,1-.29-.13.35.35,0,0,1-.12-.25V28.76c0-.18,0-.3-.11-.36a.65.65,0,0,0-.37-.08H22.47a.48.48,0,0,1-.27-.09.29.29,0,0,1-.14-.23V26.05a.29.29,0,0,1,.14-.25.56.56,0,0,1,.27-.08H36.52a1.84,1.84,0,0,1,1.41.44,2.22,2.22,0,0,1,.38,1.46v7.5A.33.33,0,0,1,38.18,35.37Zm4.09-16.58a.38.38,0,0,1-.26.11H38.33V24a.31.31,0,0,1-.35.35H35.57c-.23,0-.35-.13-.35-.38V10.21a.31.31,0,0,1,.35-.35H38a.31.31,0,0,1,.35.35V16.3H42a.37.37,0,0,1,.26.1.3.3,0,0,1,.12.25v1.9A.31.31,0,0,1,42.27,18.79Z" />
+                                <path class="bidsucico2" d="M45.29,24.48a.68.68,0,0,1-.35,0,.57.57,0,0,1-.35-.3l-.68-1.35a.38.38,0,0,1,0-.41.56.56,0,0,1,.33-.27A26.9,26.9,0,0,0,46.91,21a23.14,23.14,0,0,0,2.47-1.41,16,16,0,0,0,2-1.54,8,8,0,0,0,1.39-1.61.71.71,0,0,0,.12-.28c0-.09-.13-.13-.42-.13h-7a.32.32,0,0,1-.28-.12.4.4,0,0,1-.1-.28V13.89c0-.23.14-.35.41-.35h9.07a3.7,3.7,0,0,1,1.66.3,1,1,0,0,1,.58,1,2.13,2.13,0,0,1-.13.69,4.46,4.46,0,0,1-.3.69,10.43,10.43,0,0,1-.8,1.31,9.91,9.91,0,0,1-1,1.26,18.47,18.47,0,0,0,2.06,1.38,12.12,12.12,0,0,0,2,1c.2.07.31.17.34.31a.67.67,0,0,1-.1.45L58.1,23.2a.59.59,0,0,1-.84.25,8,8,0,0,1-1.07-.52c-.39-.21-.79-.45-1.19-.71s-.81-.54-1.21-.84-.77-.59-1.11-.88a22.77,22.77,0,0,1-3.42,2.26A25.58,25.58,0,0,1,45.29,24.48ZM54.4,12.11a.39.39,0,0,1-.31.13H47.75a.48.48,0,0,1-.25-.11.34.34,0,0,1-.15-.3V10.35a.34.34,0,0,1,.15-.3.48.48,0,0,1,.25-.11h6.34a.46.46,0,0,1,.43.43v1.44A.44.44,0,0,1,54.4,12.11Zm10,23.26a.32.32,0,0,1-.23.13H49.73a2,2,0,0,1-1.45-.41,1.79,1.79,0,0,1-.39-1.27V31a1.75,1.75,0,0,1,.38-1.25,2,2,0,0,1,1.43-.38H60.42q.26,0,.3-.06a.55.55,0,0,0,.06-.32v-.62c0-.2,0-.31-.06-.35s-.14,0-.32,0H48.24a.45.45,0,0,1-.28-.1.28.28,0,0,1-.12-.23V25.8a.31.31,0,0,1,.12-.24.41.41,0,0,1,.28-.11h13.7a2.27,2.27,0,0,1,1.5.35,1.77,1.77,0,0,1,.37,1.3V30a1.77,1.77,0,0,1-.37,1.3,2.27,2.27,0,0,1-1.5.35H51.3c-.14,0-.24,0-.28.08A.44.44,0,0,0,51,32v.73c0,.18,0,.28.07.31a.68.68,0,0,0,.31,0H64.11a.4.4,0,0,1,.25.09.32.32,0,0,1,.12.26v1.71A.35.35,0,0,1,64.36,35.37Zm3.39-16.79a.43.43,0,0,1-.29.1H63.81v5.17a.32.32,0,0,1-.35.36H61.05c-.24,0-.36-.13-.36-.38V10.21a.32.32,0,0,1,.36-.35h2.41a.31.31,0,0,1,.35.35v5.88h3.65a.48.48,0,0,1,.29.09.28.28,0,0,1,.12.23v1.92A.35.35,0,0,1,67.75,18.58Z" />
+                            </svg>
+                        </td>
+                    }
+                    {{/successful_bid}}
+                    {{#successful_bid}}
+                    <td>{{#ConvertBidStatName}}{{bid_stat_cd}}{{/ConvertBidStatName}}</td>
+                    {{/successful_bid}}
+                </tr>
+                {{/Table}}
+                {{^Table}}
+                <tr>
+                    <td colspan="6">@L["Mid_Bottom_Tab_MyBidHst_Empty"]</td>
+                </tr>
+                {{/Table}}
+            </tbody>
+        </table>
+    </div>
+
+</script>
+
+<script id="tp_mywishlist" type="text/template">
+    {{#hasRows}}
+    <div class="like-list">
+        {{#Rows}}
+        <div class="box {{^successful_bid}}succ{{/successful_bid}}">
+            <div class="img">
+                <img src="{{#ImagePath}}{{work_seq}}{{/ImagePath}}" onerror="this.src='/img/live/list_noimg.jpg'" alt="{{w_name}}" title="{{w_name}}">
+            </div>
+            <div class="img-desc">
+                <h6 class="num">{{lot_num}}</h6>
+                <p class="wirte">{{a_name}}</p>
+                <p class="work">{{w_name}}</p>
+                <p class="price">
+                    {{^successful_bid}}
+                    @L["Mid_Left_SuccessBidPrice"] KRW {{#PriceComma}}{{successful_bid_price}}{{/PriceComma}}
+                    {{/successful_bid}}
+                    {{#successful_bid}}
+                    KRW {{#PriceComma}}{{w_low_price}}{{/PriceComma}}~ {{#PriceComma}}{{w_high_price}}{{/PriceComma}}
+                    {{/successful_bid}}
+                </p>
+                <p class="info">
+                    <a href="/Auction/Major/@ViewBag.AucNum/{{work_seq}}" target="_blank" title="{{w_name}}">@L["Mid_Bottom_Tab_MyWishList_GotoDetail"]</a>
+                </p>
+                <div class="like" data-work_seq="{{work_seq}}">
+                    <a href="#" onclick="LiveFunc.fn_wish_insert();return false;" data-work_seq="{{work_seq}}"><img src="/img/live/invalid-name2.png" srcset="/img/live/invalid-name2.png 1x, /img/live/invalid-name2@2x.png 2x, /img/live/invalid-name2@3x.png 3x" alt="nomal image" class="like" data-work_seq="{{work_seq}}"></a>
+                </div>
+            </div>
+        </div>
+        {{/Rows}}
+    </div>
+    {{/hasRows}}
+    {{^hasRows}}
+    <div class="not">
+        <div>
+            <p>@L["Mid_Bottom_Tab_MyWishList_Empty"]</p>
+        </div>
+    </div>
+    {{/hasRows}}
+</script>
+
+<script id="tp_snb_mid_top" type="text/template">
+    {{#isAllow}}
+    <div class="mid-top m3">
+        <div class="mid-left">
+            <span>@L["Mid_Top_AucStatNm_A"]</span>
+        </div>
+        {{/isAllow}}
+        {{#isStart}}
+        <div class="mid-top m1">
+            <div class="mid-left">
+                <svg id="livetv1" data-name="livetv1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.52 38.65" width="15px" height="13.5px">
+                    <defs>
+                        <style>
+                            .livetv1 {
+                                fill: #fff;
+                            }
+
+                            .livetv2 {
+                                fill: #f44e05;
+                            }
+                        </style>
+                    </defs>
+                    <path class="livetv1" d="M38.65,7.73H24l6.36-6.36L29,0,21.26,7.73H21.2L13.47,0,12.14,1.37l6.34,6.36H3.87A3.88,3.88,0,0,0,0,11.6V34.79a3.88,3.88,0,0,0,3.87,3.86H38.65a3.88,3.88,0,0,0,3.87-3.86V11.6A3.88,3.88,0,0,0,38.65,7.73Zm0,27.06H3.87V11.6H38.65Z" transform="translate(0 0)" />
+                    <rect class="livetv2 ani" x="3.87" y="11.6" width="34.79" height="23.19" />
+                    <polygon class="livetv1 ani" points="15.46 15.46 15.46 30.92 28.99 23.19 15.46 15.46" />
+                </svg>
+                <span>@L["Mid_Top_AucStatNm_S"]</span>
+            </div>
+            {{/isStart}}
+            {{#isPause}}
+            <div class="mid-top m4">
+                <div class="mid-left">
+                    <span>@L["Mid_Top_AucStatNm_P"]</span>
+                </div>
+                {{/isPause}}
+                {{#isFinish}}
+                <div class="mid-top m3">
+                    <div class="mid-left">
+                        <span>@L["Mid_Top_AucStatNm_F"]</span>
+                    </div>
+                    {{/isFinish}}
+                    <div class="mid-right">
+                        <p>{{auc_date}}</p>
+                        <div id="video_onoff">
+                            <img src="{{videoOnOffImg}}" onerror="this.src='/img/live/invalid-name4.png';" alt="nomal image" class="live l2">
+                        </div>
+                    </div>
+                </div>
+</script>
+
+<script type="application/json" id="jsonAuctionInfo">
+    @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.None, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore }))
+</script>
+
+<script id="tp_player_flash" type="text/template">
+    <div class="video-container">
+        <UnrealHTML5VideoPlayer id="RtcPlayer"></UnrealHTML5VideoPlayer>
+    </div>
+</script>
+
+<script id="tp_player_webrtc" type="text/template">
+    <div class="video-container">
+        <video id="RtcPlayer" style="background-color:black" width="588" height="320" autoplay playsinline controls></video>
+    </div>
+</script>
+
+<script id="tp_player_message" type="text/template">
+    <div class="stop">
+        <div>
+            {{#isShowPlay}}
+            <a href="#" onclick="LiveFunc.fn_video_load();">
+                <svg id="playico" data-name="playico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32px" height="32px">
+                    <defs>
+                        <style>
+                            .playico {
+                                fill: #fff;
+                                opacity: 0.8;
+                                isolation: isolate;
+                            }
+                        </style>
+                    </defs>
+                    <path class="playico" d="M16,0A16,16,0,1,0,32,16,16,16,0,0,0,16,0ZM11.5,23.2V9.6l11.9,6.8Z" transform="translate(0 0)" />
+                </svg>
+            </a>
+            {{/isShowPlay}}
+
+            {{#isShowStop}}
+            <svg id="stopico" data-name="stopico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.8 18.8" width="32px" height="32px" opacity="0.8">
+                <defs>
+                    <style>
+                        .stopico {
+                            fill: #fff;
+                        }
+                    </style>
+                </defs>
+                <path class="stopico" d="M9.4,0a9.4,9.4,0,1,0,9.4,9.4A9.4,9.4,0,0,0,9.4,0ZM8.46,13.16H6.58V5.64H8.46Zm3.76,0H10.34V5.64h1.88Z" />
+            </svg>
+            {{/isShowStop}}
+
+            {{#isShowThank}}
+            <svg id="thankico" data-name="thankico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 52.12" width="74px" height="52px" opacity="0.8">
+                <defs>
+                    <style>
+                        .thankico {
+                            fill: #fff;
+                        }
+                    </style>
+                </defs>
+                <rect class="thankico" x="23.84" y="26.32" width="15.73" height="2.67" />
+                <rect class="thankico" x="26.69" y="11.47" width="5.24" height="10.48" transform="translate(-3.23 25.62) rotate(-45)" />
+                <rect class="thankico" x="37.95" y="3.58" width="5.24" height="26.31" transform="translate(0.05 33.59) rotate(-45)" />
+                <rect class="thankico" x="37.9" y="0.32" width="5.24" height="10.48" transform="translate(7.94 30.28) rotate(-45)" />
+                <polygon class="thankico" points="0 44.2 3.08 44.2 3.08 52.02 3.91 52.02 3.91 44.2 6.99 44.2 6.99 43.38 0 43.38 0 44.2" />
+                <polygon class="thankico" points="14.8 47.29 9.35 47.29 9.35 43.38 8.43 43.38 8.43 52.02 9.35 52.02 9.35 48.11 14.8 48.11 14.8 52.02 15.62 52.02 15.62 43.38 14.8 43.38 14.8 47.29" />
+                <path class="thankico" d="M21.07,43.38,17.16,52h.93l1-2.27H24L25,52h.93L22,43.38ZM19.42,49l2.06-4.63L23.54,49Z" />
+                <polygon class="thankico" points="33.61 50.37 28.06 43.38 27.34 43.38 27.34 52.02 28.26 52.02 28.26 45.03 33.81 52.02 34.53 52.02 34.53 43.38 33.61 43.38 33.61 50.37" />
+                <polygon class="thankico" points="44.4 43.38 43.37 43.38 38.23 48.62 38.23 43.38 37.31 43.38 37.31 52.02 38.23 52.02 38.23 49.76 39.98 48.01 43.58 52.02 44.61 52.02 40.6 47.29 44.4 43.38" />
+                <polygon class="thankico" points="51.9 48.21 48.92 43.38 48 43.38 51.39 49.03 51.39 52.02 52.31 52.02 52.31 49.03 55.71 43.38 54.88 43.38 51.9 48.21" />
+                <path class="thankico" d="M62.9,43.9a4.42,4.42,0,0,0-2.26-.62,4.82,4.82,0,0,0-2.37.62,4.77,4.77,0,0,0-1.64,1.54A4.14,4.14,0,0,0,56,47.7,4.42,4.42,0,0,0,56.63,50a4,4,0,0,0,1.64,1.54,5.72,5.72,0,0,0,2.37.62,3.93,3.93,0,0,0,2.26-.62A4.68,4.68,0,0,0,64.54,50a4.08,4.08,0,0,0,.62-2.26,4.32,4.32,0,0,0-.62-2.26A4.68,4.68,0,0,0,62.9,43.9Zm.82,5.65a3.18,3.18,0,0,1-1.33,1.23,3.84,3.84,0,0,1-1.85.52,3.52,3.52,0,0,1-1.85-.52,3.87,3.87,0,0,1-1.34-1.23,3.52,3.52,0,0,1-.51-1.85,3.83,3.83,0,0,1,.51-1.85,3.09,3.09,0,0,1,1.34-1.23,4.28,4.28,0,0,1,3.7,0,3.83,3.83,0,0,1,1.33,1.23,3.55,3.55,0,0,1,0,3.7Z" />
+                <path class="thankico" d="M73.28,43.38v4.94a3,3,0,0,1-.72,2.26,3,3,0,0,1-3.9,0,3.46,3.46,0,0,1-.72-2.26V43.38H67v4.94a3.75,3.75,0,0,0,.93,2.77,4,4,0,0,0,5.14,0A3.79,3.79,0,0,0,74,48.32V43.38Z" />
+            </svg>
+            {{/isShowThank}}
+
+            {{#isShowNext}}
+            <svg id="continueico" data-name="continueico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 51.38" width="140px" height="52px" opacity="0.8">
+                <defs>
+                    <style>
+                        .continueico {
+                            fill: #fff;
+                        }
+                    </style>
+                </defs>
+                <rect class="continueico" x="56.83" y="25.84" width="15.44" height="2.62" />
+                <rect class="continueico" x="70.68" y="3.51" width="5.15" height="25.84" transform="translate(9.83 56.61) rotate(-45)" />
+                <rect class="continueico" x="70.64" y="0.31" width="5.15" height="10.3" transform="translate(17.58 53.37) rotate(-45)" />
+                <rect class="continueico" x="59.63" y="11.26" width="5.15" height="10.3" transform="translate(6.62 48.79) rotate(-45)" />
+                <polygon class="continueico" points="9.19 49.97 6.76 42.6 5.85 42.6 3.33 49.97 0.91 42.6 0 42.6 2.83 51.08 3.84 51.08 6.26 43.91 8.78 51.08 9.69 51.08 12.62 42.6 11.71 42.6 9.19 49.97" />
+                <rect class="continueico" x="14.23" y="42.6" width="0.91" height="8.48" />
+                <polygon class="continueico" points="18.77 42.6 17.87 42.6 17.87 51.08 23.52 51.08 23.52 50.37 18.77 50.37 18.77 42.6" />
+                <polygon class="continueico" points="25.94 42.6 25.03 42.6 25.03 51.08 30.68 51.08 30.68 50.37 25.94 50.37 25.94 42.6" />
+                <path class="continueico" d="M37.25,43.81a3.49,3.49,0,0,1,1.81-.51,3.39,3.39,0,0,1,2.53,1l.6-.6a3.74,3.74,0,0,0-1.31-.91,4.9,4.9,0,0,0-4,.3,4.71,4.71,0,0,0-1.61,1.52,4.34,4.34,0,0,0,0,4.44,3.36,3.36,0,0,0,1.61,1.51,4.29,4.29,0,0,0,2.22.61,4.78,4.78,0,0,0,1.72-.3A4.43,4.43,0,0,0,42.19,50l-.6-.61a3.21,3.21,0,0,1-2.53,1,3.49,3.49,0,0,1-1.81-.5,3.86,3.86,0,0,1-1.32-1.22,3.49,3.49,0,0,1-.5-1.81,3.82,3.82,0,0,1,.5-1.82A3.11,3.11,0,0,1,37.25,43.81Z" />
+                <path class="continueico" d="M49.76,43.1a4.33,4.33,0,0,0-2.22-.6,4.66,4.66,0,0,0-3.94,2.12,4.08,4.08,0,0,0-.6,2.22,4.35,4.35,0,0,0,.6,2.22,3.94,3.94,0,0,0,1.62,1.51,4.37,4.37,0,0,0,2.32.61,3.78,3.78,0,0,0,2.22-.61,4.72,4.72,0,0,0,1.62-1.51,4.41,4.41,0,0,0,0-4.44A4.75,4.75,0,0,0,49.76,43.1Zm.91,5.55a3.11,3.11,0,0,1-1.31,1.22,3.82,3.82,0,0,1-1.82.5,3.53,3.53,0,0,1-1.82-.5,3.92,3.92,0,0,1-1.31-1.22,3.49,3.49,0,0,1-.5-1.81,3.82,3.82,0,0,1,.5-1.82,3.15,3.15,0,0,1,1.31-1.21,4.34,4.34,0,0,1,3.64,0A3.8,3.8,0,0,1,50.67,45a3.53,3.53,0,0,1,.51,1.82A5,5,0,0,1,50.67,48.65Z" />
+                <polygon class="continueico" points="60.16 49.46 54.71 42.6 54 42.6 54 51.08 54.91 51.08 54.91 44.21 60.36 51.08 61.07 51.08 61.07 42.6 60.16 42.6 60.16 49.46" />
+                <polygon class="continueico" points="62.48 43.41 65.51 43.41 65.51 51.08 66.42 51.08 66.42 43.41 69.34 43.41 69.34 42.6 62.48 42.6 62.48 43.41" />
+                <rect class="cls-1" x="70.76" y="42.6" width="0.91" height="8.48" />
+                <polygon class="continueico" points="80.65 49.46 75.2 42.6 74.49 42.6 74.49 51.08 75.4 51.08 75.4 44.21 80.85 51.08 81.56 51.08 81.56 42.6 80.65 42.6 80.65 49.46" />
+                <path class="continueico" d="M90.34,47.44a2.92,2.92,0,0,1-.71,2.22,2.94,2.94,0,0,1-3.83,0,3.38,3.38,0,0,1-.71-2.22V42.6h-.91v4.84a3.7,3.7,0,0,0,.91,2.73,4,4,0,0,0,5,0,3.75,3.75,0,0,0,.91-2.73V42.6h-.91v4.84Z" />
+                <polygon class="continueico" points="94.78 47.14 99.22 47.14 99.22 46.43 94.78 46.43 94.78 43.41 99.73 43.41 99.73 42.6 93.87 42.6 93.87 51.08 99.93 51.08 99.93 50.37 94.78 50.37 94.78 47.14" />
+                <path class="continueico" d="M109.32,46.94c-.41-.1-.91-.3-1.52-.41a3.43,3.43,0,0,1-1.21-.4,2.22,2.22,0,0,1-.81-.5,1.18,1.18,0,0,1-.3-.81,1.38,1.38,0,0,1,.61-1.11,2.68,2.68,0,0,1,1.71-.41,5.12,5.12,0,0,1,1.21.21,3.64,3.64,0,0,1,1.11.5l.31-.71a3.45,3.45,0,0,0-1.22-.5,6.75,6.75,0,0,0-1.41-.2,4,4,0,0,0-1.71.3,2,2,0,0,0-1.32,2,1.58,1.58,0,0,0,.41,1.21,3.53,3.53,0,0,0,1,.71c.4.1.9.3,1.51.5a3.24,3.24,0,0,1,1.21.41,3.56,3.56,0,0,1,.81.5,1.16,1.16,0,0,1,.3.81,1.4,1.4,0,0,1-.6,1.11,2.74,2.74,0,0,1-1.72.4,4.58,4.58,0,0,1-1.61-.3,3.42,3.42,0,0,1-1.22-.71l-.3.71a4.18,4.18,0,0,0,1.31.81,5.78,5.78,0,0,0,1.82.3,4.08,4.08,0,0,0,1.72-.3,3.29,3.29,0,0,0,1.11-.81,2.17,2.17,0,0,0,.3-1.21,1.6,1.6,0,0,0-.4-1.21A3,3,0,0,0,109.32,46.94Z" />
+                <path class="continueico" d="M118.6,43.1a4.35,4.35,0,0,0-2.22-.6,4.66,4.66,0,0,0-3.94,2.12,4.08,4.08,0,0,0-.6,2.22,4.35,4.35,0,0,0,.6,2.22,3.94,3.94,0,0,0,1.62,1.51,5.53,5.53,0,0,0,2.32.61,3.78,3.78,0,0,0,2.22-.61,4.72,4.72,0,0,0,1.62-1.51,4.1,4.1,0,0,0,.6-2.22,4.33,4.33,0,0,0-.6-2.22A4.75,4.75,0,0,0,118.6,43.1Zm.81,5.55a3.11,3.11,0,0,1-1.31,1.22,3.82,3.82,0,0,1-1.82.5,3.53,3.53,0,0,1-1.82-.5,3.83,3.83,0,0,1-1.31-1.22,3.49,3.49,0,0,1-.5-1.81,3.82,3.82,0,0,1,.5-1.82,3.09,3.09,0,0,1,1.31-1.21,4.34,4.34,0,0,1,3.64,0A3.8,3.8,0,0,1,119.41,45a3.53,3.53,0,0,1,.5,1.82A3.49,3.49,0,0,1,119.41,48.65Z" />
+                <path class="continueico" d="M128.8,43.1a4.38,4.38,0,0,0-2.22-.6,4.63,4.63,0,0,0-3.94,2.12,4.08,4.08,0,0,0-.61,2.22,4.36,4.36,0,0,0,.61,2.22,3.91,3.91,0,0,0,1.61,1.51,4.4,4.4,0,0,0,2.33.61,3.82,3.82,0,0,0,2.22-.61,4.69,4.69,0,0,0,1.61-1.51,4.34,4.34,0,0,0,0-4.44A5.83,5.83,0,0,0,128.8,43.1Zm.8,5.55a3,3,0,0,1-1.31,1.22,3.79,3.79,0,0,1-1.82.5,3.49,3.49,0,0,1-1.81-.5,3.74,3.74,0,0,1-1.31-1.22,3.4,3.4,0,0,1-.51-1.81,3.72,3.72,0,0,1,.51-1.82,3,3,0,0,1,1.31-1.21,4.32,4.32,0,0,1,3.63,0A3.72,3.72,0,0,1,129.6,45a3.44,3.44,0,0,1,.51,1.82A4.63,4.63,0,0,1,129.6,48.65Z" />
+                <polygon class="continueico" points="139.19 42.6 139.19 49.46 133.64 42.6 132.93 42.6 132.93 51.08 133.84 51.08 133.84 44.21 139.29 51.08 140 51.08 140 42.6 139.19 42.6" />
+            </svg>
+            {{/isShowNext}}
+        </div>
+        <p>{{{messageHtml}}}</p>
+    </div>
+</script>
+
+<script id="tp_svg_live" type="text/template">
+    <svg id="liveico3" data-name="liveico3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 13" width="35px" height="13px">
+        <defs>
+            <style>
+                .liveico3 {
+                    fill: #f44e05;
+                }
+
+                .liveico4 {
+                    fill: #fff;
+                }
+            </style>
+        </defs>
+        <path class="liveico3" d="M28.38,13H6.62A6.57,6.57,0,0,1,0,6.5,6.57,6.57,0,0,1,6.62,0H28.38A6.57,6.57,0,0,1,35,6.5,6.57,6.57,0,0,1,28.38,13Z" />
+        <path class="liveico4" d="M12.36,3.6h.81V8.68h2.58V9.4H12.36Z" />
+        <path class="liveico4" d="M16.78,3.6h.81V9.4h-.81Z" />
+        <path class="liveico4" d="M18.47,3.6h.87l1.95,4.91L23.24,3.6h.85l-2.4,5.8h-.84Z" />
+        <path class="liveico4" d="M25,3.6h4.1v.72H25.78V6.11h2.94v.72H25.78V8.68h3.39V9.4H25Z" />
+        <polygon class="liveico4" points="10.52 6.5 5.83 3.84 5.83 9.16 10.52 6.5" />
+    </svg>
+</script>
+
+<script id="tp_svg_mybid" type="text/template">
+    <svg id="mybidico" data-name="Layer 1" width="29px" height="9px" style="margin-left:5px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.18 9.9">
+        <defs>
+            <style>
+                .mybidico {
+                    fill: #f44e05;
+                }
+            </style>
+        </defs>
+        <path class="mybidico" d="M8,8.15c0,.09-.05.14-.15.14H7.37c-.1,0-.15,0-.15-.14V1.23L5.83,4.66c-.17.43-.34.86-.51,1.27L4.87,7l-.32.78c-.09.21-.13.31-.13.32a.15.15,0,0,1-.15.1H3.8l-.11,0a.22.22,0,0,1,0-.08L.76,1.23V8.15a.13.13,0,0,1-.14.14H.15c-.1,0-.15,0-.15-.14V.85C0,.7,0,.61,0,.59s.11,0,.25,0h.78l.12,0a.19.19,0,0,1,.07.11L4,7.43,6.73.67A.16.16,0,0,1,6.9.55h.79c.14,0,.23,0,.25,0S8,.7,8,.85Z" />
+        <path class="mybidico" d="M9.58,9.84a.13.13,0,0,1-.11-.16l0-.35c0-.09.05-.11.13-.08a.94.94,0,0,0,.39.07,1.34,1.34,0,0,0,.4-.07.71.71,0,0,0,.27-.18A2.46,2.46,0,0,0,11,8.59c.09-.23.18-.48.27-.77-.31-.84-.62-1.68-.92-2.51L9.37,2.8a.09.09,0,0,1,0-.1.08.08,0,0,1,.08-.05h.49a.21.21,0,0,1,.21.15l1.41,4c.26-.71.5-1.38.73-2s.48-1.31.74-2a.2.2,0,0,1,.21-.15h.45a.08.08,0,0,1,.08.05.17.17,0,0,1,0,.1L11.6,8.62a4.56,4.56,0,0,1-.25.54,2.19,2.19,0,0,1-.29.39,1.54,1.54,0,0,1-.42.26,1.28,1.28,0,0,1-.48.09H9.88Z" />
+        <path class="mybidico" d="M22.4,6.09c0,1.47-1,2.2-3,2.2H18.12a.52.52,0,0,1-.25,0s0-.11,0-.26V.87c0-.15,0-.24,0-.26a.47.47,0,0,1,.25,0h1.57c1.64,0,2.47.64,2.47,1.9a1.63,1.63,0,0,1-1.38,1.77A2.5,2.5,0,0,1,22,4.93,1.71,1.71,0,0,1,22.4,6.09Zm-.77,0A1.27,1.27,0,0,0,21.06,5a3.27,3.27,0,0,0-1.78-.38H18.6v3h.8C20.89,7.64,21.63,7.14,21.63,6.13ZM21.39,2.5c0-.85-.57-1.28-1.7-1.28H18.62V3.94h.87a2.25,2.25,0,0,0,1.42-.37A1.28,1.28,0,0,0,21.39,2.5Z" />
+        <path class="mybidico" d="M24,.68a.49.49,0,0,1,.15-.36.49.49,0,0,1,.35-.15.53.53,0,0,1,.37.15A.49.49,0,0,1,25,.68a.45.45,0,0,1-.15.35.53.53,0,0,1-.37.15A.49.49,0,0,1,24.14,1,.45.45,0,0,1,24,.68Zm.74,7.61h-.45c-.1,0-.15,0-.15-.14V2.8a.13.13,0,0,1,.15-.15h.45a.13.13,0,0,1,.15.15V8.15C24.88,8.24,24.83,8.29,24.73,8.29Z" />
+        <path class="mybidico" d="M31.18,8.15a.13.13,0,0,1-.14.14h-.41c-.1,0-.15,0-.15-.14V7.37a1.91,1.91,0,0,1-1.81,1.06,2,2,0,0,1-1.74-.86,3.44,3.44,0,0,1-.58-2.1c0-2,.77-2.93,2.32-2.93a2.39,2.39,0,0,1,1.11.25,1.57,1.57,0,0,1,.7.64V.15A.13.13,0,0,1,30.63,0H31c.09,0,.14.05.14.15ZM27.12,5.47a4.91,4.91,0,0,0,.08.89,2.31,2.31,0,0,0,.25.7,1.81,1.81,0,0,0,.55.58,1.54,1.54,0,0,0,.79.19,1.31,1.31,0,0,0,.74-.21,2,2,0,0,0,.53-.56,2.72,2.72,0,0,0,.32-.76,3.48,3.48,0,0,0,.1-.83,3.39,3.39,0,0,0-.11-.93,2.27,2.27,0,0,0-.32-.74,1.55,1.55,0,0,0-.53-.49,1.44,1.44,0,0,0-.73-.18,1.46,1.46,0,0,0-1.34.76,2.38,2.38,0,0,0-.25.71A4.6,4.6,0,0,0,27.12,5.47Z" />
+    </svg>
+</script>
+
+<script id="tp_svg_sold" type="text/template">
+    <svg id="soldico" data-name="soldico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.87 45.35" width="23px" height="12px" style="margin-left: 5px">
+        <defs>
+            <style>
+                .soldico1 {
+                    fill: #f44e05;
+                }
+
+                .soldico2 {
+                    fill: #fff;
+                }
+            </style>
+        </defs>
+        <rect class="soldico1" width="87.87" height="45.35" rx="22.05" />
+        <path class="soldico2" d="M28.76,32A6,6,0,0,1,27,33.28a6.62,6.62,0,0,1-2.31.63,8.75,8.75,0,0,1-1.45,0,14.8,14.8,0,0,1-1.54-.17c-.5-.08-.95-.18-1.36-.27a4.69,4.69,0,0,1-.88-.29,1.6,1.6,0,0,1-.48-.28c-.06-.07-.07-.2,0-.4l.19-2a.35.35,0,0,1,.13-.27c.08,0,.21,0,.41.08a8,8,0,0,0,.92.31,10.53,10.53,0,0,0,1.33.3,12,12,0,0,0,1.47.15A5.12,5.12,0,0,0,24.7,31a3.86,3.86,0,0,0,1.27-.5,2.62,2.62,0,0,0,.78-.73,2.58,2.58,0,0,0,.39-.92,5,5,0,0,0,.11-1,2.67,2.67,0,0,0-.67-1.41,6.23,6.23,0,0,0-1.9-1.63c-1-.59-1.89-1.15-2.63-1.66a11.36,11.36,0,0,1-1.83-1.53A5.48,5.48,0,0,1,19.15,20a4.54,4.54,0,0,1-.35-1.79,5,5,0,0,1,.47-2.12,5.72,5.72,0,0,1,1.3-1.78,6.32,6.32,0,0,1,2-1.2,6.9,6.9,0,0,1,2.53-.45,12.33,12.33,0,0,1,2.32.18,10.31,10.31,0,0,1,1.55.42.71.71,0,0,1,.37.23.4.4,0,0,1,0,.31L29,15.5a.68.68,0,0,1-.18.41q-.12.11-.42,0c-.27-.09-.56-.18-.89-.26s-.66-.15-1-.2a8.81,8.81,0,0,0-1-.11,3.86,3.86,0,0,0-.85,0,3.33,3.33,0,0,0-2.13,1,2.89,2.89,0,0,0-.61,1.88,2.44,2.44,0,0,0,.71,1.5,8.18,8.18,0,0,0,2.06,1.64c1.13.68,2.07,1.3,2.8,1.84a10.13,10.13,0,0,1,1.73,1.56,4.53,4.53,0,0,1,.89,1.5,5.1,5.1,0,0,1,.26,1.65A5.65,5.65,0,0,1,28.76,32Z" transform="translate(0 0)" />
+        <path class="soldico2" d="M45.44,31.37a6.49,6.49,0,0,1-2.33,1.85,7,7,0,0,1-3.06.64A7.24,7.24,0,0,1,37,33.24a6.48,6.48,0,0,1-2.22-1.71A7.43,7.43,0,0,1,33.43,29a10.86,10.86,0,0,1,0-6.12,7.33,7.33,0,0,1,1.34-2.5A6.39,6.39,0,0,1,37,18.7a7.89,7.89,0,0,1,6.13,0,6.25,6.25,0,0,1,2.22,1.69,7.17,7.17,0,0,1,1.34,2.5A10.2,10.2,0,0,1,47.12,26a9.91,9.91,0,0,1-.44,3A7.34,7.34,0,0,1,45.44,31.37ZM40.05,20.73a3.5,3.5,0,0,0-1.83.46A3.88,3.88,0,0,0,37,22.39a5.53,5.53,0,0,0-.73,1.68,7.19,7.19,0,0,0,0,3.76,5.64,5.64,0,0,0,.73,1.7,3.84,3.84,0,0,0,1.25,1.22,3.6,3.6,0,0,0,1.83.46,3.55,3.55,0,0,0,1.83-.46,4,4,0,0,0,1.26-1.22,5.9,5.9,0,0,0,.73-1.7A7.51,7.51,0,0,0,44.11,26a7.4,7.4,0,0,0-.24-1.85,5.78,5.78,0,0,0-.73-1.68,4.08,4.08,0,0,0-1.26-1.22A3.46,3.46,0,0,0,40.05,20.73Z" transform="translate(0 0)" />
+        <path class="soldico2" d="M50.45,33.48q-.3,0-.3-.33V11.82a.32.32,0,0,1,.09-.23.33.33,0,0,1,.23-.09h2.28a.31.31,0,0,1,.32.32V33.15a.32.32,0,0,1-.09.23.29.29,0,0,1-.23.1Z" transform="translate(0 0)" />
+        <path class="soldico2" d="M66.58,33.51c-.27,0-.4-.15-.4-.44V32a4.2,4.2,0,0,1-1.6,1.28,4.87,4.87,0,0,1-2.14.51,5.92,5.92,0,0,1-2.61-.55,5.28,5.28,0,0,1-1.95-1.6,7.4,7.4,0,0,1-1.22-2.52,12.35,12.35,0,0,1-.42-3.36,12,12,0,0,1,.43-3.28A7.41,7.41,0,0,1,57.91,20a5.46,5.46,0,0,1,2-1.59,5.69,5.69,0,0,1,2.58-.57,4.88,4.88,0,0,1,2,.43,5.26,5.26,0,0,1,1.7,1.22V11.77a.48.48,0,0,1,.06-.29.43.43,0,0,1,.26-.06h2.22a.3.3,0,0,1,.35.35v21.3a.39.39,0,0,1-.13.33.48.48,0,0,1-.3.11ZM62.74,20.62A2.88,2.88,0,0,0,60.17,22a6.92,6.92,0,0,0-.9,3.82,7,7,0,0,0,.92,4,2.94,2.94,0,0,0,2.55,1.33,2.73,2.73,0,0,0,1.33-.35,3.42,3.42,0,0,0,1.09-1,5.19,5.19,0,0,0,.75-1.66,8.59,8.59,0,0,0,.27-2.26,6.84,6.84,0,0,0-.91-3.9A2.94,2.94,0,0,0,62.74,20.62Z" transform="translate(0 0)" />
+    </svg>
+</script>
+
+<script id="tp_svg_sold_ko" type="text/template">
+    <svg id="bidsucico" data-name="bidsucico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.87 45.35" width="23px" height="12px" style="margin-left:5px">
+        <defs>
+            <style>
+                .bidsucico1 {
+                    fill: #f44e05;
+                }
+
+                .bidsucico2 {
+                    fill: #fff;
+                }
+            </style>
+        </defs>
+        <rect class="bidsucico1" width="87.87" height="45.35" rx="22.05" />
+        <path class="bidsucico2" d="M33.88,21.65a.46.46,0,0,1-.23.12,21.79,21.79,0,0,1-2.76.54c-1,.15-2.07.26-3.13.34s-2.09.14-3.1.16-1.91,0-2.71,0a2.1,2.1,0,0,1-1.55-.53A2.19,2.19,0,0,1,20,20.85V11.29a.41.41,0,0,1,.12-.27.33.33,0,0,1,.25-.13h2.33A.37.37,0,0,1,23,11a.41.41,0,0,1,.12.27v8.45c0,.18,0,.29.11.34a.93.93,0,0,0,.4.09q.87.06,2,0c.75,0,1.55-.06,2.39-.12s1.7-.15,2.57-.26,1.74-.25,2.59-.43a.47.47,0,0,1,.3,0,.27.27,0,0,1,.19.2L34,21.39A.28.28,0,0,1,33.88,21.65Zm4.3,13.72a.33.33,0,0,1-.25.13H35.6a.39.39,0,0,1-.29-.13.35.35,0,0,1-.12-.25V28.76c0-.18,0-.3-.11-.36a.65.65,0,0,0-.37-.08H22.47a.48.48,0,0,1-.27-.09.29.29,0,0,1-.14-.23V26.05a.29.29,0,0,1,.14-.25.56.56,0,0,1,.27-.08H36.52a1.84,1.84,0,0,1,1.41.44,2.22,2.22,0,0,1,.38,1.46v7.5A.33.33,0,0,1,38.18,35.37Zm4.09-16.58a.38.38,0,0,1-.26.11H38.33V24a.31.31,0,0,1-.35.35H35.57c-.23,0-.35-.13-.35-.38V10.21a.31.31,0,0,1,.35-.35H38a.31.31,0,0,1,.35.35V16.3H42a.37.37,0,0,1,.26.1.3.3,0,0,1,.12.25v1.9A.31.31,0,0,1,42.27,18.79Z" />
+        <path class="bidsucico2" d="M45.29,24.48a.68.68,0,0,1-.35,0,.57.57,0,0,1-.35-.3l-.68-1.35a.38.38,0,0,1,0-.41.56.56,0,0,1,.33-.27A26.9,26.9,0,0,0,46.91,21a23.14,23.14,0,0,0,2.47-1.41,16,16,0,0,0,2-1.54,8,8,0,0,0,1.39-1.61.71.71,0,0,0,.12-.28c0-.09-.13-.13-.42-.13h-7a.32.32,0,0,1-.28-.12.4.4,0,0,1-.1-.28V13.89c0-.23.14-.35.41-.35h9.07a3.7,3.7,0,0,1,1.66.3,1,1,0,0,1,.58,1,2.13,2.13,0,0,1-.13.69,4.46,4.46,0,0,1-.3.69,10.43,10.43,0,0,1-.8,1.31,9.91,9.91,0,0,1-1,1.26,18.47,18.47,0,0,0,2.06,1.38,12.12,12.12,0,0,0,2,1c.2.07.31.17.34.31a.67.67,0,0,1-.1.45L58.1,23.2a.59.59,0,0,1-.84.25,8,8,0,0,1-1.07-.52c-.39-.21-.79-.45-1.19-.71s-.81-.54-1.21-.84-.77-.59-1.11-.88a22.77,22.77,0,0,1-3.42,2.26A25.58,25.58,0,0,1,45.29,24.48ZM54.4,12.11a.39.39,0,0,1-.31.13H47.75a.48.48,0,0,1-.25-.11.34.34,0,0,1-.15-.3V10.35a.34.34,0,0,1,.15-.3.48.48,0,0,1,.25-.11h6.34a.46.46,0,0,1,.43.43v1.44A.44.44,0,0,1,54.4,12.11Zm10,23.26a.32.32,0,0,1-.23.13H49.73a2,2,0,0,1-1.45-.41,1.79,1.79,0,0,1-.39-1.27V31a1.75,1.75,0,0,1,.38-1.25,2,2,0,0,1,1.43-.38H60.42q.26,0,.3-.06a.55.55,0,0,0,.06-.32v-.62c0-.2,0-.31-.06-.35s-.14,0-.32,0H48.24a.45.45,0,0,1-.28-.1.28.28,0,0,1-.12-.23V25.8a.31.31,0,0,1,.12-.24.41.41,0,0,1,.28-.11h13.7a2.27,2.27,0,0,1,1.5.35,1.77,1.77,0,0,1,.37,1.3V30a1.77,1.77,0,0,1-.37,1.3,2.27,2.27,0,0,1-1.5.35H51.3c-.14,0-.24,0-.28.08A.44.44,0,0,0,51,32v.73c0,.18,0,.28.07.31a.68.68,0,0,0,.31,0H64.11a.4.4,0,0,1,.25.09.32.32,0,0,1,.12.26v1.71A.35.35,0,0,1,64.36,35.37Zm3.39-16.79a.43.43,0,0,1-.29.1H63.81v5.17a.32.32,0,0,1-.35.36H61.05c-.24,0-.36-.13-.36-.38V10.21a.32.32,0,0,1,.36-.35h2.41a.31.31,0,0,1,.35.35v5.88h3.65a.48.48,0,0,1,.29.09.28.28,0,0,1,.12.23v1.92A.35.35,0,0,1,67.75,18.58Z" />
+    </svg>
+</script>
+
+@section Scripts {
+    <script>
+        var stime = new Date().getTime();
+    </script>
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="/js/ka.live.@(commonService.IsKor() ? "ko" : "en").js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script src="/js/ka.live.js?auc_kind=@ViewBag.AucKind&auc_num=@ViewBag.AucNum" asp-append-version="true"></script>
+        <script src="/js/ka.live.confirm.js" asp-append-version="true"></script>
+        <script src="/js/ka.live.player.js" asp-append-version="true"></script>
+        <script src="/js/ka.live.style.js" asp-append-version="true"></script>
+    </environment>
+    <environment include="Staging,Production">
+        <script src="~/bundle/js/ka.live.min.js?auc_kind=@ViewBag.AucKind&auc_num=@ViewBag.AucNum" asp-append-version="true"></script>
+    </environment>    
+    <script>
+        var fn_ws_open = function () {
+
+            Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+
+            const connection = new signalR.HubConnectionBuilder().withUrl("/liveHub").withAutomaticReconnect().build();
+
+            connection.on("CurrentLotStat", function (message) {
+                LiveFunc.fn_curr_lotinfo_complete(JSON.parse(message));
+
+            });
+
+
+            connection.on("CurrentBidHst", function (message) {
+                LiveFunc.fn_curr_lotinfo_bidhst_complete(JSON.parse(message));
+            });
+
+
+            connection.on("ErrorNotification", function (message) {
+                toastr.error(message);
+            });
+
+            connection.start().then(function () {
+                try {
+                    connection.invoke("AddToGroup", "@ViewBag.AucNum");
+                }
+                catch (e) {
+                    toastr.error(message);
+                }
+            }).catch(function (err) {
+                toastr.error(err.toString());
+                return;
+            });
+
+            connection.onreconnected(function (connectionId) {
+                console.assert(connection.state === signalR.HubConnectionState.Connected);
+                try {
+                    connection.invoke("AddToGroup", "@ViewBag.AucNum");
+                }
+                catch (e) {
+                    toastr.error(message);
+                }
+            });
+        };
+    </script>
+}
+
+

@@ -1,0 +1,40 @@
+﻿@model KA.Web.Public.ViewModels.About.ContentViewModel
+
+<style>
+    img { max-width: 100%; }
+</style>
+
+<div class="jumbotron bg-transparent" data-parallax="scroll" data-position-y="center" data-z-index="1">
+    @{
+        var breadcrumbModel = new[] { "About", Model.BoardDoc.BoardName };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+    <div class="inner"></div>
+</div>
+
+<div class="container p-b-50 bg-white board-view" style="margin-top: 80px; margin-bottom: 80px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="board-view-tit">
+                <h3>@Html.Raw(Model.BoardDoc.DocTitle)</h3>
+                <p><span>게시일</span> @Html.Raw(Model.BoardDoc.StartDate)</p>
+            </div>
+            @if (Model.BoardAttaches.Any())
+            {
+                <div class="board-attached-file">
+                    <div>
+                        <strong>첨부파일</strong>
+                        <div>
+                            @foreach (var item in Model.BoardAttaches)
+                            {
+                                <a href="@string.Format("{0}/www{1}/{2}", Config.ImageDomain, item.Path, item.Name)" target="_blank"><i class="fas fa-paperclip"></i>@item.Name</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="board-view-desc"><p>@Html.Raw(Model.BoardDoc.DocContents)</p></div>
+        </div>
+        <div class="col-sm-12 board-view-btn"><div><button class="btn" onclick="history.back();">목록으로</button></div></div>
+    </div>
+</div>

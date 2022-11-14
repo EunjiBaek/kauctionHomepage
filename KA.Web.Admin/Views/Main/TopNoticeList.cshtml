@@ -1,0 +1,135 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메인 팝업배너</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group">
+                            <span class="btn secondary fw-500" style="height: 35px; cursor: pointer; float: right;" onclick="window.open('/Main/TopNotice/0', '_self');">등록</span>
+                            <span class="btn btn-primary" style="height: 35px; cursor: pointer; float: right;" onclick="search();">검색</span>
+                            <input id="search" onkeydown="checkSearch(event);" style="float: right; width: 240px;" class="form-control" type="text" placeholder="제목 검색어를 입력해 주세요." />
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        <li class="nav-item">
+                            <a onclick="getTabList('T');" class="nav-link active text-center" data-toggle="tab" href="#tab-address">상단</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('L');" class="nav-link text-center" data-toggle="tab" href="#tab-mobile-auth">팝업</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers">
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        getTabList('T');
+    });
+
+    function getTabList(type) {
+        requestParam["page"] = 1;
+        requestParam["type"] = type;
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Main/GetNotices", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: 20
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "uid", type: "number", title: "번호", width: 50, align: "center",
+                    itemTemplate: function (value) {
+                        return $("<a />", { "href": "/Main/TopNotice/" + value.toString(), "target": "_self" }).append(value);
+                    }
+                },
+                { name: "order", type: "number", title: "순서", width: 50, align: "center", },
+                {
+                    name: "title_kr", type: "text", title: "제목", width: 220,
+                    itemTemplate: function (value, data) {
+                        if (requestParam["type"] === "T") {
+                            return $("<a />", {
+                                "href": "/Main/TopNotice/" + data.uid.toString(),
+                                "target": "_self"
+                            }).append(value);
+                        } else {
+                            return $("<img />", {
+                                "src": "@Config.ImageDomain/www/Notice/" + data.image.toString(),
+                                "style": "max-width: 200px;",
+                                "onclick": "window.open('/Main/TopNotice/" + data.uid.toString() + "', '_self')"
+                            });
+                        }
+                    }
+                },
+                { name: "start_date", type: "text", title: "게시시작일", width: 120, align: "center" },
+                { name: "end_date", type: "text", title: "게시종료일", width: 120, align: "center" },
+                { name: "read_count", type: "number", title: "조회수", width: 60, align: "center" },
+                { name: "reg_date", type: "text", title: "등록일", width: 100, align: "center" }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $('#search').val();
+        getList(requestParam["type"]);
+    }
+
+</script>

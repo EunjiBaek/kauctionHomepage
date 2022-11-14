@@ -1,0 +1,147 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메인 외부 컨텐츠</div>
+            </div>
+            <div class="card-body">
+                <div class="row search-row">
+                    <div class="col-lg-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <div class="form-group">
+                            <input id="search" onkeydown="checkSearch(event);" class="form-control" type="text" placeholder="제목 검색어를 입력해 주세요." />
+                            <span class="btn btn-primary" style="height: 35px; cursor: pointer;" onclick="search();">검색</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        @if (ViewBag.Code != null)
+                        {
+                            foreach (var item in ViewBag.Code)
+                            {
+                                <li class="nav-item">
+                                    <a onclick="getTypeList('@item.SubCode');" class="nav-link text-center" data-toggle="tab" href="#tab-address">@item.CodeName</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="row list-row">
+                    <div class="m-t-10 m-l-15">※ 체크박스에 체크된 컨텐츠는 메인 하이라이트 영역에 표시됩니다.</div>
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers">
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["page_size"] = 10;
+
+    $(document).ready(function () {
+        if ($('.nav-item').find('a').length > 0) {
+            $('.nav-item').find('a')[0].click();
+        }
+    });
+
+    function getTypeList(val) {
+        requestParam["type"] = val;
+        requestParam["page"] = "1";
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData('/api/Main/GetContents', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: requestParam["page_size"]
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "use_yn", type: "text", title: "", width: 25, align: "center",
+                    itemTemplate: function (value, data) {
+                        var checkbox = $('<input />', { type: "checkbox", id: "ckb_" + data.uid.toString(), uid: data.uid.toString() });
+                        checkbox.on("click", function (event) {
+                            var param = {};
+                            param["mode"] = "USE_CHECK";
+                            param["uid"] = event.currentTarget.getAttribute("uid");
+                            param["use_yn"] = event.currentTarget.checked ? "Y" : "N";
+                            var result = $.ajaxUtils.getApiData("/api/Main/SetContent", param, null, false);
+                            if ($.ajaxUtils.getResultCode(result) !== "00") {
+                                $.commonUtils.alert("처리 중 오류가 발생하였습니다. 잠시후 다시 진행하시기 바랍니다.");
+                            }
+                        });
+                        if (value === "Y") {
+                            checkbox.attr("checked", "checked");
+                        }
+                        return checkbox;
+                    }
+                },
+                { name: "no", type: "text", title: "번호", width: 40 },
+                {
+                    name: "image_path", type: "text", title: "이미지", width: 120,
+                    itemTemplate: function (value, data) {
+                        return $("<img />", { "src": "@Config.ImageDomain/www" + value, "style": "width: 100px; margin: 0px 0px 0px 0px;", "onclick": "window.open('" + data.link.toString() + "', '_blank');" });
+                    }
+                },
+                {
+                    name: "link", type: "text", title: "링크", width: 120,
+                    itemTemplate: function (value, data) {
+                        return $("<a />", { "href": value, "target": "_blank" }).append(value);
+                    }
+                },
+                { name: "title", type: "text", title: "제목" },
+                { name: "reg_date", type: "text", title: "등록일자" },
+                { name: "mod_date", type: "text", title: "수정일자" },
+                { name: "click_count", type: "number", title: "조회수", width: 60 }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) { search(); }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $("#search").val();
+        getList();
+    }
+
+</script>

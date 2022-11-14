@@ -1,0 +1,115 @@
+﻿
+<style>
+    .ui-dynatree-active a { font-weight: 800 !important; text-decoration: underline !important; }
+</style>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">약관</div>
+            </div>
+            <div class="card-body no-scroll">
+                <div id="treeview"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">약관 내용&nbsp;<span id="selected-clause"></span></div>
+            </div>
+            <div id="content" style="display: none;">
+                <div class="card-body">
+                    <div class="card-title">국문</div>
+                    <div id="clause-content"></div>
+                    <div class="card-title m-t-10">영문</div>
+                    <div id="clause-content2"></div>
+                </div>
+                <div class="card-footer">
+                    <button id="btn-modify" class="btn btn-primary hide" onclick='$.commonUtils.confirm("수정", "국문/영문 약관을 수정하시겠습니까?", "modify();");'>수정</button>
+                </div>
+            </div>
+            <div id="empty-content">
+                <div class="card-body">
+                    <h5 class="text-center" style="height: 300px; line-height: 300px;">약관을 선택하세요.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var param = {};
+    var data;
+
+    $(document).ready(function () {
+        initTreeView();
+
+        if ($("#treeview .dynatree-container").find(".dynatree-title").length > 0) {
+            $("#treeview .dynatree-container").find(".dynatree-title")[0].click();
+        }
+    });
+
+    function initTreeView() {
+        $.treeViewUtils.init({
+            url: "/api/Member/GetClauseList",
+            target: "#treeview",
+            onClick: selectedCode,
+            id_field: "sub_code",
+            display_field: "code_name",
+            disabled_field: "use_yn",
+            selectedTarget: "selected-clause"
+        });
+    }
+
+    function selectedCode(node, item) {
+        $("#content").show();
+        $("#empty-content").hide();
+        
+        param["code"] = item["sub_code"];
+        param["version"] = item["extra2"];
+
+        var result = $.ajaxUtils.getApiData("/api/Member/GetClause", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $('#clause-content').summernote({
+                height: 500,
+                lang: 'ko-KR',
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather', 'Dotum', 'Gulim', 'Malgun Gothic']
+            });
+            $('#clause-content2').summernote({
+                height: 500,
+                lang: 'ko-KR',
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather', 'Dotum', 'Gulim', 'Malgun Gothic']
+            });
+            
+            $('#clause-content').summernote('code', '');
+            $('#clause-content2').summernote('code', '');
+
+            if (typeof result.data === "object" && result.data.length > 0) {
+                data = result.data[0];
+                if (data.code !== null) {
+                    $('#clause-content').summernote('code', data.content);
+                    $('#clause-content2').summernote('code', data.content2);
+                }
+                $("#btn-modify").removeClass("hide");
+            } else {
+                data = null;
+            }
+        }
+    }
+
+    function modify() {
+        param["content"] = $('#clause-content').summernote('code');
+        param["content2"] = $('#clause-content2').summernote('code');
+        
+        var result = $.ajaxUtils.getApiData("/api/Member/SetClause", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+</script>

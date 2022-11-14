@@ -1,0 +1,1675 @@
+﻿@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.MyPage.MemberViewModel
+@{
+    var isKor = CommonService.IsKor();
+    var dispAuthType = (!string.IsNullOrWhiteSpace(Model.Member.Auth) && Model.Member.Auth.Equals("C")) ? @L["카드사 본인인증"].Value : @L["통신사 본인인증"].Value;
+    var dispAuthCoName = !string.IsNullOrWhiteSpace(Model.Member.AuthMobileCoName) && !isKor ? Model.Member.AuthMobileCoName.Replace("알뜰폰", "MVNO") : Model.Member.AuthMobileCoName;
+    var dispAuthInfo = (!string.IsNullOrWhiteSpace(Model.Member.Auth) && Model.Member.Auth.Equals("C")) ? Model.Member.AuthCrdCd : dispAuthCoName + ", " + Model.Member.AuthMobileNo;
+    var dispBirthDate = !string.IsNullOrWhiteSpace(Model.Member.BirthDate) ? Model.Member.BirthDate.Replace("-", ".") : string.Empty;
+
+    // 계정설정
+    var mainCodeList = CommonService.GetMainCodeList("MEM_VALIDATE_PERIOD2|MEM_MAIN_HIGHLIGHT|MEM_LIST_VIEW_MODE|MEM_SEX");
+    var memValidatePeriod = mainCodeList.Where(x => x.MainCode.Equals("MEM_VALIDATE_PERIOD2"));
+    var memMainHighlight = mainCodeList.Where(x => x.MainCode.Equals("MEM_MAIN_HIGHLIGHT"));
+    var memListViewMode = mainCodeList.Where(x => x.MainCode.Equals("MEM_LIST_VIEW_MODE"));
+    var memSex = mainCodeList.Where(x => x.MainCode.Equals("MEM_SEX"));
+    string GetAgreementTag(string value)
+    {
+        return value.Equals("Y") ? $"<span>({L["필수"].Value})</span>" : $"<span  style='color: #cccccc;'>({L["선택"].Value})</span>";
+    }
+    
+    var verifyRequestExistYn = ViewBag.VerifyReqeustExistYn as string ?? string.Empty;
+    var isBidAllow = string.Equals(Model.Member.BidAllowYN, "Y", StringComparison.OrdinalIgnoreCase);
+    var isAddressExist = !string.IsNullOrEmpty(Model.Member.Address) || !string.IsNullOrEmpty(Model.Member.CompanyAddress);
+}
+
+<style>
+    .wrap-word {
+        word-break: keep-all;
+        word-wrap: normal;
+    }
+</style>
+
+<div class="member_state">
+    <p>@L["{ID} 님은 {MEM_TYPE} 입니다."].Value.Replace("{ID}", Model.Member.ID).Replace("{MEM_TYPE}", L[Model.Member.TypeName].Value)</p>
+    <!--회원 심사 정보 툴팁-->
+    @if (!isBidAllow || !isAddressExist)
+    {
+        <div class="member_state_tooltip_wrap">
+            <strong>(@L["응찰 제한"])</strong>
+            <div class="tooltip_wrap">
+                @if (LoginInfo.Type is "001" or "003")
+                {
+                    @if (!isBidAllow)
+                    {
+                        <p>@L["- 본인 인증을 위한 자료를 제출해 주시기 바랍니다."]</p>
+                    }
+                    @if (!isAddressExist)
+                    {
+                        <p>@L["- 주소 정보를 제출해 주시기 바랍니다."]</p>
+                    }
+                }
+                else
+                {
+                    var memberActivity = Enumerable.FirstOrDefault(ViewBag.MemberActivity);
+                    if (memberActivity is not null)
+                    {
+                        @if (memberActivity.State.Equals("D"))
+                        {
+                            <p>@L["- 제출 된 자료를 검토중입니다."]</p>
+                        }
+                        else if (memberActivity.State.Equals("R"))
+                        {
+                            <p>@L["- 본인을 증명할 자료를 제출해주세요."]</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>@L["- 본인을 증명할 자료를 제출해주세요."]</p>
+                    }
+                }
+            </div>
+        </div>
+    }
+    <!--//회원 심사 정보 툴팁-->
+</div>
+<div class="btn_wrap b05 tab_btn">
+    <ul>
+        <li style="padding: 0 15px 0 15px;" class="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/MEMBER") ? "active" : "")">
+            <a  class="wrap-word md-padding-10" href="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/MEMBER") ? "#" : "/MyPage/Member")">@L["회원 정보"]</a>
+        </li>
+        <li style="padding: 0 15px 0 15px;" class="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/INFO") || CommonService.GetPage.ToUpper().Contains("/MYPAGE/ARTIST") ? "active" : "")">
+            <a class="wrap-word padding" href="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/INFO") ? "#" : "/MyPage/Info")">@L["선호 정보"]</a>
+        </li>
+        <li style="padding: 0 15px 0 15px;" class="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/ACCOUNT") ? "active" : "")">
+            <a class="wrap-word md-padding-10" href="@(CommonService.GetPage.ToUpper().Contains("/MYPAGE/ACCOUNT") ? "#" : "/MyPage/Account")">@L["계정 설정"]</a>
+        </li>
+    </ul>
+</div>
+<div class="btn_content b05 tab_cnt">
+    <!-- MEMBER SETTING START -->
+    <div class="member_info" style="@(CommonService.GetPage.ToUpper().Equals("/MYPAGE/MEMBER") ? "" : "display: none;")">
+        @if (Model.Member.Type.Equals("001"))
+        {
+            <div class="table_wrap">
+                <div>
+                    <p>@L["기본 정보"]</p>
+                    <table class="mypage_table member_info df_type">
+                        <tbody>
+                            <tr>
+                                <td>@L["아이디"]</td>
+                                <td colspan="2">@Model.Member.ID (@L[Model.Member.TypeName].Value)</td>
+                            </tr>
+                            <tr>
+                                <td>@L["비밀번호"]</td>
+                                <td class="password" colspan="2">
+                                    <div>
+                                        <span>******</span>
+                                        <button class="btn_default_ef mypage_button btn-hg-more-sm" data-tit="@L["비밀번호 재설정"]" data-value="password_reset" onclick="pwModalOpen($(this));">@L["재설정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["회원명"]</td>
+                                <td class="member_name" colspan="2">
+                                    <div class="verification_kind">
+                                        <span id="auth-name">@Model.Member.Name</span>
+                                        @if (Model.MemberAuthFlag)
+                                        {
+                                            <strong>@L["인증됨"]<div class="check"><i class="fa fa-check" aria-hidden="true"></i></div></strong>
+                                        }
+                                    </div>
+                                </td>
+                                @*<td class="verification" rowspan="2">
+                                    <div><p>@dispAuthType<br />(@dispAuthCoName,@Model.Member.AuthMobileNo)<br />@Model.Member.AuthDate.ToString("yyyy.MM.dd HH:mm:ss")</p><button class="btn_default_ef mypage_button" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="pwModalOpen($(this));">@L["재인증"]</button></div>
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td>@L["생년월일"]</td>
+                                <td colspan="2">
+                                    <div class="verification_kind">
+                                        <span id="auth-birth-date">@dispBirthDate</span>
+                                        @if (Model.MemberAuthFlag)
+                                        {
+                                            <strong>@L["인증됨"]<div class="check"><i class="fa fa-check" aria-hidden="true"></i></div></strong>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["성별"]</td>
+                                <td colspan="2">
+                                    <select name="" id="sex" class="default_select">
+                                        @foreach (var item in memSex)
+                                        {
+                                            if (item.SubCode.Equals(Model.Member.Sex))
+                                            {
+                                                <option value="@item.SubCode" selected="selected">@item.DisplayCodeName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.SubCode">@item.DisplayCodeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["전화번호"]</td>
+                                <td class="num_modify_td" colspan="2">
+                                    <div class="input_wrap verification_kind">
+                                        <span id="mobile">@Model.Member.Mobile</span>
+                                        @if (Model.Member.MobileAuthType != null && Model.Member.MobileAuthType.Equals("K"))
+                                        {
+                                            <strong>@L["인증됨"]<div class="check"><i class="fa fa-check" aria-hidden="true"></i></div></strong>
+                                        }
+                                        <button class="btn_default_ef mypage_button btn-hg-more-sm" data-tit="@L["전화번호 수정"]" data-value="num_modify" onclick="pwModalOpen($(this));">@L["수정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["이메일"]</td>
+                                <td colspan="2">
+                                    <div class="input_wrap">
+                                        <input class="default_type" type="text" id="email" value="@Model.Member.Email">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["본인인증"]</td>
+                                <td class="num_modify_td" colspan="2">
+                                    <div id="td-self-certification" class="input_wrap verification_kind">
+                                        @if (Model.MemberAuthFlag)
+                                        {
+                                            <p>@dispAuthType (@dispAuthInfo)<br />@Model.Member.AuthDate.ToString("yyyy.MM.dd HH:mm:ss")</p>
+                                            <button class="btn_default_ef mypage_button btn-hg-more-sm" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="pwModalOpen($(this));">@L["수정"]</button>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-left">
+                                                @L["미인증"]<br/>
+                                                <span class="text-danger" style="white-space: nowrap;">@L["경매 참여시 본인인증 필수!"]</span>
+                                            </span>
+                                            <button class="btn_default_ef mypage_button btn-hg-more-sm" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="pwModalOpen($(this));">@L["본인인증 하기"]</button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p>@L["부가 정보"]</p>
+                    <table class="mypage_table member_info">
+                        <tbody>
+                            <tr>
+                                <td>@L["직업"]</td>
+                                <td>
+                                    <select name="" id="job" class="default_select">
+                                        <option selected value="" data-extra1="N">@L["== 직업을 선택해주세요. =="]</option>
+                                        @foreach (var item in Model.MemJobCodeList)
+                                        {
+                                            if (item.SubCode.Equals(Model.Member.JobCode))
+                                            {
+                                                <option value="@item.SubCode" data-extra1="@item.Extra1" selected="selected">@item.DisplayCodeName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.SubCode" data-extra1="@item.Extra1">@item.DisplayCodeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td>@L["직장명"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="text" id="company_name" value="@Model.Member.CompanyName">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["직장 전화번호"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="tel" id="company_tel" value="@Model.Member.CompanyTel">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>@L["직장 팩스번호"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="tel" id="company_fax" value="@Model.Member.CompanyFax" autocomplete="off">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (Model.Member.Type.Equals("002"))
+        {
+            <div class="table_wrap">
+                <div>
+                    <p>@L["기본 정보"]</p>
+                    <table class="mypage_table member_info df_type">
+                        <tbody>
+                            <tr>
+                                <td>@L["아이디"]</td>
+                                <td>@Model.Member.ID (@L[Model.Member.TypeName].Value)</td>
+                            </tr>
+                            <tr>
+                                <td>@L["비밀번호"]</td>
+                                <td class="password">
+                                    <div>
+                                        <span>******</span>
+                                        <button class="btn_default_ef mypage_button" data-tit="@L["비밀번호 재설정"]" data-value="password_reset" onclick="pwModalOpen($(this));" autocomplete="new-password">@L["재설정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["회원명"]</td>
+                                <td class="member_name">
+                                    <div class="verification_kind"><span id="auth-name">@Model.Member.Name</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["생년월일"]</td>
+                                <td>
+                                    <div class="verification_kind"><span id="auth-birth-date">@dispBirthDate</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["성별"]</td>
+                                <td colspan="2">
+                                    <select name="" id="sex" class="default_select">
+                                        @foreach (var item in memSex)
+                                        {
+                                            if (item.SubCode.Equals(Model.Member.Sex))
+                                            {
+                                                <option value="@item.SubCode" selected="selected">@item.DisplayCodeName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.SubCode">@item.DisplayCodeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["전화번호"]</td>
+                                <td class="num_modify_td">
+                                    <div class="input_wrap verification_kind">
+                                        <span style="white-space: nowrap;" id="mobile">@Model.Member.Mobile</span>
+                                        <button class="btn_default_ef mypage_button" data-tit="전화번호 수정" data-value="num_modify" onclick="pwModalOpen($(this));">@L["수정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["이메일"]</td>
+                                <td>
+                                    <div class="input_wrap"><input class="default_type" type="text" id="email" value="@Model.Member.Email"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["증빙 서류"]</td>
+                                <td>
+                                    <div class="file_search_wrap">
+                                        @{
+                                            var inputText = string.Equals(verifyRequestExistYn, "Y") ? L["제출 완료"] : @L["증빙자료를 업로드해주세요"];
+                                        }
+                                        <input id="identification" type="text" placeholder="@inputText" readonly style="cursor: pointer; width: 100%; padding: 0; border: 0;" onclick="modalDocumentEvidence('identification-file'); return false;"/>
+                                        <label class="btn_default_ef mypage_button" onclick="modalDocumentEvidence('identification-file');">@L["파일 업로드"]</label>
+                                        <input type="file" id="identification-file" name="identification-file" style="display: none;" onchange="$.joinUtils.handleFile(this.files, 'identification'); return false;"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p>@L["부가 정보"]</p>
+                    <table class="mypage_table member_info">
+                        <tbody>
+                            <tr>
+                                <td>@L["직업"]</td>
+                                <td>
+                                    <select name="" id="job" class="default_select">
+                                        <option selected value="" data-extra1="N">@L["== 직업을 선택해주세요. =="]</option>
+                                        @foreach (var item in Model.MemJobCodeList)
+                                        {
+                                            if (item.SubCode.Equals(Model.Member.JobCode))
+                                            {
+                                                <option value="@item.SubCode" data-extra1="@item.Extra1" selected="selected">@item.DisplayCodeName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.SubCode" data-extra1="@item.Extra1">@item.DisplayCodeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["직장명"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="text" id="company_name" value="@Model.Member.CompanyName">
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["직장 전화번호"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="tel" id="company_tel" value="@Model.Member.CompanyTel">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>@L["직장 팩스번호"]</td>
+                                <td>
+                                    <div class="input_wrap">
+                                        <input class="default_type job-input" type="tel" id="company_fax" value="@Model.Member.CompanyFax" autocomplete="off">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (Model.Member.Type.Equals("003") || Model.Member.Type.Equals("004"))
+        {
+            <div class="table_wrap">
+                <div>
+                    <p>@L["기본 정보"]</p>
+                    <table class="mypage_table member_info">
+                        <tbody>
+                            <tr>
+                                <td>@L["아이디"]</td>
+                                <td colspan="2">@Model.Member.ID (@Model.Member.TypeName)</td>
+                            </tr>
+                            <tr>
+                                <td>@L["비밀번호"]</td>
+                                <td class="password">
+                                    <div>
+                                        <span>******</span>
+                                        <button class="btn_default_ef mypage_button" data-tit="@L["비밀번호 재설정"]" data-value="password_reset" onclick="pwModalOpen($(this));" autocomplete="new-password">@L["재설정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["사업자 등록번호"]</td>
+                                <td class="tax_registration_number">
+                                    <div>
+                                        <span id="company_reg_no">@Model.Member.CompanyRegNo</span>
+                                        <button class="mypage_button btn_default_ef" data-tit="@L["사업자 등록번호 입력"]" data-value="certified_number" onclick="pwModalOpen($(this));">@L["수정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["법인명"]</td>
+                                <td>
+                                    <div class="input_wrap"><input id="company_name" class="default_type" type="text" value="@Model.Member.CompanyName"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["대표자 명"]</td>
+                                <td>
+                                    <div class="input_wrap"><input id="company_president" class="default_type" type="text" value="@Model.Member.CompanyPresident"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["대표 전화"]</td>
+                                <td>
+                                    <div class="input_wrap"><input id="company_rep_tel" class="default_type" type="tel" value="@Model.Member.CompanyRepTel"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @L["사업자 등록 <br />증빙 서류"]
+                                </td>
+                                <td>
+                                    <div class="file_search_wrap">
+                                        <p id="company_reg_doc" class="file_name_text">@L["증빙자료를 업로드해주세요"]</p>
+                                        <label for="company_reg_doc_file" class="btn_default_ef mypage_button">@L["파일 업로드"]</label>
+                                        <input id="company_reg_doc_file" type="file" class="input_file_type" onchange="$.mypageUtils.handleFile(this.files, 'company_reg_doc');">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p>@L["담당자 정보"]</p>
+                    <table class="mypage_table member_info">
+                        <tbody>
+                            <tr>
+                                <td>@L["담당자 이름"]</td>
+                                <td>
+                                    <div class="input_wrap"><input id="name" class="default_type" type="text" value="@Model.Member.Name"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">@L["연락처"]</td>
+                                <td class="charge_info">
+                                    <div class="tit">@L["담당자 휴대전화"]</div>
+                                    <div class="authentication_wrap">
+                                        <div class="input_wrap"><span id="mobile">@Model.Member.Mobile</span></div>
+                                        <button class="mypage_button btn_default_ef" data-tit="@L["전화번호 수정"]" data-value="num_modify" onclick="pwModalOpen($(this));">@L["수정"]</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ffffff;">
+                                    <div class="tit">@L["담당자 직장 전화번호"]</div>
+                                    <div class="input_wrap"><input id="company_tel" class="default_type" type="tel" value="@Model.Member.CompanyTel"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: #ffffff;">
+                                    <div class="tit">@L["담당자 직장 팩스번호"]</div>
+                                    <div class="input_wrap"><input id="company_fax" class="default_type" type="tel" value="@Model.Member.CompanyFax"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">@L["이메일"]</td>
+                                <td style="background-color: #ffffff;">
+                                    <div class="tit">@L["담당자 이메일"]</div>
+                                    <div class="input_wrap"><input id="email" class="default_type" type="text" value="@Model.Member.Email"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ffffff;">
+                                    <div class="tit">@L["세금계산서 발행용 이메일"]</div>
+                                    <div class="input_wrap"><input id="tax_email" class="default_type" type="text" value="@Model.Member.TaxEmail"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@L["담당자 명함"]</td>
+                                <td>
+                                    <div class="file_search_wrap">
+                                        <p id="company_business_card" class="file_name_text">@L["증빙자료를 업로드해주세요"]</p>
+                                        <label for="company_business_card_file" class="btn_default_ef mypage_button">@L["파일 업로드"]</label>
+                                        <input id="company_business_card_file" type="file" class="input_file_type" onchange="$.mypageUtils.handleFile(this.files, 'company_business_card');">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <!-- 국내법인/해외법인 -->
+        <!--저장하기버튼-->
+        <div class="member_setting_btnwrap">
+            <button class="btn_pt btn_01-sm btn-hg-sm" onclick="$.mypageUtils.setMember();">@L["저장하기"]</button>
+        </div>
+        <!--//저장하기버튼-->
+        <!--배송지 table-->
+        <div class="address_table_wrap">
+            <p>@L["기본 배송지"]</p>
+            <table class="mypage_work_table address_table">
+                <thead>
+                    <tr>
+                        <th>@L["주소지 명"]</th>
+                        <th>@L["국가"]</th>
+                        <th>@L["우편번호"]</th>
+                        <th>@L["상세주소"]</th>
+                        <th>@L["받는사람"]</th>
+                        <th>@L["연락처"]</th>
+                    </tr>
+                </thead>
+                <tbody id="address_list"></tbody>
+            </table>
+            <div class="address_btn_wrap">
+                <div class="address_btn_left">
+                    <button onclick="$.mypageUtils.setPrimary();" class="btn_default_ef btn-hg-more-lg">@L["기본 주소 설정"]</button>
+                    <button onclick="$.mypageUtils.openAddressPopup('U');" class="btn_default_ef btn-hg-more-lg">@L["수정"]</button>
+                    <button onclick="$.mypageUtils.deleteConfirm();" class="btn_default_ef btn-hg-more-lg">@L["삭제"]</button>
+                </div>
+                <div class="address_btn_right"><button class="btn_blue_bd_nt btn-hg-more-lg" onclick="$.mypageUtils.openAddressPopup('I');">@L["신규 주소 등록하기"]</button></div>
+            </div>
+        </div>
+        <!--//배송지 table-->
+        <input type="hidden" id="join-type" value="@Model.Member.Type" />
+        <input type="hidden" id="join-mobile-seq" value="" />
+        <input type="hidden" id="join-name" value="@Model.Member.Name" />
+        <input type="hidden" id="join-birth-date" value="@Model.Member.BirthDate" />
+        <input type="hidden" id="join-mobile-original" value="@Model.Member.Mobile.Replace("-", "")" />
+        <input type="hidden" id="join-company-reg-no" value="@Model.Member.CompanyRegNo" />
+    </div>
+    <!-- MEMBER SETTING END -->
+    <!-- INFO SETTING START -->
+    <div class="wish_info" style="@(CommonService.GetPage.ToUpper().Equals("/MYPAGE/INFO") || CommonService.GetPage.ToUpper().Equals("/MYPAGE/ARTIST") ? "" : "display: none;")">
+        <div class="wish_btn_wrap tab_btn tab_btn_sub">
+            <ul>
+                <li @(CommonService.GetPage.ToUpper().Equals("/MYPAGE/ARTIST") ? "data-menu=1" : "data-menu=0 class=active")><a href="/MyPage/Info">@L["작품 위시리스트"]</a></li>
+                <li @(CommonService.GetPage.ToUpper().Equals("/MYPAGE/ARTIST") ? "class=active" : "")><a href="/MyPage/Artist">@L["작가 팔로우"]</a></li>
+                @*<li><a href="#">@L["관심 경매"]</a></li>*@
+            </ul>
+        </div>
+        <div class="wish_cnt tab_cnt">
+            <!-- Wishlist -->
+            <div class="wish_cnt_01" @(!CommonService.GetPage.ToUpper().Equals("/MYPAGE/ARTIST") ? "" : Html.Raw("style='display: none;'"))>
+                <div class="auc_kind_wrap">
+                    <div class="auc_select_wrap">
+                        <div class="radio_btn_wrap">
+                            <input id="wish_all_check" type="radio" name="wish_filter" checked="" value="0" onclick="sectionList('0');">
+                            <label for="wish_all_check"><p class="tit">@L["전체"]</p><div><span></span></div></label>
+                        </div>
+                        <div class="radio_btn_wrap">
+                            <input id="wish_check_01" type="radio" name="wish_filter" value="1" onclick="sectionList('1');">
+                            <label for="wish_check_01"><p class="tit">@L["메이저"]</p><div><span></span></div></label>
+                        </div>
+                        <div class="radio_btn_wrap">
+                            <input id="wish_check_02" type="radio" name="wish_filter" value="2" onclick="sectionList('2');">
+                            <label for="wish_check_02"><p class="tit">@L["프리미엄 온라인"]</p><div><span></span></div></label>
+                        </div>
+                        <div class="radio_btn_wrap">
+                            <input id="wish_check_03" type="radio" name="wish_filter" value="4" onclick="sectionList('4');">
+                            <label for="wish_check_03"><p class="tit">@L["위클리 온라인"]</p><div><span></span></div></label>
+                        </div>
+                    </div>
+                    <div class="guide_wrap">
+                        <div class="mypage_tooltip_wrap">
+                            <div class="txt">@L["리스트 보관 안내"]<img src="/img/icons/join_info.png" alt=""></div>
+                            <div class="mypage_tooltip">
+                                <div class="caret_up"><span></span></div>
+                                <div class="cnt">
+                                    <p class="tit">@L["리스트 보관 안내"]</p>
+                                    <ul class="myapge_list_wrap">
+                                        <li><div><span>•</span></div><p>@L["위시리스트로 다음 LOT정보는 등록일로 부터 1년간 유효하며, 1년 경과시 자동으로 사라집니다."]</p></li>
+                                        <li><div><span>•</span></div><p>@L["위시리스트는 경매 별 등록일시 순으로 정렬합니다."]</p></li>
+                                        <li><div><span>•</span></div><p>@L["아트, 공예 섹션의 작품들은 위시리스트 보관 기간이 경매기간 동안으로 제한됩니다."]</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="wish_list"></div>
+            </div>
+
+            <!-- Artist Follow -->
+            <div class="wish_cnt_02" @(CommonService.GetPage.ToUpper().Equals("/MYPAGE/ARTIST") ? "" : Html.Raw("style='display: none;'"))>
+                <div class="filter_wrap" style="margin-bottom: 20px;">
+                    <div class="bottom">
+                        <div class="search_wrap">
+                            <span>@L["검색어"]</span>
+                            <div class="search_area">
+                                <input id="search_default" class="search_default" type="search" placeholder="@L["작가 또는 작품 명 입력"]">
+                                <div id="search_follow_list" class="search_list"><p>@L["팔로우에서 찾기"]</p></div>
+                            </div>
+                            <button class="filter_search_btn btn_blue" onclick="findArtist();">@L["찾기"]</button>
+                        </div>
+                        <div class="follow_check">
+                            <input class="default" type="checkbox" id="follow_check" onchange="checkFollow();">
+                            <label for="follow_check" onclick="checkFollow();"><div><i class="fas fa-check"></i></div><p>@L["팔로우에서 찾기"]</p></label>
+                        </div>
+                        <div class="reset-btn">
+                            <button class="btn_nt btn-hg-more-lg" onclick="initInterestArtistList()">
+                                <img src="/img/icons/refresh_icon.png" alt="" srcset="/img/icons/refresh_icon.png 1x,/img/icons/refresh_icon@2x.png 2x,/img/icons/refresh_icon@3x.png 3x">
+                                @L["필터초기화"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="selected-search-option-wrap" style="display: none;">
+                    <div class="selected-search-option-area"><div><p>@L["선택된 검색옵션"]</p></div><div id="selected-search-option"></div></div>
+                </div>
+                <div class="selected-option-wrap">
+                    <div class="search-dropdown-toggle-wrap" style="width: 214px;">
+                        <button id="w-follow-dropdownMenu" class="btn dropdown-toggle search-dropdown-button" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="true" style="width: 100%;">
+                            <span id="w-follow-dropdownMenu-value">@L["최신순"]</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu search-dropdown-list-wrap" aria-labelledby="w-follow-dropdownMenu" style="width: 212px;">
+                            <a class="dropdown-item" href="javascript:getInterestArtistSort('S1', '@L["최신순"]');">@L["최신순"]</a>
+                            <a class="dropdown-item" href="javascript:getInterestArtistSort('S2', '@L["ㄱㄴㄷ순"]');">@L["ㄱㄴㄷ순"]</a>
+                            <a class="dropdown-item" href="javascript:getInterestArtistSort('S3', '@L["ㄱㄴㄷ역순"]');">@L["ㄱㄴㄷ역순"]</a>
+                        </div>
+                    </div>
+                    <div class="selected-search-option-total" style="display: none;">@L["등록수"] <span></span></div>
+                </div>
+                <div id="writer_empty" style="display: none; margin-top: 0;">
+                    <div class="result-empty-wrap">
+                        <img src="/img/icons/follow_empty_icon.png" srcset="/img/icons/follow_empty_icon.png 1x,/img/icons/follow_empty_icon@2x.png 2x,/img/icons/follow_empty_icon@3x.png 3x" />
+                        <div class="title">@L["좋아하는 작가를 검색하고 팔로우하세요!"]</div>
+                        <p>@L["검색목록 ‘초기화’시 팔로우 목록이 표시됩니다."]<br />
+                        @L["만약, 팔로우 작가들 중 검색을 원하시면<br />'팔로우에서 찾기'를 체크하고 검색하세요."]</p>
+                    </div>
+                </div>
+                <div class="w_follow_list" ></div>
+                <div id="bottom-position"></div>
+            </div>
+        </div>
+    </div>
+    <!-- INFO SETTING END -->
+    <!-- ACCOUNT SETTING START -->
+    <div class="member_setting" style="@(CommonService.GetPage.ToUpper().Equals("/MYPAGE/ACCOUNT") ? "" : "display: none;")">
+        <div class="table_wrap">
+            <div>
+                <p>@L["부가 설정"]</p>
+                <table class="mypage_table member_set_table member_info">
+                    <tbody>
+                        <tr>
+                            <td>@L["유료 서비스"]</td>
+                            <td>
+                                <div class="service_wrap verification_kind">
+                                    <p>@L["도록 실물 구독서비스 <br />(10만원 / 1년)"]</p>
+                                    @if (Model.Member.ApplyBookKind != null && Model.Member.ApplyBookKind.Equals("011"))
+                                    {
+                                        <strong style="cursor: pointer;" onclick="$.commonUtils.alert(ka.msg.mypage.applyBookStartDate + ' : @Model.Member.ApplyBookRegDate.ToString("yyyy-MM-dd HH:mm:ss")', 'success', ka.msg.mypage.applyBookMember);">@L["구독중"]<div class="check"><i class="fa fa-check" aria-hidden="true"></i></div></strong>
+                                    }
+                                    else if (Model.Member.ApplyBookKind != null && Model.Member.ApplyBookKind.Equals("010"))
+                                    {
+                                        <strong class="fs-14" style="cursor: pointer; color: blue;" onclick="$.commonUtils.modalOpen(ka.msg.mypage.bookService2, 'requestBookComplete', '@Model.Member.ApplyBookRegDate.ToString("yyyy-MM-dd HH:mm:ss")');">@L["신청중"]</strong>
+                                    }
+                                    else
+                                    {
+                                        if (Model.MemberAddressFlag)
+                                        {
+                                            <button class="mypage_button btn_default_ef" onclick="SetApplyBook();">@L["신청하기"]</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="mypage_button btn_default_ef" onclick="$.mypageUtils.openAddressPopup('I');">@L["신청하기"]</button>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@L["휴면 전환 기준"]</td>
+                            <td>
+                                <p style="font-size: 12px;">@L["장기 미로그인 기준을 설정하세요. 설정일 이후에는 휴면계정으로 전환되며, 회원정보는 별도보관 됩니다."]</p>
+                                <div class="select_wrap">
+                                    @foreach (var item in memValidatePeriod)
+                                    {
+                                        <div class="radio_btn_wrap">
+                                            <input id="Dormant_@item.SubCode" type="radio" name="Dormant_check" value="@item.SubCode" @(item.SubCode.Equals(Model.Member.InfoValidatePeriod) ? "checked" : "")>
+                                            <label for="Dormant_@item.SubCode"><p class="tit">@item.DisplayCodeName</p><div><span></span></div></label>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@L["메인 하이라이트"]</td>
+                            <td>
+                                <p style="font-size: 12px;">@L["메인페이지 하이라이트 영역에 노출 될 컨텐츠의 기본값을 설정하세요."]</p>
+                                <div class="select_wrap">
+                                    @foreach (var item in memMainHighlight)
+                                    {
+                                        <div class="radio_btn_wrap">
+                                            <input id="maincheck_@item.SubCode" type="radio" name="main_check" value="@item.SubCode" @(item.SubCode.Equals(string.IsNullOrWhiteSpace(Model.Member.MainHighlight) ? "001" : Model.Member.MainHighlight) ? "checked" : "")>
+                                            <label for="maincheck_@item.SubCode"><p class="tit">@item.DisplayCodeName</p><div><span></span></div></label>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@L["LOT 목록<br /> 페이지 전환"]</td>
+                            <td>
+                                <p style="font-size: 12px;">@L["LOT 목록의 페이지 전환 방식의 기본값을 설정하세요."]</p>
+                                <div class="select_wrap">
+                                    @foreach (var item in memListViewMode)
+                                    {
+                                        <div class="radio_btn_wrap">
+                                            <input id="lot_list_check_@item.SubCode" type="radio" name="lot_list_check" value="@item.SubCode" @(item.SubCode.Equals(string.IsNullOrWhiteSpace(Model.Member.ListViewMode) ? "001" : Model.Member.ListViewMode) ? "checked" : "")>
+                                            <label for="lot_list_check_@item.SubCode"><p class="tit">@item.DisplayCodeName</p><div><span></span></div></label>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <p>@L["이용 동의"]</p>
+                <table class="mypage_agree_table">
+                    @foreach (var item in Model.MemberClauses)
+                    {
+                        <tr>
+                            <td class="agree">
+                                <div>
+                                    <p class="agree_cnt wrap-word" style="width: 70%;">
+                                        <a style="width: 70%">
+                                            @Html.Raw(GetAgreementTag(item.RequiredYN))
+                                            @item.DisplayCodeName
+                                        </a> 
+                                    </p>
+                                    <p class="agree_date" style="width: 30%;">
+                                        @Model.Member.ClauseDate.ToString("yyyy-MM-dd HH:mm:ss") 
+                                        <span>@L["동의 완료"]</span>
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <div class="add_info_all_agree">
+                                <p style="width: 60%;">
+                                    <a class="wrap-word">@L["광고성 정보 수신 동의"]</a>
+                                    <span>(@L["선택"])</span>
+                                </p>
+                                <div style="width: 40%;" class="circle_checkbox_wrap p-l-5">
+                                    <input class="circle_check_type" type="checkbox" name="mypageAdd_all_agree_check" id="mypageAdd_all_agree_check">
+                                    <label for="mypageAdd_all_agree_check"><div><i class="fas fa-check"></i></div><strong>@L["<span>내용</span>을 확인했고, 모두 동의합니다."]</strong></label>
+                                </div>
+                            </div>
+                            <div class="add_info_agree_wrap">
+                                <div class="circle_checkbox_wrap">
+                                    <input class="circle_check_type mypageAdd_agree_check" type="checkbox" name="mypageAdd_agree_check" onclick="checkAll_Checkbox()" id="mypageAdd_agree_check_01" @(Model.Member.ReceiveSmsInfo != null && Model.Member.ReceiveSmsInfo.Equals("Y") ? "checked" : "")>
+                                    <label for="mypageAdd_agree_check_01"><div><i class="fas fa-check"></i></div><strong>@L["SMS 문자"]</strong></label>
+                                </div>
+                                @if (Model.Member.ReceiveSmsInfo != null && Model.Member.ReceiveSmsInfo.Equals("Y"))
+                                {
+                                    <p class="agree_date">@Model.Member.ReceiveSmsDate.ToString("yyyy-MM-dd HH:mm:ss") <span>@L["동의 완료"]</span></p>
+                                }
+                                else
+                                {
+                                    <p class="agree_date"><span>@L["미동의"]</span></p>
+                                }
+                            </div>
+                            <div class="add_info_agree_wrap">
+                                <div class="circle_checkbox_wrap">
+                                    <input class="circle_check_type mypageAdd_agree_check" type="checkbox" name="mypageAdd_agree_check" onclick="checkAll_Checkbox()" id="mypageAdd_agree_check_02" @(Model.Member.ReceiveEmailInfo != null && Model.Member.ReceiveEmailInfo.Equals("Y") ? "checked" : "")>
+                                    <label for="mypageAdd_agree_check_02"><div><i class="fas fa-check"></i></div><strong>@L["이메일"]</strong></label>
+                                </div>
+                                @if (Model.Member.ReceiveEmailInfo != null && Model.Member.ReceiveEmailInfo.Equals("Y"))
+                                {
+                                    <p class="agree_date">@Model.Member.ReceiveEmailDate.ToString("yyyy-MM-dd HH:mm:ss") <span>@L["동의 완료"]</span></p>
+                                }
+                                else
+                                {
+                                    <p class="agree_date"><span>@L["미동의"]</span></p>
+                                }
+                            </div>
+                            <div class="add_info_agree_wrap">
+                                <div class="circle_checkbox_wrap">
+                                    <input class="circle_check_type mypageAdd_agree_check" type="checkbox" name="mypageAdd_agree_check" onclick="checkAll_Checkbox()" id="mypageAdd_agree_check_03" @(Model.Member.ReceivePhoneInfo != null && Model.Member.ReceivePhoneInfo.Equals("Y") ? "checked" : "")>
+                                    <label for="mypageAdd_agree_check_03"><div><i class="fas fa-check"></i></div><strong>@L["전화"]</strong></label>
+                                </div>
+                                @if (Model.Member.ReceivePhoneInfo != null && Model.Member.ReceivePhoneInfo.Equals("Y"))
+                                {
+                                    <p class="agree_date">@Model.Member.ReceivePhoneDate.ToString("yyyy-MM-dd HH:mm:ss") <span>@L["동의 완료"]</span></p>
+                                }
+                                else
+                                {
+                                    <p class="agree_date"><span>@L["미동의"]</span></p>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="withdrawal_btn_wrap">
+                    <button class="btn_default_ef btn-hg-sm mypage_button" data-tit="@L["탈퇴하기"]" data-value="delete_account" onclick="$.commonUtils.mypageModal($(this))">@L["탈퇴하기"]</button>
+                </div>
+            </div>
+        </div>
+        <div class="member_setting_btnwrap"><button class="btn_pt btn_01-sm btn-hg-sm" onclick="$.mypageUtils.setAccount();">@L["저장하기"]</button></div>
+    </div>
+    <!-- ACCOUNT SETTING END -->
+</div>
+
+<template id="follow_list">
+    <div class="list">
+        <div class="w_info">
+            <p id="w_name" class="w_name"></p>
+            <span id="w_year" class="w_year"></span>
+            <div class="follow_btn">
+                <i class="follow-state"></i>
+                <span>@L["팔로우"]</span>
+            </div>
+        </div>
+
+        <div class="swiper w_swiper">
+            <div class="swiper-wrapper w_swiper-wrapper m-b-10">
+            </div>
+            <div class="swiper-scrollbar"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</template>
+
+<template id="skeleton_list">
+    <div class="skeleton_list">
+        <div class="skeleton_info_wrap">
+            <p class="w_name skeleton-list-item"></p>
+            <span class="w_year skeleton-list-item"></span>
+
+            <div class="follow_btn">
+                <i class="fa fa-heart"></i>
+                <span class="skeleton-list-item"></span>
+            </div>
+        </div>
+
+        <div class="skeleton_swiper_wrap">
+            <div class="slide skeleton-list-item"></div>
+            <div class="slide skeleton-list-item"></div>
+            <div class="slide skeleton-list-item"></div>
+            <div class="slide skeleton-list-item"></div>
+            <div class="slide skeleton-list-item"></div>
+            <div class="slide skeleton-list-item"></div>
+        </div>
+    </div>
+</template>
+
+<template id="skeleton_loading-ani">
+    <div class="skeleton_loading-ani">
+        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#101B50" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="2s" repeatCount="indefinite"></animateTransform>
+                </path>
+            </svg>
+    </div>
+</template>
+
+<template id="follow_sub_list">
+    <div class="list"><span id="sub_name"></span><i class="fa fa-heart" aria-hidden="true"></i></div>
+</template>
+
+<template id="address_item">
+    <tr class="default">
+        <td class="address_select">
+            <div class="radio_btn_wrap">
+                <input id="" type="radio" name="address_select">
+                <label for=""><p class="tit"></p><div><span></span></div></label>
+            </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td class="text-left"></td>
+        <td></td>
+        <td></td>
+    </tr>
+</template>
+<partial name="_Partial/_CertificateDocumentGuide" />
+
+<script>
+    var isKor = "@CommonService.IsKor()";
+    var artistMode = false;
+    var followListInit = false;
+    var maxPage = 1;
+    var listClear = false;
+    var process = false;
+    var requestParam = {};
+    const memType = '@LoginInfo.Type';
+    requestParam["filter"] = "F";
+    requestParam["page"] = 1;
+    requestParam["page_size"] = 5;
+
+    $(document).ready(function(){
+        'use strict';
+
+        const search_txt = document.querySelector("#search_default"),
+            search_txt_nextEl = search_txt.nextElementSibling;
+
+
+        search_txt.addEventListener('keyup', (e) => {
+            if (e.keyCode === 13) {
+                findArtist();a
+            }
+        });
+
+        for (let i = 0; i < 2; i ++) {
+            const list_skeleton_item = document.importNode(document.querySelector('#skeleton_list').content, true);
+            document.querySelector(".w_follow_list").appendChild(list_skeleton_item);
+        }
+        
+        @if (CommonService.GetPage.ToUpper().Contains("/MYPAGE/ACCOUNT") || CommonService.GetPage.ToUpper().Contains("/MYPAGE/MEMBER"))
+        {
+            @:getAddressList();
+        }
+
+        @if (CommonService.GetPage.ToUpper().Contains("/MYPAGE/INFO"))
+        {
+            @:getWishWorkList();
+        }
+
+        @if (CommonService.GetPage.ToUpper().Contains("/MYPAGE/ARTIST"))
+        {
+            @:getInterestArtistList();
+        }
+
+        if (memType === '002' || memType === '004') {
+            document.querySelectorAll(".country_tel").forEach((elem) => {
+                window.intlTelInput(elem, {
+                    nationalMode: true,
+                    separateDialCode: true,
+                    initialCountry: "kr",
+                    utilsScript: "../../build/js/utils.js?1638200991544"
+                });
+                
+                if (memType === "001" || memType === "003") {
+                    $(".iti__flag-container").hide();
+                    $(`#mobile-${memType}`).css("padding-left", "11px");
+                    $(`#mobile-${memType}`).css("height", "40px");
+
+                } else {
+                    $(".iti__flag-container").show();
+                    $(`#mobile-${memType}`).css("padding-left", "89px");
+                }
+            });
+        }
+    });
+    
+    const initJobInput = () => {
+        const $jobInputs = document.querySelectorAll('.job-input');
+        const $selected = document.querySelector('#job > option:checked');
+        if ($selected) {
+            const extra1 = $selected.dataset.extra1;
+            if (extra1 === 'Y') {
+                $jobInputs.forEach(($jobInput) => {
+                    $jobInput.removeAttribute('disabled');
+                    $jobInput.style.backgroundColor = 'rgb(255, 255, 255)';
+                });
+            } else {
+                $jobInputs.forEach(($jobInput) => {
+                    $jobInput.value = '';
+                    $jobInput.disabled = true;
+                    $jobInput.style.backgroundColor = 'rgb(234, 234, 234)';
+                });
+            }
+        }
+    }
+    
+    initJobInput();
+
+    document.querySelector("#job").addEventListener('change', () => {
+        initJobInput();
+    });
+    
+    let tabLinks = document.querySelectorAll(".masking-tapbtn> ul > li");
+    let tabContent = document.querySelectorAll(".masking-desc > div");
+    tabLinks.forEach(function(el) {
+        el.addEventListener("click", openTabs);
+    });
+    
+    function openTabs(el) {
+        el.preventDefault();
+        const btnTarget = el.currentTarget;
+        const country = btnTarget.dataset.country;
+        tabContent.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        tabLinks.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelector(`#${country}`).classList.add("active");
+        btnTarget.classList.add("active");
+    }
+
+    function pwModalOpen (target) {
+        $.commonUtils.mypageModal(target);
+    }
+
+    function getAddressList() {
+        $.ajaxUtils.getApiData('/api/Member/AddressList', null, getAddressListComplete);
+    }
+
+    function getAddressListComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#address_list").empty();
+            $.each(result.data, function (index, item) {
+                // 주소 목록 처리
+                var addressItem = document.importNode(document.querySelector("#address_item").content, true);
+
+                var trItem = addressItem.querySelector("tr");
+                trItem.setAttribute("id", "tr_" + item.uid);
+                trItem.setAttribute("data-primary", item.primary);
+                trItem.setAttribute("data-apply-book", item.apply_book_yn);
+                trItem.setAttribute("data-type", item.type);
+                trItem.setAttribute("data-etc", item.etc);
+                trItem.setAttribute("data-zipcode", item.zipcode);
+                trItem.setAttribute("data-country-code", item.country_code);
+                trItem.setAttribute("data-address1", item.address);
+                trItem.setAttribute("data-address2", item.address2);
+                trItem.setAttribute("data-receiver", item.receiver);
+                trItem.setAttribute("data-contact", item.contact);
+
+                var tdList = addressItem.querySelectorAll("td");
+
+                tdList[0].querySelector("label").setAttribute("for", "address_select_" + item.uid);
+                tdList[0].querySelector("input").setAttribute("id", "address_select_" + item.uid);
+                tdList[0].querySelector("input").setAttribute("value", item.uid);
+                if (item.primary === 'Y') {
+                    tdList[0].querySelector("input").setAttribute("checked", "checked");
+                }
+                tdList[0].querySelector("p").innerHTML = (item.type === '004' ? item.etc : item.type_name)
+                    + (item.primary === 'Y' ? " <span>[" + ka.msg.mypage.default + "]</span>" : "")
+                    + (item.apply_book_yn === 'Y' ? " <span style='color: blue'>[" + ka.msg.mypage.applyBook + "]</span>" : "")
+
+                tdList[1].textContent = item.country_name;
+                tdList[2].textContent = item.zipcode;
+                tdList[3].textContent = item.address + ' ' + item.address2;
+                tdList[4].textContent = item.receiver;
+                tdList[5].textContent = item.contact;
+
+                document.querySelector("#address_list").appendChild(addressItem);
+
+                // 팝업 주소 목록 처리
+                var el = $('<option />', { "id": "opt-" + item.uid, "data-uid": item.uid, "data-receiver": item.receiver, "data-contact": item.contact }).append(item.zipcode + ". " + item.address + " " + item.address2);
+                $("#apply-book-address").append(el);
+                if (item.apply_book_yn === 'Y') {
+                    el.attr("selected", "selected");
+                    $("#apply-book-name").val(item.apply_book_receiver);
+                    $("#apply-book-mobile").val(item.apply_book_contact.replace(/-/ig, ''));
+                } else {
+                    if (index === 0) {
+                        $("#apply-book-name").val(item.receiver);
+                        $("#apply-book-mobile").val(item.contact.replace(/-/ig, ''));
+                    }
+                }
+            });
+
+            if (result.data.length < 1) {
+                $('#address_list').append(
+                    $('<tr />').append(
+                        $('<td />', { "colspan": "7", "class": "text-center" }).append(ka.msg.mypage.addressListEmpty))
+                );
+            }
+        }
+    }
+
+    function sectionList(type) {
+        requestParam["page"] = 1;
+        requestParam["auc_kind"] = type > 0 ? type.toString() : "";
+        listClear = true;
+        getWishWorkList();
+    }
+
+    function getWishWorkList() {
+        $.ajaxUtils.getApiData("/api/Member/WishWorkList", requestParam, getWishWorkListComplete);
+    }
+
+    function getWishWorkListComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $(".wish_list").empty();
+            let totalCount = -1
+            let aucRank = 0;
+            let collapseIndex = 0;
+            $.each(result.data, function (index, item) {
+                // 경매가 다를경우 Root 생성
+                if (item.auc_rank != aucRank) {
+                    const panel = $("<div />", { "class": "card card-default sh-none", "style": "margin-bottom: 0px;" });
+                    const header = $("<div />", { "class": "card-header separator", "style": "padding: 15px 20px 5px 20px;" });
+                    const headerContent = $("<div />", { "class": "card-title w-100 fs-16" }).append(
+                        $("<label />", {
+                            "class": "fs-18",
+                            "style": "float: left;"
+                        }).append(item.auc_title));
+                    if (item.active_yn === "Y") {
+                        headerContent.append($("<button />", {
+                            "class": "btn btn-primary",
+                            "style": "float: right;",
+                            "onclick": "window.location.href='" + $.cardUtils.getGoToAuction(item) + "';"
+                        }).append(ka.msg.list.viewAuction));
+                    }
+                    header.append(headerContent);
+
+                    const collapse = $("<div />", { "id": "collapse-" + (++collapseIndex).toString(), "class": "panel-collapse collapse in show" });
+                    collapse.append($("<div />", { "id": "card-body-" + collapseIndex.toString(), "class": "card-body" }));
+
+                    $(".wish_list").append(panel.append(header, collapse));
+                }
+
+                $.cardUtils.setWorkHorizonalCard("#card-body-" + collapseIndex.toString(), item, index, "wishlist");
+
+                aucRank = item.auc_rank;
+
+                totalCount = index++;
+            });
+
+            if (totalCount < 0) {
+                $.cardUtils.setEmptyCardTag(".wish_list", "wishlist");
+            }
+        } else {
+            $.commonUtils.alert("@L["처리 중 오류가 발생하였습니다."]");
+        }
+    }
+
+    function getInterestArtistList() {
+        if (process) return false;
+
+        process = true;
+
+        $.ajaxUtils.getApiData("/api/MyPage/GetMemberInterestArtists", requestParam, getInterestArtistListComplete);
+    }
+
+    function getInterestArtistSort(v, o) {
+        if (requestParam["sort"] && requestParam["sort"] === v) {
+            return false;
+        }
+        $("#w-follow-dropdownMenu-value").html(o);
+        requestParam["sort"] = v;
+        requestParam["page"] = 1;
+        listClear = true;
+        getInterestArtistList();
+    }
+
+    // 위시리스트 슬라이더
+    let isDown = false;
+    let start_X;
+    let scrollLeft;
+
+    var scrollAmount = 0;
+    var scrollMin = 0;
+    var scrollMax = document.querySelectorAll(".w_swiper-wrapper").clientWidth;
+
+    function scrollReset(target) {
+        target.css("transform", "translate3d(0px, 0px, 0px)")
+    }
+
+    let listLoding = false;
+
+    function getInterestArtistListComplete(result, parameters) {
+        document.querySelectorAll(".skeleton_list").forEach(el => {
+            el.remove();
+        });
+        if (document.querySelector('.skeleton_loading-ani')) {
+            document.querySelector('.skeleton_loading-ani').remove();
+        }
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+
+            let total_area = $(".wish_cnt_02 .selected-search-option-total");
+            if (listClear) {
+                $(".w_follow_list").empty();
+                listClear = false;
+            }
+            total_area.hide();
+
+            $(".selected-search-option-wrap").hide();
+            $("#selected-search-option").empty();
+
+            if(result.data && result.data.data.length >= 1) {
+                total_area.show();
+                $("#writer_empty").hide();
+                $(".wish_cnt_02 .selected-search-option-total > span").text("(" + result.data.recordsTotal + "/100)");
+
+                maxPage = result.data.recordsTotal % requestParam["page_size"] === 0 ? result.data.recordsTotal / requestParam["page_size"] : parseInt((result.data.recordsTotal / requestParam["page_size"]) + 1, 10);
+                
+                if (JSON.parse(parameters).key && JSON.parse(parameters).key !== '') {
+                    $(".selected-search-option-wrap").show();
+                    let key = JSON.parse(parameters).key;
+                    let filter = JSON.parse(parameters).filter;
+                    $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("search_a", key, ka.msg.list.keyword + ": " + key));
+
+                    var filterValue = filter === 'F' ? ka.msg.mypage.follow : ka.msg.mypage.artistDB;
+                    $("#selected-search-option").append('<div class="selected-search-list" style="padding-right: 8px;"><span>' + ka.msg.list.aucRange + ': ' + filterValue + '</span></div>')
+                }
+            } else {
+                total_area.hide();
+                $("#writer_empty").show();
+            }
+
+            $.each(result.data.data, function (index, item) {
+                var list = document.importNode(document.querySelector('#follow_list').content, true);
+
+                if (requestParam["page_size"] - 1 === index) {
+                    list.querySelector(".list").setAttribute("class", "list last_item");
+                }
+
+                list.querySelector("#w_name").textContent = item.name;
+                list.querySelector("#w_year").textContent = item.direct_date;
+
+                if (item.follow_yn === 'Y') {
+                    list.querySelector(".follow-state").setAttribute("class", "fas fa-heart follow-state");
+                } else {
+                    list.querySelector(".follow-state").setAttribute("class", "far fa-heart follow-state");
+                }
+                list.querySelector(".follow-state").setAttribute("style", "cursor: pointer;");
+
+                list.querySelector(".follow_btn").addEventListener("click", function () {
+                    var reqParam = {};
+                    reqParam["code"] = item.uid;
+                    reqParam["type"] = "A";
+                    reqParam["mode"] = item.follow_yn === "Y" ? "DELETE" : "INSERT";
+                    var result = $.ajaxUtils.getApiData('/api/MyPage/SetMemberInterestInfo', reqParam, null, false);
+                    if (result.code && result.code.indexOf("ka.msg") > -1) {
+                        $.commonUtils.alert(eval(result.code));
+                    } else {
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        requestParam["page"] = 1;
+                        listClear = true;
+                        getInterestArtistList();
+                    }
+                });
+
+                let contentCount = 0;
+
+                // 작가사진
+                if (item.artist_file_url) {
+                    var imgRoot = document.createElement('div');
+                    imgRoot.setAttribute("class", "swiper-slide slide w-profile");
+
+                    var img = document.createElement('img');
+                    img.setAttribute("src", item.artist_file_url);
+                    imgRoot.appendChild(img);
+
+                    var hover = document.createElement('div');
+                    hover.className = "hover-box";
+                    hover.style.cursor = "pointer";
+
+                    var btn = document.createElement('div');
+                    btn.setAttribute("onclick", "searchWiter(this)");
+                    btn.setAttribute("data-writer", item.name);
+                    btn.className = "writer-search-wrap";
+                    btn.innerHTML = `<span>` + ka.msg.mypage.artistSearch + `</span><i class="fa fa-search" aria-hidden="true"></i>`;
+                    hover.appendChild(btn);
+                    imgRoot.appendChild(hover);
+
+                    list.querySelector(".w_swiper-wrapper").appendChild(imgRoot);
+
+                    contentCount++;
+                }
+
+                // 진행중인 경매
+                if (item.auc_work_info) {
+                    var aucWork = item.auc_work_info.split('|');
+                    $.each(aucWork, function (i, d) {
+                        var info = d.split('^');
+                        if (info[5] === 'P') return true;
+
+                        var imgRoot = document.createElement('div');
+                        imgRoot.setAttribute("class", "swiper-slide slide w-auction");
+
+                        var img = document.createElement('img');
+                        img.setAttribute("src", info[0]);
+                        imgRoot.appendChild(img);
+
+                        var icon = document.createElement('div');
+                        icon.className = "on-icon";
+                        icon.textContent = "경매중";
+                        icon.appendChild(document.createElement('span'));
+                        imgRoot.appendChild(icon);
+
+                        var hover = document.createElement('div');
+                        hover.className = "hover-box";
+                        hover.setAttribute("onclick", "window.open('" + info[1] + "', '_self');");
+                        hover.setAttribute("style", "cursor: pointer;");
+
+                        var content = document.createElement('div');
+                        content.className = "info";
+
+                        var data = document.createElement('p');
+                        data.className = "name";
+                        data.textContent = info[2];
+                        content.appendChild(data);
+
+                        var data2 = document.createElement('p');
+                        data2.className = "cnt";
+                        data2.textContent = info[3];
+                        content.appendChild(data2);
+
+                        var data3 = document.createElement('p');
+                        data3.className = "price-tit";
+                        data3.textContent = ka.msg.auction.starting;
+                        content.appendChild(data3);
+
+                        var data4 = document.createElement('p');
+                        data4.className = "start-bid";
+                        data4.innerHTML = "KRW <span>" + info[4] + "</span>";
+
+                        content.appendChild(data4);
+                        hover.appendChild(content);
+
+                        imgRoot.appendChild(hover);
+
+                        list.querySelector(".w_swiper-wrapper").appendChild(imgRoot);
+
+                        contentCount++;
+                    });
+                }
+
+                // 작가설명
+                if (item.artist_desc) {
+                    var el = document.createElement('div');
+                    el.setAttribute("class", "swiper-slide slide no-img-link");
+
+                    var iconImg = document.createElement('img');
+                    iconImg.className = "iconImg";
+                    iconImg.setAttribute("src", "/img/icons/link_cnt_icon.png");
+                    el.appendChild(iconImg);
+
+                    var hover = document.createElement('div');
+                    hover.setAttribute("onclick", "");
+                    hover.style.cursor = "pointer";
+                    hover.className = "hover-box";
+
+                    var btn = document.createElement('div');
+                    btn.setAttribute("onclick", "searchWiter(this)");
+                    btn.setAttribute("data-writer", item.name);
+                    btn.className = "writer-search-wrap";
+                    btn.innerHTML = `<span>` + ka.msg.mypage.artistSearch + `</span><i class="fa fa-search" aria-hidden="true"></i>`;
+                    hover.appendChild(btn);
+                    el.appendChild(hover);
+                    
+                    var subEl = document.createElement('div');
+                    subEl.className = "link-cnt";
+                    var content = document.createElement('p');
+                    content.textContent = item.artist_desc;
+                    content.setAttribute("title", item.artist_desc);
+                    subEl.appendChild(content);
+
+                    el.appendChild(subEl);
+
+                    list.querySelector(".w_swiper-wrapper").appendChild(el);
+
+                    contentCount++;
+                }
+
+                // 작가 유투브
+                if (item.artist_youtube !== '') {
+                    var youtube = item.artist_youtube.split('|');
+
+                    $.each(youtube, function (i, d) {
+                        var imgRoot = document.createElement('div');
+                        imgRoot.setAttribute("class", "swiper-slide slide w-video");
+
+                        var img = document.createElement('img');
+                        img.setAttribute("src", "https://img.youtube.com/vi/" + (d.indexOf("watch?v=") > 0 ? d.split('=')[1] : "") + "/mqdefault.jpg");
+                        imgRoot.appendChild(img);
+
+                        var imgPlay = document.createElement('img');
+                        imgPlay.className = "play-img";
+                        imgPlay.src = "/img/icons/work-playbtn@1x.png";
+                        imgPlay.srcset = "/img/icons/work-playbtn@1x.png 1x,/img/icons/work-playbtn@2x.png 2x,/img/icons/work-playbtn@3x.png 3x";
+                        imgPlay.setAttribute("style", "cursor: pointer;");
+                        imgPlay.setAttribute("onclick", "javascript:$.commonUtils.openWindow('" + d + "', '');");
+                        imgRoot.appendChild(imgPlay);
+
+                        var hoverBox = document.createElement("div");
+                        hoverBox.className = "hover-box";
+                        hoverBox.setAttribute("style", "cursor: pointer;");
+                        hoverBox.setAttribute("onclick", "javascript:$.commonUtils.openWindow('" + d + "', '');");
+
+                        imgRoot.appendChild(hoverBox);
+
+                        list.querySelector(".w_swiper-wrapper").appendChild(imgRoot);
+
+                        contentCount++;
+                    });
+                }
+
+                // 작가의 참고자료
+                if (item.artist_reference) {
+
+                    var artistRef = item.artist_reference.split('|');
+
+                    $.each(artistRef, function (i, d) {
+                        var el = document.createElement('div');
+                        el.setAttribute("class", "swiper-slide slide no-img-link");
+
+                        var iconImg = document.createElement('img');
+                        iconImg.className = "iconImg";
+                        iconImg.setAttribute("src", "/img/icons/link_cnt_icon.png");
+                        el.appendChild(iconImg);
+
+                        var subEl = document.createElement('div');
+                        subEl.className = "link-cnt";
+
+                        var content = document.createElement('p');
+                        content.textContent = d.split('^')[0];
+                        content.setAttribute("onclick", "javascript:$.commonUtils.openWindow('" + d.split('^')[1] + "', '');");
+                        content.setAttribute("style", "cursor: pointer;");
+                        content.setAttribute("title", d.split('^')[0]);
+                        subEl.appendChild(content);
+
+                        el.appendChild(subEl);
+
+                        list.querySelector(".w_swiper-wrapper").appendChild(el);
+
+                        contentCount++;
+                    });
+                }
+
+                // 지난작품
+                if (item.auc_work_info) {
+                    var aucWork = item.auc_work_info.split('|');
+                    $.each(aucWork, function (i, d) {
+                        var info = d.split('^');
+
+                        if (info[5] === 'L') return true;
+
+                        var imgRoot = document.createElement('div');
+                        imgRoot.setAttribute("class", "swiper-slide slide w-auction");
+
+                        var img = document.createElement('img');
+                        img.setAttribute("src", info[0]);
+                        imgRoot.appendChild(img);
+
+                        var hover = document.createElement('div');
+                        hover.className = "hover-box";
+                        hover.setAttribute("onclick", "window.open('" + info[1] + "', '_self');");
+                        hover.setAttribute("style", "cursor: pointer;");
+
+                        var content = document.createElement('div');
+                        content.className = "info";
+
+                        var data = document.createElement('p');
+                        data.className = "name";
+                        data.textContent = info[2];
+                        content.appendChild(data);
+
+                        var data2 = document.createElement('p');
+                        data2.className = "cnt";
+                        data2.textContent = info[3];
+                        content.appendChild(data2);
+
+                        var data3 = document.createElement('p');
+                        data3.className = "price-tit";
+                        data3.textContent = ka.msg.auction.hammer;
+                        content.appendChild(data3);
+
+                        var data4 = document.createElement('p');
+                        data4.className = "start-bid";
+                        data4.innerHTML = "KRW <span>" + info[4] + "</span>";
+
+                        content.appendChild(data4);
+                        hover.appendChild(content);
+
+                        imgRoot.appendChild(hover);
+
+                        list.querySelector(".w_swiper-wrapper").appendChild(imgRoot);
+
+                        contentCount++;
+                    });
+                }
+
+                if (contentCount < 1) {
+                    var el = document.createElement('div');
+                    el.className = "swiper-slide slide no-data";
+                    el.innerHTML = ka.msg.mypage.noInfo;
+                    list.querySelector(".w_swiper-wrapper").appendChild(el);
+                }
+
+                document.querySelector('.w_follow_list').appendChild(list);
+                let slider = document.querySelector('.w_follow_list').children[index].lastElementChild.children[0];
+
+                $(".w_swiper").each(function(index) {
+                    var $this = $(this);
+                    $this.addClass("slider-" + index);
+                });
+
+                document.querySelectorAll(".w_follow_list .list .w_swiper .slide.no-img-link > .link-cnt > p").forEach((el) => {
+                    $.commonUtils.strSplit(80, el);
+                });
+            });
+
+            $(".w_swiper").each(function(index) {
+                var w_swiper = new Swiper('.slider-' + index, {
+                    initialSlide : 0,
+                    slidesPerView: "auto",
+                    spaceBetween: 24,
+                    navigation : {
+                        nextEl : '.swiper-button-next', // 오른쪽(다음) 화살표
+                        prevEl : '.swiper-button-prev', // 왼쪽(이전) 화살표
+                    },
+                    scrollbar : {
+                        el : '.swiper-scrollbar',
+                        draggable: true,
+                    },
+                    observer: true,
+                    observeParents: true
+                });
+
+                $(this).on('mouseenter', function(e){
+                    $(this).find("div.swiper-scrollbar").css("opacity", "1");
+                })
+
+                $(this).on('mouseleave', function(e){
+                    $(this).find("div.swiper-scrollbar").css("opacity", "0");
+                });
+
+            });
+
+            // const textBoxColor = ["#D4D8ED", "#FCF2EE", "#8F9FA0", "#A3A3A3"];
+
+            // const swiperWrap = document.querySelectorAll(".w_swiper-wrapper");
+            // swiperWrap.forEach(el => {
+                
+            //     el.children.forEach(elem => {
+
+            //         if (bgcl === 3 || Array.from(el.children).indexOf(elem) === 0) {
+            //             bgcl = 0;
+            //         }
+
+            //         if (elem.classList.contains("no-img-link")){
+            //             elem.lastElementChild.style.backgroundColor = textBoxColor[bgcl]
+            //             bgcl++;
+            //         }
+            //     })
+            // });
+
+
+        } else {
+            $.commonUtils.alert("@L["처리 중 오류가 발생하였습니다."]");
+        }
+
+        const io = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                const target = entry.target;
+
+                if (!entry.isIntersecting) return;
+                if (requestParam["page"] >= maxPage) return false;
+                observer.unobserve(target);
+                requestParam["page"] = requestParam["page"] + 1;
+                for (let i = 0; i < 2; i ++) {
+                    const list_skeleton_item = document.importNode(document.querySelector('#skeleton_list').content, true);
+                    document.querySelector(".w_follow_list").appendChild(list_skeleton_item);
+                }
+                const skeleton_loading_ani = document.importNode(document.querySelector('#skeleton_loading-ani').content, true);
+                document.querySelector(".w_follow_list").appendChild(skeleton_loading_ani);
+                getInterestArtistList();
+
+            })
+        }, { threshold : 0.7 });
+
+        io.observe(document.getElementById('bottom-position'))
+
+        $(".skeleton_loading-ani").remove();
+
+        followListInit = true;
+        process = false;
+    }
+
+    function searchWiter(target) {
+        var val = target.dataset.writer;
+        if (val === "") return false;
+        $.searchUtils.setSearchKey("T", val, false);
+        window.location.href = "/Home/Search?key=" + encodeURI(val);
+    }
+
+    function initInterestArtistList() {
+        $("#search_default").val('');
+        requestParam["filter"] = 'F';
+        requestParam["key"] = '';
+        requestParam["page"] = 1;
+        listClear = true;
+        getInterestArtistList();
+    }
+
+    function findArtist() {
+        if (process) return false;
+
+        if ($("#search_default").val().replace(/ /ig, '') === '') {
+            $.commonUtils.alert(ka.msg.mypage.artistEmpty);
+            return false;
+        }
+        if ($("#search_default").val().length < 2) {
+            $.commonUtils.alert(ka.msg.mypage.artistLength);
+            return false;
+        }
+
+        requestParam["filter"] = $('#follow_check').is(':checked') ? "F" : "A";
+        requestParam["key"] = $("#search_default").val();
+        requestParam["page"] = 1;
+        listClear = true;
+
+        getInterestArtistList();
+    }
+
+    function checkFollow() {
+        if (process) return false;
+
+        requestParam["filter"] = $('#follow_check').is(':checked') ? "A" : "F";
+        requestParam["key"] = $("#search_default").val();
+        requestParam["page"] = 1;
+        listClear = true;
+
+        getInterestArtistList();
+    }
+
+    function SetApplyBook() {
+        $.commonUtils.confirm(ka.msg.mypage.bookService, ka.msg.mypage.bookServiceConfirm, "requestBook()");
+    }
+
+    function requestBook() {
+        $.commonUtils.modalOpen(ka.msg.mypage.bookService2, 'requestBook')
+    }
+
+    const get = (target) => { return document.querySelector(target) }
+    const getAll = (target) => { return document.querySelectorAll(target) }
+
+    let join_ad_Check = getAll('.mypageAdd_agree_check');
+    function checkAll_Checkbox() {
+        var agreeAllCheck_adbox = document.getElementById("mypageAdd_all_agree_check");
+
+        for (var i = 0, len = join_ad_Check.length; i < len; ++i) {
+            if (!join_ad_Check[i].checked) {
+                agreeAllCheck_adbox.checked = false;
+                return;
+            }
+        }
+        agreeAllCheck_adbox.checked = true;
+    }
+
+    if (document.getElementById("mypageAdd_all_agree_check") != null) {
+        document.getElementById("mypageAdd_all_agree_check").addEventListener('change', function (e) {
+            for (let i = 0; i < join_ad_Check.length; i++) {
+                join_ad_Check[i].checked = e.target.checked;
+            }
+        });
+    }
+
+</script>

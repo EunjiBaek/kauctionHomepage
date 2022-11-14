@@ -1,0 +1,121 @@
+﻿<div class="modal fade slide-up" id="modal-common" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel1" aria-hidden="false" style="z-index: 2000;">
+    <div class="modal-dialog  modal-dialog-centered" style="display: flex;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="modal-alert">
+                        <div id="modal-type" class="modal-icon animate"></div>
+                    </div>
+                    <h3 class="pt-3">Alert</h3>
+                    <p class="text-muted" id="modal-message"></p>
+                    <div style="display: none;">
+                        <a href="#" class="badge badge-danger">에러코드:503</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-md-right">
+                <a href="#" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">확인</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-warning" tabindex="-1" role="dialog" aria-labelledby="modal-warning" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3">
+                    <div class="modal-alert">
+                        <div class="modal-icon modal-warning scaleWarning">
+                            <span class="modal-line pulseWarningIns"></span>
+                            <span class="modal-dot pulseWarningIns"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="pt-3" id="modal-warning-title"></h3>
+                    <p class="text-muted" id="modal-warning-message"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="btn-warning-confirm" href="#" class="btn btn-cstm-danger" data-dismiss="modal" aria-label="Close">진행</a>
+                <a href="#" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">취소</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-up" id="modal-bid" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel1" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" style="display:flex; width:100%;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <h3 class="pt-3"><span id="modal-bid-title"></span></h3>
+                    <div class="row">
+                        <!-- 데이터그리드 영역 -->
+                        <div class="col-lg-12 m-t-20" id="data-grid-bid"></div>
+                        <!-- 페이지네이션 영역 -->
+                        <div class="col-lg-12 m-t-10">
+                            <div class="dataTables_wrapper">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6 text-center">
+                                        <div class="dataTables_paginate paging_full_numbers text-center w-100">
+                                            <ul class="pagination-bid" style="display: inherit;"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-md-right">
+                <a href="#" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">닫기</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-up" id="modal-content" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel1" aria-hidden="false" style="z-index: 2000;">
+    <div class="modal-dialog  modal-dialog-centered" style="display: flex;" role="document">
+        <div class="modal-content">
+            <div class="modal-header fs-16 m-b-10" id="modal-content-header"></div>
+            <div class="modal-body modal-content-body w-100"></div>
+            <div class="modal-body modal-content-body-pwd-M w-100" style="display: none;">
+                <div class="border p-t-10 p-l-10" style="background-color: #fafafa;">
+                    <div class="form-check">
+                        <input type="radio" name="rdoPwdMobile" id="pwd-reg-mobile" value="M" checked="checked" />
+                        <label for="pwd-reg-mobile" class="fw-700" id="pwd-reg-mobile-disp"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rdoPwdMobile" id="pwd-inp-mobile" value="U" />
+                        <label for="pwd-inp-mobile" class="fw-700">직접입력</label>
+                    </div>
+                    <div class="form-check p-l-20">
+                        <input type="tel" id="pwd-inp-mobile-val" value="" class="border form-control w-50" placeholder="- 제외한 숫자만 입력" />
+                        <div class="m-t-10">직접 입력 시 요청자가 고객 본인이 맞는지 철저한 확인 후 이용해주세요.</div>
+                    </div>
+                </div>
+                <div class="modal-content-error" style="color: red; font-weight: 600;"></div>
+            </div>
+            <div class="modal-body modal-content-body-pwd-E w-100" style="display: none;">
+                <div class="border p-t-10 p-l-10" style="background-color: #fafafa;">
+                    <div class="form-check">
+                        <input type="radio" name="rdoPwdEmail" id="pwd-reg-email" value="M" checked="checked" />
+                        <label for="pwd-reg-email" class="fw-700" id="pwd-reg-email-disp"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rdoPwdEmail" id="pwd-inp-email" value="U" />
+                        <label for="pwd-inp-email" class="fw-700">직접입력</label>
+                    </div>
+                    <div class="form-check p-l-20">
+                        <input type="text" id="pwd-inp-email-val" value="" class="border form-control w-50" placeholder="" />
+                        <div class="m-t-10">직접 입력 시 요청자가 고객 본인이 맞는지 철저한 확인 후 이용해주세요.</div>
+                    </div>
+                </div>
+                <div class="modal-content-error" style="color: red; font-weight: 600;"></div>
+            </div>
+            <div class="modal-footer text-md-right">
+                <a id="btn-content-confirm" href="#" class="btn btn-primary btn-cstm-danger" data-dismiss="modal" aria-label="Close">저장</a>
+                <a href="#" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">취소</a>
+            </div>
+        </div>
+    </div>
+</div>    

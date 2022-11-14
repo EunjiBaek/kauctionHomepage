@@ -1,0 +1,1409 @@
+<!--결제및출고요청-->
+<div class="btn_wrap b02 tab_btn">
+    <ul>
+        <li class="active"><a href="#">결제및 출고요청</a></li>
+        <li><a href="#">결제 및 출고요청 내역</a></li>
+    </ul>
+</div>
+
+
+<div class="btn_content b02 tab_cnt">
+    <!--결제출고요청-->
+    <div class="cnt_01">
+        <div class="step_wrap">
+            <ul>
+                <li class="payment-step-item">
+                    <p>수령방식 선택</p>
+                    <span class="circle">1</span>
+                </li>
+
+                <li class="payment-step-item">
+                    <p>출고정보 입력</p>
+                    <span class="circle">2</span>
+                </li>
+
+                <li class="payment-step-item">
+                    <p>출고작 선택</p>
+                    <span class="circle">3</span>
+                </li>
+
+                <li class="payment-step-item">
+                    <p>결제 진행</p>
+                    <span class="circle">4</span>
+                </li>
+
+                <li class="payment-step-item">
+                    <p>결제 및 출고요청 완료</p>
+                    <span class="circle">5</span>
+                </li>
+
+
+            </ul>
+        </div>
+
+        <div>
+            <form id="payment-req-form" action="">
+                <!--1 수령방식 선택-->
+                <div class="cnt_detail d01">
+                    <p>작품 수령 방식을 선택하세요</p>
+                    <div class="delivery_check">
+                        <a href="#">배송 관련 안내 확인하기</a>
+                    </div>
+
+
+                    <div class="delivery_select tab_btn">
+                        <ul>
+                            <li class="active" onclick="nextPrev(1)">
+                                <a href="#">
+                                    <div class="tit">케이옥션 배송서비스를
+                                        <br />이용할게요
+                                    </div>
+                                    <div class="img"></div>
+                                    <p>서울 5만원, 수도권 10만원 <br />
+                                        그 외 국내지역 15만원</p>
+                                </a>
+                                <div class="white_dim"></div>
+                            </li>
+
+                            <li onclick="nextPrev(1)">
+                                <a href="#">
+                                    <div class="tit">케이옥션에 방문하여
+                                        <br />직접 수령 할게요
+                                    </div>
+                                    <div class="img"></div>
+                                    <p>당사 내방 직접 수령은 배송비 0원 <br />
+                                        명품/악기류는 직접 수령 필수
+                                    </p>
+                                </a>
+                                <div class="white_dim"></div>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+                <!--//1 수령방식 선택-->
+
+                <!--2 출고정보 입력-->
+                <div class="cnt_detail d02">
+                    <button type="button" class="prev_btn" onclick="nextPrev(-1)"><i class="fa fa-angle-left"
+                            aria-hidden="true"></i>이전단계</button>
+                    <p>출고작 수령지 정보를 입력하세요</p>
+
+                    <div class="table_wrap">
+                        <div>
+                            <table class="mypage_table">
+                                <tr>
+                                    <td>품 명</td>
+                                    <td class="work_name">이배 외 2점<br />
+                                        (요청번호 : 20210629-01)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>받는사람</td>
+                                    <td>
+                                        <input class="default_type" type="text" value="장원철">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>배송주소</td>
+                                    <td>
+                                        서울시 서대문구 충정로 3가 3-52번지 202호
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>연락처</td>
+                                    <td>
+                                        <input class="default_type" type="text" value="01099865930">
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <table class="mypage_table">
+                                <tr>
+                                    <td>출고희망일</td>
+                                    <td>
+                                        <div class="select_date">
+                                            <input type="text" class="choice_date flatpickr-input" readonly="readonly"
+                                                value="희망일 1">
+                                            <div class="icon"></div>
+                                        </div>
+
+                                        <div class="select_date">
+                                            <input type="text" class="choice_date flatpickr-input" readonly="readonly"
+                                                value="희망일 2">
+                                            <div class="icon"></div>
+                                        </div>
+                                        <ul class="table_list">
+                                            <li>
+                                                <span>•</span>
+                                                <p>지역에 따라 선택가능한 배송희망일이 상이할 수 있습니다</p>
+                                            </li>
+                                            <li>
+                                                <span>•</span>
+                                                <p>일요일, 국,공휴일은 배송 불가합니다.</p>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <!--출고작 수령지 정보 임시주석처리-->
+                        <div>
+                            <table class="mypage_table">
+                                <tr>
+                                    <td>엘리베이터</td>
+                                    <td>
+                                        <div class="radio_btn_wrap">
+                                            <input id="elevator_01" type="radio" name="elevator_check" checked="">
+                                            <label for="elevator_01">
+                                                <p class="tit">없음</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+
+                                        <div class="radio_btn_wrap">
+                                            <input id="elevator_02" type="radio" name="elevator_check">
+                                            <label for="elevator_02">
+                                                <p class="tit">1~7인승</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+
+                                        <div class="radio_btn_wrap">
+                                            <input id="elevator_03" type="radio" name="elevator_check">
+                                            <label for="elevator_03">
+                                                <p class="tit">8~10인승</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+
+                                        <div class="radio_btn_wrap">
+                                            <input id="elevator_04" type="radio" name="elevator_check">
+                                            <label for="elevator_04">
+                                                <p class="tit">11인승</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>차량 진입</td>
+                                    <td>
+                                        <div class="radio_btn_wrap">
+                                            <input id="transfer_01" type="radio" name="transfer_check" checked="">
+                                            <label for="transfer_01">
+                                                <p class="tit">진입 가능</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+
+                                        <div class="radio_btn_wrap">
+                                            <input id="transfer_02" type="radio" name="transfer_check">
+                                            <label for="transfer_02">
+                                                <p class="tit">진입 불가</p>
+                                                <div><span></span></div>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>사다리차</td>
+                                    <td>
+                                        작품에 따라 엘리베이터가 없거나 계단폭이 좁은 경우, 사다리차가 필요합니다. 사다리차 이용이 필요한 경우 고객님 부담입니다. 이에 동의하십니까?
+                                        <div class="check_wrap">
+                                            <input class="default" type="checkbox" id="ladder_check">
+                                            <label for="ladder_check">
+                                                <div><i class="fas fa-check"></i></i></div>
+                                                <p>동의합니다</p>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>기타 메모</td>
+                                    <td>
+                                        <textarea class="default_type_textarea" name="" id="" cols="30" rows="10"
+                                            placeholder="배송에 관해 추가 전달 사항이 있으면 남겨주세요."></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>설치 여부</td>
+                                    <td>
+                                        <div class="set_check_wrap">
+                                            <div class="radio_btn_wrap">
+                                                <input id="set_01" type="radio" name="set_check" checked="">
+                                                <label for="set_01">
+                                                    <p class="tit">설치함</p>
+                                                    <div><span></span></div>
+                                                </label>
+                                            </div>
+                                            <div class="radio_btn_wrap">
+                                                <input id="set_02" type="radio" name="set_check">
+                                                <label for="set_02">
+                                                    <p class="tit">설치 안함</p>
+                                                    <div><span></span></div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <ul class="table_list" style="margin-left: -4px;">
+                                            <li>
+                                                <span>•</span>
+                                                <p>당사 낙찰 작품에 한하여 설치 요청 가능하며, <a>설치 시 추가 비용이 발생</a>합니다.</p>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--//출고작 수령지 정보 임시주석처리-->
+
+                        <!--출고작 방문수령 정보-->
+                        @* <div>
+                            <table class="mypage_table">
+
+                            <tr>
+                            <td>출고 희망일</td>
+                            <td>
+                            <div class="select_date">
+                            <span>픽업 희망일 선택</span>
+                            <i class="fas fa-check"></i>
+                            </div>
+
+                            <select class="default_select" name="" id="">
+                            <option value="">픽업 희망시간 선택</option>
+                            <option value="">02:00</option>
+                            <option value="">04:00</option>
+                            </select>
+
+                            </td>
+                            </tr>
+
+
+                            <tr>
+                            <td>기타 메모</td>
+                            <td>
+                            <textarea class="default_type_textarea" name="" id="" cols="30" rows="10" placeholder="배송에 관해 추가
+                            전달
+                            사항이 있으면 남겨주세요."></textarea>
+
+                            <ul class="table_list released">
+                            <li>
+                            <span>•</span>
+                            <p>방문을 원하시는 날짜 하루 전 오후 5시까지 픽업 예약이 가능합니다.</p>
+                            </li>
+                            <li>
+                            <span>•</span>
+                            <p>5시 이후의 예약은 익일 방문신청이 불가합니다.</p>
+                            </li>
+                            <li>
+                            <span>•</span>
+                            <p>픽업 가능 요일 : 월~금 (휴일제외)</p>
+                            </li>
+                            <li>
+                            <span>•</span>
+                            <p>출고 요청 없이 방문시 출고가 불가합니다.</p>
+                            </li>
+                            </ul>
+                            </td>
+                            </tr>
+
+                            </table>
+                            </div> *@
+                        <!--//출고작 방문수령 정보-->
+
+
+                    </div>
+
+                    <div class="next_btn_wrap">
+                        <button type="button" class="btn_blue next_btn" onclick="nextPrev(1)">다음 단계</button>
+                    </div>
+
+                </div>
+                <!--//2 출고정보 입력-->
+
+                <!--3 출고작 선택-->
+                <div class="cnt_detail d03">
+                    <button type="button" class="prev_btn" onclick="nextPrev(-1)"><i class="fa fa-angle-left"
+                            aria-hidden="true"></i>이전단계</button>
+                    <p>작품 별 비용을 확인하고 출고요청 작품을 선택하세요</p>
+
+                    <div class="filter_wrap">
+
+                        <div class="top">
+
+                            <div class="checkbox_wrap">
+
+                                <div>
+                                    <input class="default" type="checkbox" id="auc_filter_all_check">
+                                    <label for="auc_filter_all_check">
+                                        <div><i class="fas fa-check"></i></div>
+                                        <p>전체</p>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="default" type="checkbox" name="auc_filter" id="auc_filter_01">
+                                    <label for="auc_filter_01">
+                                        <div><i class="fas fa-check"></i></div>
+                                        <p>메이저</p>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="default" name="auc_filter" type="checkbox" id="auc_filter_02">
+                                    <label for="auc_filter_02">
+                                        <div><i class="fas fa-check"></i></div>
+                                        <p>프리미엄</p>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="default" name="auc_filter" type="checkbox" id="auc_filter_03">
+                                    <label for="auc_filter_03">
+                                        <div><i class="fas fa-check"></i></div>
+                                        <p>위클리</p>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="pay">
+                                <div class="radio_btn_wrap">
+                                    <input id="payment_state_check_01" type="radio" name="payment_state_check"
+                                        checked="">
+                                    <label for="payment_state_check_01">
+                                        <p class="tit">결제완료</p>
+                                        <div><span></span></div>
+                                    </label>
+                                </div>
+
+                                <div class="radio_btn_wrap">
+                                    <input id="payment_state_check_02" type="radio" name="payment_state_check">
+                                    <label for="payment_state_check_02">
+                                        <p class="tit">미결제</p>
+                                        <div><span></span></div>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="bottom">
+
+                            <div>
+                                <span>조회기간</span>
+                                <div class="select_date">
+                                    <input type="text" class="calendar flatpickr-input" data-id="range"
+                                        readonly="readonly" value="조회기간 선택">
+                                    <div class="icon"></div>
+                                </div>
+                            </div>
+
+                            <div class="search_wrap">
+                                <span>검색어</span>
+                                <div class="search_area">
+                                    <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </div>
+
+                                <button type="button" class="filter_search_btn">
+                                    찾기
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="auc_list_wrap">
+
+
+                        <!--메이저 경매-->
+                        <div class="card_list_wrap">
+                            <h3>2021-01-13 메이저</h3>
+
+                            <!--결제대기-->
+                            <div class="card_list wait">
+
+                                <div class="checkbox">
+
+                                    <div class="cir_check_wrap">
+                                        <input type="checkbox" id="auc_check_01" name="auc_list_check_input"
+                                            data-value="N">
+                                        <label for="auc_check_01">
+                                            <div><i class="fas fa-check"></i></div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="auc_info">
+                                    <div class="img">
+                                        <img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" />
+                                    </div>
+                                    <div class="detail">
+                                        <p class="w_name">LOT1. 미스터두들</p>
+                                        <p class="sub_name">Bunny Hoop</p>
+                                    </div>
+                                </div>
+
+                                <div class="price_wrap">
+
+                                    <!--낙찰금액-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰금액
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰금액-->
+
+                                    <!--낙찰수수료-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰 수수료
+                                            <span>(VAT 포함)</span>
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰수수료-->
+
+                                    <!--기타비용-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            기타 비용
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">1,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//기타비용-->
+
+
+                                </div>
+
+                            </div>
+                            <!--//결제대기-->
+
+                            <!--결제완료-->
+                            <div class="card_list">
+
+                                <div class="checkbox">
+                                    <div class="cir_check_wrap">
+                                        <input type="checkbox" id="auc_check_02" name="auc_list_check_input"
+                                            data-value="N">
+                                        <label for="auc_check_02">
+                                            <div><i class="fas fa-check"></i></div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="auc_info">
+                                    <div class="img">
+                                        <img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" />
+                                    </div>
+                                    <div class="detail">
+                                        <p class="w_name">LOT1. 미스터두들</p>
+                                        <p class="sub_name">Bunny Hoop</p>
+                                    </div>
+                                </div>
+
+                                <div class="price_wrap">
+
+                                    <!--낙찰금액-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰금액
+                                        </div>
+                                        <div class="cnt complete">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state complete">
+                                                결제 완료
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰금액-->
+
+                                    <!--낙찰수수료-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰 수수료
+                                            <span>(VAT 포함)</span>
+                                        </div>
+                                        <div class="cnt complete">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state complete">
+                                                결제 완료
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰수수료-->
+
+                                    <!--기타비용-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            기타 비용
+                                        </div>
+                                        <div class="cnt complete">
+                                            <p class="price">1,000 원</p>
+                                            <div class="payment_state complete">
+                                                결제 완료
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//기타비용-->
+
+
+                                </div>
+
+                            </div>
+                            <!--//결제완료-->
+
+
+                        </div>
+                        <!--//메이저 경매-->
+
+                        <!--프리미엄-->
+                        <div class="card_list_wrap">
+                            <h3>2021-01-13 프리미엄</h3>
+
+                            <!--악기상품 결제대기-->
+                            <div class="card_list wait">
+
+                                <div class="checkbox">
+                                    <div class="cir_check_wrap">
+                                        <input type="checkbox" id="auc_check_03" name="auc_list_check_input"
+                                            data-value="N">
+                                        <label for="auc_check_03">
+                                            <div><i class="fas fa-check"></i></div>
+                                        </label>
+                                    </div>
+
+                                    <!--툴팁-->
+                                    @* <div class="cardLIst_tooltip">
+                                        <div class="caret_up">
+                                        <span></span>
+                                        </div>
+                                        <p>메이저 경매 낙찰작은 홈페이지 결제 불가입니다. 오프라인에서 결제 후 출고요청 바랍니다.
+                                        </p>
+                                        </div> *@
+
+                                </div>
+
+                                <div class="auc_info">
+                                    <div class="img">
+                                        <img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" />
+                                    </div>
+                                    <div class="detail">
+                                        <p class="w_name">LOT1. 미스터두들</p>
+                                        <p class="sub_name">Bunny Hoop</p>
+                                    </div>
+                                </div>
+
+                                <div class="price_wrap">
+
+                                    <!--낙찰금액-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰금액
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰금액-->
+
+                                    <!--낙찰수수료-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            낙찰 수수료
+                                            <span>(VAT 포함)</span>
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//낙찰수수료-->
+
+                                    <!--기타비용-->
+                                    <div class="price_list_box">
+                                        <div class="tit">
+                                            기타 비용
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">1,000 원</p>
+                                            <div class="payment_state">
+                                                결제 대기
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--//기타비용-->
+
+
+                                </div>
+
+                            </div>
+                            <!--//악기상품 결제대기-->
+
+                        </div>
+                        <!--//프리미엄-->
+
+                    </div>
+
+                    <div class="sum_wrap">
+                        <div class="sum_wrap_left">
+                            <p>낙찰금액 + 낙찰 수수료 (VAT포함) : 2,492,500 원</p>
+                            <p>배송료 : 60,000 원</p>
+                        </div>
+                        <div class="sum_wrap_right">
+                            <span>총 결제금액</span>
+                            <strong><span>4,552,500</span>원</strong>
+                        </div>
+                    </div>
+
+                    <div class="pay_btn_wrap">
+                        @* <button>출고 요청</button> *@
+                        <button type="button" onclick="nextPrev(1)">결제 및 출고 요청</button>
+                    </div>
+
+
+                </div>
+                <!--//3 출고작 선택-->
+
+                <!--4 결제 진행 -->
+                <div class="cnt_detail d04">
+                    <button type="button" class="prev_btn" onclick="nextPrev(-1)"><i class="fa fa-angle-left"
+                            aria-hidden="true"></i>이전단계</button>
+
+                    <p>‘<span>이배 외 1점</span>’에 대한 결제 방법을 선택하세요</p>
+
+                    <div class="description">
+                        전체 금액을 가상계좌로 입금 희망 시 → [통합 결제] 선택 <br />
+                        낙찰가만 가상계좌 입금 후 수수료/배송비는 기타 수단으로 결제 희망 시 → [복합 결제] 선택
+                    </div>
+
+                    <div class="pay_wrap">
+
+                        <div class="pay_tab_wrap tab_btn">
+                            <ul>
+                                <li class="active">
+                                    통합결제
+                                    <div class="check">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    복합 결제
+                                    <div class="check">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="pay_tab_cnt">
+
+                            <!--통합결제-->
+                            <div class="pay_tab_cnt c01">
+
+                                <div class="box">
+                                    <div class="pay_list_box">
+                                        <div class="tit">
+                                            낙찰금액
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                        </div>
+                                    </div>
+                                    <div class="pay_list_box">
+                                        <div class="tit">
+                                            낙찰 수수료
+                                            <span>(VAT 포함)</span>
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">10,500,000 원</p>
+                                        </div>
+                                    </div>
+                                    <div class="pay_list_box">
+                                        <div class="tit">
+                                            기타 비용
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">1,000 원</p>
+                                        </div>
+                                    </div>
+                                    <div class="pay_list_box">
+                                        <div class="tit">
+                                            배송료
+                                        </div>
+                                        <div class="cnt">
+                                            <p class="price">1,000 원</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pay_sum_wrap">
+                                    <span>총 결제 금액</span>
+                                    <strong><span>3,145,000</span>원</strong>
+                                </div>
+
+                                <div class="pay_btn_wrap">
+                                    <button type="button">결제 및 출고 요청</button>
+                                </div>
+
+                            </div>
+                            <!--//통합결제-->
+
+                            <!--복합결제-->
+                            <div class="pay_tab_cnt c02">
+                                <p>복합 결제의 경우 낙찰금액 먼저 진행해주시기 바랍니다.</p>
+
+                                <!--금액정보-->
+                                <div class="pay_info">
+
+                                    <!--요청전-->
+                                    @* <div class="pay_info_left">
+                                        <div class="pay_list_box">
+                                        <div class="tit">
+                                        낙찰금액
+                                        </div>
+                                        <div class="cnt">
+                                        <p class="price">10,500,000 원</p>
+                                        </div>
+                                        </div>
+
+                                        <p>가상계좌 입금만 가능</p>
+
+                                        <button class="pay_btn">
+                                        <p>낙찰금액 결제</p>
+                                        </button>
+                                        </div> *@
+                                    <!--//요청전-->
+
+                                    <!--요청후-->
+                                    <div class="pay_info_left request">
+                                        <div class="pay_list_box">
+                                            <div class="tit">
+                                                낙찰금액
+                                            </div>
+                                            <div class="cnt">
+                                                <p class="price">10,500,000 원</p>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="pay_btn">
+                                            <p>입금 대기중</p>
+                                            <p class="date">2021/12/12 12:32:12까지 <br />가상계좌 입금 요망</p>
+                                        </button>
+
+
+                                        <div class="dim">
+
+                                        </div>
+                                    </div>
+                                    <!--//요청후-->
+
+
+                                    <div class="pay_info_right">
+                                        <div class="box_wrap">
+                                            <div class="pay_list_box">
+                                                <div class="tit">
+                                                    낙찰 수수료
+                                                    <span>(VAT 포함)</span>
+                                                </div>
+                                                <div class="cnt">
+                                                    <p class="price">10,500,000 원</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="pay_list_box">
+                                                <div class="tit">
+                                                    기타 비용
+                                                </div>
+                                                <div class="cnt">
+                                                    <p class="price">1,000 원</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="pay_list_box">
+                                                <div class="tit">
+                                                    배송료
+                                                </div>
+                                                <div class="cnt">
+                                                    <p class="price">1,000 원</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p>
+                                            <span>금액 합계</span>
+                                            <strong><span>655,000</span>원</strong>
+                                        </p>
+
+                                        <button type="button" class="standby">
+                                            <p>낙찰금액 결제 후 이용해주세요</p>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!--//금액정보-->
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+                <!--//4 결제 진행 -->
+
+
+                <!--5 탭내용 결제및 출고요청 완료-->
+                <div class="cnt_detail d05">
+                    <p>출고작 수령지 정보를 입력하세요</p>
+
+
+                    <div class="table_wrap">
+                        <div>
+                            <table class="mypage_table">
+                                <tbody>
+                                    <tr>
+                                        <td>품 명</td>
+                                        <td class="work_name">이배 외 2점<br>
+                                            (요청번호 : 20210629-01)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>받는사람</td>
+                                        <td>
+                                            장원철
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>배송주소</td>
+                                        <td>
+                                            서울시 서대문구 충정로 3가 3-52번지 202호
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>연락처</td>
+                                        <td>
+                                            01099865930
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table class="mypage_table">
+                                <tbody>
+                                    <tr>
+                                        <td>엘리베이터</td>
+                                        <td>없음</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>차량 진입</td>
+                                        <td>
+                                            진입 가능
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>설치 여부</td>
+                                        <td>
+                                            설치 희망
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div>
+                            <table class="mypage_table">
+                                <tbody>
+                                    <tr>
+                                        <td>출고 희망일</td>
+                                        <td class="hope_date">
+                                            <div>
+                                                <div>1희망일 2021/12/12</div>
+                                                <div>2희망일 2021/12/12</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>기타 메모</td>
+                                        <td>
+                                            집에 아무도 없을 수 있으니 출발하실 때 미리 연락주시면 감사드리겠습니다.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="mypage_table">
+                                <tbody>
+                                    <tr>
+                                        <td>결제 정보</td>
+                                        <td>
+                                            복합결제 <br />
+                                            낙찰금액 2021/12/12 14:32:21
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>기타 메모</td>
+                                        <td>
+                                            집에 아무도 없을 수 있으니 출발하실 때 미리 연락주시면 감사드리겠습니다.
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <div class="mypage_work_table">
+                                <table class="mypage_work_table" style="margin-top: 20px;">
+                                    <thead>
+                                        <tr>
+                                            <th>경매정보</th>
+                                            <th>작품정보</th>
+                                            <th>결제 상세</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2021-01-13 <br />
+                                                프리미엄</td>
+
+                                            <td class="work_info">
+                                                <div>
+                                                    <div class="img">
+                                                        <img
+                                                            src="https://images.k-auction.com/www/Work/0147/M0147001001.jpg">
+                                                    </div>
+                                                    <div class="work_detail">
+                                                        <strong>LOT35. 이배</strong>
+                                                        <span>무제</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="pay_detail_wrap">
+                                                <ul class="pay_detail">
+                                                    <li>
+                                                        <span class="key">낙찰 금액</span>
+                                                        <span class="value">594,000</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="key">낙찰 수수료</span>
+                                                        <span class="value">594,000</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="key">배송비</span>
+                                                        <span class="value">594,000</span>
+                                                    </li>
+                                                </ul>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pay_sum">
+                        결제 완료 금액<span>2,622,000 원</span>
+                    </div>
+
+                    <div class="btn_wrap">
+                        <button type="button" class="mypage_btn cash_receipt btn_blue">현금영수증 발행 신청</button>
+                        <button type="button" class="mypage_btn tax_invoice btn_blue">세금계산서 발행 신청</button>
+                        <button type="button" class="mypage_btn check_details btn_blue">결제 및 출고요청 내역 확인</button>
+                    </div>
+
+                </div>
+                <!--//5 탭내용 결제및 출고요청 완료-->
+            </form>
+        </div>
+
+        <div class="precautions_wrap">
+            <h5>
+                <img src="/img/icons/join_info.png" alt="">
+                결제 및 출고요청 관련 유의사항
+            </h5>
+
+            <ul>
+                <li>
+                    <div><span>•</span></div>
+                    <p>낙찰금액은 가상계좌 입금만 가능하며, 낙찰 수수료, 기타비용 및 배송비는 가상계좌입금/실시간 계좌이체/신용카드로 결제가 가능합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>낙찰금액은 가상계좌 입금만 가능하며, 낙찰 수수료, 기타비용 및 배송비는 가상계좌입금/실시간 계좌이체/신용카드로 결제가 가능합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>메이저 경매 낙찰대금 결제는 홈페이지에서 불가합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>배송주소는 기본 배송지로 설정되며, <a href="#">[주소변경]</a>을 눌러 변경이 가능합니다. </p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>배송비는 작품별로 부과되며, 동일 배송 건에서는 1점 추가당 1만원 추가됩니다. (단, 단일 주소 단일 배송건일 경우에 해당). 상세한 내용은 <a href="#">[배송관련
+                            안내]</a>를 참고 바랍니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>명품 및 악기의 경우 직접픽업만 가능합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>설치 등 추가 작업시 추가요금이 부과될 수 있습니다.</p>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+    <!--//결제출고요청-->
+
+    <!--결제 및 출고요청 내역-->
+    <div class="cnt_02">
+        <div class="filter_wrap">
+            <div class="bottom">
+
+                <div>
+                    <span>조회기간</span>
+                    <div class="select_date">
+                        <input type="text" class="calendar flatpickr-input" data-id="range" readonly="readonly"
+                            value="조회기간 선택">
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <div class="search_wrap">
+                    <span>검색어</span>
+                    <div class="search_area">
+                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <button type="button" class="filter_search_btn">
+                        찾기
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="table_transaction_wrap">
+            <table class="mypage_work_table transaction">
+                <thead>
+                    <tr>
+                        <th>요청 번호</th>
+                        <th>작품정보</th>
+                        <th>결제 완료 금액</th>
+                        <th>결제 수단 별 금액</th>
+                        <th>출고 <br />방식</th>
+                        <th>출고 정보</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-value="pay_ship_details" data-tit="결제 및 출고요청 상세내역">
+                        <td>20210113-01</td>
+                        <td style="font-weight: 600;">
+                            이베 외 2점
+                        </td>
+                        <td class="price">
+                            <div>10,552,500 원</div>
+
+                            <div class="btn_wrap">
+                                <button type="button">영수증 출력</button>
+
+                                <div class="text_tooltip">
+
+                                    <div class="caret_up">
+                                        <span></span>
+                                    </div>
+                                    <div class="cnt">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    현금영수증 발행 신청
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    세금계산서 발행 신청
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </td>
+                        <td class="payment_method">
+                            <ul>
+                                <li>
+                                    <span>가상계좌</span>
+                                    <strong>2,322,550 원</strong>
+                                </li>
+                                <li>
+                                    <span>신용카드</span>
+                                    <strong>52,550 원</strong>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            배송
+                        </td>
+                        <td class="fw_info">
+                            [출고예정] 2021/7/24
+                        </td>
+
+                    </tr>
+
+                    <tr data-value="pay_ship_details" data-tit="결제 및 출고요청 상세내역">
+                        <td>20210113-01</td>
+                        <td style="font-weight: 600;">
+                            이베 외 2점
+                        </td>
+                        <td class="price"></td>
+                        <td class="payment_method">
+                        </td>
+                        <td>
+                            배송
+                        </td>
+                        <td class="fw_info register">
+                            <div class="text_wrap">
+                                <div class="desc">
+                                    <strong>[접수] 요청 확인중</strong>
+                                    <i class="fal fa-file-alt"></i>
+                                </div>
+
+                                <div class="text_tooltip">
+
+                                    <div class="caret_up">
+                                        <span></span>
+                                    </div>
+                                    <div class="cnt">
+                                        <p>[배송희망]</p>
+                                        <p>[1지망] 2021/4/2 </p>
+                                        <p>[2지망] 2021/4/5
+                                            [메모] 집에 아무도 없을수도 있으니,
+                                            배송 전에 전화 연락 먼저 부탁드립
+                                            니다.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <button type="button" data-tit="방문수령 신청서" data-value="delivery_details">정보변경</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="precautions_wrap">
+            <h5>
+                <img src="/img/icons/join_info.png" alt="">
+                신청 내역 관련 안내
+            </h5>
+            <ul>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>세금계산서는 수수료, 기타경비, 배송료에 대해서만 요청 가능합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>세금계산서는 결제일 기준으로 익월 10일까지만 가능하며, 이후에는 발행이 불가합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>현금영수증을 발행한 건에 대해서는 세금계산서 중복발행이 불가합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>신용카드결제 분에 대해서는 세금계산서 발행이 불가합니다.</p>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+    <!--//결제 및 출고요청 내역-->
+</div>
+
+
+<script>
+
+    // 위자드페이지 작업
+    var currentTab = 0; // 현재페이지 (0)
+    showTab(currentTab); // 첫번째 페이지 보여주기
+
+
+    function showTab(n) {
+        var x = document.getElementsByClassName("cnt_detail");
+        x[n].style.display = "block";
+
+        // 스텝단계별 함수
+        fixStepIndicator(n)
+    }
+
+
+    function nextPrev(n) {
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        var x = document.getElementsByClassName("cnt_detail");
+
+        // 현재탭 숨기기
+        x[currentTab].style.display = "none";
+        // 현재 탭 + 1
+        currentTab = currentTab + n;
+
+
+        if (currentTab >= x.length) {
+            document.getElementById("payment-req-form").submit();
+            return false;
+        }
+
+
+        showTab(currentTab);
+
+    }
+
+
+    function fixStepIndicator(n) {
+        var i,
+            x = document.getElementsByClassName('payment-step-item');
+        @* for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+                } *@
+
+            x[n].className += " active";
+    }
+
+
+
+    // 툴팁함수
+    function cardList_tooltip(elem, text) {
+        let tooltip = document.createElement('div');
+        tooltip.className = "cardLIst_tooltip";
+        tooltip.innerHTML = `
+            <div class="caret_up">
+                <span></span>
+            </div>
+            <p>
+                ${text}
+            </p>
+        `;
+        elem.append(tooltip);
+    }
+
+    cardList_tooltip(document.querySelectorAll('.checkbox')[2], "메이저 경매 낙찰작은 홈페이지 결제 불가입니다. 오프라인에서 결제 후 출고요청 바랍니다.");
+
+
+    $(".btn_content.b02 table.mypage_work_table.transaction tr").each(function () {
+        $(this).click(function (e) {
+            e.stopPropagation();
+            $.commonUtils.mypageModal($(this));
+        });
+    });
+
+    $(".mypage_work_table .fw_info.register > button").click(function (e) {
+        e.stopPropagation();
+        $.commonUtils.mypageModal($(this));
+    });
+
+
+    function MypageModal(target) {
+        this.$target = target;
+    }
+
+    MypageModal.prototype.modalOpen = function () {
+        let className = this.$target.attr('class').slice(11),
+            $mypageModal_01 = $(".mypage_pay_modal.type01"),
+            $mypageModal_02 = $(".mypage_pay_modal.type02");
+
+        switch (className) {
+            case 'cash_receipt':
+                $mypageModal_01.addClass("show");
+                break;
+            case 'tax_invoice':
+                $mypageModal_02.addClass("show");
+                break;
+            default:
+        }
+    }
+
+
+    $(".mypage_btn").each(function () {
+        $(this).click(function () {
+            $("body").addClass("scroll_lock");
+            let a = new MypageModal($(this));
+            a.modalOpen();
+        });
+    });
+
+
+
+
+
+
+
+</script>

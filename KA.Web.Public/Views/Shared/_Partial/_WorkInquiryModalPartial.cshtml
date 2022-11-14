@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="modal fade show" id="inquiry_popup" tabindex="-1" style="display: none; background-color: rgb(0 0 0 / 50%);">
+    <div class="modal-dialog modal_wrap">
+        <button class="close-modal">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <form class="modal-content">
+            <div class="modal_header">
+                <p class="tit">@Localizer["작품 문의하기"]</p>
+                <div class="state" style="visibility: visible;"></div>
+            </div>
+            <div class="modal__inquiry-work-info">
+                <figure>
+                    <img
+                        id="modal__inquiry-work-image"
+                        loading="lazy"
+                        onerror="this.src='/img/list_noimg.jpg'"
+                        src="/img/list_noimg.jpg"
+                        style="width: 100%;"
+                        alt="작품이미지">
+                </figure>
+                <figcaption>
+                    <span id="modal__inquiry-auction-title">
+                    </span>
+                    <span id="modal__inquiry-work-title">
+                    </span>                    
+                </figcaption>
+            </div>
+
+            <div class="modal__inquiry-select-wrap">
+                <select class="default_select" id="modal__inquiry-category" style="width: 100%;">
+                    <option selected disabled hidden>@Localizer["문의유형을 선택하세요"]</option>
+                    <option value="001">@Localizer["응찰 관련 문의"]</option>
+                    <option value="002">@Localizer["작품정보 관련 문의"]</option>
+                    <option value="003">@Localizer["컨디션 관련 문의"]</option>
+                    <option value="099">@Localizer["기타"]</option>
+                </select>
+                <span id="inquiry-hint-message" style="padding-left: 6px; font-size: 12px; color: #E51B27;">@Localizer["문의내용의 카테고리를 선택해 주세요."]</span>
+            </div>
+            <label for="inquiry-message">@Localizer["문의내용"]<span id="inquiry-length">(0/1,000)</span></label>
+            <textarea name="message" id="inquiry-message" placeholder="@Localizer["내용을 입력하세요."] (@Localizer["1,000자 제한"])" style="width: 100%; height: 132px; margin-bottom: 15px;"></textarea>
+            @if (LoginInfo.MngUid > 1 && LoginInfo.MngUid != 116)
+            {
+                <div class="contact">
+                    <span>
+                        @Localizer["담당자 연락처"] @LoginInfo.MngEmail @(string.IsNullOrWhiteSpace(LoginInfo.MngExTel) ? "" : "(" + LoginInfo.MngExTel + ")")
+                    </span>
+                    <button id="re-inquiry-btn" class="btn_nt">@Localizer["재문의하기"]</button>
+                </div>
+            }
+            <div id="modal__inquiry-action-div" class="btn_wrap" style="margin-top: 30px;">
+                <button id="inquiry-submit-btn" class="btn_blue">@Localizer["확인"]</button>
+            </div>
+        </form>
+    </div>
+</div>

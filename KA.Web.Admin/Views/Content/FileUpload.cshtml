@@ -1,0 +1,252 @@
+﻿@{ 
+    var codeIndex = 0;
+    var codeInit = "";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">파일 업로드 목록</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <fieldset class="form-group w-100 m-l-15 m-r-15 p-r-10 p-l-10" style="border: 1px solid lightgray;">
+                        <legend class="col-form-label col-sm-2 fs-16">신규 등록</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>이미지</label>
+                                    <input id="image_file_name" type="file" class="form-control" onchange="loadFile(event)" />
+                                    <img src="" id="img_temp" style="display: none; max-width: 300px; margin-top: 10px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>상세설명</label>
+                                    <input id="explain_text" type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="btn_row" style="display: none;">
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <button class="btn btn-secondary" onclick="save();">저장</button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row search-row">
+                    <div class="col-lg-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <div class="form-group">
+                            <input id="search" onkeydown="checkSearch(event);" class="form-control" type="text" placeholder="파일명 또는 상세 설명 검색어를 입력해 주세요." />
+                            <span class="btn btn-primary" style="height: 35px; cursor: pointer;" onclick="search();">검색</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        @if (ViewBag.Code != null)
+                        {
+                            foreach (var item in ViewBag.Code)
+                            {
+                                if (string.IsNullOrWhiteSpace(item.Extra1) || (!string.IsNullOrWhiteSpace(item.Extra1) && (LoginInfo.ContainAuth(item.Extra1) || LoginInfo.ContainAuth("MngAdmin"))))
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="getTypeList('@item.SubCode');" class="nav-link @(codeIndex == 0 ? "active" : "") text-center" data-toggle="tab" href="#tab-address">@item.CodeName</a>
+                                    </li>
+                                    codeInit = codeIndex == 0 ? item.SubCode : codeInit;
+                                    codeIndex++;
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers">
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["page_size"] = 10;
+    requestParam["type"] = "@codeInit";
+
+    $(document).ready(function () {        
+        getList();
+    });
+
+    function getTypeList(val) {
+        requestParam["type"] = val;
+        requestParam["page"] = "1";
+        getList();
+    }
+
+    function getList() {        
+        $.ajaxUtils.getApiData('/api/Content/GetFileUploadList', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: requestParam["page_size"]
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "no", type: "text", title: "번호", width: "40" },
+                {
+                    name: "url", type: "text", title: "파일", width: "90",
+                    itemTemplate: function (value) {
+                        if (requestParam["type"] === "I" || requestParam["type"] === "R" || requestParam["type"] === "P") {
+                            return "<a href='" + value + "' target='_blank'><img style='max-width: 80px;' src='" + value.toString() + "' /></a>";
+                        } else {
+                            return "<a href='" + value + "' target='_blank'>" + value.substring(value.lastIndexOf('/') + 1) + "</a>";
+                        }
+                    }
+                },
+                {
+                    name: "url", type: "text", title: requestParam["type"] === "R" || requestParam["type"] === "P" ? "HTML" : "파일 경로", width: 200,
+                    itemTemplate: function (value) {
+                        if (requestParam["type"] === "R") {
+                            return $.commonUtils.getRecruitFormTemplate().replace("{IMAGE}", value);
+                        } else if (requestParam["type"] === "P") {
+                            return $.commonUtils.getPrFormTemplate().replace("{IMAGE}", value);
+                        } else {
+                            return value;
+                        }
+                    }
+                },
+                { name: "explain_text", type: "text", title: "상세 설명", width: "80" },
+                { name: "reg_date", type: "text", title: "저장 일시", width: "100" },
+                {
+                    name: "uid", type: "text", title: "삭제", width: "80",
+                    itemTemplate: function (value, data) {
+                        return "<button class='btn' onclick='deleteContent(" + data.uid + ");'>삭제</button>";
+                    }
+                }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) { search(); }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["search"] = $("#search").val();
+        getList();
+    }
+
+    function save() {
+        if ($("#image_file_name").val() === "") {
+            $.commonUtils.alert("이미지 파일을 선택하세요.");
+            return false;
+        }
+
+        if ($("#explain_text").val() === "") {
+            $.commonUtils.alert("상세설명을 입력하세요.");
+            return false;
+        }
+
+        var msg = $(".btn-primary").text();
+        $.commonUtils.confirm("저장", "저장하시겠습니까?", "saveProc();");
+    }
+
+    function saveProc() {
+
+        var param = {};
+        param["mode"] = "INSERT";
+        param["type"] = requestParam["type"];
+        param["explain_text"] = $("#explain_text").val();
+
+        var uploadResult = $.ajaxUtils.getUploadData("image_file_name", "/api/File/Upload/imgFileUpload");
+        if (uploadResult["result"]) {
+            param["upload_image"] = uploadResult.file_info.filename;
+        } else {
+            $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+            return false;
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Content/SetFileUpload", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function deleteContent(uid) {
+        $.commonUtils.confirm("삭제", "삭제하시겠습니까?", "deleteContentProc(" + uid + ");");
+    }
+
+    function deleteContentProc(uid) {
+        var param = {};
+        param["mode"] = "DELETE";
+        param["uid"] = uid;
+
+        var result = $.ajaxUtils.getApiData("/api/Content/SetFileUpload", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    var loadFile = function (event) {
+        if (event.srcElement.value !== "") {
+            const value = event.srcElement.value;
+            const ext = value.indexOf('.') > 0 ? value.substring(value.lastIndexOf('.'), value.length) : "";
+            if (ext.toLowerCase() !== ".jpg" && ext.toLowerCase() !== ".png" && ext.toLowerCase() !== ".gif") { }
+
+            var output = document.getElementById('img_temp');
+            if (ext.toLowerCase() === ".jpg" || ext.toLowerCase() === ".png" || ext.toLowerCase() === ".gif") {
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src)
+                }
+                $("#img_temp").show();
+            } else {
+                $("#img_temp").hide();
+            }
+            $("#btn_row").show();
+        }
+    };
+
+</script>

@@ -1,0 +1,185 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+
+<style type="text/css">
+
+    .sh-none { box-shadow: none !important; }
+
+    .card.artwork .description, .card.artwork .list-inline-item { font-size: 14px !important; line-height: 24px; }
+
+    .row-pad { padding: 20px 20px !important; margin: 0 !important; }
+
+    .row-pad > div { position: relative; padding: 0 !important; }
+
+    .art { padding: 0 !important; }
+
+    .row-pad > div:first-child > img { padding: 0 !important; }
+
+    .row-pad > div:nth-child(2) > .lot { font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 500; color: #0d0d0d; }
+
+    .row-pad > div:nth-child(2) > .heartic { position: absolute; top: 0; right: 35px; z-index: 1; }
+
+    .row-pad > div:nth-child(2) > h5:last-child { margin-bottom: 0 !important; }
+
+    .row-pad > div:last-child > a { margin-top: 25px; }
+
+    .row-pad > div:last-child > ul > li:last-child { font-family: 'Montserrat', sans-serif; font-weight: 500; }
+
+    .row-pad > div:last-child > ul > li.text-primary { font-weight: 700; }
+
+    @@media(max-width:768px) {
+        .row-pad > div:nth-child(2) { margin-top: 25px; }
+        .row-pad > div:nth-child(2) > svg { top: 0; right: 0; }
+    }
+</style>
+
+<section oncontextmenu='return false;' onselectstart="return false;" ondragstart="return false;">
+    <div class="jumbotron bg-transparent m-b-0">
+        <!-- BREADCRUMB -->
+        <breadcrumb titles="Search" />
+        <div class="container m-b-50 p-b-50 bg-white" id="loading" />
+        <div class="loading-ani" style="height: 500px; width: 100%; display:flex; align-items: center; justify-content: center;">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="65px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path fill="#2E63C2" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z" id="rotate-ani"></path>
+            </svg>
+        </div>
+    </div>
+    <!-- CONTENTS AREA -->
+    <div class="container" id="contents">
+        <!-- SECTION -->
+        <div class="row m-t-20 m-b-20">
+            <div class="col-12 col-sm-12">
+                <style> .nav li a.active, .nav li a:hover { border-bottom: 1px solid #f47104; color: #f47104; cursor: pointer; } </style>
+                <ul class="nav nav-auction">
+                    <li class="nav-item">
+                        <a id="section-0" class="nav-link active" onclick="sectionList('0');">@L["전체"] <span id="auc-cnt-0"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="section-1" data-count="" data-title-default="@L["메이저 경매"]" data-title-mobile="@L["메이저"]" class="nav-link" onclick="sectionList('1');">@L["메이저 경매"] <span id="auc-cnt-1">&nbsp;</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="section-2" data-count="" data-count-id="auc-cnt-2" data-title-default="@L["프리미엄 온라인"]" data-title-mobile="@L["프리미엄"]" class="nav-link" onclick="sectionList('2');">@L["프리미엄 온라인"] <span id="auc-cnt-2">&nbsp;</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="section-4" data-count="" data-count-id="auc-cnt-4" data-title-default="@L["위클리 온라인"]" data-title-mobile="@L["위클리"]" class="nav-link" onclick="sectionList('4');">@L["위클리 온라인"] <span id="auc-cnt-4">&nbsp;</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- SEARCH -->
+        <div class="row m-t-20 m-b-20">
+            <div class="col-6 col-sm-6">
+                <div class="input-group">
+                    <input id="search" type="text" class="form-control" placeholder="@L["검색어를 입력해 주세요."]" aria-label="@L["검색어를 입력해 주세요."]" aria-describedby="search-addon">
+                    <div class="input-group-append"><button class="btn btn-outline-secondary" type="button" id="search-addon"><i class="fas fa-search fa-fw"></i></button></div>
+                </div>
+            </div>
+        </div>
+        <!-- LIST -->
+        <div class="row" id="list"></div>
+        <!-- PAGINATION -->
+        <pagination />
+    </div>
+</section>
+
+<script>
+
+    var isProcess = false;
+    var requestParam = {};
+    requestParam["auc_kind"] = "";
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+        }
+
+        if ($.commonUtils.decodeHTML("@ViewBag.Key") !== "") {
+            requestParam["search"] = requestParam["search"] ? requestParam["search"] : $.commonUtils.decodeHTML("@ViewBag.Key");
+        }
+
+        $("#search").val(requestParam["search"]);
+        getList();
+    });
+
+    $("#search").keydown(function (e) {
+        if (e.which === 13) {
+            search();
+        }
+    });
+
+    $("#search-addon").on("click", function () {
+        search();
+    });
+
+    function search() {
+        requestParam["page"] = 1;
+        requestParam["search"] = $("#search").val();
+        getList();
+    }
+
+    function sectionList(aucKind) {
+        requestParam["auc_kind"] = aucKind;
+        requestParam["page"] = 1;
+
+        var el = $(".nav").find("a").attr("class", "nav-link");
+        $("#section-" + aucKind.toString()).addClass("active");
+
+        getList();
+    }
+
+    function getList() {
+        if (isProcess) return;
+        isProcess = true;
+
+        $("#contents").hide();
+        $("#loading").show();
+
+        $.searchUtils.setSearchKey("T", requestParam["search"], true);
+
+        $.ajaxUtils.getApiData("/api/Search/" + $("#search").val(), requestParam, getListComplete);
+    }
+
+    function getListComplete(result, parameters) {
+        isProcess = false;
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#list").empty();
+            var totalCount = 0;
+
+            $.each(result.data.list, function (index, item) {
+                $.cardUtils.setWorkHorizonalCard("#list", item, index, "search");
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+            });
+
+            let tabTotalCount = 0;
+            if (typeof result.data.search_result === "string" && result.data.search_result !== "") {
+                $.each(result.data.search_result.split('^'), function (index, item) {
+                    $("#auc-cnt-" + item.split('|')[0].toString()).html("(" + item.split('|')[1].toString() + ")");
+                    $("#section-" + item.split('|')[0].toString()).attr("data-count", item.split('|')[1].toString());
+                    tabTotalCount += parseInt(item.split('|')[1], 10);
+                });
+            }
+            $("#auc-cnt-0").html("(" + tabTotalCount.toString() + ")");
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    callback: getList,
+                    page: JSON.parse(parameters).page
+                });
+            } else {
+                $.cardUtils.setEmptyCardTag("#list", "search");
+                $(".pagination").empty();
+            }
+
+            $("#contents").show();
+            $("#loading").hide();
+        }
+
+        $(window).resize();
+    }
+
+</script>

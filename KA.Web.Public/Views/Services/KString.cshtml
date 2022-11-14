@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+<div class="subtop-bn b7">
+    <div class='container container-fixed-lg sm-p-l-0 sm-p-r-0'>
+        <div class='inner'>
+            <ol class='breadcrumb'>
+                <li class='breadcrumb-item depth-1'><a href='/'><i class='fas fa-home-lg-alt text-white'></i></a></li>
+                <li class='breadcrumb-item depth-2 '>SERVICES</li>
+                <li class='breadcrumb-item depth-3'>@L["케이옥션앤스트링"]</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container subtop">
+        <div class="subtop-desc">
+            <h1>K Auction & String</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container m-b-50 p-b-50 bg-white">
+    <div class="row">
+        <div class="col-sm-12 cl-tit">
+            <h2>@L["케이옥션스트링이란?"]</h2>
+            <p>
+                @L["케이옥션앤스트링은 고급 현악기의 판매와 구매, 경매를 포함한 통합 서비스를 제공합니다."]
+                <br>
+                @L["또 현악기의 본고장인 이탈리아 크레모나(Cremona, Italia) 국립제작학교 출신의 전문가로부터 악기의 복원, 수리, 케어 서비스를 받으실 수 있습니다."]
+            </p>
+        </div>
+    </div>
+    <ul class="string-list">
+        <li>
+            <div class="kstring-img">
+                <img src="/img/services/k-string01.jpg" alt="...">
+            </div>
+            <div>
+                <h6>
+                    @L["수리/복원/케어 서비스"]
+                </h6>
+                <p>
+                    @L["모든 서비스는 숙련된 전문가의 세심한 관리 하에 좋은 재료와 합리적인 가격으로 제공됩니다."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kstring-img">
+                <img src="/img/services/k-string02.jpg" alt="...">
+            </div>
+            <div>
+                <h6>
+                    @L["악기전문상담"]
+                </h6>
+                <p>
+                    @L["사용하고 계신 악기의 컨디션 개선과 향상 및 사운드 조정(Sound Adjusting)서비스를 상시로 받으실 수 있습니다."]
+                    @L["케이옥션&스트링의 Private Room에서 현악기의 자유로운 테스팅이 가능합니다."]
+                    @L["<span style='margin-top: 10px;'><span class='ir_so'>문의전화</span>문의전화: 02-3479-5829, 02-3479-5830</span>"]
+                    @L["<span><span class='ir_so'>카카오톡 채팅상담</span>카카오톡 채팅상담:@케이옥션앤스트링</span>"]
+                    @L["<span><span class='ir_so'>이메일</span>이메일:<a href='mailto:kstring@k-auction.com'>kstring@k-auction.com</a></span>"]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kstring-img">
+                <img src="/img/services/k-string03.jpg" alt="...">
+            </div>
+            <div>
+                <h6>
+                    @L["수리비용 안내"]
+                </h6>
+                <table class="string-table">
+                    <tbody>
+                        <tr>
+                            <td>@L["사운드포스트"]</td>
+                            <td>@L["100,000원 ~ 150,000원"]</td>
+                        </tr>
+                        <tr>
+                            <td>@L["브릿지"]</td>
+                            <td>@L["80,000원 ~ 350,000원"]</td>
+                        </tr>
+                        <tr>
+                            <td>@L["넥 리셋"]</td>
+                            <td>@L["500,000원 ~ 800,000원"]</td>
+                        </tr>
+                        <tr>
+                            <td>@L["크랙 수리"]</td>
+                            <td>@L["별도 문의"]</td>
+                        </tr>
+                        <tr>
+                            <td>@L["악기 복원"]</td>
+                            <td>@L["별도 문의"]</td>
+                        </tr>
+                        <tr>
+                            <td>@L["활털 교체"]</td>
+                            <td>@L["100,000원 ~ 120,000원"]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+</div>

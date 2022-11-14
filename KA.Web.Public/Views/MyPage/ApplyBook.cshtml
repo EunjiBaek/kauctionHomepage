@@ -1,0 +1,394 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var countryList = commonService.GetCodeList("MEM_COUNTRY", commonService.IsKor());
+}
+
+<div class="jumbotron bg-transparent m-b-0">
+    @{
+        var breadcrumbModel = new[] { "My Page", L["도록 신청"].Value };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+    <div class="row justify-content-center align-items-center h-100 p-l-50 p-r-50 min-vh-100" style="background-size: cover; background-repeat: no-repeat; background-image: url(/img/bg/appllication-book.jpg)">
+        <div class="apply-book">
+            <h3>@L["도록 신청"]</h3>
+            <div class="applybook-kind">
+                <div>
+                    <h6>@L["01. 도록 신청"]</h6>
+                    <p>@L["하단의 [도록 서비스 신청하기] 버튼 클릭하여 신청"]</p>
+                </div>
+                <div>
+                    <h6>@L["02. 입금"]</h6>
+                    <p>@L["도록 구독료 : 연 10만원"]</p>
+                    <p>@L["계좌번호 : 하나은행 196-910005-07204 (케이옥션)"]</p>
+                    <p>@L["문의사항 : 02) 3479-8888"]</p>
+                    <p class="beware">@L["※ 회원 본인 명의로 입금해 주셔야 확인이 가능합니다."]</p>
+                </div>
+                @*<div>
+                    <h6>@L["03. 입금 확인"]</h6>
+                    <p>@L["입금 완료 후 3일 이내에 확인 연락 드립니다."]</p>
+                </div>*@
+            </div>
+            <div class="apply-btn">
+                @if (ViewBag.AddressFlag)
+                {
+                    <a id="btn-request" href="javascript:SetApplyBook();">@L["도록 서비스 신청하기"]</a>
+                }
+                else
+                {
+                    <a href="javascript:$.mypageUtils.openAddressPopup('I');">@L["도록 서비스 신청하기"]</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL - ADDRESS MANAGE START -->
+<div class="modal fade" id="modal-address" tabindex="-1" role="dialog" aria-labelledby="modal-address" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body py-sm-4 px-sm-5">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="text-center py-2">
+                    <h3 class="fw-100">@L["주소 등록"]</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group form-group-default required">
+                            <label>@L["주소명"]</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type1" value="001" checked onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type1">@L["자택"]</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type2" value="002" onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type2">@L["직장"]</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="modal-type" id="modal-type4" value="004" onclick="$.mypageUtils.checkAddressType(this);">
+                                <label class="form-check-label" for="modal-type4">@L["직접입력"]</label>
+                            </div>
+                        </div>
+                        <div id="fg-modal-etc" class="form-group form-group-default" style="display: none;">
+                            <label>@L["직접입력"]</label>
+                            <input id="modal-etc" type="text" class="form-control" maxlength="50" data-msg="@L["직접입력 주소를 입력하세요."]" />
+                        </div>
+                    </div>
+                </div>
+                @if (LoginInfo.Uid > 0 && (LoginInfo.Type.Equals("002") || LoginInfo.Type.Equals("004")))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="fg-modal-country-code" class="form-group form-group-default form-group-default-select2 required2">
+                                <label style="z-index:1602 !important;"> @L["국가"] </label>
+                                <select id="modal-country-code" class="full-width" data-placeholder="" data-init-plugin="select2" data-disable-search="true" onchange="$.mypageUtils.checkCountry(this);">
+                                    @foreach (var item in countryList)
+                                    {@Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row search-address">
+                    <div class="col-lg-6 col-sm-6">
+                        <div id="fg-modal-zipcode" class="form-group form-group-default required">
+                            <label>@L["우편번호"]</label>
+                            <input id="modal-zipcode" type="text" class="form-control" data-msg="@L["우편번호를 입력하세요."]" required disabled style="color: #212121;">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <button id="modal-search-btn" type="button" class="m-b-15 btn btn-cta btn-block btn-secondary fs-14 form-group form-group-default" onclick="work_openAddrSearch();">
+                            <span><i class="far fa-search fa-fw m-r-5"></i> @L["주소 검색"]</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-address1" class="form-group form-group-default required">
+                            <label>@L["주소"]</label>
+                            <input id="modal-address1" type="text" class="form-control" data-msg="@L["주소를 입력하세요."]" required disabled style="color: #212121;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-address2" class="form-group form-group-default required">
+                            <label>@L["상세주소"]</label>
+                            <input id="modal-address2" type="text" class="form-control" data-msg="@L["상세주소를 입력하세요."]" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-receiver" class="form-group form-group-default required">
+                            <label>@L["받는사람"]</label>
+                            <input id="modal-receiver" type="text" class="form-control" data-msg="@L["받는사람을 입력하세요."]" required value="123123123">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="fg-modal-contact" class="form-group form-group-default required">
+                            <label>@L["연락처"]<span class="m-l-10 small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                            <input id="modal-contact" type="number" class="form-control" data-msg="@L["연락처를 입력하세요."]" required maxlength="20">
+                        </div>
+                    </div>
+                </div>
+                <div class="address_add_info">
+                    <div class="all_agree_area">
+                        <input type="checkbox" name="join-conditions-all-agree" class="join-conditions" id="address_add_info_all_agree">
+                        <label for="address_add_info_all_agree">
+                            <div>
+                                <span>
+                                    <i class="fas fa-check"></i>
+                                </span>
+                            </div>
+                            <strong>@L["모두 동의합니다."]</strong>
+                        </label>
+                    </div>
+                    <div class="check_list">
+                        <div>
+                            <input type="checkbox" name="address_add_info" class="join-conditions join-accordion_condition" id="address_add_info_01">
+                            <label for="address_add_info_01">
+                                <div><span><i class="fas fa-check"></i></span></div>
+                                @if (!commonService.IsKor())
+                                {
+                                    <strong>I agree to <span onclick="window.open('/HowTo/Clause/J002', '_blank');" style="text-decoration: underline;">the Collection & Usage of Personal Information</span></strong>
+                                }
+                                else
+                                {
+                                    <strong><span onclick="window.open('/HowTo/Clause/J002', '_blank');" style="text-decoration: underline;">개인정보 수집•이용</span>에 동의합니다.</strong>
+                                }
+                            </label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="address_add_info" class="join-conditions join-accordion_condition" id="address_add_info_02">
+                            <label for="address_add_info_02">
+                                <div><span><i class="fas fa-check"></i></span></div>
+                                @if (!commonService.IsKor())
+                                {
+                                    <strong>I agree to <span onclick="window.open('/HowTo/Clause/J001', '_blank');" style="text-decoration: underline;">the Provision of Personal Information to Third Parties.</span></strong>
+                                }
+                                else
+                                {
+                                    <strong><span onclick="window.open('/HowTo/Clause/J001', '_blank');" style="text-decoration: underline;">개인정보 제3자 제공</span>에 동의합니다.</strong>
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row address-button">
+                    <div class="col-lg-6">
+                        <button aria-label="" type="button" class="btn btn-block btn-primary btn-lg m-t-10 m-b-10" onclick="saveAddress();">
+                            <span id="modal-address-btn"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button aria-label="" type="button" class="btn btn-block btn-secondary btn-lg m-t-10 m-b-10" onclick="$('#modal-address').modal('hide');">
+                            <span id="modal-close-btn">@L["취소"]</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODEL - ADDRESS MANAGE END -->
+
+@*<form name="form" id="address-form" method="post">
+    <input type="hidden" name="currentPage" value="1" />
+    <input type="hidden" name="countPerPage" value="200" />
+    <input type="hidden" name="resultType" value="json" />
+    <input type="hidden" name="confmKey" value="U01TX0FVVEgyMDIxMTIyODEzMTk0NjExMjA3Mzg=" />
+    <input type="hidden" name="keyword" id="addrKeyword" value="" />
+</form>*@
+
+<script>
+    const EApplyBookKind = Object.freeze({
+        waiting: '010',
+        depositCompleted: '011',
+        inUse: '020'
+    });
+    
+    var applyKind = "@ViewBag.ApplyKind";
+    const applyBookRegDate = new Date("@ViewBag.ApplyBookRegDate");
+    
+    $(document).ready(function () {
+        $(".content").addClass("pad");
+        $(".content.pad").css({ "padding-bottom": "195px" });
+
+        const applyTop = document.querySelector(".pad").children[0].lastElementChild;
+        applyTop.classList.add('apply-book-top');
+
+        const expiredDate = new Date(); // 1년 경과한 요청은 만료와 동일함
+        expiredDate.setFullYear(expiredDate.getFullYear() - 1);
+        if ((applyKind === EApplyBookKind.waiting 
+                || applyKind === EApplyBookKind.depositCompleted 
+                || applyKind === EApplyBookKind.inUse) 
+            && expiredDate <= applyBookRegDate) {
+            $("#btn-request").html(ka.msg.mypage.applyBookModify);
+        }
+
+        getAddressList();
+    });
+
+    function SetApplyBook() {
+        const expiredDate = new Date(); // 1년 경과한 요청은 만료와 동일함
+        expiredDate.setFullYear(expiredDate.getFullYear() - 1);
+        
+        $(".applyBook_content_complete").hide();
+        $.commonUtils.confirm(ka.msg.mypage.bookService
+            , ((applyKind === EApplyBookKind.waiting 
+                  || applyKind === EApplyBookKind.depositCompleted 
+                  || applyKind === EApplyBookKind.inUse) 
+                && expiredDate <= applyBookRegDate) ? ka.msg.mypage.applyBookModifyConfirm : ka.msg.mypage.bookServiceConfirm
+            , "requestBook()");
+    }
+
+    function requestBook() {
+        $.commonUtils.modalOpen(ka.msg.mypage.bookService2, 'requestBook')
+    }
+
+    function work_openAddrSearch() {
+        $("#search_addr").val('');
+        $("#addr_list").empty();
+        $("#addr_list").css("display", "none");
+        $("#join_member_address_modal").modal();
+        $('.modal-backdrop').eq(1).css({ "z-index": "1649" });
+    }
+
+    function addrSearch() {
+        let keyword = $("#search_addr").val();
+
+        if (keyword.replace(/ /ig, '') !== "") {
+            $("#addrKeyword").val(keyword);
+            event.keyCode = 0;
+            getAddr();
+        }
+    }
+
+    function enterAddrSearch() {
+        let evt_code = (window.netscape) ? ev.which : event.keyCode;
+        if (evt_code === 13) {
+            let keyword = $("#search_addr").val();
+            if (keyword.replace(/ /ig, '') !== "") {
+                $("#addrKeyword").val(keyword);
+                event.keyCode = 0;
+                getAddr();
+            }
+        }
+        return false;
+    }
+
+    function getAddr() {
+        $.ajax({
+            url: "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do",
+            type: "post",
+            data: $("#address-form").serialize(),
+            dataType: "jsonp",
+            crossDomain: true,
+            async: true,
+            success: function (jsonStr) {
+                try {
+                    var errCode = jsonStr.results.common.errorCode;
+                    var errDesc = jsonStr.results.common.errorMessage;
+                    if (errCode != "0") {
+                        console.log(errCode + "=" + errDesc);
+                    } else {
+                        if (jsonStr != null) {
+                            makeListJson(jsonStr);
+                        }
+                    }
+                } catch (e) { console.log(e.description); }
+            }, error: function (xhr, status, error) {
+                console.log("에러발생");
+            }
+        });
+    }
+
+    function makeListJson(jsonStr) {
+        let addrList = $("<ul />", { "class": "w-100 addrList" });
+        $.each(jsonStr.results.juso, function (index, item) {
+            $("<li >", { "onclick": "setAddrData(this);", "style": "cursor: pointer;", "data-road-addr": item.roadAddr, "data-jibun-addr": item.jibunAddr, "data-zip-no": item.zipNo }).append(
+                "<div><span class='new'>도로명</span> " + item.roadAddr + "</div>" + "<div><span class='old'>지번</span> " + item.jibunAddr + "</div>").appendTo(addrList);
+        });
+        $('#join_member_address_modal .tip').css("display", "none");
+        $("#addr_list").css("display", "block");
+        $("#addr_list").append(addrList);
+    }
+
+    function setAddrData(obj) {
+        $("#modal-zipcode").val(obj.dataset.zipNo);
+        $("#modal-address1").val(obj.dataset.roadAddr);
+        $("#join_member_address_modal").modal('hide');
+    }
+
+    function all_agree_check_func(joinAll, joinCheck) {
+        joinCheck.forEach(function (el) {
+            el.addEventListener('click', function () {
+                for (var i = 0, len = joinCheck.length; i < len; ++i) {
+                    if (!joinCheck[i].checked) {
+                        joinAll.checked = false;
+                        return;
+                    }
+                }
+                joinAll.checked = true;
+            });
+        });
+
+        joinAll.addEventListener('change', function (e) {
+            for (let i = 0; i < joinCheck.length; i++) {
+                joinCheck[i].checked = e.target.checked;
+            }
+        });
+    }
+
+    all_agree_check_func(document.getElementById("address_add_info_all_agree"), document.querySelectorAll('.join-accordion_condition'));
+
+    function saveAddress() {
+        if (checkAgreeCondition()) {
+            $.mypageUtils.updateAddressResult();
+        } else {
+            // $.commonUtils.alert("개인정보 수집•이용(선택) 및 제3자 제공(선택)에 동의하셔야 합니다.");
+            // $.commonUtils.alert(ka.msg.join.collectPersonalInfoAddressNotSelect);
+            $.commonUtils.alert(ka.msg.join.collectPersonalInfoOtherNotSelect);
+        }
+    }
+
+    function checkAgreeCondition() {
+        let result = true;
+        for (var i = 0; i < $("input[name=address_add_info]:checkbox").length; i++) {
+            if (result) {
+                let el = $("input[name=address_add_info]:checkbox");
+                if (!el[i].checked) {
+                    result = false;
+                }
+            }
+        }
+        return result;
+    }
+
+    function getAddressList() {
+        $.ajaxUtils.getApiData('/api/Member/AddressList', null, getAddressListComplete);
+    }
+
+    function getAddressListComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.each(result.data, function (index, item) {
+                var el = $('<option />', { "id": "opt-" + item.uid, "data-uid": item.uid, "data-receiver": item.receiver, "data-contact": item.contact }).append(item.zipcode + ". " + item.address + " " + item.address2);
+                $("#apply-book-address").append(el);
+                if (item.apply_book_yn === 'Y') {
+                    el.attr("selected", "selected");
+                    $("#apply-book-name").val(item.apply_book_receiver);
+                    $("#apply-book-mobile").val(item.apply_book_contact.replace(/-/ig, ''));
+                } else {
+                    if (index === 0) {
+                        $("#apply-book-name").val(item.receiver);
+                        $("#apply-book-mobile").val(item.contact.replace(/-/ig, ''));
+                    }
+                }
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.RegisterViewModel
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    var countryList = ViewData["CountryList"] as IEnumerable<KA.Entities.Models.Common.CommonCode>;
+    var mode = ViewData["Mode"].ToString();
+}
+
+<div class="card-header separator" id="authentication-1">
+    <div class="card-title">
+        <div class="form-check fs16 checkbox-circle primary m-b-0 form-check-choice">
+            <input type="radio" class="collapsed card-input-element" name="check-authentication" id="check-authentication-1" value="001" data-toggle="collapse" href="#collapse-authentication-1" aria-expanded="false" aria-controls="collapse-authentication-1">
+            <label for="check-authentication-1" class="fs-16 m-b-10">@L["국내개인고객"] <span class="text-primary fs-12">(@L["본인 명의 국내 핸드폰 또는 신용카드 소지자"])</span></label>
+        </div>
+        <a class="collapsed" data-toggle="collapse" href="#collapse-authentication-1" aria-expanded="false" aria-controls="collapse-authentication-1"></a>
+    </div>
+</div>
+<div id="collapse-authentication-1" class="collapse" data-parent="#authentications" aria-labelledby="authentication-1">
+    <div class="card-body">
+        <div class="row" id="mobile-auth-1">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="hint-text"><i class="far fa-exclamation-triangle fa-fw fs-14"></i> @L["본인인증 후 정보를 입력해 주시기 바랍니다."]</p>
+                        <div class="row justify-content-center m-t-20">
+                            <div class="col-lg-6 sm-m-b-10 md-m-b-10">
+                                <button type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(1, 'M');">
+                                    <span class="authenticate center"><i class="far fa-mobile-alt fa-fw m-r-5"></i> @L["핸드폰 본인 인증"]</span>
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <button type="button" class="btn btn-cta btn-block btn-primary fs-14" onclick="$.joinUtils.openAuth(1, 'C');">
+                                    <span class="authenticate center"><i class="fal fa-credit-card fa-fw m-r-5"></i> @L["신용카드 본인 인증"]</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-b-10" style="right: 0px; left: 0px;">
+            <i class="far fa-arrow-circle-right fa-fw fs-14"></i> @L["기본 정보"]
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <member label="ID" id="id-1" root-class="required disabled" input-class="ka-id" hint="@L["영문/숫자 조합 5~12자리"].Value" value="@Model.ID" disabled="disabled" msg="@L["아이디를 입력하세요."].Value" />
+            </div>
+            <div class="col-lg-6 required">
+                <member label="@L["이름"].Value" id="name-1" root-class="required disabled" value="@Model.Name" disabled="disabled" msg="@L["이름을 입력하세요."].Value" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <member label="@L["생년월일"].Value" id="birth-date-1" root-class="required disabled" input-class="form-birth" hint="e.g. 2000-12-30" value="@Model.BirthDate" disabled="disabled" msg="@L["생년월일을 입력하세요."].Value" />
+            </div>
+            <div class="col-lg-6 required">
+                <div id="fg-sex-1" class="form-group-default-select2 form-group form-group-default required required2 disabled">
+                    <label class="">@L["성별"]</label>
+                    <select id="sex-1" class="full-width" data-placeholder="" data-init-plugin="select2" data-disable-search="true" disabled data-msg="@L["성별을 선택하세요."]">
+                        <option></option>
+                        <option value="F">@L["여자"]</option>
+                        <option value="M">@L["남자"]</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-mobile-1" class="form-group form-group-default required disabled">
+                    <label>@L["휴대전화"]<span class="small-text hint-text">@L["- 제외한 숫자만 입력"]</span></label>
+                    <input id="mobile-1" type="tel" class="form-control" disabled data-msg="@L["휴대전화를 입력하세요."]" value="@Model.Mobile">
+                </div>
+            </div>
+            <div class="col-lg-6 required">
+                <member label="@L["이메일"].Value" id="email-1" type="email" root-class="required disabled" input-class="ka-email" value="@Model.Email" disabled="disabled" msg="@L["이메일을 입력하세요."].Value" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <member label="@L["비밀번호"].Value" id="pwd-1" type="password" root-class="required disabled" input-class="ka-password" hint="@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상"].Value" disabled="disabled" msg="@L["비밀번호를 입력하세요."].Value" />
+            </div>
+            <div class="col-lg-6 required">
+                <member label="@L["비밀번호 확인"].Value" id="pwd2-1" type="password" root-class="required disabled" input-class="ka-password" disabled="disabled" msg="@L["비밀번호(확인)을 입력하세요."].Value" />
+            </div>
+        </div>
+
+        <div class="row m-b-10 m-t-10" style="right: 0px; left: 0px;">
+            <i class="far fa-arrow-circle-right fa-fw fs-14"></i> @L["주소"] &nbsp;<span class="small-text hint-text">@L["기본 배송지로 설정되며, 배송지 주소는 회원 가입 후 My Page에서 수정 가능합니다."]</span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <div id="fg-country-code-1" class="form-group form-group-default form-group-default-select2 required disabled">
+                    <label class="">@L["국가"]</label>
+                    <select id="country-code-1" class="full-width form-country-code" disabled data-msg="@L["국가를 선택하세요."]" onchange="$.joinUtils.checkCountry(1, this);">
+                        <option></option>
+                        <option data-iso-alpha2="KR" value="KOR">@L["대한민국"]</option>
+                        @foreach (var item in countryList)
+                        {
+                            @Html.Raw($"<option data-iso-alpha2='{item.Extra1}' value='{item.SubCode}'>{item.DisplayCodeName}</option>")
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <member label="@L["우편번호"].Value" id="zipcode-1" root-class="required disabled" value="@Model.ZipCode" disabled="disabled" msg="@L["우편번호를 입력하세요."].Value" />
+            </div>
+            <div class="col-lg-3 required">
+                <button id="address-btn-1" style="display: none;" type="button" class="btn btn-cta btn-block btn-secondary fs-14" onclick="$.joinUtils.showZipCodeLayer('address-wrap', 'zipcode-1', 'address-1', 'address2-1');">
+                    <span><i class="far fa-search fa-fw m-r-5"></i> @L["주소 검색"]</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 required">
+                <member label="@L["주소"].Value" id="address-1" root-class="required disabled" value="@Model.Address" disabled="disabled" msg="@L["주소를 입력하세요."].Value" />
+            </div>
+            <div class="col-lg-6 required">
+                <member label="@L["상세 주소"].Value" id="address2-1" root-class="required disabled" value="@Model.Address2" disabled="disabled" msg="@L["상세 주소를 입력하세요."].Value" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6" id="address-wrap" style="display: none; max-height: 350px;">
+                <div class="m-b-15">
+                    <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="$.joinUtils.hideZipCodeLayer()" alt="접기 버튼">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

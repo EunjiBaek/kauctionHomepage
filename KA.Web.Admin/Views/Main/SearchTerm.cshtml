@@ -1,0 +1,152 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">검색 관리</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        <li class="nav-item">
+                            <a onclick="getTabList('K');" class="nav-link active text-center" data-toggle="tab" href="#tab-kor">국문</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('E');" class="nav-link text-center" data-toggle="tab" href="#tab-mobile-eng">영문</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <!-- INPUT FIELD -->
+                    <div class="col-lg-12 m-t-10">
+                        <div class="form-group">
+                            <label>추천 검색어</label>
+                            <input id="search_term" type="text" class="form-control" placeholder="추천 검색어를 입력하세요." />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn" title="추가" onclick="procSearchTerm('INSERT');">추가</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-10 w-100" id="data-grid"></div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12 m-t-10">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <div class="dataTables_paginate paging_full_numbers text-center w-100">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var isProcess = false;
+    var apiParam = {};
+    var requestParam = {};
+    requestParam["page"] = "1";
+
+    $(document).ready(function () {
+        getTabList("K");
+    });
+
+    function getTabList(lang) {
+        requestParam["page"] = "1";
+        requestParam["lang"] = lang;
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Main/GetSearchTerms", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: 20
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "term", type: "text", title: "검색어", width: 150 },
+                { name: "view_count", type: "text", title: "클릭수", width: 70 },
+                { name: "reg_date", type: "text", title: "등록일자", width: 100 },
+                {
+                    name: "btn", type: "text", title: "", width: 130,
+                    itemTemplate: function (value, data) {
+                        return $('<div />').append(
+                            $('<button />', { "class": "btn m-r-5", "title": "위로 이동", "onclick": "procSearchTerm('UP', '" + data.uid + "')" }).append('<i class="fas fa-chevron-up"></i>'),
+                            $('<button />', { "class": "btn m-r-5", "title": "아래로 이동", "onclick": "procSearchTerm('DOWN', '" + data.uid + "')" }).append('<i class="fas fa-chevron-down"></i>'),
+                            $('<button />', { "class": "btn m-r-5", "title": "삭제", "onclick": "procSearchTerm('DELETE', '" + data.uid + "')" }).append('<i class="far fa-trash-alt"></i>'));
+                    }
+                }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function procSearchTerm(mode, uid) {
+        apiParam["mode"] = mode;
+        apiParam["uid"] = uid;
+        apiParam["lang"] = requestParam["lang"];
+
+        if (mode === "INSERT") {
+            if ($("#search_term").val().replace(/ /ig, '') === '') {
+                $.commonUtils.alert("등록할 검색어를 입력하세요.");
+                return false;
+            }
+
+            apiParam["term"] = $("#search_term").val();
+
+            $.commonUtils.confirm("등록", "추천 검색어를 등록하시겠습니까?", "procConfirm();");
+        } else if (mode === "DELETE") {
+            $.commonUtils.confirm("삭제", "추천 검색어를 삭제하시겠습니까?", "procConfirm();");
+        } else if (mode === "UP" || mode === "DOWN") {
+            procConfirm();
+        }
+    }
+
+    function procConfirm() {
+        if (isProcess) return false;
+        isProcess = true;
+
+        var result = $.ajaxUtils.getApiData("/api/Main/SetSearchTerm", apiParam, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+            $("#search_term").val('');
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+
+        isProcess = false;
+    }
+
+</script>

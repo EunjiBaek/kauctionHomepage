@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="* 파인 주얼리란?" xml:space="preserve">
+    <value>* What is Fine Jewelry?</value>
+    <comment>[Jewelry] 04. 주얼리 위탁하기 - #2</comment>
+  </data>
+  <data name="2018년 12월, 국내 대표 경매회사 케이옥션이 주얼리 경매를 시작했습니다." xml:space="preserve">
+    <value>K Auction launched jewelry auctions in December 2018.</value>
+    <comment>[Jewelry] 02. 케이옥션앤주얼리란? - #1</comment>
+  </data>
+  <data name="가방의 경우 주로 에르메스를 위탁 받습니다." xml:space="preserve">
+    <value>Luxury handbags by Hermès are accepted for consignment.</value>
+    <comment>[Jewelry] 05. 명품 위탁하기 - #4</comment>
+  </data>
+  <data name="경매 및 상설판매로 구매한 제품에 AS(수리)가 발생시, 케이옥션 명품팀에서 편안하게 서비스를 받을 수 있습니다.(유상 또는 무상)" xml:space="preserve">
+    <value>Our Luxury Team is available for repairs and other after-sale services for objects purchased at K Auction. (additional fees may apply)</value>
+    <comment>[Jewelry] 03-3. 부가 서비스 - #1</comment>
+  </data>
+  <data name="경매를 통한 공정한 경쟁으로 판매가치를 높이고, 객관적이고 합리적인 가격으로 구매가 가능합니다." xml:space="preserve">
+    <value>Our auctions are designed for transparent, competitive bidding to maximize the value of your objects and allow for purchases at reasonable prices.</value>
+    <comment>[Jewelry] 03-1. 합리적인 거래 플랫폼 - #2</comment>
+  </data>
+  <data name="명품 시계는 롤렉스, 파텍필립, 오데마 피게, 로저드뷔 까르띠에, 브레게, 피아제, 블랑팡 등입니다." xml:space="preserve">
+    <value>Watches by luxury makers such as Rolex, Patek Philippe, Audemars Piguet, Roger Dubuis, Cartier, Breguet, Piaget, and Blancpain are accepted.</value>
+    <comment>[Jewelry] 05. 명품 위탁하기 - #3</comment>
+  </data>
+  <data name="명품 위탁하기" xml:space="preserve">
+    <value>Consign Luxury Objects</value>
+    <comment>[Jewelry] 05. 명품 위탁하기</comment>
+  </data>
+  <data name="문의" xml:space="preserve">
+    <value>Inquiries</value>
+    <comment>[Jewelry] 06. 문의</comment>
+  </data>
+  <data name="믿을 수 있는 경매회사, 케이옥션의 주얼리 경매입니다." xml:space="preserve">
+    <value>Auction with Confidence, K Auction Diamonds &amp; Jewels</value>
+    <comment>[Jewelry] 03-1. 합리적인 거래 플랫폼 - #1</comment>
+  </data>
+  <data name="보석 전문 상담" xml:space="preserve">
+    <value>Jewelry consultation</value>
+    <comment>[Jewelry] 03-2. 보석 전문 상담</comment>
+  </data>
+  <data name="부가 서비스" xml:space="preserve">
+    <value>Additional services</value>
+    <comment>[Jewelry] 03-3. 부가 서비스</comment>
+  </data>
+  <data name="위탁이 가능한 주얼리 브랜드는 샤넬, 까르띠에를 비롯한 모든 하이엔드 브랜드 입니다." xml:space="preserve">
+    <value>Luxury brands such as Chanel and Cartier are accepted for consignment.</value>
+    <comment>[Jewelry] 05. 명품 위탁하기 - #2</comment>
+  </data>
+  <data name="자연과 인간이 함께 빚어 낸 아름다운 결과물이라 불리는 천연의 다이아몬드를 비롯한 다양한 주얼리들을 케이옥션에서 만나보시기 바랍니다." xml:space="preserve">
+    <value>Explore our auctions to discover beautiful natural diamonds and more.</value>
+    <comment>[Jewelry] 02. 케이옥션앤주얼리란? - #3</comment>
+  </data>
+  <data name="주로 18K Gold, Platinum과 천연 다이아몬드, 루비, 사파이어, 에머럴드 등의 보석이 셋팅 된 주얼리를 뜻합니다. 보유하신 주얼리가 있다면 케이옥션에서 상담 가능합니다." xml:space="preserve">
+    <value>Fine jewelry are pieces created with 18K gold or platinum and set with natural precious stones including diamonds, rubies, sapphires, and emeralds. K Auctions specialists are available for consultations regarding your jewelry collections.</value>
+    <comment>[Jewelry] 04. 주얼리 위탁하기 - #3</comment>
+  </data>
+  <data name="주얼리 위탁하기" xml:space="preserve">
+    <value>Consign Jewelry</value>
+    <comment>[Jewelry] 04. 주얼리 위탁하기</comment>
+  </data>
+  <data name="최고의 보석전문가를 통한 정확한 감정과 객관적 가치평가가 가능합니다." xml:space="preserve">
+    <value>Our leading experts provide accurate appraisals and valuations for your jewelry.</value>
+    <comment>[Jewelry] 03-2. 보석 전문 상담 - #1</comment>
+  </data>
+  <data name="케이옥션 주얼리" xml:space="preserve">
+    <value>K Auction Diamonds &amp; Jewels</value>
+    <comment>[Jewelry] 01. 상단</comment>
+  </data>
+  <data name="케이옥션 주얼리 경매는 차별화된 경매 노하우와 주얼리 업계의 우수한 전문 인력으로 운영되는 합리적인 신개념 주얼리 거래 플랫폼입니다." xml:space="preserve">
+    <value>Our auctions are state-of-the-art sales platforms built upon our auction experience and the expertise of our jewelry industry specialists.</value>
+    <comment>[Jewelry] 02. 케이옥션앤주얼리란? - #2</comment>
+  </data>
+  <data name="케이옥션앤주얼리란?" xml:space="preserve">
+    <value>About K Auction Diamonds &amp; Jewels</value>
+    <comment>[Jewelry] 02. 케이옥션앤주얼리란?</comment>
+  </data>
+  <data name="케이옥션은 명품 주얼리, 시계, 가방을 위탁 받고 있습니다." xml:space="preserve">
+    <value>K Auction accepts consignments of luxury jewelry, watches, and handbags.</value>
+    <comment>[Jewelry] 05. 명품 위탁하기 - #1</comment>
+  </data>
+  <data name="케이옥션은 우수하며 장인정신이 깃든 주얼리와 가치가 뛰어난 파인 주얼리를 주로 위탁 받고 있습니다." xml:space="preserve">
+    <value>K Auction accepts consignments of high-quality fine jewelry reflecting excellent craftsmanship.</value>
+    <comment>[Jewelry] 04. 주얼리 위탁하기 - #1</comment>
+  </data>
+  <data name="합리적인 거래 플랫폼" xml:space="preserve">
+    <value>Reasonable trading platform</value>
+    <comment>[Jewelry] 03-1. 합리적인 거래 플랫폼</comment>
+  </data>
+</root>

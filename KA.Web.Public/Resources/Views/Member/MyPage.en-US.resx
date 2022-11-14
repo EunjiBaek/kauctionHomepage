@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 변경된 서류 심사중입니다." xml:space="preserve">
+    <value>- Reviewing the changed documents.</value>
+    <comment>[MyPage] 90. 심사 관련 메세지</comment>
+  </data>
+  <data name="- 사업자 등록증 및 담당자 명함을 다시 첨부한 뒤 저장해 주시기 바랍니다." xml:space="preserve">
+    <value>- Please attach the business registration card and the business card of the person in charge and save it.</value>
+    <comment>[MyPage] 90. 심사 관련 메세지</comment>
+  </data>
+  <data name="- 심사가 승인되어 응찰이 가능합니다." xml:space="preserve">
+    <value>- Bidding is possible.</value>
+    <comment>[MyPage] 90. 심사 관련 메세지</comment>
+  </data>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="- 현재 온라인 응찰 심사중입니다." xml:space="preserve">
+    <value>- Currently reviewing online bids.</value>
+    <comment>[MyPage] 90. 심사 관련 메세지</comment>
+  </data>
+  <data name="1) 미수금이 남아 있는 경우(낙찰대금, 배송비, 기타 비용 등)" xml:space="preserve">
+    <value>1) Accounts payable (purchase price, shipping fee, etc.)</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.1</comment>
+  </data>
+  <data name="1. 진행 중인 경매에 응찰한 경우 -&gt; 라이브 경매 서면/전화 응찰 신청 포함" xml:space="preserve">
+    <value>1. You have bid in an ongoing auction​</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #1</comment>
+  </data>
+  <data name="2) 미지급액이 남아 있는 경우" xml:space="preserve">
+    <value>2) Account receivable</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.2</comment>
+  </data>
+  <data name="2. ㈜케이옥션과 진행 중인 거래내역이 있을 경우" xml:space="preserve">
+    <value>2. You have outstanding accounts with K Auction Inc.</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2</comment>
+  </data>
+  <data name="3) 케이 아트 스페이스 계약기간이 종료되지 않은 경우" xml:space="preserve">
+    <value>3) Ongoing contract period with K Art Space</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.3</comment>
+  </data>
+  <data name="4) 담보 계약이 종료되지 않은 경우" xml:space="preserve">
+    <value>4) Ongoing contract period for collateral artwork</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.4</comment>
+  </data>
+  <data name="5) 도록 회원 만료일이 지나지 않은 경우" xml:space="preserve">
+    <value>5) Ongoing print catalogue subscription</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.5</comment>
+  </data>
+  <data name="6) 케이옥션에 보관된 작품이 있는 경우 (위 사항과 중복이 있을 수 있음)" xml:space="preserve">
+    <value>6) Artworks stored at K Auction facilities (may overlap with one or more of the above)</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #2.6</comment>
+  </data>
+  <data name="JPG 또는 PNG 포맷 이미지 파일" xml:space="preserve">
+    <value>JPG or PNG file</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="JPG 또는 PNG 포맷 이미지 파일 또는 PDF 파일" xml:space="preserve">
+    <value>Image (JPG, PNG) or PDF file</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="SMS 발송된 인증번호 30분이내 입력" xml:space="preserve">
+    <value>Please enter the code sent by SMS within 30 minutes.</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="개인정보" xml:space="preserve">
+    <value>Personal information</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="개인정보 유출 우려" xml:space="preserve">
+    <value>Personal information leakage</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="고객님의 신용카드로 인증" xml:space="preserve">
+    <value>Authenticate with your credit card</value>
+    <comment>[MyPage] 5. 회원정보 - #2.2 신용카드 인증</comment>
+  </data>
+  <data name="고객님의 휴대폰 번호로 인증" xml:space="preserve">
+    <value>Authenticate with your mobile phone number</value>
+    <comment>[MyPage] 5. 회원정보 - #2.1 휴대폰 인증</comment>
+  </data>
+  <data name="관련 법령 등에서 달리 정하지 않는 한, 탈퇴 후 30일 내 정보가 파기됩니다." xml:space="preserve">
+    <value>Unless otherwise specified by relevant law, your information will be deleted within 30 days of deleting your account.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3.2.2</comment>
+  </data>
+  <data name="광고성 정보 수신 동의" xml:space="preserve">
+    <value>Consent to Receiving Advertising​ Information​</value>
+    <comment>[MyPage] 5. 회원정보 - #6 정보 수신 방법 - 1</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="기본" xml:space="preserve">
+    <value>Standard</value>
+    <comment>[MyPage] 5. 회원정보 - #7 휴면 전환 조건 설정</comment>
+  </data>
+  <data name="기본 주소 설정" xml:space="preserve">
+    <value>Set as default shipping address</value>
+    <comment>[MyPage] 6. 주소관리 - #3 Button</comment>
+  </data>
+  <data name="낙찰자에 한해 낙찰대금을 모두 지불하기 전 까지는 탈퇴가 불가능 합니다." xml:space="preserve">
+    <value>If you have made a winning bid, you cannot delete your account until all purchase prices have been paid in full.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3.2.3</comment>
+  </data>
+  <data name="남성" xml:space="preserve">
+    <value>Male</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="다시 입력" xml:space="preserve">
+    <value>Re-enter</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="담당자가 회원님의 상세내용을 확인한 후 탈퇴 처리를 도와드리겠습니다." xml:space="preserve">
+    <value>Please contact a K Auction specialist for additional information and assistance in closing your account.​</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #3</comment>
+  </data>
+  <data name="대한민국" xml:space="preserve">
+    <value>Korea</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="문자메시지" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[MyPage] 5. 회원정보 - #6 정보 수신 방법 - 2</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of recipient</value>
+    <comment>[MyPage] 6. 주소관리 - #2 Table</comment>
+  </data>
+  <data name="받는사람을 입력하세요." xml:space="preserve">
+    <value>Please enter recipients.</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="변경" xml:space="preserve">
+    <value>Change</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="비공개" xml:space="preserve">
+    <value>Prefer not to say</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="비밀번호" xml:space="preserve">
+    <value>Password</value>
+    <comment>[MyPage] 3. TabMenu - #1</comment>
+  </data>
+  <data name="비밀번호 변경" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>[MyPage] 4. 비밀번호 - #1 Title</comment>
+  </data>
+  <data name="비밀번호 변경을 원하신다면, 현재 비밀번호를 기입 후, '새 비밀번호'란에 변경할 비밀번호를 입력하세요." xml:space="preserve">
+    <value>To change your password, please enter your current password below, then enter the new password in "New Password".</value>
+    <comment>[MyPage] 4. 비밀번호 - #1 Title (설명)</comment>
+  </data>
+  <data name="비밀번호 외의 정보를 변경하려면 본인인증 후 정보를 입력해 주시기 바랍니다." xml:space="preserve">
+    <value>If you want to change information other than the password, please enter the information after authentication.</value>
+    <comment>[MyPage] 5. 회원정보 - #1.1 Description</comment>
+  </data>
+  <data name="비밀번호가 변경되었습니다. 다시 로그인 하시기 바랍니다." xml:space="preserve">
+    <value>Your password has been changed. Please log in again.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (변경 완료)</comment>
+  </data>
+  <data name="비밀번호를 수정하시겠습니까?" xml:space="preserve">
+    <value>Are you sure you want to modify your password?</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (수정 클릭시)</comment>
+  </data>
+  <data name="삭제" xml:space="preserve">
+    <value>Delete</value>
+    <comment>[MyPage] 6. 주소관리 - #3 Button</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Detailed address</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #4 주소</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter detailed address.</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="새 비밀번호" xml:space="preserve">
+    <value>New password</value>
+    <comment>[MyPage] 4. 비밀번호 - #2 Input</comment>
+  </data>
+  <data name="새 비밀번호 확인" xml:space="preserve">
+    <value>Confirm new password</value>
+    <comment>[MyPage] 4. 비밀번호 - #2 Input</comment>
+  </data>
+  <data name="새 비밀번호 확인을 입력해 주십시오." xml:space="preserve">
+    <value>Please enter confirm new password.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (유효성 체크)</comment>
+  </data>
+  <data name="새 비밀번호를 입력해 주십시오." xml:space="preserve">
+    <value>Please enter a new password.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (유효성 체크)</comment>
+  </data>
+  <data name="생년월일" xml:space="preserve">
+    <value>Date of birth</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="서비스 불만" xml:space="preserve">
+    <value>Service complaint</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="성별" xml:space="preserve">
+    <value>Sex</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="수정" xml:space="preserve">
+    <value>Modify</value>
+    <comment>[MyPage] 4. 비밀번호 - #3 Button</comment>
+  </data>
+  <data name="신용카드 인증" xml:space="preserve">
+    <value>Credit Card Authentication</value>
+    <comment>[MyPage] 5. 회원정보 - #2.2 신용카드 인증</comment>
+  </data>
+  <data name="심사정보" xml:space="preserve">
+    <value>Review information</value>
+    <comment>[MyPage] 90. 심사 관련 메세지</comment>
+  </data>
+  <data name="아이디 또는 비밀번호가 일치 하지 않습니다." xml:space="preserve">
+    <value>Incorrect ID and/or password</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (아이디/비번 미일치)</comment>
+  </data>
+  <data name="아이디와 비밀번호를 한번 더 입력한 후 [탈퇴신청]을 해 주시기 바랍니다." xml:space="preserve">
+    <value>Please enter you ID and password and click [Delete Account].</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3.1 Description</comment>
+  </data>
+  <data name="여권 등 신분증 사본 첨부" xml:space="preserve">
+    <value>Copy of passport or other identification documents</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="여성" xml:space="preserve">
+    <value>Female</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Phone #</value>
+    <comment>[MyPage] 6. 주소관리 - #2 Table</comment>
+  </data>
+  <data name="연락처를 입력하세요." xml:space="preserve">
+    <value>Please enter your contact number.</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="예상 배송비는 기본 주소에 따라 변경됩니다." xml:space="preserve">
+    <value>Estimated shipping fees will be based on the default address.</value>
+    <comment>[MyPage] 6. 주소관리 - #1.1 Description</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal code</value>
+    <comment>[MyPage] 6. 주소관리 - #2 Table</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zip code.</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="이름" xml:space="preserve">
+    <value>Name</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="이메일을 입력하세요." xml:space="preserve">
+    <value>Please enter your email</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="이용 빈도 낮음" xml:space="preserve">
+    <value>Low Utilization</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="이용하고자 하는 정보 없음" xml:space="preserve">
+    <value>No information you want to use</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="인증 요청" xml:space="preserve">
+    <value>Request&lt;br /&gt;Code</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="인증 확인" xml:space="preserve">
+    <value>Verification</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="인증번호" xml:space="preserve">
+    <value>Verification Code</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="인증정보" xml:space="preserve">
+    <value>Authenticate Infomation</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="인증하기" xml:space="preserve">
+    <value>Authenticate</value>
+    <comment>[MyPage] 5. 회원정보 - #2.1 휴대폰 인증</comment>
+  </data>
+  <data name="입력하신 새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다." xml:space="preserve">
+    <value>The new password you entered and the new password confirmation do not match.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (유효성 체크)</comment>
+  </data>
+  <data name="자택" xml:space="preserve">
+    <value>Home</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[MyPage] 5. 회원정보 - #6 정보 수신 방법 - 2</comment>
+  </data>
+  <data name="정보 수신 방법" xml:space="preserve">
+    <value>Informational Channels</value>
+    <comment>[MyPage] 5. 회원정보 - #6 정보 수신 방법</comment>
+  </data>
+  <data name="정보 수정" xml:space="preserve">
+    <value>Modifying information</value>
+    <comment>[MyPage] 2. Title</comment>
+  </data>
+  <data name="정보수정" xml:space="preserve">
+    <value>Modifying information</value>
+    <comment>[MyPage] 1. Breadcrumb</comment>
+  </data>
+  <data name="죄송합니다. 회원님은 아래 사유 중 1개 이상에 해당하여 온라인 상 즉시 탈퇴가 불가합니다." xml:space="preserve">
+    <value>Your account cannot be closed online for one or more of the following reasons.​</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유</comment>
+  </data>
+  <data name="죄송합니다. 회원님은 아래 조건에 따라 즉시탈퇴는 불가합니다.&lt;br /&gt;조건 충족 후 진행 부탁드리며, 관련 문의는 별도 문의 바랍니다.&lt;br /&gt;&lt;br /&gt;v 진행중인 경매에 응찰한 경우&lt;br /&gt;v 낙찰 건에 대한 대금지불이 완료되지 않은 경우&lt;br /&gt;&lt;br /&gt;• 탈퇴문의: 02-3479-8888" xml:space="preserve">
+    <value>I'm sorry. You are not allowed to leave immediately according to the conditions below.&lt;br /&gt;Please proceed after meeting the conditions, and contact us separately for related inquiries.&lt;br /&gt;&lt;br /&gt;v In case of bidding for an ongoing auction&lt;br /&gt;In case the payment for the winning bid is not completed&lt;br /&gt;&lt;br /&gt;• Withdrawal inquiry: +82-2-3479-8888</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (탈퇴 조건 미충족)</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[MyPage] 6. 주소관리 - #2 Table</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Address Search</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #3 버튼</comment>
+  </data>
+  <data name="주소 관리" xml:space="preserve">
+    <value>Manage Addresses</value>
+    <comment>[MyPage] 6. 주소관리 - #1 Title</comment>
+  </data>
+  <data name="주소 등록/수정" xml:space="preserve">
+    <value>Register/Modify Address</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #1 Title</comment>
+  </data>
+  <data name="주소 추가" xml:space="preserve">
+    <value>Add address</value>
+    <comment>[MyPage] 6. 주소관리 - #3 Button</comment>
+  </data>
+  <data name="주소관리" xml:space="preserve">
+    <value>Manage Addresses</value>
+    <comment>[MyPage] 3. TabMenu - #3</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address.</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #6 유효성 메세지</comment>
+  </data>
+  <data name="주소명" xml:space="preserve">
+    <value>Address name</value>
+    <comment>[MyPage] 6. 주소관리 - #2 Table</comment>
+  </data>
+  <data name="증빙서류 검수 후 모든 서비스 이용 가능" xml:space="preserve">
+    <value>Document verification is required to access all K Auction services</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="증빙서류 업로드" xml:space="preserve">
+    <value>Upload Verification Document</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="증빙서류 파일을 선택하세요." xml:space="preserve">
+    <value>Please select a verification document file</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="직업" xml:space="preserve">
+    <value>Occupation</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="직장" xml:space="preserve">
+    <value>Office</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직장 전화번호" xml:space="preserve">
+    <value>Organization Phone #</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="직장 팩스번호" xml:space="preserve">
+    <value>Organization Fax #</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="직장명" xml:space="preserve">
+    <value>Organization Name</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="직접입력" xml:space="preserve">
+    <value>Direct input</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #2 주소명</comment>
+  </data>
+  <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter the direct input address.</value>
+    <comment>[MyPage] 6. 주소관리 - #4 Validate</comment>
+  </data>
+  <data name="추가정보" xml:space="preserve">
+    <value>More information</value>
+    <comment>[MyPage] 5. 회원정보 - #4 추가 정보</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[MyPage] 99. 모달 - 주소 등록/수정 - #5 버튼</comment>
+  </data>
+  <data name="탈퇴 사유" xml:space="preserve">
+    <value>Reasons for withdrawal</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2.1 SubTitle</comment>
+  </data>
+  <data name="탈퇴 사유를 입력해 주세요." xml:space="preserve">
+    <value>Please enter the reason for withdrawal.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (사유 미입력)</comment>
+  </data>
+  <data name="탈퇴 사유를 입력해 주시면 사이트 개선에 적극 반영하겠습니다." xml:space="preserve">
+    <value>Please explain your reasons for deleting your account. We will take them into consideration to improve our website.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2.1.1 Description</comment>
+  </data>
+  <data name="탈퇴 사유를 적어도 하나 이상 선택해 주세요." xml:space="preserve">
+    <value>Please select at least one reason for withdrawal.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (사유 미체크)</comment>
+  </data>
+  <data name="탈퇴 시 이용중임 경매정보가 모두 사라집니다. 탈퇴를 진행할까요?" xml:space="preserve">
+    <value>All member information, including auction history, will be lost upon membership withdrawal. Nevertheless, would you like to proceed with membership withdrawal?</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (최종 확인)</comment>
+  </data>
+  <data name="탈퇴가 신청되어 로그아웃 후 메인페이지로 이동합니다." xml:space="preserve">
+    <value>Log out and go to the main page by submitting an withdrawal application.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (탈퇴 처리 성공)</comment>
+  </data>
+  <data name="탈퇴사유" xml:space="preserve">
+    <value>Delete Account Reasons</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #1 Title</comment>
+  </data>
+  <data name="탈퇴신청" xml:space="preserve">
+    <value>Delete Account</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3 Title</comment>
+  </data>
+  <data name="파일 선택" xml:space="preserve">
+    <value>Select File</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="현재 비밀번호" xml:space="preserve">
+    <value>Current password</value>
+    <comment>[MyPage] 4. 비밀번호 - #2 Input</comment>
+  </data>
+  <data name="현재 비밀번호가 일치하지 않습니다." xml:space="preserve">
+    <value>The current passwords do not match.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (유효성 체크)</comment>
+  </data>
+  <data name="현재 비밀번호를 입력해 주십시오." xml:space="preserve">
+    <value>Please enter your current password.</value>
+    <comment>[MyPage] 4. 비밀번호 - #4 Message (유효성 체크)</comment>
+  </data>
+  <data name="홍보 메세지가 너무 빈번히 옴" xml:space="preserve">
+    <value>Promotional messages too frequently</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>OK</value>
+    <comment>[MyPage] 98. 모달 - 회원탈퇴 불가 사유 - #4 버튼</comment>
+  </data>
+  <data name="회원 정보 변경" xml:space="preserve">
+    <value>Manage Personal Information</value>
+    <comment>[MyPage] 5. 회원정보 - #1 Title</comment>
+  </data>
+  <data name="회원 탈퇴" xml:space="preserve">
+    <value>Member withdrawal</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #4. 버튼</comment>
+  </data>
+  <data name="회원 탈퇴 내용에 동의 하셔야 합니다." xml:space="preserve">
+    <value>You have to agree to the membership withdrawal.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #5 Message (동의 미체크)</comment>
+  </data>
+  <data name="회원 탈퇴 내용에 동의합니다." xml:space="preserve">
+    <value>I consent to the terms of deleting my account.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3.2.4</comment>
+  </data>
+  <data name="회원 혜택 부족" xml:space="preserve">
+    <value>Lack of membership</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #2 사유 선택 항목</comment>
+  </data>
+  <data name="회원님은 현재 응찰이 가능하신 상태이기에 증빙서류 업로드는 필요하지 않습니다." xml:space="preserve">
+    <value>You do not need to upload proof documents because you are currently available for bidding.</value>
+    <comment>[MyPage] 5. 회원정보 - #5 인증 정보</comment>
+  </data>
+  <data name="회원이 응찰한 경매가 진행중인 경우에는 해당경매가 마감되기 전까지 탈퇴가 불가능 합니다." xml:space="preserve">
+    <value>If you have bid in an ongoing auction, you cannot delete your account until the auction has closed.</value>
+    <comment>[MyPage] 7. 회원탈퇴 - #3.2.1</comment>
+  </data>
+  <data name="회원정보" xml:space="preserve">
+    <value>Membership information</value>
+    <comment>[MyPage] 3. TabMenu - #2</comment>
+  </data>
+  <data name="회원탈퇴" xml:space="preserve">
+    <value>Delete Account</value>
+    <comment>[MyPage] 3. TabMenu - #4</comment>
+  </data>
+  <data name="휴대전화" xml:space="preserve">
+    <value>Mobile</value>
+    <comment>[MyPage] 5. 회원정보 - #3 개인 정보</comment>
+  </data>
+  <data name="휴대폰 인증" xml:space="preserve">
+    <value>Mobile authentication</value>
+    <comment>[MyPage] 5. 회원정보 - #2.1 휴대폰 인증</comment>
+  </data>
+  <data name="휴면 전환 조건 설정" xml:space="preserve">
+    <value>Personal Information Validity Period</value>
+    <comment>[MyPage] 5. 회원정보 - #7 휴면 전환 조건 설정</comment>
+  </data>
+</root>

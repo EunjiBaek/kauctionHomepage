@@ -1,0 +1,324 @@
+﻿<style>
+    ul { list-style-type: none; padding-left: 10px; }
+    .ui-dynatree-active a { font-weight: 800 !important; text-decoration: underline !important; }
+    .note-editor > .note-toolbar > .note-btn-group > .note-btn-group > .note-dropdown-menu { overflow: auto !important; max-height: 150px !important; }
+</style>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">약관 버전</div>
+            </div>
+            <div class="card-body no-scroll">
+                <div class="row">
+                    <div id="treeview"></div>
+                </div>
+                <div class="row m-l-5 m-t-10">
+                    <button class="btn btn-sm" onclick="addVersion();">버전추가</button>
+                    <button class="btn btn-sm m-l-5" onclick="viewVersion();">미리보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div id="card-info" class="card card-default card-content" style="display: none;">
+            <div class="card-header">
+                <div id="card-code-name" class="card-title fs-20"></div>
+                <div class="card-title">약관 설정 - <span class="fs-12">활성화 및 기간을 설정합니다.</span></div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>게시기간</label>
+                            <div>
+                                <div class="input-daterange input-group" id="datepicker-range" style="width: 80%; float: left;">
+                                    <input id="start_date" type="text" class="input-sm form-control" name="start" />
+                                    <div class="input-group-addon">~</div>
+                                    <input id="end_date" type="text" class="input-sm form-control" name="end" />
+                                </div>
+                                <div class="form-check form-check-inline switch switch-lg" style="float: right;">
+                                    <input type="checkbox" id="switch-date-opt">
+                                    <label for="switch-date-opt">기간우선</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Primary</label>
+                            <div>
+                                <div class="form-check form-check-inline switch switch-lg">
+                                    <div class="form-check form-check-inline switch switch-lg">
+                                        <input type="checkbox" id="switch-primary-opt">
+                                        <label for="switch-primary-opt">설정</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn m-l-20" onclick="saveTermOption();">저장</button>
+                </div>
+            </div>
+        </div>
+        <div id="card-title" class="card card-default card-content" style="display: none;">
+            <div class="card-header">
+                <div class="card-title">약관 설명 - <span class="fs-12">약관 내용 상단에 설명글을 등록합니다.</span></div>
+            </div>
+            <div class="card-body no-scroll">
+                <ul class="nav nav-tabs m-r-15 m-l-15">
+                    <li class="nav-item">
+                        <a class="nav-link active text-center" data-toggle="tab" href="#nav-title">국문</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" data-toggle="tab" href="#nav-title-en">영문</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="nav-title" role="tabpanel" aria-labelledby="nav-top-tab">
+                        <div id="title_content" class="title-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermInfo('ko');">저장(국문)</button>
+                    </div>
+                    <div class="tab-pane fade" id="nav-title-en" role="tabpanel" aria-labelledby="nav-popup-tab">
+                        <div id="title_content_en" class="title-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermInfo('en');">저장(영문)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="card-content" class="card card-default card-content" style="display: none;">
+            <div class="card-header">
+                <div class="card-title">약관 내용 <span id="term-title" class="fs-12"></span></div>
+            </div>
+            <div class="card-body no-scroll">
+                <ul class="nav nav-tabs m-r-15 m-l-15">
+                    <li class="nav-item">
+                        <a class="nav-link active text-center" data-toggle="tab" href="#nav-content">국문</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" data-toggle="tab" href="#nav-content-en">영문</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-top-tab">
+                        <div id="layer_content" class="content-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermDetail('kr');">저장(국문)</button>
+                    </div>
+                    <div class="tab-pane fade" id="nav-content-en" role="tabpanel" aria-labelledby="nav-popup-tab">
+                        <div id="layer_content_en" class="content-editor"></div>
+                        <button class="btn m-t-10" onclick="saveTermDetail('en');">저장(영문)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var selectedLang = "K";
+    var param = {};
+    param["type"] = "@ViewBag.Type";
+    param["version"] = "";
+
+    $(document).ready(function () {
+        initTreeView();
+
+        $('#datepicker-range').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            language: "ko"
+        });
+
+        $('.title-editor').summernote({
+            height: 150,
+            lang: 'ko-KR',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+
+        $('.content-editor').summernote({
+            height: 300,
+            lang: 'ko-KR',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['codeview', 'help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+
+        $('.note-editable').css('font-size', '14px');
+    });
+
+    function initTreeView() {
+        $.treeViewUtils.init({
+            url: "/api/Member/GetTermAndConditionVersionList?type=" + param["type"],
+            target: "#treeview",
+            onClick: selectedVersion,
+            id_field: "uid",
+            display_field: "display",
+            disabled_field: "use_yn",
+            selectedTarget: "selected-clause"
+        });
+    }
+
+    function changeLang(value) {
+        selectedLang = value;
+    }
+
+    function selectedVersion(node, item) {
+        $('.card-content').show();
+
+        param["version"] = item.version;
+        param["code"] = "";
+
+        // 옵션값 처리
+        $("#start_date").val(item.start_date !== '0001-01-01' ? item.start_date : '');
+        $("#end_date").val(item.end_date !== '0001-01-01' ? item.end_date : '');
+        if (item.date_primary_yn !== null && item.date_primary_yn === "Y") {
+            $("#switch-date-opt").attr("checked", "checked");
+        } else {
+            $("#switch-date-opt").removeAttr("checked");
+        }
+        if (item.use_yn !== null && item.use_yn === "Y") {
+            $("#switch-primary-opt").attr("checked", "checked");
+        } else {
+            $("#switch-primary-opt").removeAttr("checked");
+        }
+        
+        var req = {};
+        // req["mode"] = "admin_version";
+        req["mode"] = "admin_detail";
+        req["version"] = item.version;
+        req["type"] = param["type"];
+        var descriptions = $.ajaxUtils.getApiData("/api/Member/GetTermAndConditionVersionList2", req, null, false);
+        if ($.ajaxUtils.getResultCode(descriptions) === "00") {
+            if (descriptions.data.length > 0) {
+                var data = descriptions.data[0];
+
+                $("#card-code-name").html(data.code_name);
+
+                $('#title_content').summernote('reset');
+                $('#title_content_en').summernote('reset');
+
+                $('#title_content').summernote('code', data.description);
+                $('#title_content_en').summernote('code', data.description_en);
+
+                if (data.use_yn === "Y") {
+                    $("#switch-color-opt").attr("checked", "checked");
+                }
+
+                var req1 = {};
+                req1["mode"] = "detail";
+                req1["version"] = param["version"];
+                req1["code"] = data.code;
+                req1["type"] = param["type"];
+                var contents = $.ajaxUtils.getApiData("/api/Member/GetTermAndConditionCodeDetail", req1, null, false);
+                if ($.ajaxUtils.getResultCode(contents) === "00") {
+                    $('#layer_content').summernote('reset');
+                    $('#layer_content_en').summernote('reset');
+
+                    if (contents.data.length > 0) {
+                        $('#layer_content').summernote('code', contents.data[0].content);
+                        $('#layer_content_en').summernote('code', contents.data[0].content_en);
+                    }
+                }
+            }
+        }
+    }
+
+    function saveTermOption() {
+        if ($("input:checkbox[id='switch-date-opt']").is(":checked") && ($("#start_date").val() === "" || $("#end_date").val() === "")) {
+            $.commonUtils.alert("시작일 또는 종료일을 설정하세요.");
+            return false;
+        }
+
+        param["mode"] = "UPDATE_OPTION";
+        param["start_date"] = $("#start_date").val();
+        param["end_date"] = $("#end_date").val();
+        param["date_primary_yn"] = $("input:checkbox[id='switch-date-opt']").is(":checked") ? "Y" : "N";
+        param["use_yn"] = $("input:checkbox[id='switch-primary-opt']").is(":checked") ? "Y" : "N";
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.reload();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function saveTermInfo(type) {
+        param["mode"] = type === "en" ? "UPDATE_CONTENT_EN" : "UPDATE_CONTENT";
+        param["description"] = $('#title_content').summernote('code');
+        param["description_en"] = $('#title_content_en').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function saveTermDetail(type) {
+        param["mode"] = type === "en" ? "UPDATE_CONTENT_EN" : "UPDATE_CONTENT";
+        param["content"] = $('#layer_content').summernote('code');
+        param["content_en"] = $('#layer_content_en').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionDetail", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.alert("저장되었습니다.", "success");
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function addVersion() {
+        $.commonUtils.confirm("등록", "새 버전을 등록하시겠습니까?", "addVersionProc();");
+    }
+
+    function addVersionProc() {
+        param["mode"] = "INSERT";
+        var result = $.ajaxUtils.getApiData("/api/Member/SetTermAndConditionInfo", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.reload();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function viewVersion() {
+        window.open("@Config.HomepageDomain/HowTo/Clause/" + param["type"] + (param["version"] !== "" ? "?version=" + param["version"] : ""), "_blank");
+    }
+
+</script>

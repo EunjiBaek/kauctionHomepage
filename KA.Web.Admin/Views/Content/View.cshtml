@@ -1,0 +1,42 @@
+﻿@model KA.Entities.Models.Content.BoardDoc
+
+<style>
+    img { max-width: 100%; }
+</style>
+
+<div class="container m-t-50 m-b-50 p-b-50 bg-white">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>@Html.Raw(Model.DocTitle)</h3>
+            <p>@Html.Raw(Model.RegDate)</p>
+            <hr />
+            <div>
+                @Html.Raw(Model.DocContents)
+            </div>
+            <hr />
+            @if (!string.IsNullOrWhiteSpace(Model.RedirectUrl))
+            {
+                <div class="m-b-30">
+                    <a href="@Model.RedirectUrl" target="_blank">@Model.RedirectUrl</a>
+                </div>
+            }
+            <div>                
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <button class="btn" onclick="history.back();">목록으로</button>
+            <button class="btn btn-primary" onclick="modify();">@(Model.Uid.Equals("0") ? "저장" : "수정")</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var boardName = "@ViewBag.BoardKey";
+    var uid = "@Model.Uid";
+
+    function modify() {
+        window.location.href = "/Content/" + boardName + "/Modify/" + uid;
+    }
+
+</script>

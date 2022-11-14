@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Auc_Title" xml:space="preserve">
+    <value>라이브-{{auc_title}} :: 케이옥션</value>
+  </data>
+  <data name="Btn_Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="Btn_Ok" xml:space="preserve">
+    <value>확인</value>
+  </data>
+  <data name="Gnb_Footer_AucTerms" xml:space="preserve">
+    <value>경매약관</value>
+  </data>
+  <data name="Gnb_Footer_GotoMain" xml:space="preserve">
+    <value>케이옥션 홈페이지</value>
+  </data>
+  <data name="Gnb_Footer_Link_AucTerms" xml:space="preserve">
+    <value>/HowTo/MajorClause</value>
+  </data>
+  <data name="Gnb_Footer_Link_Home" xml:space="preserve">
+    <value>/</value>
+  </data>
+  <data name="Gnb_Footer_Link_OnlineAucTerms" xml:space="preserve">
+    <value>/HowTo/OnlineClause</value>
+  </data>
+  <data name="Gnb_Footer_OnlineAucTerms" xml:space="preserve">
+    <value>온라인 경매약관</value>
+  </data>
+  <data name="Gnb_Login" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Gnb_Logout" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Gnb_MyPaddleNum" xml:space="preserve">
+    <value>내 패들번호</value>
+  </data>
+  <data name="Landding_Msg" xml:space="preserve">
+    <value>&lt;p class="tit"&gt;&lt;span&gt;경매 준비중 입니다.&lt;/span&gt;&lt;/p&gt;&lt;p class="sub-tit"&gt;잠시만 기다려주세요.&lt;/p&gt;</value>
+  </data>
+  <data name="Mdl_Currency_Terms_Check" xml:space="preserve">
+    <value>동의</value>
+  </data>
+  <data name="Mdl_Currency_Terms_Msg1" xml:space="preserve">
+    <value>읽어주세요</value>
+  </data>
+  <data name="Mdl_Currency_Terms_Msg2" xml:space="preserve">
+    <value>한화(KRW)가 아닌 다른 통화의 표시는 응찰의 편의를 돕기 위한 것이며, 최종적인 금액은 낙찰대금으로서 케이옥션이 최종적으로 지급받는 한화(KRW)를  따릅니다. 
+케이옥션은 낙찰자가 낙찰시로부터 낙찰 대금 입금 시까지 적용되는 외국환 환율 차이에서 발생하는 어떤 차이 또는 손해에 대해서도 책임을 부담하지 않습니다.</value>
+  </data>
+  <data name="Mdl_Currency_Terms_Msg3" xml:space="preserve">
+    <value>위 내용에 동의합니다.</value>
+  </data>
+  <data name="Mid_Bottom_Tab_CurrLotInfo" xml:space="preserve">
+    <value>LOT정보</value>
+  </data>
+  <data name="Mid_Bottom_Tab_CurrLotInfo_GotoCurr" xml:space="preserve">
+    <value>현재 응찰작으로 이동</value>
+  </data>
+  <data name="Mid_Bottom_Tab_CurrLotInfo_GotoDetail" xml:space="preserve">
+    <value>작품 상세 보기</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst" xml:space="preserve">
+    <value>내 응찰 내역</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Empty" xml:space="preserve">
+    <value>응찰한 내역이 없습니다</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col1" xml:space="preserve">
+    <value>Lot</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col2" xml:space="preserve">
+    <value>작가명</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col3" xml:space="preserve">
+    <value>작품명</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col4" xml:space="preserve">
+    <value>접수일시</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col5" xml:space="preserve">
+    <value>응찰가(KRW)</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyBidHst_Table_Col6" xml:space="preserve">
+    <value>진행상태</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyWishList" xml:space="preserve">
+    <value>관심 작품</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyWishList_Empty" xml:space="preserve">
+    <value>리스트에 담긴 작품이 없습니다.</value>
+  </data>
+  <data name="Mid_Bottom_Tab_MyWishList_GotoDetail" xml:space="preserve">
+    <value>상세정보</value>
+  </data>
+  <data name="Mid_Left_SuccessBidPrice" xml:space="preserve">
+    <value>낙찰가</value>
+  </data>
+  <data name="Mid_Mid_Vedio_Msg1" xml:space="preserve">
+    <value>약 {{start_mm_ss}} 후에 경매가 시작됩니다.</value>
+  </data>
+  <data name="Mid_Mid_Vedio_Msg2" xml:space="preserve">
+    <value>경매가 곧 시작됩니다. 잠시만 기다려주세요.</value>
+  </data>
+  <data name="Mid_Mid_Vedio_Msg3" xml:space="preserve">
+    <value>경매가 종료되었습니다. 감사합니다.</value>
+  </data>
+  <data name="Mid_Right_Bottom_BidHst_Empty" xml:space="preserve">
+    <value>응찰 내역이 없습니다.</value>
+  </data>
+  <data name="Mid_Right_Bottom_Mdl_BidHst_Bids" xml:space="preserve">
+    <value>건</value>
+  </data>
+  <data name="Mid_Right_Bottom_ViewMore" xml:space="preserve">
+    <value>지난 내역 더 보기</value>
+  </data>
+  <data name="Mid_Right_Btn_Bid" xml:space="preserve">
+    <value>응찰하기</value>
+  </data>
+  <data name="Mid_Right_Msg_CurrPrc" xml:space="preserve">
+    <value>현재가</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_A" xml:space="preserve">
+    <value>서면 경합 중입니다.</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_A_Desc" xml:space="preserve">
+    <value>서면 경합 중이므로 온라인 응찰이 제한됩니다.</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_F" xml:space="preserve">
+    <value>마감되었습니다.</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_N" xml:space="preserve">
+    <value>낙찰 처리중입니다. 잠시만 기다려주세요.</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_P" xml:space="preserve">
+    <value>조정중입니다. 잠시만 기다려주세요.</value>
+  </data>
+  <data name="Mid_Right_Msg_LotStat_W" xml:space="preserve">
+    <value>준비중입니다. 잠시만 기다려주세요.</value>
+  </data>
+  <data name="Mid_Right_Msg_Pass" xml:space="preserve">
+    <value>유찰</value>
+  </data>
+  <data name="Mid_Right_Msg_Restricted" xml:space="preserve">
+    <value>응찰이 제한된 작품입니다.</value>
+  </data>
+  <data name="Mid_Right_Msg_Sold" xml:space="preserve">
+    <value>낙찰</value>
+  </data>
+  <data name="Mid_Right_Msg_SoldPrc" xml:space="preserve">
+    <value>낙찰가</value>
+  </data>
+  <data name="Mid_Top_AucStatNm_A" xml:space="preserve">
+    <value>경매 &lt;br/&gt;준비중</value>
+  </data>
+  <data name="Mid_Top_AucStatNm_F" xml:space="preserve">
+    <value>종료</value>
+  </data>
+  <data name="Mid_Top_AucStatNm_P" xml:space="preserve">
+    <value>휴식중</value>
+  </data>
+  <data name="Mid_Top_AucStatNm_S" xml:space="preserve">
+    <value>라이브</value>
+  </data>
+</root>

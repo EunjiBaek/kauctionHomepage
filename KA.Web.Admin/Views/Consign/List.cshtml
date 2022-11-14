@@ -1,0 +1,272 @@
+﻿
+<style>
+    .jsgrid-header-cell { text-align: center !important; }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">위탁 목록</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left"><label id="total-record"></label></div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group" style="float: right;">
+                            <span class="btn btn-secondary" style="height: 35px; cursor: pointer; float: right;" onclick="excelDownload();">엑셀</span>
+                            <span class="btn btn-secondary m-r-5" style="height: 35px; cursor: pointer; float: right;" onclick="init();">초기화</span>
+                            <span class="btn btn-primary m-r-5" style="height: 35px; cursor: pointer; float: right;" onclick="search();">검색</span>
+                            <input id="search" onkeydown="checkSearch(event);" style="float: right; width: 200px;" class="form-control" type="text" placeholder="검색어를 입력해 주세요." />
+                            <select id="filter" class="form-control" style="width: 100px;">
+                                <option value="name">위탁자 (전체)</option>
+                                <option value="artist">작가 (포함)</option>
+                                <option value="title">작품 (포함)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-lg-10 col-sm-12">
+                        @foreach (var item in ViewBag.CodeList)
+                        {
+                            <div class="form-check m-r-10" style="float: left;">
+                                <input class="form-check-input" name="inp-state" type="checkbox" value="@item.SubCode" id="state-@item.SubCode">
+                                <label class="form-check-label" for="state-@item.SubCode">@item.CodeName</label>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-lg-2 col-sm-12">
+                        <select class="form-control text-center" id="page_size">
+                            <option value="10">10개씩 보기</option>
+                            <option value="20">20개씩 보기</option>
+                            <option value="30">30개씩 보기</option>
+                            <option value="50">50개씩 보기</option>
+                            <option value="100">100개씩 보기</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row list-row">
+                    <div>
+                        <ul>
+                            <li>메모 열에 마우스 오버시 상세 메모 내용이 표기됩니다.</li>
+                        </ul>
+                    </div>
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers"><ul class="pagination"></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var imageDomain = "@Config.ImageDomain";
+    var requestParam = {};
+    requestParam["page"] = "@ViewBag.Page";
+    requestParam["page_size"] = "@ViewBag.PageSize";
+    requestParam["state"] = "@ViewBag.State";
+
+    $(document).ready(function () {
+        var chkState = document.querySelectorAll("input[name='inp-state']");
+        chkState.forEach(function (item, index) {
+            if (requestParam["state"] === '' || (requestParam["state"] !== '' && requestParam["state"].indexOf(item.value) > -1)) {
+                item.checked = true;
+            }
+            item.onchange = function () {
+                filter();
+            }
+        });
+
+        if (requestParam["page_size"] && requestParam["page_size"] !== '') {
+            document.querySelector("#page_size").value = requestParam["page_size"];
+        } else {
+            document.querySelector("#page_size").value = "30";
+            requestParam["page_size"] = "30";
+        }
+
+        if (requestParam["page"] === '') {
+            requestParam["page"] = "1";
+        }
+
+        document.querySelector("#page_size").onchange = function () {
+            filter();
+        }
+
+        getList();
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData('/api/Consign/GetList', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: requestParam["page_size"]
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "uid", type: "text", title: "번호", width: 50, align: "center",
+                    itemTemplate: function (value, data) {
+                        if (typeof value === "number") {
+                            return "<a href='/Consign/" + data.uid.toString() + "/" + getUrlQuery() + "' target='_self'>" + value.toString() + "</a>";
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
+                    name: "images", type: "text", title: "작품", width: 50, align: "center",
+                    itemTemplate: function (value) {
+                        if (typeof value === "string" && value !== "") {
+                            var images = value.split('^');
+                            if (images.length > 0) {
+                                return "<img src = '" + imageDomain + "/www/Consign/" + images[0] + "' style = 'max-width: 100%; max-height: 40px;' /> ";
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                { name: "artist", type: "text", title: "작가명" },
+                { name: "title", type: "text", title: "작품명" },
+                { name: "mem_name", type: "text", title: "위탁자", width: 60, align: "center" },
+                { name: "mng_name", type: "text", title: "위탁자 담당자", width: 60, align: "center" },
+                { name: "reg_date", type: "text", title: "신청일자", width: 60, align: "center" },
+                {
+                    name: "state_name", type: "text", title: "상태", width: 40, align: "center",
+                    itemTemplate: function (value, data) {
+                        if (data.state.toString() === "999" || data.state.toString() === "998") {
+                            return "<span style='color: red;'>" + value + "</span>";
+                        } else if (data.state.toString() === "006") {
+                            return "접수검토<br />(담당자전달)";
+                        } else {
+                            return value;
+                        }
+                    }
+                },
+                {
+                    name: "receipt_yn", type: "text", title: "입고여부", width: 60, align: "center",
+                    itemTemplate: function (value, data) {
+                        if (value && value !== '') {
+                            return value === "Y" ? "적합" : "부적합";
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
+                    name: "recommended_price", type: "text", title: "권고가", width: 60, align: "right",
+                    itemTemplate: function (value, data) {
+                        return value && value !== '' ? $.stringUtils.comma(value) : '';
+                    }
+                },
+                {
+                    name: "memo", type: "text", title: "메모",
+                    itemTemplate: function (value, data) {
+                        if (value) {
+                            let temp = value.split('\n');
+                            return "<span title='" + value + "'>" + (temp[0].length > 20 ? temp[0].substring(0, 20) : temp[0]) + " ... </span>";
+                        } else {
+                            return '';
+                        }
+                    }
+                }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function init() {
+        $('#search').val('');
+        requestParam["page"] = 1;
+        requestParam["filter"] = "";
+        requestParam["search"] = "";
+
+        getList();
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $('#filter').val();
+        requestParam["search"] = $('#search').val();
+        if (requestParam["search"].replace(/ /g, '') === '') {
+            $.commonUtils.alert("검색어를 입력하세요.");
+            $("#search").focus();
+            return false;
+        }
+        getList();
+    }
+
+    function filter() {
+        requestParam["page"] = "1";
+        requestParam["page_size"] = document.querySelector("#page_size").value;
+
+        var chkState = document.querySelectorAll("input[name='inp-state']");
+        var allCheck = true;
+        var checkedValue = "";
+        chkState.forEach(function (item, index) {
+            if (item.checked) {
+                checkedValue += (checkedValue !== '' ? '|' : '') + item.value;
+            } else {
+                allCheck = false;
+            }
+        });
+
+        if (checkedValue === '') {
+            $.commonUtils.alert("상태를 선택하세요.");
+            return false;
+        }
+
+        if (allCheck) {
+            requestParam["state"] = "";
+        } else {
+            requestParam["state"] = checkedValue;
+        }
+
+        getList();
+    }
+
+    function excelDownload() {
+        $("#excel-mode").val("consign");
+        $("#excel-data").val(JSON.stringify(requestParam));
+        $("#btn-excel").click();
+    }
+
+    function getUrlQuery() {
+        return decodeURI("?" + (requestParam["page"] ? "p=" + requestParam["page"] : '')
+            + (requestParam["page_size"] ? "&ps=" + requestParam["page_size"] : '')
+            + (requestParam["state"] ? "&s=" + requestParam["state"] : ''));
+    }
+
+</script>

@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[JoinStep2] 02.09.2 설명</comment>
+  </data>
+  <data name="1. 관심분야 &lt;span&gt;(다중선택 가능)&lt;/span&gt;" xml:space="preserve">
+    <value>1. Areas of Interest &lt;span&gt;(Multiple Responses)&lt;/span&gt;</value>
+    <comment>[JoinStep2] 04.01 관심분야</comment>
+  </data>
+  <data name="2. 관심작가 &lt;span&gt;(최대 5명추가 가능)&lt;/span&gt;" xml:space="preserve">
+    <value>2. Artists of Interest &lt;span&gt;(Max 5 artists)&lt;/span&gt;</value>
+    <comment>[JoinStep2] 04.02 관심작가</comment>
+  </data>
+  <data name="3. 성별 &lt;span&gt;(택 1)&lt;/span&gt;" xml:space="preserve">
+    <value>3. Gender &lt;span&gt;(Select 1)&lt;/span&gt;</value>
+    <comment>[JoinStep2] 04.03 성별</comment>
+  </data>
+  <data name="4. 직업" xml:space="preserve">
+    <value>4. Occupation</value>
+    <comment>[JoinStep2] 04.04 직업</comment>
+  </data>
+  <data name="== 국가를 선택해주세요. ==" xml:space="preserve">
+    <value>== Please select a country ==</value>
+    <comment>[JoinStep2] 03.02.1 국가</comment>
+  </data>
+  <data name="== 직업을 선택해주세요. ==" xml:space="preserve">
+    <value>== Please select an occupation. ==</value>
+    <comment>[JoinStep2] 04.04.1 설명</comment>
+  </data>
+  <data name="jpg, jpeg, png, heic 또는 pdf 파일 업로드 (검수 후 모든 서비스 이용 가능)" xml:space="preserve">
+    <value>jpg, jpeg, png, heic or pdf file format (all services will be available for use after verification)</value>
+    <comment>[JoinStep2] 02.05.2 설명</comment>
+  </data>
+  <data name="[선택] &lt;a href='#'&gt;개인정보 수집•이용&lt;/a&gt; 중&lt;br /&gt;‘주소’ 사항에 동의하시나요?" xml:space="preserve">
+    <value>[Optional] Do you agree to include your address in &lt;a href='#'&gt;the Collection &amp; Usage of Personal Information&lt;/a&gt;?</value>
+    <comment>[JoinStep2] 03. 개인 정보 수집 이용 동의 (주소)</comment>
+  </data>
+  <data name="[선택] &lt;a href='/HowTo/Clause/J002' target='_blank'&gt;개인정보 수집•이용&lt;/a&gt; 중&lt;br /&gt;‘주소’ 사항에 동의하시나요?" xml:space="preserve">
+    <value>[Optional] Do you agree to include your address in &lt;a href='/HowTo/Clause/J002' target='_blank'&gt;the Collection &amp; Usage of Personal Information&lt;/a&gt;?</value>
+    <comment>[JoinStep2] 03. 개인 정보 수집 이용 동의 (주소)</comment>
+  </data>
+  <data name="[선택] 광고성 정보 수신 동의 채널" xml:space="preserve">
+    <value>[Optional] Preferences Regarding Consent to Receiving Advertising Information</value>
+    <comment>[JoinStep2] 05.01 링크</comment>
+  </data>
+  <data name="[선택] 맞춤 컨텐츠 추천을 위해 &lt;br /&gt;&lt;a href='/HowTo/Clause/J003' target='_blank'&gt;개인정보 수집•이용&lt;/a&gt;에 동의하시나요?" xml:space="preserve">
+    <value>[Optional] Do you agree to &lt;a href='/HowTo/Clause/J003' target='_blank'&gt;the Collection &amp; Usage of Personal Information&lt;/a&gt; for personalized recommendations?</value>
+    <comment>[JoinStep2] 04. 개인 정보 수집 이용 동의 (컨텐츠)</comment>
+  </data>
+  <data name="[선택] 직장 전화번호를 입력해주세요" xml:space="preserve">
+    <value>[Optional] Please enter your company phone number.</value>
+    <comment>[JoinStep2] 04.05.2 직장 전화번호</comment>
+  </data>
+  <data name="[선택] 직장명을 입력해주세요" xml:space="preserve">
+    <value>[Optional] Please enter your company name.</value>
+    <comment>[JoinStep2] 04.05.1 직장명</comment>
+  </data>
+  <data name="[필수] 담당자 명함" xml:space="preserve">
+    <value>[Required] Point of contact business card</value>
+    <comment>[JoinStep2] 02.13 기본필드 - 담당자명함</comment>
+  </data>
+  <data name="[필수] 담당자 이메일" xml:space="preserve">
+    <value>[Required] Email</value>
+    <comment>[JoinStep2] 02.04.2 법인인 경우 표기 처리</comment>
+  </data>
+  <data name="[필수] 대표 전화" xml:space="preserve">
+    <value>[Required] Main number</value>
+    <comment>[JoinStep2] 02.09 기본필드 - 대표 전화</comment>
+  </data>
+  <data name="[필수] 대표자 명" xml:space="preserve">
+    <value>[Required] Name of Director</value>
+    <comment>[JoinStep2] 02.08 기본필드 - 대표자명</comment>
+  </data>
+  <data name="[필수] 법인명" xml:space="preserve">
+    <value>[Required] Name of Organization</value>
+    <comment>[JoinStep2] 02.07 기본필드 - 법인명</comment>
+  </data>
+  <data name="[필수] 비밀번호" xml:space="preserve">
+    <value>[Required] Password</value>
+    <comment>[JoinStep2] 02.02 기본필드 - 비밀번호</comment>
+  </data>
+  <data name="[필수] 비밀번호 재확인" xml:space="preserve">
+    <value>[Required] Confirm password</value>
+    <comment>[JoinStep2] 02.03 기본필드 - 비밀번호 (재확인)</comment>
+  </data>
+  <data name="[필수] 사업자 등록증" xml:space="preserve">
+    <value>[Required] Business registration certificate</value>
+    <comment>[JoinStep2] 02.14 기본필드 - 사업자 등록증</comment>
+  </data>
+  <data name="[필수] 사업자등록번호" xml:space="preserve">
+    <value>[Required] Business Registration Number</value>
+    <comment>[JoinStep2] 02.06 기본필드 - 사업자등록번호</comment>
+  </data>
+  <data name="[필수] 사업장 상세주소" xml:space="preserve">
+    <value>[Required] Address Detail</value>
+  </data>
+  <data name="[필수] 사업장 우편번호" xml:space="preserve">
+    <value>[Required] Postal Code</value>
+  </data>
+  <data name="[필수] 사업장 주소" xml:space="preserve">
+    <value>[Required] Address</value>
+  </data>
+  <data name="[필수] 상세주소" xml:space="preserve">
+    <value>[Required] Address Detail</value>
+    <comment>[JoinStep2] 03.05 개인정보필드 - 상세주소</comment>
+  </data>
+  <data name="[필수] 생년월일" xml:space="preserve">
+    <value>[Required] Date of birth</value>
+    <comment>[JoinStep2] 02.11 기본필드 - 생년월일</comment>
+  </data>
+  <data name="[필수] 아이디" xml:space="preserve">
+    <value>[Required] ID</value>
+    <comment>[JoinStep2] 02.01 기본필드 - 아이디</comment>
+  </data>
+  <data name="[필수] 여권 등 신분증 사본" xml:space="preserve">
+    <value>[Required] Passport or Other ID copy</value>
+    <comment>[JoinStep2] 02.05 기본필드 - 여권 등 신분증</comment>
+  </data>
+  <data name="[필수] 우편번호입력" xml:space="preserve">
+    <value>[Required] Postal Code</value>
+    <comment>[JoinStep2] 03.03 개인정보필드 - 우편번호 입력</comment>
+  </data>
+  <data name="[필수] 이름" xml:space="preserve">
+    <value>[Required] Name</value>
+    <comment>[JoinStep2] 02.10 기본필드 - 이름</comment>
+  </data>
+  <data name="[필수] 이메일" xml:space="preserve">
+    <value>[Required] Email</value>
+    <comment>[JoinStep2] 02.04 기본필드 - 이메일</comment>
+  </data>
+  <data name="[필수] 전화번호" xml:space="preserve">
+    <value>[Required] Phone number</value>
+    <comment>[JoinStep2] 02.12 기본필드 - 전화번호</comment>
+  </data>
+  <data name="[필수] 주소" xml:space="preserve">
+    <value>[Required] Address</value>
+    <comment>[JoinStep2] 03.04 개인정보필드 - 주소</comment>
+  </data>
+  <data name="· 도로명 + 건물번호" xml:space="preserve">
+    <value>· 도로명 + 건물번호</value>
+    <comment>[JoinStep2] 98.02.1</comment>
+  </data>
+  <data name="· 지역명(동/리) + 건물명(아파트명)" xml:space="preserve">
+    <value>· 지역명(동/리) + 건물명(아파트명)</value>
+    <comment>[JoinStep2] 98.02.3</comment>
+  </data>
+  <data name="· 지역명(동/리) + 번지" xml:space="preserve">
+    <value>· 지역명(동/리) + 번지</value>
+    <comment>[JoinStep2] 98.02.2</comment>
+  </data>
+  <data name="가입 신청" xml:space="preserve">
+    <value>Complete Registration</value>
+    <comment>[JoinStep2] 06 가입 신청 버튼</comment>
+  </data>
+  <data name="개인정보처리방침" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>[JoinStep2] 07.3 푸터</comment>
+  </data>
+  <data name="검색어를 입력해주세요" xml:space="preserve">
+    <value>Enter address</value>
+    <comment>[JoinStep2] 98.01 입력필드</comment>
+  </data>
+  <data name="경매약관" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>[JoinStep2] 07.1 푸터</comment>
+  </data>
+  <data name="관심작가를 입력하세요." xml:space="preserve">
+    <value>Please enter the artist name.</value>
+    <comment>[JoinStep2] 04.02.1 설명</comment>
+  </data>
+  <data name="국가를 선택하세요." xml:space="preserve">
+    <value>Please select a country.</value>
+    <comment>[JoinStep2] 03.02 개인정보필드 - 국가</comment>
+  </data>
+  <data name="남성" xml:space="preserve">
+    <value>Male</value>
+    <comment>[JoinStep2] 04.03.2 남성</comment>
+  </data>
+  <data name="내용을 입력하려면 동의가&lt;br /&gt; 필요합니다" xml:space="preserve">
+    <value>You need consent to enter the content.</value>
+    <comment>[JoinStep2] 99. 팝업 (개인정보 수집 이용)</comment>
+  </data>
+  <data name="담당자 명함 파일을 선택하세요." xml:space="preserve">
+    <value>Please select the point of contact business card</value>
+    <comment>[JoinStep2] 02.13.1 유효성</comment>
+  </data>
+  <data name="대표번호를 입력하세요." xml:space="preserve">
+    <value>Please enter main number</value>
+    <comment>[JoinStep2] 02.09.1 유효성</comment>
+  </data>
+  <data name="대표자명을 입력하세요." xml:space="preserve">
+    <value>Please enter name of director</value>
+    <comment>[JoinStep2] 02.08.1 유효성</comment>
+  </data>
+  <data name="동의 시 선택하신 채널로 케이옥션의 최신 경매/전시 및 각종 혜택 정보를 제공해드립니다." xml:space="preserve">
+    <value>1. Please Agree and select your preference to receive information about K Auction's most recent auctions/exhibitions and other marketing materials.&lt;br /&gt;2. When you agree and select your preference, K Auction will provide information about recent auctions/exhibitions and other marketing materials.</value>
+    <comment>[JoinStep2] 05.03 설명</comment>
+  </data>
+  <data name="동의하지 않습니다." xml:space="preserve">
+    <value>I disagree.</value>
+    <comment>[JoinStep2] 03.01 동의 선택</comment>
+  </data>
+  <data name="동의합니다." xml:space="preserve">
+    <value>I agree.</value>
+    <comment>[JoinStep2] 03.01 동의 선택</comment>
+  </data>
+  <data name="뒤로" xml:space="preserve">
+    <value>Back</value>
+    <comment>[JoinStep2] 01. 상단</comment>
+  </data>
+  <data name="문자메세지" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[JoinStep2] 05.02.1</comment>
+  </data>
+  <data name="법인명을 입력하세요." xml:space="preserve">
+    <value>Please enter name of organization</value>
+    <comment>[JoinStep2] 02.07.1 유효성</comment>
+  </data>
+  <data name="비공개" xml:space="preserve">
+    <value>Prefer not to say</value>
+    <comment>[JoinStep2] 04.03.3 비공개</comment>
+  </data>
+  <data name="비밀번호(재확인)을 입력하세요." xml:space="preserve">
+    <value>Please enter your password(Confirm)</value>
+    <comment>[JoinStep2] 02.03.1 유효성</comment>
+  </data>
+  <data name="비밀번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your password</value>
+    <comment>[JoinStep2] 02.02.1 유효성</comment>
+  </data>
+  <data name="사업자등록번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your business registration number</value>
+    <comment>[JoinStep2] 02.06.1 유효성</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address detail</value>
+    <comment>[JoinStep2] 03.05.1 유효성</comment>
+  </data>
+  <data name="생년월일을 입력하세요." xml:space="preserve">
+    <value>Please enter date of birth</value>
+    <comment>[JoinStep2] 02.11 유효성</comment>
+  </data>
+  <data name="선택" xml:space="preserve">
+    <value>Optional</value>
+    <comment>[JoinStep2] 01. 공통</comment>
+  </data>
+  <data name="세금계산서 발행 필요 시" xml:space="preserve">
+    <value>Required to receive Tax Invoice</value>
+  </data>
+  <data name="신용카드 본인인증" xml:space="preserve">
+    <value>Credit card identification</value>
+  </data>
+  <data name="아래 내용에 모두 동의합니다. (전체동의)" xml:space="preserve">
+    <value>I agree to all.</value>
+    <comment>[JoinStep2] 05. 광고성 정보 동의</comment>
+  </data>
+  <data name="아래와 같이 검색하면 더욱 정확한 결과가 검색됩니다." xml:space="preserve">
+    <value>아래와 같이 검색하면 더욱 정확한 결과가 검색됩니다.</value>
+    <comment>[JoinStep2] 98.02 설명</comment>
+  </data>
+  <data name="아이디를 입력하세요." xml:space="preserve">
+    <value>Please enter your ID</value>
+    <comment>[JoinStep2] 02.01.1 유효성</comment>
+  </data>
+  <data name="여성" xml:space="preserve">
+    <value>Female</value>
+    <comment>[JoinStep2] 04.03.1 여성</comment>
+  </data>
+  <data name="영문/숫자 조합 5~12자리" xml:space="preserve">
+    <value>5~12 letter/number combination</value>
+    <comment>[JoinStep2] 02.01.2 설명</comment>
+  </data>
+  <data name="영문과 숫자 또는 특수문자 조합 최소 10자 이상 입력해주세요." xml:space="preserve">
+    <value>Please enter a minimum 10-character combination of letters, numbers, and special characters.</value>
+    <comment>[JoinStep2] 02.02.2 설명</comment>
+  </data>
+  <data name="예) 분당 주공, 삼성동 코엑스" xml:space="preserve">
+    <value>예) 분당 주공, 삼성동 코엑스</value>
+    <comment>[JoinStep2] 98.02.3</comment>
+  </data>
+  <data name="예) 삼성동 25, 제주 영평동 2181" xml:space="preserve">
+    <value>예) 삼성동 25, 제주 영평동 2181</value>
+    <comment>[JoinStep2] 98.02.2</comment>
+  </data>
+  <data name="예) 영동대로 513,  제주 첨단로 242" xml:space="preserve">
+    <value>예) 영동대로 513,  제주 첨단로 242</value>
+    <comment>[JoinStep2] 98.02.1</comment>
+  </data>
+  <data name="온라인경매약관" xml:space="preserve">
+    <value>Online Terms &amp; Conditions</value>
+    <comment>[JoinStep2] 07.2 푸터</comment>
+  </data>
+  <data name="우편번호 검색" xml:space="preserve">
+    <value>Search Postal Code</value>
+    <comment>[JoinStep2] 98. 팝업 (우편번호 검색)</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter postal code</value>
+    <comment>[JoinStep2] 03.03.1 유효성</comment>
+  </data>
+  <data name="유의사항" xml:space="preserve">
+    <value>Precautionary statement</value>
+  </data>
+  <data name="이름을 입력하세요." xml:space="preserve">
+    <value>Please enter name</value>
+    <comment>[JoinStep2] 02.10.1 유효성</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[JoinStep2] 05.02.2</comment>
+  </data>
+  <data name="이메일을 입력하세요." xml:space="preserve">
+    <value>Please enter your email</value>
+    <comment>[JoinStep2] 02.04.1 유효성</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[JoinStep2] 05.02.3</comment>
+  </data>
+  <data name="전화번호를 입력하세요." xml:space="preserve">
+    <value>Please enter phone number</value>
+    <comment>[JoinStep2] 02.12.1 유효성</comment>
+  </data>
+  <data name="조회하기" xml:space="preserve">
+    <value>Verify</value>
+    <comment>[JoinStep2] 02.06.2 조회 버튼</comment>
+  </data>
+  <data name="주소검색" xml:space="preserve">
+    <value>Search</value>
+    <comment>[JoinStep2] 03.03.2. 검색버튼</comment>
+  </data>
+  <data name="주소를 입력하세요." xml:space="preserve">
+    <value>Please enter address</value>
+    <comment>[JoinStep2] 03.04.1 유효성</comment>
+  </data>
+  <data name="증빙서류 파일을 선택하세요." xml:space="preserve">
+    <value>Please select the password or other ID copy file</value>
+    <comment>[JoinStep2] 02.05.1 유효성</comment>
+  </data>
+  <data name="파일찾기" xml:space="preserve">
+    <value>Select File</value>
+    <comment>[JoinStep2] 02.05.3 버튼</comment>
+  </data>
+  <data name="필수" xml:space="preserve">
+    <value>Required</value>
+    <comment>[JoinStep2] 01. 공통</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>[JoinStep2] 01. 공통</comment>
+  </data>
+  <data name="회사 정보 도용 방지 등 안전한 서비스 제공을 위하여 &lt;br /&gt;사업자 증빙자료 및 담당자 정보를 확인하고 있습니다." xml:space="preserve">
+    <value>To prevent information fraudulence and provide a safer service, we require evidentiary documentation of your business and its representative's information.</value>
+  </data>
+  <data name="휴대폰 본인인증" xml:space="preserve">
+    <value>Mobile Verification</value>
+  </data>
+</root>

@@ -1,0 +1,213 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+
+<div class="subtop-bn b8">
+    <div class='container container-fixed-lg sm-p-l-0 sm-p-r-0'>
+        <div class='inner'>
+            <ol class='breadcrumb'>
+                <li class='breadcrumb-item depth-1'><a href='/'><i class='fas fa-home-lg-alt text-white'></i></a></li>
+                <li class='breadcrumb-item depth-2 '>SERVICES</li>
+                <li class='breadcrumb-item depth-3'>@L["케이아트스페이스"]</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container subtop">
+        <div class="subtop-desc">
+            <h1>K ART SPACE</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container m-b-50 p-b-50 bg-white kart">
+    <div class="row">
+        <div class="col-sm-12 cl-tit">
+            <h2>@L["케이아트스페이스란?"]</h2>
+            <p>
+                @L["미술 작품을 안전하게 보관할 전문 서비스를 찾고 계신가요?"]<br>
+                @L["대한민국 대표 미술품 경매회사 케이옥션에서 미술 작품 전문 수장고 서비스를 제공합니다."]
+            </p>
+        </div>
+    </div>
+    <div class="kartimg">
+        <div><img src="/img/services/K_art_space-020.jpg"></div>
+        <div><img src="/img/services/K_art_space-034.jpg"></div>
+        <div><img src="/img/services/K_art_space-037.jpg"></div>
+    </div>
+    <ul class="kart-list">
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art01.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["수리/복원/케어 서비스"]</h6>
+                <p>
+                    @L["고객이 소유한 작품의 크기와 수에 맞는 다양한 가격대의 맞춤형 보관 프로그램을 제공합니다."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art02.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["최적의 시설"]</h6>
+                <p>
+                    @L["완벽한 항온, 항습, 방재, 보안시스템을 갖춘 미술품 보관 전용 수장고에 안전하게 보관합니다."]<br>
+                    @L["24시간 경비가 상주하며, 첨단 시스템 경비가 완비되어 있습니다."]<br>
+                    @L["각 룸 내 별도 CCTV가 설치되어 있으며, 모바일과 웹 상으로 실시간 모니터링이 가능합니다."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art03.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["작품별 개별 보험 가입"]</h6>
+                <p>
+                    @L["개별 작품의 입출고를 관리하고, 작품별 개별 보험 가입을 통해 만약의 경우 일어날 수 있는 사고에 대비할 수 있습니다(업계 최저 보험요율 적용)."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art04.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["접근성"]</h6>
+                <p>
+                    @L["서울 성동구 용답동에 위치하여 어느 곳에서나 편리한 접근이 가능합니다."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art05.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["뷰잉 룸 서비스 제공"]</h6>
+                <p>
+                    @L["별도로 마련된 뷰잉 룸에서 작품을 감상하며 미팅을 진행하실 수 있습니다(별도 비용 청구, 사전 예약 필요)."]
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="kartsp-img">
+                <img src="/img/services/k-art06.jpg" alt="...">
+            </div>
+            <div>
+                <h6>@L["부가 서비스"]</h6>
+                <p>
+                    @L["보관 중인 작품을 대상으로 운송, 복원, 액자, 촬영 등의 부가 서비스를 대행해 드립니다(추가 비용 발생)."]
+                </p>
+            </div>
+        </li>
+    </ul>
+    <div class="kart-bot">
+        <div>
+            <h5>@L["제공 서비스 안내"]</h5>
+            <div>
+                <h6>@L["작품 보관 대행"]</h6>
+                <p>
+                    @L["단독실 보관 (Type S) :  8평형 수장고 1개를 단독으로 빌려서 사용하는 서비스로, 200점 내외(50호 기준)의 작품을 보다 프라이빗하게 보관하시고자 하는 고객에게 적합합니다."]<br />
+                    @L["단독실 보관 (Type R) :  15평형 수장고 1개를 단독으로 빌려서 사용하는 서비스로, 400점 내외(50호 기준)의 작품을 보다 프라이빗하게 보관하시고자 하는 고객에게 적합합니다."]<br />
+                    @L["렉 단위 보관 :  공동 수장고 내의 1개 렉(약 84*94*285 cm) 전체를 빌려서 사용하는 서비스로, 40점 내외(50호 기준)의 작품을 보다 합리적인 가격에 보관하시고자 하는 고객에게 적합합니다."]<br />
+                    @L["▶ 150호 이상의 작품을 보관하는 경우, 추가 비용이 발생될 수 있습니다."]
+                </p>
+            </div>
+            <div>
+                <h6>@L["보험 가입 대행(필수)"]</h6>
+                <p>@L["작품 보험 가입 대행 업계 최저의 요율로 개별 작품당 보험 가입을 통해 만일의 사고에 대비합니다."]</p>
+            </div>
+            <div>
+                <h6>@L["뷰잉 룸 이용"]</h6>
+                <p>@L["1회 이용권 :  오랜 시간 축적한 케이옥션만의 노하우로 미술 작품 감상에 가장 최적화된 안전하고 프라이빗한 장소를 제공합니다."]</p>
+            </div>
+            <div class="collection-inq">
+                <strong>@L["문의"]</strong>
+                <span>@L["작품관리 총괄 김형준 팀장"]</span>
+                <span>TEL:010-9025-7422</span>
+                <span>E MAIL : <a href="mailto:corp@k-auction.com">hjkim@k-auction.com</a></span>
+            </div>
+        </div>
+        <div>
+            <h5>@L["이용 시간"]</h5>
+            <div>
+                <p>@L["협의 (방문 전 예약 필수)"]</p>
+            </div>
+        </div>
+        <div>
+            <h5>@L["주차 안내"]</h5>
+            <div>
+                <p>
+                    @L["건물 외부 주차장 이용 가능"]<br>
+                    @L["주차요금: 케이 아트 스페이스 방문 시 주차요금 무료"]
+                </p>
+            </div>
+        </div>
+        <div>
+            <h5>@L["찾아오시는 길"]</h5>
+            <div>
+                <p>@L["서울시 성동구 자동차시장1길 18 화성개발장한평빌딩 1층 102호"]</p>
+            </div>
+            <div class="mapall">
+                <div id="map1"></div>
+                <div class="map-desc">
+                    @*<p>
+                            @L["서울교통공사 사거리에서 장한평역 방향으로 직진, 미라보타워 사잇길로 우회전 후 200M"]<br>
+                            @L["5호선 장한평역 8번 출구에서 도보 8분"]<br>
+                            @L["간선 130, 303, 370, 721"]<br>
+                            @L["지선 2221, 3216, 3220"]<br>
+                            @L["직행좌석 9301, 9403"]<br>
+                            @L["청년회의소 정류장 하차 300M"]<br>
+                        </p>*@
+                    <div>
+                        <h6>@L["자동차"]</h6>
+                        <p>@L["서울교통공사 사거리에서 장한평역 방향으로 직진, 미라보타워 사잇길로 우회전 후 200M"]</p>
+                    </div>
+                    <div>
+                        <h6>@L["지하철"]</h6>
+                        <p><img src="/img/icons/trans-01.png" alt="">@L["장한평역 8번 출구에서 도보 8분"]</p>
+                    </div>
+                    <div>
+                        <h6>@L["버스"]</h6>
+                        <p><img src="/img/icons/icon_bus_1.png" alt="">130, 303, 370, 721</p>
+                        <p><img src="/img/icons/icon_bus_2.png" alt="">2221, 3216, 3220</p>
+                        <p><img src="/img/icons/icon_bus_3.png" alt="">9301, 9403</p>
+                        <p>-@L["청년회의소 정류장 하차 300M"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7e095b714950e7ac764936388f969a1"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.kartimg').slick({
+            dots: true,
+        });
+
+        try {
+            var mapContainer = document.getElementById('map1'),
+                mapOption = {
+                    center: new kakao.maps.LatLng(37.5611460591891, 127.059453019063),
+                    level: 2,
+                    mapTypeId: kakao.maps.MapTypeId.ROADMAP
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            var zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(37.5611460591891, 127.059453019063),
+                map: map
+            });
+        } catch (e) { }
+
+        $(".collection-inq > span").wrapAll('<div></div>');
+    });
+</script>

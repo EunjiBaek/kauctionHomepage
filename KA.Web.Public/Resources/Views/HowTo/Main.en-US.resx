@@ -1,0 +1,806 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="-  &lt;span&gt;(06017)서울특별시 강남구 언주로 172길 23아트타워 4층 케이옥션 경매담당자앞&lt;/span&gt;" xml:space="preserve">
+    <value>- &lt;span&gt;Auction Team, K Auction, Art Tower 4th Floor, 23 Eonju-ro 172-gil, Gangnam-gu, Seoul, Korea 06017&lt;/span&gt;</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="- 내용은 의뢰인의 &lt;span&gt;성명, 연락처, 작가 이름, 작품 제목, 사이즈 / 재질 / 제작년도, 소장경위, 작품사진&lt;/span&gt; (전체 이미지, 서명 등 중요부분 이미지)을 포함할 것" xml:space="preserve">
+    <value>- Please include your &lt;span&gt;name and contact information, artist, title, size, medium, execution date, provenance, and artwork images&lt;/span&gt; (frontal full view, close-up views of signatures, etc.) in the body of the email.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="- 메일제목에 ‘작품위탁’과 성명 기입  ※ 예시) 작품위탁_홍길동" xml:space="preserve">
+    <value>- Please include "Consignment" and your name in the email title (ex. Consignment_James Smith)</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="1,000만원 x 19.8% + ( 낙찰가 - 1,000만원 ) x 16.5%" xml:space="preserve">
+    <value>KRW 10,000,000 x 19.8% + (Hammer Price - 10,000,000) x 16.5%</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="10만원" xml:space="preserve">
+    <value>KRW 100,000</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="15만원" xml:space="preserve">
+    <value>KRW 150,000</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="1천만원 이하" xml:space="preserve">
+    <value>Up to KRW 10,000,000</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="1천만원 초과" xml:space="preserve">
+    <value>Exceeding KRW 10,000,000</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="2005년 설립된 후 수많은 경매를 통해 &lt;span&gt;축적된 노하우&lt;/span&gt;를 바탕으로 엄선한 작품들이 제 가치를 인정받도록 항상 노력하고 있습니다." xml:space="preserve">
+    <value>Founded in 2005, K Auction strives to realize the value of artworks selected through years of &lt;span&gt;accumulated expertise.&lt;/span&gt;</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #2</comment>
+  </data>
+  <data name="2016년 6월 경매" xml:space="preserve">
+    <value>2016 June Sale</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="2017년 4월 경매" xml:space="preserve">
+    <value>2017 April Sale</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="2020년 7월" xml:space="preserve">
+    <value>2020 July Sale</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="2020년 9월" xml:space="preserve">
+    <value>2020 September Sale</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="2달에 한번씩 현장에서 라이브로 진행되는 메이저 경매, 2주에 한번씩 온라인으로 진행되는 프리미엄 경매, 매주 온라인으로 진행되는 위클리 경매 등 &lt;span&gt;365일 언제나 참여할 수 있는 다양한 경매&lt;/span&gt; 플랫폼이 구축되어 있습니다." xml:space="preserve">
+    <value>Our auctions span diverse platforms, from our bimonthly live Major Auctions, biweekly online Premium Auctions, and online Weekly Auctions, to ensure that bidders are able to participate at any time.</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #1</comment>
+  </data>
+  <data name="5만원" xml:space="preserve">
+    <value>KRW 50,000</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="80호 미만은 점당 3만원(추가 점당 1만원), 80호 이상은 점당 10만원 (추가 점담 2만원)의 비용이 발생합니다." xml:space="preserve">
+    <value>For objects smaller than 145x112cm, a fee of KRW 30,000 per object (KRW 10,000 for each additional object) will be charged. Objects larger than 145x112cm will incur a fee of KRW 100,000 per object (KRW 20,000 for each additional object).</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #3. 설치</comment>
+  </data>
+  <data name="&lt;span&gt;art@k-auction.com&lt;/span&gt;으로 아래 항목을 포함하여 문의주세요." xml:space="preserve">
+    <value>Please contact us at &lt;span&gt;art@k-auction.com&lt;/span&gt; with the following information.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="&lt;span&gt;대한민국 대표 미술품 경매회사 케이옥션에서 작품 위탁을 도와드리겠습니다.&lt;/span&gt;" xml:space="preserve">
+    <value>&lt;span&gt;A leader in Korea's art market, K Auction can assist you in the sale of your artwork.&lt;/span&gt;</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction?</comment>
+  </data>
+  <data name="&lt;span&gt;모든 경매는 응찰 후에 취소가 불가능&lt;/span&gt;합니다. 특히, 온라인라이브응찰은 응찰하기 버튼을 누르는 동시에 즉시 시스템에 반영되어 취소가 절대 불가능하므로 유의 바랍니다." xml:space="preserve">
+    <value>&lt;span&gt;All bids are irrevocable.&lt;/span&gt; Online bids in particular are accepted immediately upon clicking the "Bid" button and cannot by withdrawn or canceled for any reason.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="&lt;span&gt;서면, 전화 응찰 신청은 경매 당일 1시간 전에 마감&lt;/span&gt;되며, 전시장에 비치된 응찰 등록 신청서를 작성하여 직접 제출하시거나 홈페이지에서 직접 신청하실  수 있습니다." xml:space="preserve">
+    <value>&lt;span&gt;Registration for absentee and/or telephone bidding will close one hour before the start of the auction.&lt;/span&gt; You can register by filling out a paper form in-person at our location or through our website.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="&lt;span&gt;연회비는 10만원&lt;/span&gt;의 유료회원에 가입하시면, &lt;span&gt;연 6회 발행&lt;/span&gt;되는 메이저 경매 도록을 받아보실 수 있습니다 신청은 '&lt;span&gt;My Page&gt;도록신청&lt;/span&gt;' 메뉴에서 가능합니다." xml:space="preserve">
+    <value>Subscription to our paid membership is available at a fee of KRW 100,000 per year. Subscribed members receive print catalogues for our 6 yearly major auctions. You can subscribe through the "Print Catalogue Subscription" tab under "My Page".</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #4</comment>
+  </data>
+  <data name="&lt;span&gt;예) 서울 지역 3점 낙찰 : 5만원+1만원+1만원 = 7만원&lt;/span&gt;" xml:space="preserve">
+    <value>ex) 3 objects to be shipped within Seoul: KRW 50,000 + 10,000 + 10,000 = KRW 70,000</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="&lt;span&gt;위탁 수수료는 낙찰가의 11%&lt;/span&gt; (부가세 포함) 을 적용합니다. 상세한 내용은 담당자와 상의하시기 바랍니다." xml:space="preserve">
+    <value>&lt;span&gt;The seller's commission is 11%&lt;/span&gt; (including VAT) of the hammer price. Please contact your specialist for additional details.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #4. 대금 정산</comment>
+  </data>
+  <data name="각 분야 전문가들이 모여 &lt;span&gt;최적화된 경매 시스템&lt;/span&gt;을 구축하고 있습니다." xml:space="preserve">
+    <value>Our team comprises experts in every field to build &lt;span&gt;the ideal auction system.&lt;/span&gt;</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #2</comment>
+  </data>
+  <data name="각종 일간지 및 방송사, 케이옥션 블로그, 인스타그램, 카카오톡채널, 페이스북 등 SNS 채널" xml:space="preserve">
+    <value>News outlets, broadcasting stations, K Auction blog, Instagram, Kakaotalk Channel, Facebook, other SNS platforms</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="격월에 한 번 열리는 메이저 경매는 한국 미술을 대표하는 주요 근현대 작가와 유명 해외 작가의 작품 그리고 한국화를 비롯해 도자기, 서화, 공예품, 불교미술 등을 아우르는 고미술까지 폭 넓은 작품들이 출품됩니다. 케이옥션 경매 중 가장 고가의 작품들이 출품됩니다." xml:space="preserve">
+    <value>Our Major Auctions feature masterpieces by modern and contemporary Korean and international artists, as well as a wide array of Korean traditional art including ink paintings, ceramics, calligraphy, craft, and Buddhist art. Major auctions take place bimonthly and generally involve our most prestigious lots.</value>
+    <comment>02. 경매소개 / Step1. 라이브 경매 - 메이저 경매</comment>
+  </data>
+  <data name="결제" xml:space="preserve">
+    <value>Payment</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제</comment>
+  </data>
+  <data name="경매 당시 국내 최고가 신기록 경신" xml:space="preserve">
+    <value>Auction record at time of sale</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="경매 마감 후 위탁자에게 낙찰 결과를  안내 드리며, 낙찰자가 낙찰대금을 입금하면, 아래의 위탁대금을 지급해 드립니다." xml:space="preserve">
+    <value>After the close of the auction, you will be notified of the hammer price of your artwork. Once we have secured payment from the buyer, the net proceeds (as below) will be rendered to you.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #4. 대금 정산</comment>
+  </data>
+  <data name="경매 마감시간부터 5분 간격으로 10점씩 마감되며, 경매 마감 시간 30초 전에 새로운 응찰이 있을 경우 자동으로 마감시간이 30초 연장됩니다. 동일한 응찰금액이 있을 경우, 먼저 접수된 응찰이 우선 순위를 가집니다." xml:space="preserve">
+    <value>Bidding will close every five minutes for groups of 10 lots each, starting from the auction closing time. If a bid is placed within the final 30 seconds, bidding on that lot will automatically be extended by a further 30 seconds. If two bids for the same amount are received, the bid first registered will take priority.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="경매 불가 작품은 의뢰인에게 다시 보내드립니다. (운송비 의뢰인 부담, 방문 회수 시 제외)" xml:space="preserve">
+    <value>Artworks that are not appropriate for auction are returned to the owner. (Return shipping fees will be charged, excepting artworks that are collected in person)</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="경매 소개" xml:space="preserve">
+    <value>Our Auctions</value>
+    <comment>01. 상단 메뉴</comment>
+  </data>
+  <data name="경매 일정은 케이옥션 홈페이지나 대표전화를 통해 확인하실 수 있습니다. 더불어 홈페이지에서 회원가입하시면 이메일, 문자, 카톡 등 다양한 채널로 안내를 드리며, 아래 공식채널을 통해서도 최신 소식을 쉽고 빠르게 전해드립니다." xml:space="preserve">
+    <value>Auction dates can be found on the K Auction website or by calling our main location. Please register on our website to receive the latest news by email, SMS, KakaoTalk, or any of the below channels.</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="경매 일정을 확인하려면?" xml:space="preserve">
+    <value>How to check our auction calendar</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="경매 전 원하는 작품의 응찰 최고한도를 정해 제출하시면, 경매 당일 해당 작품의 다른 응찰에 대응하여 제출한 최고한도까지 자동으로 응찰이 이뤄집니다. 서면 응찰자 중 동일한 금액이 있을 경우, 먼저 접수된 응찰이 우선순위를 가집니다. 서면 신청은 방문 접수 또는 케이옥션 홈페이지에서 직접 제출하실 수 있습니다." xml:space="preserve">
+    <value>If you have registered an absentee bid with a selected lot and maximum bid price, a K Auction specialist will bid on your behalf against other bidders on the day of the auction up to the maximum bid price. If two or more absentee bids for the same amount are received, the bid first received by K Auction will take priority. Absentee bids can be registered at our location or through our website.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="경매 출품&lt;br&gt;희망가격 결정" xml:space="preserve">
+    <value>Reserve&lt;br /&gt;price discussion</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="경매 출품작과 상세정보는 경매 기간 중 케이옥션 홈페이지와 케이옥션 전시장에서 확인하실 수 있습니다. 프리뷰(전시)는 무료이며, 작품보증은 경매되는 시점을 기준으로 하므로, 경매 전 반드시 전시장을 방문하셔서 직접 작품의 컨디션을 확인하시고 응찰해 주시기를 권장합니다." xml:space="preserve">
+    <value>The auction entries and details can be found on the K-Auction website and at the K-Auction exhibition hall during the auction period. The preview (exhibition) is free of charge and the guarantee is based on the time of auction, so it is recommended that you visit the exhibition hall to check the condition of the work in person and bid for it.</value>
+    <comment>03. 응찰안내 / Step2. 프리뷰</comment>
+  </data>
+  <data name="고객이 현장에 직접 경매에 참석하신 경우 낙찰확인서를 즉시 전달 드리며, 그렇지 않은 경우 경매가 종료된 후 등록하신 이메일로 낙찰결과 통보서가 발송됩니다. 낙찰관련 비용 등 변동된 사항이 반영된 최종 낙찰결과 통보서는 각 담당자들이 전달해 드립니다." xml:space="preserve">
+    <value>If you are bidding in person, a Successful Bid Confirmation will be delievered to you immediately. If you are bidding remotely, your bidding results will be sent to you by email after the close of the auction. If any modifications are necessary (including regarding the payment amount), our specialists will deliver all final bidding results.</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제</comment>
+  </data>
+  <data name="괄목할만한 경매 결과" xml:space="preserve">
+    <value>Notable auction results</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="구매대금은 현금, 자기앞 수표, 계좌이체 등으로 지급하실 수 있으며, 낙찰수수료에 한해서는 신용카드로 결제하실 수 있습니다. (다만, 신용카드 결제시 당사를 직접 방문하셔야 가능합니다)" xml:space="preserve">
+    <value>Payment can be rendered in cash, bank checks, or wire transfer. Credit cards are accepted for buyer's premiums only (credit card payments must be done in person at our location).</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제</comment>
+  </data>
+  <data name="국내" xml:space="preserve">
+    <value>Domestic</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="그 외 국내지역" xml:space="preserve">
+    <value>Other areas within South Korea</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="기타 응찰시 유의사항은 &lt;span&gt;&lt;a href='/HowTo/MajorClause'&gt;경매 약관&lt;/a&gt;&lt;/span&gt;과 &lt;span&gt;&lt;a href='/HowTo/OnlineClause'&gt;온라인 경매 약관&lt;/a&gt;&lt;/span&gt;을 참고 바랍니다." xml:space="preserve">
+    <value>Please refer to the &lt;span&gt;&lt;a href='/HowTo/MajorClause'&gt;Terms and Conditons&lt;/a&gt;&lt;/span&gt; and &lt;span&gt;&lt;a href='/HowTo/OnlineClause'&gt;Online Auction Terms and Conditions&lt;/a&gt;&lt;/span&gt; for all other information regarding bidding.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="김환기&lt;br /&gt;고요 5-IV-73 #310" xml:space="preserve">
+    <value>Kim WhanKi&lt;br /&gt;Tranquility 5-IV-73 #310</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="김환기&lt;br /&gt;무제 27-VII-72 #288" xml:space="preserve">
+    <value>Kim WhanKi&lt;br /&gt;Untitled 27-VII-72 #288</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="낙찰 결과 확인" xml:space="preserve">
+    <value>Bidding Results</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="낙찰 결과 확인 및 결제" xml:space="preserve">
+    <value>Bidding Results and Payment</value>
+    <comment>03. 응찰안내 - 서브 메뉴</comment>
+  </data>
+  <data name="낙찰 결과 확인&lt;span&gt;및 결제&lt;/span&gt;" xml:space="preserve">
+    <value>Bidding Results and Payment</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제</comment>
+  </data>
+  <data name="낙찰 수수료" xml:space="preserve">
+    <value>Buyer's Premium</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="낙찰 시에는 낙찰대금 외에 &lt;span style='text-decoration:underline'&gt;낙찰 수수료&lt;/span&gt; (부가세 별도) 및 낙찰자 비용(있을 경우)이 부과됩니다." xml:space="preserve">
+    <value>&lt;span style='text-decoration:underline'&gt;Buyer's premiums&lt;/span&gt; (excluding VAT) and additional buyer's fees (if applicable) may be charged in addition to the hammer price.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="낙찰가 15억2천만원" xml:space="preserve">
+    <value>Hammer price KRW 1.52 billion</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="낙찰가 18억5천만원" xml:space="preserve">
+    <value>Hammer price KRW 185 million</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="낙찰가 54억원" xml:space="preserve">
+    <value>Hammer price KRW 5.4 billion</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="낙찰가 65억4천만원" xml:space="preserve">
+    <value>Hammer price KRW 6.54 billion</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="낙찰가 &lt;span&gt;(원)&lt;/span&gt;" xml:space="preserve">
+    <value>Hammer Price &lt;span&gt;(KRW)&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="낙찰가 x 19.8%" xml:space="preserve">
+    <value>Hammer Price x 19.8%</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="낙찰된 작품은 7일 이내 수령이 원칙입니다. 7일 경과 후 미수령 작품에 대해서는 입금여부와 무관하게 점 당 일 30,000원의 비용이 발생합니다." xml:space="preserve">
+    <value>All objects must be collected within 7 calendar days from the closing date of the auction. Objects remaining uncollected after this time period will incur a storage fee of KRW 30,000 per objct per day regardless of whether the purchase price has been rendered in full.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #4. 보관</comment>
+  </data>
+  <data name="낙찰자는 경매 후 7일 이내에 총 구매대금을 당사로 지불하셔야 합니다.&lt;span&gt;총 구매 대금 = 낙찰대금 + 낙찰 수수료+ 기타비용 (발생 시)&lt;/span&gt;" xml:space="preserve">
+    <value>Sucessful bidders must render full payment to K Auction within 7 calendar days from the close of the auction.&lt;span&gt;
+Total Payment Amount = Hammer Price + Buyer's Premium + Additional Fees (if applicable)&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="네이버 블로그" xml:space="preserve">
+    <value>Naver Blog</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="다양한 경매 플랫폼, 365일 경매 진행" xml:space="preserve">
+    <value>Diverse auction platforms, continually in progress</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #1</comment>
+  </data>
+  <data name="담당자 배정" xml:space="preserve">
+    <value>Specialist assigned</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="당사 낙찰 작품에 한하여 배송 시 설치를 함께 요청하실 수 있으며, 사전 예약이 필요합니다." xml:space="preserve">
+    <value>For lots purchased in K Auction sales, installation may be requested in addition to shipping. Advance notice is required for all shipping and installation requests.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #3. 설치</comment>
+  </data>
+  <data name="대가들의 소품이나 종이작품, 드로잉 작품과 판화 등 수십만 원대 작품부터 출품되는 위클리 온라인 경매는 미술품 경매의 턱을 낮추어 누구나 쉽게 작품을 구입할 수 있는 기회를 제공합니다.&lt;span&gt;(매주 화요일 시작 ~ 차주 월요일 마감, 1주일 간격)&lt;/span&gt;" xml:space="preserve">
+    <value>Our Weekly Online Auctions offer small-scale artworks, works on paper, drawings and prints, providing opportunities for new bidders to acquire works by lowering the barrier to entry for art auctions. &lt;span&gt;(opens every Tuesday - closes the following Monday, weekly)&lt;/span&gt;</value>
+    <comment>02. 경매소개 / Step2. 온라인 경매 - 위클리 온라인경매</comment>
+  </data>
+  <data name="대금 정산" xml:space="preserve">
+    <value>Account Settlement</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #4. 대금 정산</comment>
+  </data>
+  <data name="대리석, 콘크리트, 가벽, 레일 등 현장 난이도에 따라 비용이 추가될 수 있습니다." xml:space="preserve">
+    <value>Additional fees may be charged depending on the condition of the installation site (marble, concrete, partitions, rails, etc.).</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #3. 설치</comment>
+  </data>
+  <data name="동일 경매에서 1점 초과 낙찰 시, 초과분부터 1만원씩 추가 (단, 동일 장소/일시인 경우에 한함)" xml:space="preserve">
+    <value>KRW 10,000 for each additional object (limited to objects bought in a single auction; must be shipped to the same address on the same date)
+ex) 3 objects to be shipped within Seoul: KRW 50,000 + 10,000 + 10,000 = KRW 70,000</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="라이브 경매" xml:space="preserve">
+    <value>Live Auction</value>
+    <comment>02. 경매소개 - 서브 메뉴</comment>
+  </data>
+  <data name="라이브 경매 낙찰작 중 낙찰일로부터 7일 이내에 입금된 작품 중 국내배송지의 경우 배송비가 면제됩니다." xml:space="preserve">
+    <value>Objects purchased in live auctions are exempt from domestic shipping fees, provided that payment is rendered in full within 7 calendar days from the closing date of the auction.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="라이브 경매는 경매사가 직접 현장에서 진행하는 경매로, 모든 응찰은 현장에서 이뤄지며, 사전 서면응찰(온라인신청과 서류신청)은 프리뷰 기간 중에 가능합니다." xml:space="preserve">
+    <value>Live Auctions take place on-site, with all bidding overseen by the auctioneer. Absentee bids (registration available through paper or online forms) can be registered during the preview period.</value>
+    <comment>02. 경매소개 / Step1. 라이브 경매</comment>
+  </data>
+  <data name="라이브 경매의 경우 낙찰 수수료는 낙찰가의 16.5%(부가세 포함)가 부가 됩니다." xml:space="preserve">
+    <value>The buyer's premium for live auctions is 16.5% (including VAT) of the hammer price.</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="라이브경매는 서면(서류 및 온라인 신청) , 전화, 현장 응찰로 진행되며, 온라인 라이브 시스템을통한 온라인라이브응찰도 가능합니다." xml:space="preserve">
+    <value>Absentee, saleroom, and telephone bids are accepted in live auctions. In addition, online live-bidding is available through our website's online live system.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="메이저 경매" xml:space="preserve">
+    <value>Major Auction</value>
+    <comment>02. 경매소개 / Step1. 라이브 경매 - 메이저 경매</comment>
+  </data>
+  <data name="명품 및 악기는 직접 픽업이 원칙입니다." xml:space="preserve">
+    <value>Luxury goods and instruments must be collected in person.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="모든 응찰은 응찰자가 작품을 직접 확인한 것을 전제로 하므로, 액자나 작품 컨디션을 이유로 응찰이나 낙찰을 취소할 수 없습니다. 프리뷰 기간 중 반드시 작품의 상태를 충분히 확인하신 후 경매에 응찰해 주실 것을 권장합니다." xml:space="preserve">
+    <value>All lots are sold "as is" at the time of the sale. Successful bids cannot be withdrawn for concerns regarding the condition of the work and/or the frame. We recommend that you inspect the lot in person during the preview period before submitting a bid.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="문의채널" xml:space="preserve">
+    <value>Inquiry Channels</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="배송" xml:space="preserve">
+    <value>Shipping</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="배송, 설치 및 보관" xml:space="preserve">
+    <value>Shipping, Installation and Storage</value>
+    <comment>03. 응찰안내 - 서브 메뉴</comment>
+  </data>
+  <data name="배송, 설치 및&lt;span&gt;보관&lt;/span&gt;" xml:space="preserve">
+    <value>Shipping, Installation and Storage</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관</comment>
+  </data>
+  <data name="배송관련 문의사항은 &lt;span&gt;02-3479-8888&lt;/span&gt;로 연락주시기 바랍니다." xml:space="preserve">
+    <value>For all shipping-related inquires: &lt;span&gt;+82-2-3479-8888&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="별도 배송비" xml:space="preserve">
+    <value>Shipping quote on request</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="보관" xml:space="preserve">
+    <value>Storage</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #4. 보관</comment>
+  </data>
+  <data name="보험" xml:space="preserve">
+    <value>Insurance</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #1. 보험</comment>
+  </data>
+  <data name="사전 예약 없이 방문 시 픽업이 불가&lt;span&gt;일반 승용차 기준 작품 전체 크기 90*120 cm까지 적재 가능하므로 픽업 전 차량의 공간과 작품 크기를 꼭 확인 필요&lt;/span&gt;" xml:space="preserve">
+    <value>In-person collection is not available without prior arrangement.&lt;span&gt;In general, 4-person sedans can accommodate objects up to 90x120cm in size. Please take the measurements of your vehicle and the artwork into consideration before arranging in-person collection.&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="사전에 전화응찰 신청을 하고, 경매 당일 담당직원과 전화통화를 통하여 실시간으로 대리응찰을 진행할 수 있습니다." xml:space="preserve">
+    <value>You can register in advance for telephone bidding. A K Auction specialist will call you during the auction to bid on your behalf in the saleroom.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="사전에 현장응찰 신청을 하고, 경매 당일 직접 참석하여 패들을 부여 받은 후 경매장에서 직접 응찰할 수 있습니다." xml:space="preserve">
+    <value>You can register in advance for saleroom bidding. On the day of the auction, you can collect a paddle on-site to join the auction and bid in person.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="사전에 홈페이지에서 신청하여 온라인 패들번호를 부여받은 후, 경매 당일 라이브경매 전용 페이지에서 경매 진행 상황을 모니터링하며 응찰하기 버튼을 눌러 응찰할 수 있습니다." xml:space="preserve">
+    <value>You can register in advance for online live-bidding to receive a paddle number. On the day of the auction, you can access the live-bidding page to bid in real time by clicking the “Place Bid” button while watching a live stream of the auction.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="서면 심의 및&lt;br&gt;내부 감정" xml:space="preserve">
+    <value>Internal authentication and&lt;br /&gt;further appraisal</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="서면응찰" xml:space="preserve">
+    <value>Absentee Bidding</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="서울" xml:space="preserve">
+    <value>Seoul</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="서울 신사동 케이옥션 전시장" xml:space="preserve">
+    <value>K Auction Exhibition Space (Sinsa-dong, Seoul)</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="설치" xml:space="preserve">
+    <value>Installation</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #3. 설치</comment>
+  </data>
+  <data name="소장하고 계신 있는 근현대 미술품, 해외 작품, 고서화, 목기, 민속품, 공예품, 쥬얼리, 악기, 그 외의 각종 희귀자료나 물품 등의 경매 출품 가능 여부와 대략적인 가격에 대한 &lt;span&gt;상담을 원하시면 아래의 절차대로 진행&lt;/span&gt;해 주세요." xml:space="preserve">
+    <value>If you would like to receive an estimate for your modern and contemporary artworks, Korean traditional art, jewels and diamonds, instruments, or other rare objects, &lt;span&gt;please follow the steps below&lt;/span&gt;.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의</comment>
+  </data>
+  <data name="소장하신 작품의 가치가 궁금하신가요?" xml:space="preserve">
+    <value>Are you looking to discover the value of your artworks?</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction?</comment>
+  </data>
+  <data name="수도권" xml:space="preserve">
+    <value>Seoul Capital Area (Incheon, Gyeoggi Province)</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="수백만 원에서 수천만 원대의 작품이 거래되는 프리미엄 온라인경매에는 국내외 근현대 작품과 한국화 및 고미술품 뿐 아니라 아트&amp;공예작품, 주얼리와 명품, 악기도 출품됩니다. 또 기업 컬렉션, 공공기관, 큰그림, 자선 등 다양한 기획경매를 통해 누구나 미술품 경매를 체험하고 즐길 수 있는 문화 체험의 장으로 자리 잡고 있습니다.&lt;span&gt;(격주 토요일 시작 ~ 차차주 화요일 마감, 2주 간격)&lt;/span&gt;" xml:space="preserve">
+    <value>Our Premium Online Auctions offer the widest variety of artworks in several categories including modern and contemporary art, ink paintings, Korean traditional art, Art &amp; Craft, jewelry, luxury collectibles and musical instruments. In addition, various themed sections such as Corporate Collections, Public Collection Paintings and Charity Auctions provide opportunities for everyone to experience art, auction and culture. &lt;span&gt;(opens every other Saturday - closes every second Tuesday after opening)&lt;/span&gt;</value>
+    <comment>02. 경매소개 / Step2. 온라인 경매 - 프리미엄 온라인경매</comment>
+  </data>
+  <data name="수수료율 &lt;span&gt;(부가세 포함)&lt;/span&gt;" xml:space="preserve">
+    <value>Buyer's Premium &lt;span&gt;(including VAT)&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="시작가 8억5천만원" xml:space="preserve">
+    <value>Starting price KRW 850 million</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="시작가 8천만원" xml:space="preserve">
+    <value>Starting price KRW 80 million</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="실시간 응찰하시거나, 또는 미리 최고 응찰가를 입력해두시면, 해당 작품의 다른 응찰에 대응하여 사전에 입력한 최고 응찰가까지 자동으로 응찰이 이뤄집니다." xml:space="preserve">
+    <value>You can bid in real time or select a maximum bid amount. The online live system will bid on your behalf against competing bids up to your selected maximum bid amount.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="아래의 주소로 위 이메일 요청 시와 같은 정보를 보내 주세요. 우편으로 접수된 사진은 반송되지 않습니다." xml:space="preserve">
+    <value>Please send us the same information as in email inquiries to the address below. Please note that images received by mail will not be returned to the sender.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="안내" xml:space="preserve">
+    <value>Guide</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="예시&gt;  낙찰가가 1,500만원인 경우 낙찰 수수료 : 198만원 + (1,500만원 – 1,000 만원) x 16.5% =2,805,000원" xml:space="preserve">
+    <value>ex) Buyer's premium for a hammer price of KRW 15,000,000: 1,980,000 + (15,000,000 - 10,000,000) x 16.5% = KRW 2,805,000</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="예약 없이 요청하시는 경우, 배송일정에 따라 바로 설치를 해드리기 어려울 수 있습니다." xml:space="preserve">
+    <value>Installation may not be available if advance notice has not been received by K Auction.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #3. 설치</comment>
+  </data>
+  <data name="오프라인 전시" xml:space="preserve">
+    <value>Offline exhibition</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="온라인 경매" xml:space="preserve">
+    <value>Online Auction</value>
+    <comment>02. 경매소개 - 서브 메뉴</comment>
+  </data>
+  <data name="온라인 경매 낙찰작은 7일 이내 직접 픽업하시기 바랍니다. 만약, 픽업이 불가능한 경우 배송을 요청할 수 있으며, 배송비는 아래와 같이 부과됩니다." xml:space="preserve">
+    <value>Objects purchased in online auctions must be collected within 7 calendar days from the closing date of the auction. Shipping may be requested if in-person collection is not possible. Shipping fees will be charged as below.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="온라인 경매는 미술품 경매와 문화예술 향유 저변 확대를 위해 폭넓은 작가군과 합리적인 가격대의 작품을 선보입니다. 홈페이지에서 24시간 응찰이 가능하며 시공간 제약없이 누구나 쉽게 미술품 경매에 참여할 수 있습니다." xml:space="preserve">
+    <value>Online Auctions feature a diverse range of artists, artworks and price points in order to revitalize and expand the domestic art market. Bidding is open 24 hours a day through our website, allowing all bidders to participate without limitations of time or location.</value>
+    <comment>02. 경매소개 / Step2. 온라이 경매</comment>
+  </data>
+  <data name="온라인 경매의 경우 낙찰 수수료는 낙찰가 구간에 따라 차등 적용됩니다." xml:space="preserve">
+    <value>The buyer's premium for online auctions are as follows, depending on the hammer price.</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #1. 낙찰 결과 확인</comment>
+  </data>
+  <data name="온라인 전시" xml:space="preserve">
+    <value>Online exhibition</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="온라인&lt;span&gt;라이브응찰&lt;/span&gt;" xml:space="preserve">
+    <value>Online &lt;span&gt;Live-Bidding&lt;/span&gt;</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="우편" xml:space="preserve">
+    <value>Mail</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="원하는 작품의 현재가를 확인하시고, 최고 응찰가를 선택하여 응찰할 수 있습니다." xml:space="preserve">
+    <value>You can view the current bid of each lot and select your bid amount.</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="위클리 온라인경매" xml:space="preserve">
+    <value>Weekly Online Auction</value>
+    <comment>02. 경매소개 / Step2. 온라인 경매 - 위클리 온라인경매</comment>
+  </data>
+  <data name="위탁 문의" xml:space="preserve">
+    <value>Consignment Inquiry</value>
+    <comment>04. 위탁안내 - 버튼</comment>
+  </data>
+  <data name="위탁 문의는 로그인이 필요합니다." xml:space="preserve">
+    <value>You need to log in for consignment inquiries.</value>
+    <comment>04. 위탁안내 - 버튼 (로그인 팝업 메세지)</comment>
+  </data>
+  <data name="위탁 상담 및 출고" xml:space="preserve">
+    <value>Consignment Consultations</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="위탁 안내" xml:space="preserve">
+    <value>How to Sell</value>
+    <comment>01. 상단 메뉴</comment>
+  </data>
+  <data name="위탁 절차" xml:space="preserve">
+    <value>How to Consign</value>
+    <comment>04. 위탁안내 - 서브 메뉴</comment>
+  </data>
+  <data name="위탁계약서&lt;br&gt;작성 및 계약" xml:space="preserve">
+    <value>Consignment Agreement&lt;br /&gt;completed and signed</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="위탁대금 = 낙찰금액 - 위탁수수료 - 기타비용 &lt;span&gt;(발생할 경우)&lt;/span&gt;" xml:space="preserve">
+    <value>Net Proceeds = Hammer Price - Seller's Commission - Additional Fees &lt;span&gt;(if applicable)&lt;/span&gt;</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #4. 대금 정산</comment>
+  </data>
+  <data name="위탁수수료" xml:space="preserve">
+    <value>Seller's Commission</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #4. 대금 정산</comment>
+  </data>
+  <data name="위탁안내" xml:space="preserve">
+    <value>How to Sell</value>
+    <comment>04. 위탁안내</comment>
+  </data>
+  <data name="위탁절차" xml:space="preserve">
+    <value>How to Consign</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차</comment>
+  </data>
+  <data name="위탁절차가 끝난 작품은 적합한 경매에 출품되며, 경매 프리뷰 기간 동안 높은 가격에 판매될 수 있도록 전시와 다양한 홍보 활동이 이루어집니다." xml:space="preserve">
+    <value>Consigned artworks are placed in auction and exhibited. Marketing and promotion is undertaken to maximize the value of the artwork.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시</comment>
+  </data>
+  <data name="유료 회원 가입" xml:space="preserve">
+    <value>Paid Membership</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #4</comment>
+  </data>
+  <data name="응찰" xml:space="preserve">
+    <value>Bidding</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="응찰 안내" xml:space="preserve">
+    <value>How to Bid</value>
+    <comment>01. 상단 메뉴</comment>
+  </data>
+  <data name="응찰 유의사항" xml:space="preserve">
+    <value>Important Notices for Bidding</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #2. 온라인 경매</comment>
+  </data>
+  <data name="응찰 하기" xml:space="preserve">
+    <value>Bidding</value>
+    <comment>03. 응찰안내 - 서브 메뉴</comment>
+  </data>
+  <data name="응찰종류" xml:space="preserve">
+    <value>Bidding Methods</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="이우환&lt;br /&gt;점으로부터  No. 770110" xml:space="preserve">
+    <value>Lee Ufan&lt;br /&gt;From Point No. 770100</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="이체시 낙찰자와 송금계좌 예금주가 다른 경우, 반드시 입금 통장 표시에 낙찰자명 기재 부탁 드립니다." xml:space="preserve">
+    <value>If the wire transfer is made under a different name from the successful bidder, please make sure to note the name of the successful bidder in the wire transfer details.</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제 (입금안내)</comment>
+  </data>
+  <data name="인스타그램" xml:space="preserve">
+    <value>Instagram</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="일부 물품의 경우는 택배 발송이 가능하며, 이 경우 배송비는 5천원(단, 제주 및 도서 산간지역의 경우 배송비 1만원)입니다. 무게나 가격대에 따라 택배가 불가할 수 있습니다." xml:space="preserve">
+    <value>Outside carrier shipping may be available for certain objects for a fee of KRW 5,000 (for Jeju Island and other select areas, KRW 10,000). Availability will depend on the size and/or weight of the object(s).</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="입금 계좌번호 : &lt;span&gt;196-910005-07204 (주) 케이옥션&lt;/span&gt;" xml:space="preserve">
+    <value>Account details: KEB Hana Bank 196-910005-07204 (Account holder: K Auction Ltd.)</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제 (입금안내)</comment>
+  </data>
+  <data name="입금 안내" xml:space="preserve">
+    <value>Bank transfer details</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제 (입금안내)</comment>
+  </data>
+  <data name="입금관련 문의: 02-3479-8894 (재무팀)" xml:space="preserve">
+    <value>Payment Inquiries: +82-2-3479-8894 (Finance Department)</value>
+    <comment>03. 응찰안내 / Step4. 낙찰 결과 확인 및 결제 - #2. 결제 (입금안내)</comment>
+  </data>
+  <data name="작가 별 희귀 작품을 경합을 통해 높은 가격에 낙찰" xml:space="preserve">
+    <value>Rare artworks that attract competitive bidding</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="작품문의" xml:space="preserve">
+    <value>Estimate Inquiry</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의</comment>
+  </data>
+  <data name="작품의 내정가는 의뢰자와 합의 하에 결정되며, 합의가 되지 않을 경우 출품되지 않습니다." xml:space="preserve">
+    <value>The reserve price is agreed upon between the seller and K Auction. If an agreement cannot be reached, the artwork may not be placed in an auction.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="전문성을 가진 &lt;span&gt;국내 최고 스페셜리스트&lt;/span&gt;들이 고객들의 요구에 따라 작품 판매와 위탁 컨설팅을 제공합니다." xml:space="preserve">
+    <value>&lt;span&gt;Our knowledgeable and experienced specialists&lt;/span&gt; provide bespoke consulting for clients looking to buy and sell artworks.</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #2</comment>
+  </data>
+  <data name="전시 방식" xml:space="preserve">
+    <value>Exhibition</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="전시장 방문 가입" xml:space="preserve">
+    <value>In-Person Registration</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #2</comment>
+  </data>
+  <data name="전화응찰" xml:space="preserve">
+    <value>Telephone Bidding</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="접수된 문의 내역은 분야별 스페셜리스트들의 내부 심사를 거친 후, 통상적으로 접수일로부터 7일 이내 담당자를 통해  개별적으로 연락을 드립니다." xml:space="preserve">
+    <value>Inquiries will be reviewed by our specialists. Our staff will reply to inquiries generally within 7 days.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="직접 픽업하시는 경우, 방문을 원하시는 날짜 하루 전 (주말의 경우 금요일, 연휴인 경우 연휴 시작 하루 전) 오후 5시까지 담당자와 픽업일정을 예약하신 후 방문해 주시기 바랍니다." xml:space="preserve">
+    <value>For in-person collection, please contact a K Auction specialist by 5 PM on the day prior to the requested appointment. Weekend collections must be requested by the Friday prior to the requested appointment. Collections on holidays must be requested by the last business day prior to the holiday period.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="진행중인 경매의 출품작 확인하기" xml:space="preserve">
+    <value>Current Auctions</value>
+    <comment>00. 공통 - 버튼</comment>
+  </data>
+  <data name="차별화된 서비스 제공" xml:space="preserve">
+    <value>Specialized services</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #2</comment>
+  </data>
+  <data name="출품 및 전시" xml:space="preserve">
+    <value>Auction and Exhibition</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시</comment>
+  </data>
+  <data name="출품이 가능한 경우, 아래와 같은 절차로 위탁이 진행됩니다." xml:space="preserve">
+    <value>If you artwork is accepted for auction, we will proceed as follows.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #2. 위탁 상담 및 출고</comment>
+  </data>
+  <data name="카카오 플러스친구" xml:space="preserve">
+    <value>KakaoTalk Channel</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="케이옥션 홈페이지 (모바일 지원)" xml:space="preserve">
+    <value>K Auction website and mobile app</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="케이옥션 홈페이지의 위탁신청방법 페이지 하단의 ‘&lt;span style='text-decoration:underline'&gt;위탁문의&lt;/span&gt;’ 버튼을 클릭해주세요." xml:space="preserve">
+    <value>Please click "&lt;span style='text-decoration:underline'&gt;Consignment Inquiry&lt;/span&gt;" under "How to Consign" on our website.</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="케이옥션에 작품을 위탁하시거나 경매에 응찰하기 위해서 반드시 회원가입을 하셔야 합니다. 케이옥션 회원은 홈페이지에서 지난 경매 결과 및 작품 이미지를 보실 수 있고, e도록과 경매안내 이메일과 문자도 받아 보실 수 있습니다." xml:space="preserve">
+    <value>Registration is required in order to bid or sell at K Auction. Members can access auction results and artwork images through our website and receive e-catalogues and auction news by email and SMS.</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #1</comment>
+  </data>
+  <data name="케이옥션에는 경매 &lt;span&gt;출품작을 미리 확인하실 수 있는 프리뷰&lt;/span&gt;가 항상 열리고 있습니다. 또 케이옥션 홈페이지와 모바일 앱을 통해서도 출품작에 대한 정보가 제공되며, &lt;span&gt;블로그, 인스타그램, 카카오톡채널, 페이스북 등 다양한 SNS채널&lt;/span&gt;을 활용해 다양한 컨텐츠를 소개하고 있습니다. 이 밖에 각종 브랜드와 협업, 문화행사나 이벤트 경매를 열어 문화예술분야의 지평을 넓혀가고 있습니다." xml:space="preserve">
+    <value>&lt;span&gt;Preview exhibitions for each auctions&lt;/span&gt; are held for clients to view lots. Information and images are provided through our website and mobile app, and various digital content is disseminated through various platforms such as &lt;span&gt;blogs, Instagram, KakaoTalk Channels, and Facebook&lt;/span&gt;. Collaborations with brands, cultural events, and themed auctions expand our reach in the arts and culture sector.</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #3</comment>
+  </data>
+  <data name="케이옥션은 위탁자가 경매 물품을 당사에 인도할 때부터 보관 관리를 중지하는 시점, 또는 경매일로부터 15일째 되는 날 중 먼저 도래하는 날까지 위탁자의 책임과 비용 부담하에 보험 가입을 대행합니다." xml:space="preserve">
+    <value>K Auction will subscribe to an insurance plans on your behalf starting on the day we receive the object until the day the object leaves our premises or 15 calendary days from the closing date of the auction, whichever is earlier.</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #1. 보험</comment>
+  </data>
+  <data name="케이옥션을 방문하여 회원가입이 가능합니다. 단, 경매 응찰을 위해서는 신분증 확인 증 본인인증절차가 필요하며, 온라인을 통한 응찰이나 서면 응찰을 위해서는 현장 회원가입과 별도로 케이옥션 홈페이지에서 회원가입과 본인인증이 필요합니다." xml:space="preserve">
+    <value>In-person registration is available at our location. A government-issued proof of identity and identity verification is required in order to bid in live auctions. Online registration and identity verification is required in order to bid in online auctions.</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #2</comment>
+  </data>
+  <data name="페이스북 페이지" xml:space="preserve">
+    <value>Facebook</value>
+    <comment>02. 경매소개 / 하단 - 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="프리미엄 온라인경매" xml:space="preserve">
+    <value>Premium Online Auction</value>
+    <comment>02. 경매소개 / Step2. 온라인 경매 - 프리미엄 온라인경매</comment>
+  </data>
+  <data name="프리뷰" xml:space="preserve">
+    <value>Auction Preview</value>
+    <comment>03. 응찰안내 - 서브 메뉴</comment>
+  </data>
+  <data name="프리뷰 전시와 다양한 홍보 마케팅" xml:space="preserve">
+    <value>Preview exhibitions and marketing expertise</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #3</comment>
+  </data>
+  <data name="픽업 가능시간 : 월~일 10:30 am ~ 12pm/ 2pm~ 6pm" xml:space="preserve">
+    <value>Available hours: Mon-Sun 10:30 AM - 12:00 PM / 2:00 PM - 6:00 PM</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="하종현&lt;br /&gt;탄생-B" xml:space="preserve">
+    <value>Ha ChongHyun&lt;br /&gt;Birth-B</value>
+    <comment>04. 위탁안내 / Step1. Why K Auction? - #4</comment>
+  </data>
+  <data name="해외" xml:space="preserve">
+    <value>International</value>
+    <comment>03. 응찰안내 / Step5. 배송 설치 및 보관 - #2. 배송</comment>
+  </data>
+  <data name="현장응찰" xml:space="preserve">
+    <value>Saleroom Bidding</value>
+    <comment>03. 응찰안내 / Step3. 응찰 - #1. 라이브 경매</comment>
+  </data>
+  <data name="홈페이지" xml:space="preserve">
+    <value>Website</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #1. 작품문의 (표)</comment>
+  </data>
+  <data name="홈페이지 회원 가입" xml:space="preserve">
+    <value>Online Registration</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #3</comment>
+  </data>
+  <data name="홈페이지에 접속하여 약관 동의 후 가입이 가능하며, 본인인증 절차를 마친 고객에 한해서만 응찰자격이 부여됩니다. 홈페이지에서 본인인증 절차를 마치고 가입한 고객의 경우, 오프라인 응찰과 온라인 응찰이 모두 가능합니다." xml:space="preserve">
+    <value>You may also register online by accessing our website and agreeing to the terms and conditions. Identity verification is required in order to bid. Once you have registered and completed the identity verification online, you will be eligible to bid in both live and online auctions.</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #3</comment>
+  </data>
+  <data name="홍보 채널" xml:space="preserve">
+    <value>Promotional channels</value>
+    <comment>04. 위탁안내 / Step2. 위탁절차 - #3. 출품 및 전시 (표)</comment>
+  </data>
+  <data name="회원 가입" xml:space="preserve">
+    <value>Member Registration</value>
+    <comment>03. 응찰안내 / Step1. 회원 가입 - #1</comment>
+  </data>
+</root>

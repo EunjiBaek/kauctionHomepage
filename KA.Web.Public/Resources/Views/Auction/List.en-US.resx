@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="02-3479-8888" xml:space="preserve">
+    <value>+82-2-3479-8888</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="&lt;span style='color: #ffffff; text-decoration: underline;'&gt;경매 실황은 별도의 신청 없이 시청&lt;/span&gt;&lt;span style='color: #ffffff;'&gt;하실 수 있습니다.&lt;/span&gt;" xml:space="preserve">
+    <value>&lt;span style='color: #ffffff;'&gt;Registration is not needed if you wish only to view the auction without bidding.&lt;/span&gt;</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="ARTIST" xml:space="preserve">
+    <value>ARTIST_EN</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="경매 인터넷 &lt;span&gt;중계 영상은 별도 신청 없이 시청하실 수 있으니,&lt;/span&gt; 시청만 원하는 경우 온라인 응찰 신청은 하지 마시기 바랍니다." xml:space="preserve">
+    <value>&lt;span&gt;The auction livestream can be viewed without registering for online bidding.&lt;/span&gt; Please do not register for online bidding if you wish only to view the auction.</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #2.3</comment>
+  </data>
+  <data name="경매결과" xml:space="preserve">
+    <value>Results</value>
+    <comment>[List] 01. 상단 영역 - #1. Breadcrumb</comment>
+  </data>
+  <data name="내 패들번호" xml:space="preserve">
+    <value>My paddle number</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="단순 시청은 신청이 필요 없습니다" xml:space="preserve">
+    <value>You may watch the auction without registering</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="로그인 후 응찰 신청이 가능합니다." xml:space="preserve">
+    <value>You must login to bid.</value>
+    <comment>[List] 00. 시스템</comment>
+  </data>
+  <data name="메이저 경매" xml:space="preserve">
+    <value>Major Auction</value>
+    <comment>[List] 01. 상단 영역 - #1. Breadcrumb</comment>
+  </data>
+  <data name="문의하기" xml:space="preserve">
+    <value>Contact Us</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="본 경매에 응찰할 작품이 있는 경우에만 신청해 주시기 바랍니다." xml:space="preserve">
+    <value>Please register only if you wish to bid on lots.</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #2.1</comment>
+  </data>
+  <data name="시작가" xml:space="preserve">
+    <value>Starting</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="신청 전에 읽어주세요." xml:space="preserve">
+    <value>Please read the following notice before registering</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #1</comment>
+  </data>
+  <data name="신청마감" xml:space="preserve">
+    <value>Application closing</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="온라인 응찰 사전예약" xml:space="preserve">
+    <value>Register for online live-bidding</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="온라인 응찰 신청 기간" xml:space="preserve">
+    <value>Online bid application period</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="온라인 응찰을 신청하신 분께는 담당 직원의 확인 전화가 있을 수 있습니다." xml:space="preserve">
+    <value>One of our specialists may call you to verify your registration.</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #2.2</comment>
+  </data>
+  <data name="위 내용 확인했습니다." xml:space="preserve">
+    <value>I have read the above notices.</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #3</comment>
+  </data>
+  <data name="위클리 온라인" xml:space="preserve">
+    <value>Weekly Online</value>
+    <comment>[List] 01. 상단 영역 - #1. Breadcrumb</comment>
+  </data>
+  <data name="응찰수" xml:space="preserve">
+    <value>Bid Count</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="입장하기" xml:space="preserve">
+    <value>Join Auction</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="작가 또는 작품명" xml:space="preserve">
+    <value>Works, Artists</value>
+    <comment>[List] 02. 검색 영역 - #2. 입력폼</comment>
+  </data>
+  <data name="작가명" xml:space="preserve">
+    <value>Artist</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="작품 검색" xml:space="preserve">
+    <value>Search</value>
+    <comment>[List] 02. 검색 영역</comment>
+  </data>
+  <data name="작품 정렬" xml:space="preserve">
+    <value>Sort By</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="장소" xml:space="preserve">
+    <value>Place</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="전시장소" xml:space="preserve">
+    <value>Exhibition Place</value>
+    <comment>[List] 01. 상단 영역 - #2. Info</comment>
+  </data>
+  <data name="전체" xml:space="preserve">
+    <value>All</value>
+    <comment>[List] 02. 검색 영역 - #3. 섹션</comment>
+  </data>
+  <data name="진행경매" xml:space="preserve">
+    <value>In Progress</value>
+    <comment>[List] 01. 상단 영역 - #1. Breadcrumb</comment>
+  </data>
+  <data name="처리 중 오류가 발생하였습니다." xml:space="preserve">
+    <value>An error occurred while processing.</value>
+    <comment>[List] 00. 시스템</comment>
+  </data>
+  <data name="초기화" xml:space="preserve">
+    <value>Clear</value>
+    <comment>[List] 02. 검색 영역 - #4. 작품 정렬</comment>
+  </data>
+  <data name="추정가" xml:space="preserve">
+    <value>Estimate</value>
+    <comment>[List] 02. 검색 영역 - #1. 추정가</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #4</comment>
+  </data>
+  <data name="프리미엄 온라인" xml:space="preserve">
+    <value>Premium Online</value>
+    <comment>[List] 01. 상단 영역 - #1. Breadcrumb</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Register</value>
+    <comment>[List] 99. 온라인 신청 팝업 - #4</comment>
+  </data>
+</root>

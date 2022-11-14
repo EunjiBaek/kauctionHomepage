@@ -1,0 +1,195 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+
+<div class="subtop-bn b9">
+    <div class='container container-fixed-lg sm-p-l-0 sm-p-r-0'>
+        <div class='inner'>
+            <ol class='breadcrumb'>
+                <li class='breadcrumb-item depth-1'><a href='/'><i class='fas fa-home-lg-alt text-white'></i></a></li>
+                <li class='breadcrumb-item depth-2 '>ABOUT</li>
+                <li class='breadcrumb-item depth-3'>@L["회사소개"]</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container subtop">
+        <div class="subtop-desc">
+            <h1>@L["국내 대표 미술품 경매회사 케이옥션"]</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container m-b-50 p-b-50 bg-white">
+    <div class="aboutk">
+        <div>
+            <h6>Introduce</h6>
+            <p>
+                @L["케이옥션은 2005년 9월에 설립된 국내 대표 미술품 경매회사입니다."]<br><br>
+                @L["한국의 근현대 작품들과 해외 유명작가들의 작품, 한국화 및 고미술을 중심으로 메이저 경매, 온라인 경매, 기획 경매, 자선 경매 등의 다양한 경매를 진행하고 있습니다. 국내 미술품 시장의 저변 확대와 미술품 경매 활성화를 위해 연간 약 80여회의 경매를 진행하고 있습니다."]<br><br>
+                @L["기존 독점 시장에서 경쟁 체제를 구성하며 공정한 가격 산정에 의거한 경매를 시작하였고, 그 결과 국내 미술 시장은 비약적인 발전을 거듭했습니다. 합리적인 가격과 공정한 경쟁, 투명하고 신뢰도 높은 유통 시스템을 통해 건전한 미술 시장 형성에 노력해온 케이옥션은 앞으로도 국내 미술 시장과 문화 발전에 기여하기 위해 최선을 다할 것입니다."]
+            </p>
+            <img src="/img/bg/introduce.jpg">
+        </div>
+        <div>
+            <h6>Our History</h6>
+            <ul>
+                <li>
+                    <strong>2020</strong>
+                    <span>@L["온라인 경매 전용 전시장 개관"]</span>
+                </li>
+                <li>
+                    <strong>2019</strong>
+                    <span>@L["MBC TV <나혼자 산다> 가수 헨리 바이올린 자선 경매 낙찰, 전액 기부"]</span>
+              </li>
+                <li>
+                    <strong>2018</strong>
+                    <span>@L["작가 최고가 경신 / 천경자 초원II 20억원, 유영국 Work 6억원 낙찰"]</span>
+                </li>
+                <li>
+                    <strong>2017</strong>
+                    <span>@L["국내 경매 최고가 경신 / 김환기 고요 65억 5천만원 낙찰"]</span>
+              </li>
+                <li>
+                    <strong>2016</strong>
+                    <span>
+                        @L["국내 경매 최고가 경신 / 김환기 무제 27-VII-72 #228 54억 낙찰"]<br>
+                        @L["위클리 온라인경매 론칭"]<br>
+                        @L["한국메세나대상 창의상 수상"]
+                    </span>
+                </li>
+                <li>
+                    <strong>2015</strong>
+                    <span>@L["홍콩단독경매 개최 / 첫 경매 낙찰률 89% 기록"]</span>
+              </li>
+                <li>
+                    <strong>2014</strong>
+                    <span>@L["2회 연속 낙찰률 100% 달성 / 전재국컬렉션경매 제1, 2회"]</span>
+              </li>
+                <li>
+                    <strong>2013</strong>
+                    <span>@L["국내 경매 최초 낙찰률 100% 달성 / 제1회 전재국컬렉션경매"]</span>
+              </li>
+                <li>
+                    <strong>2012</strong>
+                    <span>@L["고미술 최고가 기록 보유 / 퇴우이선생진적첩 34억 낙찰"]</span>
+              </li>
+                <li>
+                    <strong>2011</strong>
+                    <span>
+                        @L["사랑나눔경매 1회"]<br>
+                        @L["메이저 미술품 경매 4회"]<br>
+                        @L["UAA(United Asian Auctioneers) 2회"]<br>
+                        @L["온라인 미술품 경매 6회"]
+                    </span>
+                </li>
+                <li>
+                    <strong>2009</strong>
+                    <span>
+                        @L["본사 신사동으로 확장 이전"]<br>
+                        @L["국내 첫 빈티지 시계경매 개최"]
+                    </span>
+                </li>
+                <li>
+                    <strong>2008</strong>
+                    <span>
+                        @L["미술계 최초 사회공헌활동 시작"]<br>
+                        @L["사랑나눔경매(자선경매)시작"]<br>
+                        @L["홍콩경매 시작"]<br>
+                        @L["아시아 4개국 연합경매시작 / 홍콩"]
+                    </span>
+                </li>
+                <li>
+                    <strong>2007</strong>
+                    <span>@L["청담동으로 사옥 이전"]</span>
+              </li>
+                <li>
+                    <strong>2006</strong>
+                    <span>
+                        @L["온라인 미술품경매 런칭"]<br>
+                        @L["기획경매 시작"]
+                    </span>
+                </li>
+                <li>
+                    <strong>2005</strong>
+                    <span>
+                        @L["국내 최고가 / 최고 낙찰률 갱신"]<br>
+                        @L["낙찰액 48억 7천만원 단일 경매 최고가 기록"]<br>
+                        @L["제 1회 미술품 경매"]<br>
+                        @L["케이옥션 설립"]
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="aboutk-bot">
+        <h6>What We do</h6>
+        <ul class="aboutk-list">
+            <li>
+                <div class="aboutk-img">
+                    <img src="/img/about/aboutk01.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["미술품 경매"]</h6>
+                    <p>
+                        @L["케이옥션은 분야별 전문가의 끊임없는 혁신과 도전으로 한국 미술품 경매를 선도해 가고 있습니다. 근현대 작가들의 주요 작품과 해외 미술품, 동양화, 고미술 등 여러 작품들이 경매에 올려지며 메이저 경매를 비롯한 큰 그림경매, 프리미엄 온라인 경매, 위클리 온라인 경매와 다양한 테마의 기획 경매들이 진행되고 있습니다."]
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="aboutk-img">
+                    <<img src="/img/about/aboutk02.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["온라인 경매"]</h6>
+                    <p>
+                        @L["2006년부터 실시한 케이옥션 온라인경매는 간편한 홈페이지 회원가입만으로 시공간의 제약없이 24시 경매에 참여가 가능합니다. 현장경매에 비해 다양한 가격대와 스펙트럼의 작품을 합리적인 가격에 소개하여 초보자들도 큰 부담없이 경매에 참여할 수 있습니다. 온라인경매는 매주 진행되는 위클리 온라인경매와 위클리 온라인경매에 비해 높은 가격대의 작품이 출품되는 프리미엄 온라인경매로 나뉘어 진행됩니다. 온라인경매 출품작은 경매 진행시 케이옥션 전시장에서 직접 확인하실 수 있습니다."]
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="aboutk-img">
+                    <img src="/img/about/aboutk03.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["프라이빗 세일"]</h6>
+                    <p>
+                        @L["케이옥션의 프라이빗 세일은 경매 외 미술품 거래를 희망하는 고객이 의뢰할 수 있는 시스템입니다. 케이옥션의 다년간 축적된 노하우를 바탕으로 판매자와 구매자를 위한 1:1 서비스로 진행하고 있으며, 작품의 적정 판매가를 산정하여 고객에게 보다 다양한 미술품 거래의 기회를 제공하고 있습니다."]
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="aboutk-img">
+                    <img src="/img/about/aboutk04.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["대관"]</h6>
+                    <p>
+                        @L["강남의 중심 신사동에 위치한 케이옥션 사옥은 지하 1층과 지상 1층에 이르는 넓고 쾌적한 시설의 전시장을 갖추고 있습니다. 케이옥션 전시장 대관에 관한 문의사항은  언제든 연락 주시기 바랍니다."]
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="aboutk-img">
+                    <img src="/img/about/aboutk05.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["케이옥션 아카데미"]</h6>
+                    <p>
+                        @L["케이옥션 아카데미는 각 분야의 스페셜리스트와 외부 전문가를 초빙해 국내외 미술시장의 동향, 작가와 작품 세계, 미술사를 비롯한 다양한 주제로 진행되고 있습니다. 또한 매 경매에 앞서 경매 설명회를 실시, 경매와 작품에 대한 정보를 제공함으로써 많은 사람들이 미술을 보다 쉽고 하게 접할 수 있는 기회를 드리고 있습니다."]
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="aboutk-img">
+                    <img src="/img/about/aboutk06.jpg" alt="...">
+                </div>
+                <div>
+                    <h6>@L["사회공헌활동"]</h6>
+                    <p>
+                        @L["케이옥션은 2010년 미술계 최초로 전문화된 사회 공헌을 시작으로 활동을 이어가고 있습니다. 사랑나눔(자선) 경매를 통해 한국메세나협회에 기부금을 기증하여 사회 공헌활동을 지속하고 있으며, 이를 인정받아 2016년 11월, 한국메세나대상 창의상을 수상하기도 하였습니다. 앞으로도 한국 문화예술의 발전과 문화예술 향유 저변 확대를 위해 노력할 것입니다."]
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="주소 등록/수정" xml:space="preserve">
+        <value>Register/Modify Address</value>
+    </data>
+    <data name="주소명" xml:space="preserve">
+        <value>Address Name</value>
+        <comment>주소명</comment>
+    </data>
+    <data name="자택" xml:space="preserve">
+        <value>Home</value>
+        <comment>자택</comment>
+    </data>
+    <data name="직장" xml:space="preserve">
+        <value>Office</value>
+        <comment>직장</comment>
+    </data>
+    <data name="직접입력" xml:space="preserve">
+        <value>Direct input</value>
+        <comment>직접입력</comment>
+    </data>
+    <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+        <value>Please enter the direct input address.</value>
+        <comment>직접입력 주소를 입력하세요.</comment>
+    </data>
+    <data name="우편번호를 입력하세요." xml:space="preserve">
+        <value>Please enter your zip code.</value>
+        <comment>우편번호를 입력하세요.</comment>
+    </data>
+    <data name="국가" xml:space="preserve">
+        <value>Country</value>
+        <comment>국가</comment>
+    </data>
+    <data name="우편번호" xml:space="preserve">
+        <value>Postal code</value>
+        <comment>우편번호</comment>
+    </data>
+    <data name="주소 검색" xml:space="preserve">
+        <value>Search</value>
+        <comment>주소 검색</comment>
+    </data>
+    <data name="주소" xml:space="preserve">
+        <value>Address</value>
+        <comment>주소</comment>
+    </data>
+    <data name="주소입력" xml:space="preserve">
+        <value>Address input</value>
+        <comment>주소입력</comment>
+    </data>
+    <data name="상세주소" xml:space="preserve">
+        <value>Detailed address</value>
+        <comment>상세주소</comment>
+    </data>
+    <data name="상세주소를 입력하세요." xml:space="preserve">
+        <value>Please enter detailed address.</value>
+        <comment>상세주소를 입력하세요.</comment>
+    </data>
+    <data name="받는사람" xml:space="preserve">
+        <value>Name of recipient</value>
+        <comment>받는사람</comment>
+    </data>
+    <data name="받는사람을 입력하세요." xml:space="preserve">
+        <value>Please enter recipients.</value>
+        <comment>받는사람을 입력하세요.</comment>
+    </data>
+    <data name="연락처" xml:space="preserve">
+        <value>Phone</value>
+        <comment>연락처</comment>
+    </data>
+    <data name="- 제외한 숫자만 입력" xml:space="preserve">
+        <value>Enter only numbers, excluding '-'</value>
+        <comment>- 제외한 숫자만 입력</comment>
+    </data>
+    <data name="연락처를 입력하세요." xml:space="preserve">
+        <value>Please enter your contact number.</value>
+        <comment>연락처를 입력하세요.</comment>
+    </data>
+    <data name="취소" xml:space="preserve">
+        <value>Cancel</value>
+        <comment>취소</comment>
+    </data>
+</root>

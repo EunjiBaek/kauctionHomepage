@@ -1,0 +1,128 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">문의하기 목록</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left"><label id="total-record"></label></div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group" style="float:right;">
+                            <span class="btn btn-secondary" style="height: 35px; cursor: pointer; float: right;" onclick="excelDownload();">엑셀</span>
+                            <span class="btn btn-secondary m-r-5" style="height: 35px; cursor: pointer; float: right;" onclick="init();">초기화</span>
+                            <span class="btn btn-primary m-r-5" style="height: 35px; cursor: pointer; float: right;" onclick="search();">검색</span>
+                            <input id="search" onkeydown="checkSearch(event);" style="float: right; width: 200px;" class="form-control" type="text" placeholder="검색어를 입력해 주세요." />
+                            <select id="filter" class="form-control" style="width: 100px;">
+                                <option value="title">작품명 (포함)</option>
+                                <option value="contents">문의내용 (포함)</option>
+                                <option value="name">이름 (전체)</option>
+                                <option value="uid">홈페이지 고유번호 (전체)</option>
+                                <option value="koffice_uid">케이오피스 고유번호 (전체)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers"><ul class="pagination"></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["page_size"] = 20;
+
+    $(document).ready(function () {
+        getList();
+    });
+
+    function getList() {
+        requestParam["search"] = $("#search").val();
+
+        $.ajaxUtils.getApiData('/api/Inquiry/GetList', requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        let resultCode = $.ajaxUtils.getResultCode(result);
+        if (resultCode === "00") {
+            $.listViewUtils.init({
+                target: $("#data-grid"),
+                totalCount: result.data.recordsTotal,
+                parameters: requestParam,
+                callback: getList,
+                page: requestParam["page"],
+                pagination: $(".pagination"),
+                data: result.data.data,
+                totalRecord: $("#total-record"),
+                fields: [
+                    {
+                        name: "no", type: "text", title: "번호", width: "20",
+                        itemTemplate: function (value, args) {
+                            return $("<a />", { "href": "/Inquiry/" + args.uid.toString(), "target": "_self" }).append(value);
+                        }
+                    },
+                    { name: "type_name", type: "text", title: "문의유형", width: "30" },
+                    { name: "state_name", type: "text", title: "상태", width: "30" },
+                    { name: "category_name", type: "text", title: "카테고리", width: "40" },
+                    {
+                        name: "reply_count", type: "text", title: "답변", width: "40",
+                        itemTemplate: function (value, args) {
+                            return value > 0 ? "Y" : "";
+                        }
+                    },
+                    { name: "auc_title", type: "text", title: "경매명" },
+                    { name: "lot_num", type: "text", title: "Lot", width: "40" },
+                    { name: "title", type: "text", title: "작품명" },
+                    { name: "koffice_uid", type: "text", title: "KOffice<br />고유번호", width: "50" },
+                    { name: "mem_uid", type: "text", title: "홈페이지<br />고유번호", width: "50" },
+                    { name: "mem_name", type: "text", title: "회원명", width: "60" },
+                    { name: "mng_name", type: "text", title: "담당자", width: "60" }
+                ]
+            });
+        } else if (resultCode === "80") {
+            $.commonUtils.alert("검색어를 입력하세요.");
+            $("#search").focus();
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 잠시후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function init() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = '';
+        requestParam["search"] = '';
+        $('#search').val('')
+        getList();
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $('#filter').val();
+        requestParam["search"] = $('#search').val();
+        if (requestParam["search"].replace(/ /g, '') === '') {
+            $.commonUtils.alert("검색어를 입력하세요.");
+            $("#search").focus();
+            return false;
+        }
+        getList();
+    }
+
+    function excelDownload() {
+        $("#excel-mode").val("inquiry");
+        $("#excel-data").val(JSON.stringify(requestParam));
+        $("#btn-excel").click();
+    }
+
+</script>

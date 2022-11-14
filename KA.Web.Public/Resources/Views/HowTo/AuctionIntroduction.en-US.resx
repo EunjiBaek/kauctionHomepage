@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="격주 토요일 시작 ~ 10일 후 화요일 마감 (2주 간격)" xml:space="preserve">
+    <value>Opens every other Saturday - Closes after 10 days, on Tuesdays (2 week interval)</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 2. 프리미엄 온라인경매 - 2. 일정</comment>
+  </data>
+  <data name="경매 소개" xml:space="preserve">
+    <value>Our Auctions</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 1. 경매 소개</comment>
+  </data>
+  <data name="경매 일정은 케이옥션 홈페이지나 대표전화를 통해 확인하실 수 있습니다. 더불어 홈페이지에서 회원가입하시면 이메일, 문자, 카톡 등 다양한 채널로 안내를 드리며, 아래 공식채널을 통해서도 최신 소식을 쉽고 빠르게 전해드립니다." xml:space="preserve">
+    <value>Auction dates can be found on the K Auction website or by calling our main location. Please register on our website to receive the latest news by email, SMS, KakaoTalk, or any of the below channels.</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면? - 1. 설명</comment>
+  </data>
+  <data name="경매 일정을 확인하려면?" xml:space="preserve">
+    <value>How to check our auction calendar</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면?</comment>
+  </data>
+  <data name="낙찰 결과 확인 및 결제" xml:space="preserve">
+    <value>Bidding Results and Payment</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내 - #4</comment>
+  </data>
+  <data name="네이버 블로그" xml:space="preserve">
+    <value>Naver Blog</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면? - 2. 링크</comment>
+  </data>
+  <data name="대가들의 소품이나 종이 작품, 드로잉 작품과 판화 등 수십만 원대 작품부터 출품되는 위클리 온라인 경매는 미술품 경매의 턱을 낮추어 누구나 쉽게 작품을 구입할 수 있는 기회를 제공합니다." xml:space="preserve">
+    <value>Our Weekly Online Auctions offer small-scale artworks, works on paper, drawings and prints, providing opportunities for new bidders to acquire works by lowering the barrier to entry for art auctions.</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 3. 위클리 온라인경매 - 1. 설명</comment>
+  </data>
+  <data name="라이브 경매" xml:space="preserve">
+    <value>Live Auction</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 1. 경매 소개 - #1</comment>
+  </data>
+  <data name="라이브 경매는 경매사가 직접 현장에서 진행하는 경매로 모든 응찰은 현장에서 이뤄지며, 사전 서면 응찰(온라인 신청과 서류 신청)은 프리뷰 기간 중 가능합니다." xml:space="preserve">
+    <value>Live Auctions take place on-site, with all bidding overseen by the auctioneer. Absentee bids (registration available through paper or online forms) can be registered during the preview period.</value>
+    <comment>[AuctionIntroduction] 02. 라이브 경매 - 1. 설명</comment>
+  </data>
+  <data name="매주 화요일 시작 ~ 차주 월요일 마감 (1주 간격)" xml:space="preserve">
+    <value>Opens every Tuesday - Closes every Monday (1 week interval)</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 3. 위클리 온라인경매 - 2. 일정</comment>
+  </data>
+  <data name="메이저 경매" xml:space="preserve">
+    <value>Major Auction</value>
+    <comment>[AuctionIntroduction] 02. 라이브 경매 - 2. 메이저 경매</comment>
+  </data>
+  <data name="배송, 설치 및 보관" xml:space="preserve">
+    <value>Shipping, Installation, Storage</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내 - #5</comment>
+  </data>
+  <data name="수백만 원에서 수천만 원대의 작품이 거래되는 프리미엄 온라인 경매에는 국내외 근현대 작품과 한국화 및 고미술품 뿐 아니라 아트&amp;공예작품, 주얼리와 명품, 악기도 출품됩니다. 또 기업 컬렉션, 공공기관, 큰 그림, 자선 등 다양한 기획경매를 통해 누구나 미술품 경매를 체험하고 즐길 수 있는 문화 체험의 장으로 자리 잡고 있습니다." xml:space="preserve">
+    <value>Our Premium Online Auctions offer the widest variety of artworks in several categories including modern and contemporary art, ink paintings, Korean traditional art, Art &amp; Craft, jewelry, luxury collectibles and musical instruments. In addition, various themed sections such as Corporate Collections, Public Collection Paintings and Charity Auctions provide opportunities for everyone to experience art, auction and culture.</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 2. 프리미엄 온라인경매 - 1. 설명</comment>
+  </data>
+  <data name="온라인 경매" xml:space="preserve">
+    <value>Online Auction</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 1. 경매 소개 - #2</comment>
+  </data>
+  <data name="온라인 경매는 미술품 경매와 문화예술 향유 저변 확대를 위해 폭넓은 작가 군과 합리적인 가격대의 작품을 선보입니다.&lt;br&gt;홈페이지에서 24시간 응찰이 가능하며 시공간 제약 없이 누구나 쉽게 미술품 경매에 참여할 수 있습니다." xml:space="preserve">
+    <value>Online Auctions feature a diverse range of artists, artworks and price points in order to revitalize and expand the domestic art market.&lt;br&gt;Bidding is open 24 hours a day through our website, allowing all bidders to participate without limitations of time or location.</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 1. 설명</comment>
+  </data>
+  <data name="위클리 온라인경매" xml:space="preserve">
+    <value>Weekly Online Auction</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 3. 위클리 온라인경매</comment>
+  </data>
+  <data name="위탁 안내" xml:space="preserve">
+    <value>How to Sell</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 3. 위탁 안내</comment>
+  </data>
+  <data name="위탁 절차" xml:space="preserve">
+    <value>How to Consign</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 3. 위탁 안내 - #2</comment>
+  </data>
+  <data name="응찰" xml:space="preserve">
+    <value>Bidding</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내 - #3</comment>
+  </data>
+  <data name="응찰 안내" xml:space="preserve">
+    <value>How to Bid</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내</comment>
+  </data>
+  <data name="인스타그램" xml:space="preserve">
+    <value>Instagram</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면? - 2. 링크</comment>
+  </data>
+  <data name="진행 중인 경매의 출품작 확인하기 →" xml:space="preserve">
+    <value>View current lots →</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 2. 프리미엄 온라인경매 - 3. 버튼</comment>
+  </data>
+  <data name="카카오 플러스친구" xml:space="preserve">
+    <value>KakaoTalk Channel</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면? - 2. 링크</comment>
+  </data>
+  <data name="페이스북 페이지" xml:space="preserve">
+    <value>Facebook</value>
+    <comment>[AuctionIntroduction] 04. 경매 일정을 확인하려면? - 2. 링크</comment>
+  </data>
+  <data name="프리미엄 온라인경매" xml:space="preserve">
+    <value>Premium Online Auction</value>
+    <comment>[AuctionIntroduction] 03. 온라인 경매 - 2. 프리미엄 온라인경매</comment>
+  </data>
+  <data name="프리뷰" xml:space="preserve">
+    <value>Auction Preview</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내 - #2</comment>
+  </data>
+  <data name="한국 미술을 대표하는 주요 근현대 작가와 유명 해외 작가의 작품 그리고 한국화를 비롯해 도자기, 서화, 공예품, 불교미술 등을 아우르는 고미술까지 폭넓은 작품들이 출품됩니다. 케이옥션 경매 중 가장 고가의 작품들이 출품됩니다." xml:space="preserve">
+    <value>Our Major Auctions feature a wide range of our most prestigious works, including masterpieces by modern and contemporary Korean and international artists and Korean traditional art such as ink paintings, ceramics, calligraphy, craft and Buddhist art.</value>
+    <comment>[AuctionIntroduction] 02. 라이브 경매 - 2. 메이저 경매 - 설명</comment>
+  </data>
+  <data name="회원 가입" xml:space="preserve">
+    <value>Member Registration</value>
+    <comment>[AuctionIntroduction] 01. 좌측 메뉴 - 2. 응찰 안내 - #1</comment>
+  </data>
+</root>

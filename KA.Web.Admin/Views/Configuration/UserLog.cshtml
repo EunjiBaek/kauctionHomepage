@@ -1,0 +1,203 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">사용자 로그 목록</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-right">
+                        <div class="form-group">
+                            <div class="input-group-append" style="float: right;">
+                                <span class="input-group-text primary fw-500" style="height: 35px; cursor: pointer;" onclick="search();">검색</span>
+                            </div>
+                            <div class="form-input-group" style="float: right; width: 300px;">
+                                <input id="search" onkeydown="checkSearch(event);" class="typeahead form-control sample-typehead" type="text" placeholder="검색어를 입력해 주세요." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        <li class="nav-item">
+                            <a onclick="getTabList('001');" class="nav-link text-center active" data-toggle="tab" href="#tab-001">사용 로그</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('002');" class="nav-link text-center" data-toggle="tab" href="#tab-002">보증서 출력 로그</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('003');" class="nav-link text-center" data-toggle="tab" href="#tab-003">에러 로그</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getTabList('004');" class="nav-link text-center" data-toggle="tab" href="#tab-004">인증 로그</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20 w-100" id="data-grid"></div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <div class="dataTables_paginate paging_full_numbers text-center w-100">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["type"] = "001";
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        var tabs = $(".nav-tabs").find("a");
+        if (tabs.length > 0) tabs[0].click();
+    });
+
+    function getTabList(type) {
+        requestParam["type"] = type;
+        getList();
+    }
+
+    function getList() {
+        if (requestParam["type"] !== '004' && $('#search').val() === '') {
+            $('#data-grid').html("검색어를 입력해주세요.");
+            return false;
+        }
+
+        $.ajaxUtils.getApiData("/api/Configuration/GetUserLog", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: 20
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: getField(requestParam["type"]),
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function getField(type) {
+        switch (type) {
+            case "001":
+                return [
+                    { name: "seq", type: "text", title: "Seq", width: 30 },
+                    { name: "user_id", type: "text", title: "UID", width: 30 },
+                    { name: "path", type: "text", title: "Path" },
+                    { name: "referer", type: "text", title: "Referer" },
+                    { name: "user_agent", type: "text", title: "User Agent" },
+                    { name: "token", type: "text", title: "Token" },
+                    { name: "reg_date", type: "text", title: "RegDate" }
+                ];
+            case "002":
+                return [
+                    { name: "seq", type: "text", title: "Seq" },
+                    { name: "ow_uid", type: "text", title: "작품 고유번호" },
+                    { name: "type", type: "text", title: "유형" },
+                    { name: "mem_uid", type: "text", title: "회원 고유번호" },
+                    { name: "test_yn", type: "text", title: "테스트 (Y/N)" },
+                    { name: "print_yn", type: "text", title: "출력 (Y/N)" },
+                    { name: "del_yn", type: "text", title: "삭제 (Y/N)" },
+                    { name: "reg_date", type: "text", title: "등록일자" },
+                    {
+                        name: "print_date", type: "text", title: "출력일자",
+                        itemTemplate: function (value, data) {
+                            return value === '0001-01-01 00:00:00' ? "" : value;
+                        }
+                    }
+                ];
+            case "003":
+                return [
+                    { name: "uid", type: "text", title: "Uid", width: 50 },
+                    { name: "mem_uid", type: "text", title: "회원 고유번호", width: 50 },
+                    { name: "menu", type: "text", title: "메뉴", width: 100 },
+                    { name: "message", type: "text", title: "메시지" },
+                    { name: "reg_date", type: "text", title: "등록일자", width: 100 }
+                ];
+            case "004":
+                return [
+                    {
+                        name: "uid", type: "text", title: "Uid",
+                        itemTemplate: function (value, data) {
+                            return "<span title='" + data.seq + "'>" + value + "</span>";
+                        }
+                    },
+                    { name: "auth", type: "text", title: "Auth" },
+                    { name: "type", type: "text", title: "Type" },
+                    { name: "type2", type: "text", title: "Type2" },
+                    { name: "type_detail", type: "text", title: "TypeDetail" },
+                    { name: "state", type: "text", title: "State" },
+                    {
+                        name: "device", type: "text", title: "Device",
+                        itemTemplate: function (value, data) {
+                            return "<span title='" + data.user_agent + "'>" + value + "</span>";
+                        }
+                    },
+                    { name: "result", type: "text", title: "Result" },
+                    { name: "mem_uid", type: "text", title: "MemUid" },
+                    { name: "mem_name", type: "text", title: "MemName" },
+                    { name: "mobile_no", type: "text", title: "MobileNo" },
+                    { name: "crd_cd", type: "text", title: "CrdCd" },
+                    { name: "di", type: "text", title: "DI" },
+                    { name: "auth_no", type: "text", title: "AuthNo" },
+                    { name: "auth_end_time", type: "text", title: "AuthEndTime" },
+                    { name: "redirect_url", type: "text", title: "RedirectUrl" },
+                    { name: "reg_date", type: "text", title: "RegDate" },
+                    { name: "mod_date", type: "text", title: "ModDate" }
+                ];
+            default:
+                return [];
+        }
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        if (requestParam["type"] === "001") {
+            requestParam["mem_uid"] = $('#search').val();
+        }
+        getList();
+    }
+
+</script>

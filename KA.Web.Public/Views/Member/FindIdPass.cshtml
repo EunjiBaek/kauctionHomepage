@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "FindIdPass";
+}
+
+<div class="jumbotron bg-transparent">
+    <breadcrumb titles="@Localizer["아이디/비밀번호 찾기"].Value" />
+</div>
+
+<div class="container bg-white  m-t-30 m-b-30 p-t-10 p-b-10 member-sh">
+    <div class="container p-t-10 p-b-10 membersh-pad">
+        <div class="member-btn">
+            <ul>
+                <li class="active"><a href="#">@Localizer["아이디 찾기"]</a></li>
+                <li><a href="#">@Localizer["비밀번호 찾기"]</a></li>
+            </ul>
+        </div>
+        <div class="row membersh-row">
+            <div class="col-lg-6">
+                <h4>
+                    <img src="/img/icons/id-search@1x.png" alt="@Localizer["아이디 찾기"]"
+                         srcset="/img/icons/id-search@1x.png 1x,/img/icons/id-search@2x.png 2x,/img/icons/id-search@3x.png 3x">
+                    @Localizer["아이디 찾기"]
+                </h4>
+                <div class="membersh-form">
+                    <div class="form-group form-group-default">
+                        <label>@Localizer["이름"]</label>
+                        <div class="controls"><input id="name-id" type="text" class="form-control" param="Y" /></div>
+                    </div>
+                    <div class="form-group form-group-default">
+                        <label>@Localizer["휴대전화"]<span class="m-l-10 small-text hint-text">@Localizer["- 제외한 숫자만 입력"]</span></label>
+                        <div class="controls"><input id="mobile" type="number" class="form-control" param="Y" /></div>
+                    </div>
+                    <div><label class="error"></label></div>
+                    <button data-type="id" class="btn btn-primary btn-block btn-lg m-t-10 m-b-10 btn-request" type="button">@Localizer["아이디 찾기"]</button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5>
+                    <img src="/img/icons/password-sh@1x.png" alt="@Localizer["비밀번호 찾기"]"
+                         srcset="/img/icons/password-sh@1x.png 1x,/img/icons/password-sh@2x.png 2x,/img/icons/password-sh@3x.png 3x">
+                    @Localizer["비밀번호 찾기"]
+                </h5>
+                <div class="membersh-form">
+                    <div class="form-group form-group-default">
+                        <label>@Localizer["이름"]</label>
+                        <div class="controls"><input id="name-password" type="text" class="form-control" param="Y" /></div>
+                    </div>
+                    <div class="form-group form-group-default">
+                        <label>@Localizer["아이디"]</label>
+                        <div class="controls"><input id="id" type="text" class="form-control" param="Y" /></div>
+                    </div>
+                    <div><label class="error"></label></div>
+                    <button data-type="password" class="btn btn-primary btn-block btn-lg m-t-10 m-b-10 btn-request" type="button">@Localizer["비밀번호 찾기"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let searchBtn = $(".member-btn > ul > li");
+    let searchCont = $(".membersh-row > div");
+
+    searchCont.hide().eq(0).show();
+    searchBtn.click(function (e) {
+        e.preventDefault();
+
+        let target = $(this);
+        let index = target.index();
+        searchBtn.removeClass("active");
+        target.addClass("active");
+        searchCont.css("display", "none");
+        searchCont.eq(index).css("display", "block");
+    });
+
+    $(".btn-request").click(function (e) {
+        var param = {};
+        param["type"] = e.target.dataset.type;
+        var result = $.ajaxUtils.getApiData("/api/Member/SetFindIdPass", $.ajaxUtils.setParameter(param), null, false);
+        if (typeof result.code === "string" && result.code !== "") {
+            if (result.message === "ka.msg.findIdPwd.findId" || result.message === "ka.msg.findIdPwd.findPwd") {
+                var msg = eval(result.message);
+                if (typeof result.data.name === "string") {
+                    msg = msg.replace(/{Name}/ig, result.data.name).replace(/{Email}/ig, result.data.email);
+                }
+                if (typeof result.data.id === "string") {
+                    msg = msg.replace(/{Id}/ig, result.data.id);
+                }
+                $.commonUtils.alert(msg, result.code);
+            } else {
+                $.commonUtils.alert(eval(result.message), result.code);
+            }
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+    });
+
+</script>

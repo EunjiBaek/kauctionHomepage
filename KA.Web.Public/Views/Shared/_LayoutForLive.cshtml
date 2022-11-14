@@ -1,0 +1,103 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<!DOCTYPE html>
+
+<html>
+<head>
+    @*<title>@Localizer["케이옥션"]</title>*@
+    <title>@ViewData["Title"]</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="title" content="@Localizer["케이옥션"]" />
+    <meta name="description" content="@Localizer["작품을 사고 팔 땐 미술품 경매회사, 케이옥션"]" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-itunes-app" content="app-id=397892527" />
+    <meta name="google-play-app" content="app-id=com.kauctionapp.kauction" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@Localizer["케이옥션"]" />
+    <meta property="og:description" content="@Localizer["작품을 사고 팔 땐 미술품 경매회사, 케이옥션"]" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="http://www.k-auction.com" />
+    <!-- START ICON -->
+    <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" href="/img/favicon/60.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/152.png">
+    <!-- END ICON -->
+    <!-- 웹폰트 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
+    <!-- 8월22일 임시주석처리 -->
+    <!-- @if (!ViewBag.isMobile && !ViewBag.isAndroid)
+    {
+        <link rel="stylesheet" href="/plugins/webplayer/unreal_html5_player_styles_v1.css" />
+    } -->
+    @*<link rel="stylesheet" href="/plugins/webplayer/unreal_html5_player_styles_v1.css" />*@
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/ka.live.reset.css" asp-append-version="true">
+        <link rel="stylesheet" href="~/css/ka.live.css" asp-append-version="true">
+        <link rel="stylesheet" href="~/css/ka.live.dim.css" asp-append-version="true">
+        <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css" />
+        <script src="https://unpkg.com/core-js-bundle@3.10.1/index.js"></script>
+        <script src="https://unpkg.com/regenerator-runtime@0.13.7/runtime.js"></script>
+    </environment>
+    <environment include="Staging,Production">
+        <link rel="stylesheet" href="~/bundle/css/ka.live.min.css" asp-append-version="true">
+        <script src="~/bundle/js/ka.polyfill.js"></script>
+        <script src="~/bundle/js/ka.runtime.js"></script>
+    </environment>
+        
+    <script src="/plugins/modernizr/modernizr.min.js"></script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>
+    <script src="/plugins/mustache/mustache.js"></script>
+    <script src="https://stream.camtour.net/src/rtc/webrtcadapter.js"></script>
+    <script src="https://stream.camtour.net/src/rtc/unrealwebrtcplayer.js"></script>
+    <script src="/plugins/webplayer/unreal_html5_player_script_v2.js"></script>
+
+    <!-- END PLUGIN JS -->
+    <script type="text/javascript">
+        var webrtcPlayer = null;
+    </script>
+    @*
+        <!-- Groobee -->
+        <script type="text/javascript">
+            (function (a, i, u, e, o) {
+                a[u] = a[u] || function () { (a[u].q = a[u].q || []).push(arguments) };
+            })(window, document, "groobee");
+            groobee("serviceKey", "456e9ac71eea43288c6178f2c9599a6a");
+            groobee("siteType", "custom");
+        </script>
+        <script charset="utf-8" src="//static.groobee.io/dist/lib/groobee.init.min.js"></script>
+        <!-- End of Groobee -->
+    *@
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90943423-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-90943423-1');
+    </script>
+</head>
+<body>
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

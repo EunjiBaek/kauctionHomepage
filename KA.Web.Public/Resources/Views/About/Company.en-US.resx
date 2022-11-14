@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="2006년부터 실시한 케이옥션 온라인경매는 간편한 홈페이지 회원가입만으로 시공간의 제약없이 24시 경매에 참여가 가능합니다. 현장경매에 비해 다양한 가격대와 스펙트럼의 작품을 합리적인 가격에 소개하여 초보자들도 큰 부담없이 경매에 참여할 수 있습니다. 온라인경매는 매주 진행되는 위클리 온라인경매와 위클리 온라인경매에 비해 높은 가격대의 작품이 출품되는 프리미엄 온라인경매로 나뉘어 진행됩니다. 온라인경매 출품작은 경매 진행시 케이옥션 전시장에서 직접 확인하실 수 있습니다." xml:space="preserve">
+    <value>Launched in 2006, K Auction’s Online Auctions enable collectors to bid without restrictions of time and space through a simple online registration process. A wider range of prices, media, and artists offers increased accessibility to first-time collectors. Online Auctions consist of Weekly Auctions and Premium Auctions, which offer works in a slightly higher price range. All artworks offered in Online Auctions can be viewed in person at K Auction’s exhibition spaces.</value>
+    <comment>03. What We do - 2. 온라인 경매 #1</comment>
+  </data>
+  <data name="2회 연속 낙찰률 100% 달성 / 전재국컬렉션경매 제1, 2회" xml:space="preserve">
+    <value>Second consecutive White Glove Sale / 1st &amp; 2nd Chun Collection Auctions</value>
+    <comment>04. Our History - 2014</comment>
+  </data>
+  <data name="MBC TV &lt;나혼자 산다&gt; 가수 헨리 바이올린 자선 경매 낙찰, 전액 기부" xml:space="preserve">
+    <value>Singer Henry donated all the profits from the charity auction (MBC TV &lt;Live Alone&gt;)</value>
+    <comment>04. Our History - 2019</comment>
+  </data>
+  <data name="UAA(United Asian Auctioneers) 2회" xml:space="preserve">
+    <value>2 UAAs (United Asian Auctioneers)</value>
+    <comment>04. Our History - 2011</comment>
+  </data>
+  <data name="강남의 중심 신사동에 위치한 케이옥션 사옥은 지하 1층과 지상 1층에 이르는 넓고 쾌적한 시설의 전시장을 갖추고 있습니다. 케이옥션 전시장 대관에 관한 문의사항은  언제든 연락 주시기 바랍니다." xml:space="preserve">
+    <value>Located in Sinsa-dong, in the heart of Gangnam, our spacious two-floor premises are available for rental. Please contact us for additional information.</value>
+    <comment>03. What We do - 4. 대관 #1</comment>
+  </data>
+  <data name="고미술 최고가 기록 보유 / 퇴우이선생진적첩 34억 낙찰" xml:space="preserve">
+    <value>Record hammer price for Korean Traditional Arts and Crafts / Album with Handwriting of Great Scholar Yi Hwang and Song SiYeol (3.4 billion KRW)</value>
+    <comment>04. Our History - 2012</comment>
+  </data>
+  <data name="국내 경매 최고가 경신 / 김환기 고요 65억 5천만원 낙찰" xml:space="preserve">
+    <value>Kim Whanki’s Tranquillity 5-IV-73 #310 sets record for most expensive artwork sold at auction in South Korea (6.6 billion KRW)</value>
+    <comment>04. Our History - 2017</comment>
+  </data>
+  <data name="국내 경매 최고가 경신 / 김환기 무제 27-VII-72 #228 54억 낙찰" xml:space="preserve">
+    <value>June Summer Auction / Kim Whanki’s 27-VII-72 #228 sets record for most expensive artwork sold at auction in South Korea (5.4 billion KRW)</value>
+    <comment>04. Our History - 2016</comment>
+  </data>
+  <data name="국내 경매 최초 낙찰률 100% 달성 / 제1회 전재국컬렉션경매" xml:space="preserve">
+    <value>First White Glove Sale in South Korea / Chun Collection Auction</value>
+    <comment>04. Our History - 2013</comment>
+  </data>
+  <data name="국내 대표 미술품 경매회사 케이옥션" xml:space="preserve">
+    <value>Korea Premier Auction K-Auction</value>
+    <comment>01. 상단</comment>
+  </data>
+  <data name="국내 첫 빈티지 시계경매 개최" xml:space="preserve">
+    <value>First Vintage Timepiece Auction in South Korea</value>
+    <comment>04. Our History - 2009</comment>
+  </data>
+  <data name="국내 최고가 / 최고 낙찰률 갱신" xml:space="preserve">
+    <value>Most expensive artwork sold at auction in South Korea</value>
+    <comment>04. Our History - 2005</comment>
+  </data>
+  <data name="기존 독점 시장에서 경쟁 체제를 구성하며 공정한 가격 산정에 의거한 경매를 시작하였고, 그 결과 국내 미술 시장은 비약적인 발전을 거듭했습니다. 합리적인 가격과 공정한 경쟁, 투명하고 신뢰도 높은 유통 시스템을 통해 건전한 미술 시장 형성에 노력해온 케이옥션은 앞으로도 국내 미술 시장과 문화 발전에 기여하기 위해 최선을 다할 것입니다." xml:space="preserve">
+    <value>K Auction formed a competition-based structure in a formerly monopolized market and began holding auctions based on fair and transparent market pricing, resulting in rapid improvement in the domestic art market. We have striven for a healthy and robust art market built on reasonable pricing, fair competition, and a transparent and trustworthy retail infrastructure, and will continue to support the development of the art market and the cultural sector to the best of our ability.</value>
+    <comment>02. Introduce - #3</comment>
+  </data>
+  <data name="기획경매 시작" xml:space="preserve">
+    <value>First Special Auction</value>
+    <comment>04. Our History - 2006</comment>
+  </data>
+  <data name="낙찰액 48억 7천만원 단일 경매 최고가 기록" xml:space="preserve">
+    <value>Record for highest total achieved in a single auction (4.87 billion KRW)</value>
+    <comment>04. Our History - 2005</comment>
+  </data>
+  <data name="대관" xml:space="preserve">
+    <value>Venue Rental</value>
+    <comment>03. What We do - 4. 대관</comment>
+  </data>
+  <data name="메이저 미술품 경매 4회" xml:space="preserve">
+    <value>4 Major Auctions</value>
+    <comment>04. Our History - 2011</comment>
+  </data>
+  <data name="미술계 최초 사회공헌활동 시작" xml:space="preserve">
+    <value>First corporation in the Korean art market to engage in social responsibility and outreach</value>
+    <comment>04. Our History - 2008</comment>
+  </data>
+  <data name="미술품 경매" xml:space="preserve">
+    <value>Art Auctions</value>
+    <comment>03. What We do - 1. 미술품 경매</comment>
+  </data>
+  <data name="본사 신사동으로 확장 이전" xml:space="preserve">
+    <value>Offices expanded and relocated to Shinsa-dong Building</value>
+    <comment>04. Our History - 2009</comment>
+  </data>
+  <data name="사랑나눔경매 1회" xml:space="preserve">
+    <value>1 Charity Auction</value>
+    <comment>04. Our History - 2011</comment>
+  </data>
+  <data name="사랑나눔경매(자선경매)시작" xml:space="preserve">
+    <value>First Charity Auction</value>
+    <comment>04. Our History - 2008</comment>
+  </data>
+  <data name="사회공헌활동" xml:space="preserve">
+    <value>Corporate Social Responsibility</value>
+    <comment>03. What We do - 6. 사회공헌활동</comment>
+  </data>
+  <data name="아시아 4개국 연합경매시작 / 홍콩" xml:space="preserve">
+    <value>First Asian Auction Week (Combined auctions from four Asian countries) held in Hong Kong</value>
+    <comment>04. Our History - 2008</comment>
+  </data>
+  <data name="온라인 경매" xml:space="preserve">
+    <value>Online Auctions</value>
+    <comment>03. What We do - 2. 온라인 경매</comment>
+  </data>
+  <data name="온라인 경매 전용 전시장 개관" xml:space="preserve">
+    <value>Opened an exhibition hall dedicated to online auctions</value>
+    <comment>04. Our History - 2020</comment>
+  </data>
+  <data name="온라인 미술품 경매 6회" xml:space="preserve">
+    <value>6 Online Auctions</value>
+    <comment>04. Our History - 2011</comment>
+  </data>
+  <data name="온라인 미술품경매 런칭" xml:space="preserve">
+    <value>First Online Auction</value>
+    <comment>04. Our History - 2006</comment>
+  </data>
+  <data name="위클리 온라인경매 론칭" xml:space="preserve">
+    <value>First Weekly Online Auction</value>
+    <comment>04. Our History - 2016</comment>
+  </data>
+  <data name="작가 최고가 경신 / 천경자 초원II 20억원, 유영국 Work 6억원 낙찰" xml:space="preserve">
+    <value>Chun KyungJa's Prairie II sets record for most expensive artwork among artists sold (2 billion KRW) / Yoo YoungKuk's Work sets record for most expensive  artwork among artists sold (600 million KRW)</value>
+    <comment>04. Our History - 2018</comment>
+  </data>
+  <data name="제 1회 미술품 경매" xml:space="preserve">
+    <value>First Major Auction</value>
+    <comment>04. Our History - 2005</comment>
+  </data>
+  <data name="청담동으로 사옥 이전" xml:space="preserve">
+    <value>Offices relocated to Cheongdam-dong Building</value>
+    <comment>04. Our History - 2007</comment>
+  </data>
+  <data name="케이옥션 설립" xml:space="preserve">
+    <value>K Auction established</value>
+    <comment>04. Our History - 2005</comment>
+  </data>
+  <data name="케이옥션 아카데미" xml:space="preserve">
+    <value>K Auction Academy</value>
+    <comment>03. What We do - 5. 케이옥션 아카데미</comment>
+  </data>
+  <data name="케이옥션 아카데미는 각 분야의 스페셜리스트와 외부 전문가를 초빙해 국내외 미술시장의 동향, 작가와 작품 세계, 미술사를 비롯한 다양한 주제로 진행되고 있습니다. 또한 매 경매에 앞서 경매 설명회를 실시, 경매와 작품에 대한 정보를 제공함으로써 많은 사람들이 미술을 보다 쉽고 하게 접할 수 있는 기회를 드리고 있습니다." xml:space="preserve">
+    <value>K Auction Academy offers lectures by specialists and experts in various topics, including the international art market, various artists and artworks, and art history. In addition, K Auction Academy holds auction information sessions before each auction, providing an opportunity for a wider audience to more easily access and experience art.</value>
+    <comment>03. What We do - 5. 케이옥션 아카데미 #1</comment>
+  </data>
+  <data name="케이옥션은 2005년 9월에 설립된 국내 대표 미술품 경매회사입니다." xml:space="preserve">
+    <value>Founded in September 2005, K Auction is Korea’s premier auction house.</value>
+    <comment>02. Introduce - #1</comment>
+  </data>
+  <data name="케이옥션은 2010년 미술계 최초로 전문화된 사회 공헌을 시작으로 활동을 이어가고 있습니다. 사랑나눔(자선) 경매를 통해 한국메세나협회에 기부금을 기증하여 사회 공헌활동을 지속하고 있으며, 이를 인정받아 2016년 11월, 한국메세나대상 창의상을 수상하기도 하였습니다. 앞으로도 한국 문화예술의 발전과 문화예술 향유 저변 확대를 위해 노력할 것입니다." xml:space="preserve">
+    <value>In 2010, K Auction became the first in the Korean art market to devote a part of its activity to social responsibility. Since then, we have continued to uphold our commitment to social responsibility while adhering to our strengths as an art auction company, donating proceeds from various charity auctions to the Korea Mecenat Association. As a result, in November 2016, we received the Creativity Award at the Mecenat Awards. We will continue to support the expansion and development of the art and cultural sectors in South Korea.</value>
+    <comment>03. What We do - 6. 사회공헌활동 #1</comment>
+  </data>
+  <data name="케이옥션은 분야별 전문가의 끊임없는 혁신과 도전으로 한국 미술품 경매를 선도해 가고 있습니다. 근현대 작가들의 주요 작품과 해외 미술품, 동양화, 고미술 등 여러 작품들이 경매에 올려지며 메이저 경매를 비롯한 큰 그림경매, 프리미엄 온라인 경매, 위클리 온라인 경매와 다양한 테마의 기획 경매들이 진행되고 있습니다." xml:space="preserve">
+    <value>With the unending innovation and enterprising nature of its specialists, K Auction leads the Korean art auction industry. We offer a diverse range of Korean and International Modern and Contemporary masterpieces as well as Korean Traditional Art and Craft. Along with Major Auctions, we hold Premium and Weekly Online Auctions as well as curated themed auctions.</value>
+    <comment>03. What We do - 1. 미술품 경매 #1</comment>
+  </data>
+  <data name="케이옥션의 프라이빗 세일은 경매 외 미술품 거래를 희망하는 고객이 의뢰할 수 있는 시스템입니다. 케이옥션의 다년간 축적된 노하우를 바탕으로 판매자와 구매자를 위한 1:1 서비스로 진행하고 있으며, 작품의 적정 판매가를 산정하여 고객에게 보다 다양한 미술품 거래의 기회를 제공하고 있습니다." xml:space="preserve">
+    <value>Private Sales is a request-based system in which clients may access a greater diversity of artworks and collecting options. K Auction’s collective experience allows for accurate pricing and tailored service for sellers and buyers.</value>
+    <comment>03. What We do - 3. 프라이빗 세일 #1</comment>
+  </data>
+  <data name="프라이빗 세일" xml:space="preserve">
+    <value>Private Sales</value>
+    <comment>03. What We do - 3. 프라이빗 세일</comment>
+  </data>
+  <data name="한국메세나대상 창의상 수상" xml:space="preserve">
+    <value>Received the Creativity Award at the Mecenat Awards in South Korea</value>
+    <comment>04. Our History - 2016</comment>
+  </data>
+  <data name="한국의 근현대 작품들과 해외 유명작가들의 작품, 한국화 및 고미술을 중심으로 메이저 경매, 온라인 경매, 기획 경매, 자선 경매 등의 다양한 경매를 진행하고 있습니다. 국내 미술품 시장의 저변 확대와 미술품 경매 활성화를 위해 연간 약 80여회의 경매를 진행하고 있습니다." xml:space="preserve">
+    <value>K Auction holds Major Auctions, Special Auctions, Charity Auctions, and Private Collection Auctions, offering Modern and Contemporary artworks by major Korean and International artists as well as Korean Traditional Arts and Crafts. K Auction has worked to revitalize and expand the domestic art market, holding approximately 80 Online Auctions per year.</value>
+    <comment>02. Introduce - #2</comment>
+  </data>
+  <data name="홍콩경매 시작" xml:space="preserve">
+    <value>First Hong Kong Auction</value>
+    <comment>04. Our History - 2008</comment>
+  </data>
+  <data name="홍콩단독경매 개최 / 첫 경매 낙찰률 89% 기록" xml:space="preserve">
+    <value>First Solo Hong Kong Auction / 89% of lots sold</value>
+    <comment>04. Our History - 2015</comment>
+  </data>
+</root>

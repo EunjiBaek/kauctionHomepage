@@ -1,0 +1,616 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="&lt;span&gt;내용&lt;/span&gt;을 확인했고, 모두 동의합니다." xml:space="preserve">
+    <value>I have checked the &lt;span&gt;content&lt;/span&gt;, and I agree with all of them.</value>
+    <comment>[MemberModify] 22.01.05</comment>
+  </data>
+  <data name="== 직업을 선택해주세요. ==" xml:space="preserve">
+    <value>== Select a occupation ==</value>
+    <comment>[MemberModify] 04.01.01</comment>
+  </data>
+  <data name="LOT 목록&lt;br /&gt; 페이지 전환" xml:space="preserve">
+    <value>LOT list&lt;br /&gt; page switch</value>
+    <comment>[MemberModify] 21.01.04 LOT목록</comment>
+  </data>
+  <data name="LOT 목록의 페이지 전환 방식의 기본값을 설정하세요." xml:space="preserve">
+    <value>Set the default value of the page switching method of the LOT list.</value>
+    <comment>[MemberModify] 21.01.04.01</comment>
+  </data>
+  <data name="SMS 문자" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[MemberModify] 22.01.06</comment>
+  </data>
+  <data name="{ID} 님은 {MEM_TYPE} 입니다." xml:space="preserve">
+    <value>{ID} is a {MEM_TYPE} member.</value>
+    <comment>[MemberModify] 01. 타이틀</comment>
+  </data>
+  <data name="ㄱㄴㄷ순" xml:space="preserve">
+    <value>In korean order</value>
+    <comment>[MemberModify] 12.03.02</comment>
+  </data>
+  <data name="ㄱㄴㄷ역순" xml:space="preserve">
+    <value>In reverse korean order</value>
+    <comment>[MemberModify] 12.03.03</comment>
+  </data>
+  <data name="검색목록 ‘초기화’시 팔로우 목록이 표시됩니다." xml:space="preserve">
+    <value>Follow list is displayed when you 'initialize' the search list.</value>
+    <comment>[MemberModify] 23.02</comment>
+  </data>
+  <data name="검색어" xml:space="preserve">
+    <value>Search</value>
+    <comment>[MemberModify] 12.02.01</comment>
+  </data>
+  <data name="계정 설정" xml:space="preserve">
+    <value>Account Settings</value>
+    <comment>[MemberModify] 02. 탭메뉴</comment>
+  </data>
+  <data name="광고성 정보 수신 동의" xml:space="preserve">
+    <value>Consent to Receiving Advertising Information</value>
+    <comment>[MemberModify] 22.01.04</comment>
+  </data>
+  <data name="구독중" xml:space="preserve">
+    <value>Subscribing</value>
+    <comment>[MemberModify] 21.01.01.02</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[MemberModify] 08.02 국가</comment>
+  </data>
+  <data name="국내개인고객" xml:space="preserve">
+    <value>Domestic Individual</value>
+    <comment>[MemberModify] 01.01 국내개인고객</comment>
+  </data>
+  <data name="국내법인고객" xml:space="preserve">
+    <value>Domestic Company</value>
+    <comment>[MemberModify] 01.03 국내법인고객</comment>
+  </data>
+  <data name="기본 배송지" xml:space="preserve">
+    <value>Default shipping address</value>
+    <comment>[MemberModify] 07. 기본배송지</comment>
+  </data>
+  <data name="기본 정보" xml:space="preserve">
+    <value>Basic Information</value>
+    <comment>[MemberModify] 03. 기본 정보 타이틀</comment>
+  </data>
+  <data name="기본 주소 설정" xml:space="preserve">
+    <value>Set as default shipping address</value>
+    <comment>[MemberModify] 09.01 기본 주소 설정</comment>
+  </data>
+  <data name="남성" xml:space="preserve">
+    <value>Male</value>
+    <comment>[MemberModify] 03.04 성별</comment>
+  </data>
+  <data name="담당자 명함" xml:space="preserve">
+    <value>Contact person business card</value>
+    <comment>[MemberModify] 05.08 담당자 명함</comment>
+  </data>
+  <data name="담당자 이름" xml:space="preserve">
+    <value>Contact Name</value>
+    <comment>[MemberModify] 05.01 담당자 이름</comment>
+  </data>
+  <data name="담당자 이메일" xml:space="preserve">
+    <value>Contact Email</value>
+    <comment>[MemberModify] 05.06 담당자 이메일</comment>
+  </data>
+  <data name="담당자 정보" xml:space="preserve">
+    <value>Contact Information</value>
+    <comment>[MemberModify] 05. 담당자 정보</comment>
+  </data>
+  <data name="담당자 직장 전화번호" xml:space="preserve">
+    <value>Contact person work phone</value>
+    <comment>[MemberModify] 05.04 담당자 직장 전화번호</comment>
+  </data>
+  <data name="담당자 직장 팩스번호" xml:space="preserve">
+    <value>Contact person work fax</value>
+    <comment>[MemberModify] 05.05 담당자 직장 팩스번호</comment>
+  </data>
+  <data name="담당자 휴대전화" xml:space="preserve">
+    <value>Contact person mobile</value>
+    <comment>[MemberModify] 05.03 담당자 휴대전화</comment>
+  </data>
+  <data name="대표 전화" xml:space="preserve">
+    <value>Representative phone</value>
+    <comment>[MemberModify] 03.12 대표전화</comment>
+  </data>
+  <data name="대표자 명" xml:space="preserve">
+    <value>Representative name</value>
+    <comment>[MemberModify] 03.11 대표자명</comment>
+  </data>
+  <data name="도록 실물 구독서비스 &lt;br /&gt;(10만원 / 1년)" xml:space="preserve">
+    <value>Catalog subscription service &lt;br /&gt; (KRW 100,000 / 1 year)</value>
+    <comment>[MemberModify] 21.01.01.01 도록</comment>
+  </data>
+  <data name="동의 완료" xml:space="preserve">
+    <value>Complete</value>
+    <comment>[MemberModify] 22.01.03</comment>
+  </data>
+  <data name="등록수" xml:space="preserve">
+    <value>Number of registrations</value>
+    <comment>[MemberModify] 12.03.04</comment>
+  </data>
+  <data name="리스트 보관 안내" xml:space="preserve">
+    <value>Guide for archiving wishlists</value>
+    <comment>[MemberModify] 11.03. 리스트 보관 안내</comment>
+  </data>
+  <data name="만약, 팔로우 작가들 중 검색을 원하시면&lt;br /&gt;'팔로우에서 찾기'를 체크하고 검색하세요." xml:space="preserve">
+    <value>If you want to search among the artists you follow,&lt;br /&gt;check 'Find in Follow' and search.</value>
+    <comment>[MemberModify] 23.03</comment>
+  </data>
+  <data name="메이저" xml:space="preserve">
+    <value>Major</value>
+    <comment>[MemberModify] 11.02.01</comment>
+  </data>
+  <data name="메인 하이라이트" xml:space="preserve">
+    <value>Main Highlight</value>
+    <comment>[MemberModify] 21.01.03 메인하이라이트</comment>
+  </data>
+  <data name="메인페이지 하이라이트 영역에 노출 될 컨텐츠의 기본값을 설정하세요." xml:space="preserve">
+    <value>Set the default value of the content to be exposed in the main page highlight area.</value>
+    <comment>[MemberModify] 21.01.03.01</comment>
+  </data>
+  <data name="미동의" xml:space="preserve">
+    <value>Disagree</value>
+    <comment>[MemberModify] 22.01.07</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of Recipient</value>
+    <comment>[MemberModify] 08.05 받는사람</comment>
+  </data>
+  <data name="법인명" xml:space="preserve">
+    <value>Corporate name</value>
+    <comment>[MemberModify] 03.10 법인명</comment>
+  </data>
+  <data name="부가 설정" xml:space="preserve">
+    <value>Additional settings</value>
+    <comment>[MemberModify] 21.01 부가 설정</comment>
+  </data>
+  <data name="부가 정보" xml:space="preserve">
+    <value>Additional Information</value>
+    <comment>[MemberModify] 04. 기본 정보 타이틀</comment>
+  </data>
+  <data name="비공개" xml:space="preserve">
+    <value>Prefer not to say</value>
+    <comment>[MemberModify] 03.04 성별</comment>
+  </data>
+  <data name="비밀번호" xml:space="preserve">
+    <value>Password</value>
+    <comment>[MemberModify] 03.02 비밀번호</comment>
+  </data>
+  <data name="비밀번호 재설정" xml:space="preserve">
+    <value>Password reset</value>
+    <comment>[MemberModify] 03.02.02 비밀번호 재설정 팝업 타이틀</comment>
+  </data>
+  <data name="사업자 등록 &lt;br /&gt;증빙 서류" xml:space="preserve">
+    <value>Business registration document</value>
+    <comment>[MemberModify] 03.13 사업자 등록 증빙 서류</comment>
+  </data>
+  <data name="사업자 등록번호" xml:space="preserve">
+    <value>Business registration number</value>
+    <comment>[MemberModify] 03.09 사업자 등록번호</comment>
+  </data>
+  <data name="사업자 등록번호 입력" xml:space="preserve">
+    <value>Enter business registration number</value>
+    <comment>[MemberModify] 03.09.01</comment>
+  </data>
+  <data name="삭제" xml:space="preserve">
+    <value>Delete</value>
+    <comment>[MemberModify] 09.02 삭제</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[MemberModify] 08.04 상세주소</comment>
+  </data>
+  <data name="생년월일" xml:space="preserve">
+    <value>Date of birth</value>
+    <comment>[MemberModify] 03.05 생년월일</comment>
+  </data>
+  <data name="선택" xml:space="preserve">
+    <value>Option</value>
+    <comment>[MemberModify] 22.01.02</comment>
+  </data>
+  <data name="선택된 검색옵션" xml:space="preserve">
+    <value>Selected search option</value>
+    <comment>[MemberModify] 12.02.06</comment>
+  </data>
+  <data name="선호 정보" xml:space="preserve">
+    <value>Preference Information</value>
+    <comment>[MemberModify] 02. 탭메뉴</comment>
+  </data>
+  <data name="성별" xml:space="preserve">
+    <value>Sex</value>
+    <comment>[MemberModify] 03.04 성별</comment>
+  </data>
+  <data name="세금계산서 발행용 이메일" xml:space="preserve">
+    <value>Email for issuing tax invoices</value>
+    <comment>[MemberModify] 05.07 세금계산서 발행용 이메일</comment>
+  </data>
+  <data name="수정" xml:space="preserve">
+    <value>Modify</value>
+    <comment>[MemberModify] 03.07.01 수정</comment>
+  </data>
+  <data name="신규 주소 등록하기" xml:space="preserve">
+    <value>+ Add address</value>
+    <comment>[MemberModify] 09.03 주소 신규 등록하기</comment>
+  </data>
+  <data name="신청중" xml:space="preserve">
+    <value>Applying</value>
+    <comment>[MemberModify] 21.01.01.03</comment>
+  </data>
+  <data name="신청하기" xml:space="preserve">
+    <value>Apply</value>
+    <comment>[MemberModify] 21.01.01.04</comment>
+  </data>
+  <data name="아이디" xml:space="preserve">
+    <value>ID</value>
+    <comment>[MemberModify] 03.01 아이디</comment>
+  </data>
+  <data name="아트, 공예 섹션의 작품들은 위시리스트 보관 기간이 경매기간 동안으로 제한됩니다." xml:space="preserve">
+    <value>Lots from the Art section will be saved in the wish list only for the duration of the auction.</value>
+    <comment>[MemberModify] 11.03.03</comment>
+  </data>
+  <data name="여성" xml:space="preserve">
+    <value>Female</value>
+    <comment>[MemberModify] 03.04 성별</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[MemberModify] 05.02 연락처</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal Code</value>
+    <comment>[MemberModify] 08.03 우편번호</comment>
+  </data>
+  <data name="위시리스트는 경매 별 등록일시 순으로 정렬합니다." xml:space="preserve">
+    <value>The wish list is sorted by the date and time of registration by auction.</value>
+    <comment>[MemberModify] 11.03.02</comment>
+  </data>
+  <data name="위시리스트로 다음 LOT정보는 등록일로 부터 1년간 유효하며, 1년 경과시 자동으로 사라집니다." xml:space="preserve">
+    <value>The LOT information contained in the wish list is valid for one year from the date of registration and automatically disappears after one year.</value>
+    <comment>[MemberModify] 11.03.01</comment>
+  </data>
+  <data name="위클리 온라인" xml:space="preserve">
+    <value>Weekly Online</value>
+    <comment>[MemberModify] 11.02.03</comment>
+  </data>
+  <data name="유료 서비스" xml:space="preserve">
+    <value>Paid Service</value>
+    <comment>[MemberModify] 21.01.01 유료 서비스</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[MemberModify] 03.07 이메일</comment>
+  </data>
+  <data name="이용 동의" xml:space="preserve">
+    <value>Agree to Usage of Personal Information</value>
+    <comment>[MemberModify] 22.01 이용 동의</comment>
+  </data>
+  <data name="인증 수단 선택" xml:space="preserve">
+    <value>Choose an authentication method</value>
+    <comment>[MemberModify] 03.03.04 인증 수단 선택 팝업 타이틀</comment>
+  </data>
+  <data name="인증됨" xml:space="preserve">
+    <value>Verified</value>
+    <comment>[MemberModify] 03.03.01 인증</comment>
+  </data>
+  <data name="작가 또는 작품 명 입력" xml:space="preserve">
+    <value>Artist, Work</value>
+    <comment>[MemberModify] 12.02.02</comment>
+  </data>
+  <data name="작가 팔로우" xml:space="preserve">
+    <value>Artist Follow</value>
+    <comment>[MemberModify] 12.01 작가 팔로우</comment>
+  </data>
+  <data name="작품 위시리스트" xml:space="preserve">
+    <value>Wishlist</value>
+    <comment>[MemberModify] 11.01 작품 위시리스트</comment>
+  </data>
+  <data name="장기 미로그인 기준을 설정하세요. 설정일 이후에는 휴면계정으로 전환되며, 회원정보는 별도보관 됩니다." xml:space="preserve">
+    <value>Set long-term non-login criteria. After the setting date, the account is converted to a dormant account, and member information is stored separately.</value>
+    <comment>[MemberModify] 21.01.02.01</comment>
+  </data>
+  <data name="재설정" xml:space="preserve">
+    <value>Change</value>
+    <comment>[MemberModify] 03.02.01 비밀번호 재설정</comment>
+  </data>
+  <data name="재인증" xml:space="preserve">
+    <value>Reverify</value>
+    <comment>[MemberModify] 03.03.03 재인증</comment>
+  </data>
+  <data name="저장하기" xml:space="preserve">
+    <value>Save</value>
+    <comment>[MemberModify] 06. 저장하기 버튼</comment>
+  </data>
+  <data name="전체" xml:space="preserve">
+    <value>All</value>
+    <comment>[MemberModify] 11.02 경매유형</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[MemberModify] 22.01.08</comment>
+  </data>
+  <data name="전화번호" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[MemberModify] 03.06 전화번호</comment>
+  </data>
+  <data name="전화번호 수정" xml:space="preserve">
+    <value>Modify phone number</value>
+    <comment>[MemberModify] 03.07.01 수정</comment>
+  </data>
+  <data name="좋아하는 작가를 검색하고 팔로우하세요!" xml:space="preserve">
+    <value>Search for and follow your favorite artists!</value>
+    <comment>[MemberModify] 23.01</comment>
+  </data>
+  <data name="죄송합니다.&lt;br /&gt;입력한 검색어에 해당하는 결과를 찾을 수 없습니다." xml:space="preserve">
+    <value>Sorry.&lt;br /&gt;No results were found for the search term you entered.</value>
+    <comment>[MemberModify] 12.04 리스트 첫화면</comment>
+  </data>
+  <data name="주소지 명" xml:space="preserve">
+    <value>Address Name</value>
+    <comment>[MemberModify] 08.01 주소지명</comment>
+  </data>
+  <data name="증빙 서류" xml:space="preserve">
+    <value>Verification Document</value>
+    <comment>[MemberModify] 03.08 증빙 서류</comment>
+  </data>
+  <data name="증빙자료를 업로드해주세요" xml:space="preserve">
+    <value>Upload Verification Document</value>
+    <comment>[MemberModify] 03.08.01</comment>
+  </data>
+  <data name="직업" xml:space="preserve">
+    <value>Occupation</value>
+    <comment>[MemberModify] 04.01 직업</comment>
+  </data>
+  <data name="직장 전화번호" xml:space="preserve">
+    <value>Organization Phone</value>
+    <comment>[MemberModify] 04.03 직장 전화번호</comment>
+  </data>
+  <data name="직장 팩스번호" xml:space="preserve">
+    <value>Organization Fax</value>
+    <comment>[MemberModify] 04.04 직장 팩스번호</comment>
+  </data>
+  <data name="직장명" xml:space="preserve">
+    <value>Organization Name</value>
+    <comment>[MemberModify] 04.02 직장명</comment>
+  </data>
+  <data name="찾기" xml:space="preserve">
+    <value>Search</value>
+    <comment>[MemberModify] 12.02.04</comment>
+  </data>
+  <data name="초기화" xml:space="preserve">
+    <value>Clear</value>
+    <comment>[MemberModify] 12.02 검색</comment>
+  </data>
+  <data name="최신순" xml:space="preserve">
+    <value>latest order</value>
+    <comment>[MemberModify] 12.03.01 필터</comment>
+  </data>
+  <data name="카드사 본인인증" xml:space="preserve">
+    <value>Credit Card Authentication</value>
+    <comment>[MemberModify] 03.03.02 인증유형</comment>
+  </data>
+  <data name="탈퇴하기" xml:space="preserve">
+    <value>To leave</value>
+    <comment>[MemberModify] 22.02</comment>
+  </data>
+  <data name="통신사 본인인증" xml:space="preserve">
+    <value>Mobile Authentication</value>
+    <comment>[MemberModify] 03.03.02 인증유형</comment>
+  </data>
+  <data name="파일 업로드" xml:space="preserve">
+    <value>Upload</value>
+    <comment>[MemberModify] 03.08.02</comment>
+  </data>
+  <data name="팔로우" xml:space="preserve">
+    <value>Follow</value>
+    <comment>[MemberModify] 12.01 작가 팔로우</comment>
+  </data>
+  <data name="팔로우만 보기" xml:space="preserve">
+    <value>See only follow</value>
+    <comment>[MemberModify] 12.02.05</comment>
+  </data>
+  <data name="팔로우에서 찾기" xml:space="preserve">
+    <value>Search in Follow</value>
+    <comment>[MemberModify] 12.02.03</comment>
+  </data>
+  <data name="프리미엄 온라인" xml:space="preserve">
+    <value>Premium Online</value>
+    <comment>[MemberModify] 11.02.02</comment>
+  </data>
+  <data name="필수" xml:space="preserve">
+    <value>Required</value>
+    <comment>[MemberModify] 22.01.01</comment>
+  </data>
+  <data name="해외개인고객" xml:space="preserve">
+    <value>Foreign Individual</value>
+    <comment>[MemberModify] 01.02 해외개인고객</comment>
+  </data>
+  <data name="해외법인고객" xml:space="preserve">
+    <value>Foreign Company</value>
+    <comment>[MemberModify] 01.04 해외법인고객</comment>
+  </data>
+  <data name="회원 정보" xml:space="preserve">
+    <value>Membership Infomation</value>
+    <comment>[MemberModify] 02. 탭메뉴</comment>
+  </data>
+  <data name="회원명" xml:space="preserve">
+    <value>Name</value>
+    <comment>[MemberModify] 03.03 회원명</comment>
+  </data>
+  <data name="휴면 전환 기준" xml:space="preserve">
+    <value>Dormant Transition Criteria</value>
+    <comment>[MemberModify] 21.01.02 휴면 전환</comment>
+  </data>
+  <data name="본인인증" xml:space="preserve">
+    <value>Identity Verification</value>
+    <comment>본인인증</comment>
+  </data>
+  <data name="미인증" xml:space="preserve">
+    <value>Uncertified</value>
+    <comment>미인증</comment>
+  </data>
+  <data name="본인인증 하기" xml:space="preserve">
+    <value>Verify your identity</value>
+    <comment>본인인증 하기</comment>
+  </data>
+  <data name="경매 참여시 본인인증 필수!" xml:space="preserve">
+    <value>Identity verification is required for auction.</value>
+    <comment>경매 참여시 본인인증 필수!</comment>
+  </data>
+  <data name="필터초기화" xml:space="preserve">
+    <value>Reset Filter</value>
+    <comment>필터초기화</comment>
+  </data>
+  <data name="기존 증빙 자료 요청 처리 대기중" xml:space="preserve">
+    <value>Wait for approve requested document</value>
+    <comment>기존 증빙 자료 요청 처리 대기중</comment>
+  </data>
+  <data name="제출 완료" xml:space="preserve">
+    <value>Submitted</value>
+    <comment>제출 완료</comment>
+  </data>
+  <data name="- 변경된 서류 심사중입니다." xml:space="preserve">
+    <value>- Reviewing the changed documents.</value>
+    <comment>- 변경된 서류 심사중입니다.</comment>
+  </data>
+  <data name="응찰 제한" xml:space="preserve">
+    <value>Bidding Limited</value>
+    <comment>응찰 제한</comment>
+  </data>
+  <data name="- 본인 인증을 위한 자료를 제출해 주시기 바랍니다." xml:space="preserve">
+    <value>- Please submit the document for identity verification.</value>
+    <comment>- 본인 인증을 위한 자료를 제출해 주시기 바랍니다.</comment>
+  </data>
+  <data name="- 주소 정보를 제출해 주시기 바랍니다." xml:space="preserve">
+    <value>- Please submit your address information.</value>
+    <comment>- 주소 정보를 제출해 주시기 바랍니다.</comment>
+  </data>
+  <data name="- 제출 된 자료를 검토중입니다." xml:space="preserve">
+    <value>- Submitted document is under review.</value>
+    <comment>- 제출 된 자료를 검토중입니다.</comment>
+  </data>
+  <data name="- 본인을 증명할 자료를 제출해주세요." xml:space="preserve">
+    <value>- Present your ID and get certified.</value>
+    <comment>- 본인을 증명할 자료를 제출해주세요.</comment>
+  </data>
+  <data name="처리 중 오류가 발생하였습니다." xml:space="preserve">
+    <value>Error occured during process.</value>
+    <comment>처리 중 오류가 발생하였습니다.</comment>
+  </data>
+</root>

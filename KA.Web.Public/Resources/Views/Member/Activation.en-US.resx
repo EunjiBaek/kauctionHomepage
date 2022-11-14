@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="(주)케이옥션을 다시 찾아주셔서 감사합니다." xml:space="preserve">
+    <value>Thank you for your renewed interest in K Auction Inc.</value>
+    <comment>[Activation] 2. Description #1</comment>
+  </data>
+  <data name="1년간 미 로그인 시 휴면 전환" xml:space="preserve">
+    <value>Convert to dormant after 1 year without logging in</value>
+    <comment>[Activation] 3. Option #4</comment>
+  </data>
+  <data name="3년간 미 로그인 시 휴면 전환" xml:space="preserve">
+    <value>Convert to dormant after 3 years without logging in</value>
+    <comment>[Activation] 3. Option #3</comment>
+  </data>
+  <data name="5년간 미 로그인 시 휴면 전환" xml:space="preserve">
+    <value>Convert to dormant after 5 years without logging in</value>
+    <comment>[Activation] 3. Option #2</comment>
+  </data>
+  <data name="광고성 정보 수신 동의" xml:space="preserve">
+    <value>Consent to Receiving Advertising Information</value>
+    <comment>[Modal/ReceiveAdvertising] 1. Title</comment>
+  </data>
+  <data name="기본설정" xml:space="preserve">
+    <value>Standard</value>
+    <comment>[Activation] 3. Option #4.1</comment>
+  </data>
+  <data name="동의" xml:space="preserve">
+    <value>Accepted</value>
+    <comment>[Modal/ReceiveAdvertising] 4. Status</comment>
+  </data>
+  <data name="문자 메세지" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[Modal/ReceiveAdvertising] 3. SMS</comment>
+  </data>
+  <data name="반영하기" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Modal/ReceiveAdvertising] 5. Button</comment>
+  </data>
+  <data name="수신거부" xml:space="preserve">
+    <value>Not Accepted</value>
+    <comment>[Modal/ReceiveAdvertising] 4. Status</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[Modal/ReceiveAdvertising] 3. Email</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[Modal/ReceiveAdvertising] 3. Phone</comment>
+  </data>
+  <data name="제출하기" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Activation] 4. Button</comment>
+  </data>
+  <data name="지난 휴면 전환이 번거로우셨다면,  장기 미 이용 조건을 적절한 수준으로 조정하시기 바랍니다." xml:space="preserve">
+    <value>Please adjust your personal information validity period if you wish to prevent your account from being converted to a dormant account.</value>
+    <comment>[Activation] 2. Description #3</comment>
+  </data>
+  <data name="케이옥션의 경매정보 제공, 경매일정 안내 등 서비스 이용을 위한 광고성 정보에 대해 관심이 있다면, 원하는 항목을 선택하여 주시기 바랍니다." xml:space="preserve">
+    <value>If you are interested in receiving information about K  Auction’s auction details, dates, and other services, please select your preferred channels.​</value>
+    <comment>[Modal/ReceiveAdvertising] 2. Description</comment>
+  </data>
+  <data name="탈퇴 시 까지 정보 유지" xml:space="preserve">
+    <value>Retain Information Until Account Closure</value>
+    <comment>[Activation] 3. Option #1</comment>
+  </data>
+  <data name="표시할 내용이 없습니다." xml:space="preserve">
+    <value>There is nothing to display</value>
+    <comment>[Modal/ReceiveAdvertising] 6. Empty Message</comment>
+  </data>
+  <data name="회원님의 계정 상태가 휴면에서 활성화 상태로 전환됨에 따라,&lt;br /&gt;분리 보관 되었던 회원님의 개인정보는 다시 서비스에 통합되어 운영됩니다." xml:space="preserve">
+    <value>Following the reactivation of your dormant account,&lt;br /&gt;your personal information that was stored separately will be reintegrated into your account and our services.​</value>
+    <comment>[Activation] 2. Description #2</comment>
+  </data>
+  <data name="휴면계정 활성화 전환 안내" xml:space="preserve">
+    <value>How to Reactivate a Dormant Account</value>
+    <comment>[Activation] 1. Title</comment>
+  </data>
+</root>

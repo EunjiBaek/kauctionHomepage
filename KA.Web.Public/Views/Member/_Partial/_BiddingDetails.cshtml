@@ -1,0 +1,365 @@
+<div class="btn_wrap b01 tab_btn">
+    <ul>
+        <li class="active"><a href="#">응찰내역</a></li>
+        <li><a href="#">낙찰내역</a></li>
+    </ul>
+</div>
+
+<div class="btn_content b01 tab_cnt">
+
+    <!--응찰내역-->
+    <div class="mypage_bid_state">
+        <div class="filter_wrap">
+            <div class="top">
+                <div class="checkbox_wrap">
+                
+                    <div>
+                        <input class="default" type="checkbox" id="bid_state_all_check">
+                        <label for="bid_state_all_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>전체</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input name="bid_state_check" class="default" type="checkbox" id="bid_state_check_01">
+                        <label for="bid_state_check_01">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>메이저</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input name="bid_state_check" class="default" type="checkbox" id="bid_state_check_02">
+                        <label for="bid_state_check_02">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>프리미엄</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input name="bid_state_check" class="default" type="checkbox" id="bid_state_check_03">
+                        <label for="bid_state_check_03">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>위클리</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                
+                <div>
+                    <span>조회기간</span>
+                    <div class="select_date">
+                        <input type="text" class="calendar" data-id="range" readonly="readonly" value="조회기간 선택" />
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <div class="search_wrap">
+                    <span>검색어</span>
+                    <div class="search_area">
+                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <button class="filter_search_btn btn_blue">
+                        찾기
+                    </button>
+                    
+                </div>
+
+                <div class="bid_auc_state_filter">
+                    <div>
+                        <input class="default" type="checkbox" id="bid_check">
+                        <label for="bid_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>응찰만</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="bid_success_check">
+                        <label for="bid_success_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>낙찰만</p>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="table_wrap">
+            <table class="mypage_work_table bid_state">
+                <thead>
+                    <tr>
+                        <th>경매 구분</th>
+                        <th>경매일</th>
+                        <th class="th_work_info">작품 정보</th>
+                        <th>응찰 상세</th>
+                        <th>최종 응찰 일시</th>
+                        <th class="price">
+                            최총 응찰 가격
+                            <span>(KRW)</span>
+                        </th>
+                        <th>진행 상태</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>메이저</td>
+                        <td>2021-01-13</td>
+                        <td class="work_info">
+                            <div>
+                                <div class="img">
+                                    <img src="https://images.k-auction.com/www/Work/0147/M0147001001.jpg">
+                                </div>
+                                <div class="work_detail">
+                                    <strong>LOT35. 이배</strong>
+                                    <span>무제</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bid_detail_wrap">
+                                32건
+                                <button class="mypage_detail_btn" data-tit="응찰 내역 상세" data-value="bid_detail"></button>
+                            </div>
+                        </td>
+                        <td>
+                            2021-01-13 15:21:34
+                        </td>
+                        <td class="price">1,732,500</td>
+                        <td>응찰</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>메이저</td>
+                        <td>2021-01-13</td>
+                        <td class="work_info">
+                            <div>
+                                <div class="img">
+                                    <img src="https://images.k-auction.com/www/Work/0147/M0147001001.jpg">
+                                </div>
+                                <div class="work_detail">
+                                    <strong>LOT35. 이배</strong>
+                                    <span>무제</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bid_detail_wrap">
+                                -
+                            </div>
+                        </td>
+                        <td>
+                            2021-01-13 15:21:34
+                        </td>
+                        <td class="price">1,732,500</td>
+                        <td>응찰</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <div class="precautions_wrap">
+            <h5>
+                <img src="/img/icons/join_info.png" alt="">
+                응찰 내역 확인 시 유의사항
+            </h5>  
+
+            <ul>
+                <li>
+                    <div><span>•</span></div>
+                    <p>낙찰가격이 300만원 초과되는 경우, 배송비 외에는 온라인 결제가 불가합니다.</p>
+                </li>
+                
+                <li>
+                    <div><span>•</span></div>
+                    <p>배송비는 회원의 등급과 배송주소에 따라 설정됩니다. 직접픽업시 배송비는 부과되지 않습니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>배송주소는 기본 배송지로 설정되며, [주소변경]을 눌러 변경이 가능합니다.</p>
+                </li>
+
+                <li>
+                    <div><span>•</span></div>
+                    <p>설치 등 추가 작업시 추가요금이 부과될 수 있습니다. </p>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+    <!--//응찰내역-->
+
+    <!--낙찰내역-->
+    <div class="mypage_bid_success_state">
+
+        <!--상단필터-->
+        <div class="filter_wrap">
+            <div class="top">
+                <div class="checkbox_wrap">
+                
+                    <div>
+                        <input class="default" type="checkbox" id="successfulBid_all_check" name="">
+                        <label for="successfulBid_all_check">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>전체</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="successfulBid_check_01" name="successfulBid_check">
+                        <label for="successfulBid_check_01">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>메이저</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="successfulBid_check_02" name="successfulBid_check">
+                        <label for="successfulBid_check_02">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>프리미엄</p>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input class="default" type="checkbox" id="successfulBid_check_03" name="successfulBid_check">
+                        <label for="successfulBid_check_03">
+                            <div><i class="fas fa-check"></i></div>
+                            <p>위클리</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                
+                <div>
+                    <span>조회기간</span>
+                    <div class="select_date">
+                        <input type="text" class="calendar" data-id="range" readonly="readonly" value="조회기간 선택"/>
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <div class="search_wrap">
+                    <span>검색어</span>
+                    <div class="search_area">
+                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <button class="filter_search_btn btn_blue">
+                        찾기
+                    </button>
+                    
+                </div>
+
+            </div>
+        </div>
+        <!--//상단필터-->
+
+        <div class="table_wrap">
+            <table class="mypage_work_table bid_state">
+                <thead>
+                    <tr>
+                        <th>경매 구분</th>
+                        <th>경매일</th>
+                        <th class="th_work_info">작품 정보</th>
+                        <th>낙찰 일 시</th>
+                        <th class="price">
+                            낙찰 가격
+                            <span>(KRW)</span>
+                        </th>
+                        <th class="price">
+                            낙찰 수수료
+                            <span>(KRW)</span>
+                        </th>
+                        <th>
+                            상태
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>메이저</td>
+                        <td>2021-01-13</td>
+                        <td class="work_info">
+                            <div>
+                                <div class="img">
+                                    <img src="https://images.k-auction.com/www/Work/0147/M0147001001.jpg">
+                                </div>
+                                <div class="work_detail">
+                                    <strong>LOT35. 이배</strong>
+                                    <span>무제</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            2021-01-13 15:21:34
+                        </td>
+                        <td class="price">
+                            1,732,500
+                        </td>
+                        <td class="price">1,732,500</td>
+                        <td class="state">
+                            결제완료<br/>
+                            /출고
+                        </td>
+                    </tr>
+                    
+                </tbody>
+
+            </table>
+        </div>
+
+        <div class="precautions_wrap">
+            <h5>
+                <img src="/img/icons/join_info.png" alt="">
+                낙찰 내역 확인 시 유의사항
+            </h5> 
+            <ul>
+                <li>
+                    <div><span>•</span></div>
+                    <p>낙찰가격이 300만원 초과되는 경우, 배송비 외에는 온라인 결제가 불가합니다. </p>
+                </li>
+                <li>
+                    <div><span>•</span></div>
+                    <p>배송주소는 기본 배송지로 설정되며, [주소변경]을 눌러 변경이 가능합니다..</p>
+                </li>
+                <li>
+                    <div><span>•</span></div>
+                    <p>설치 등 추가 작업시 추가요금이 부과될 수 있습니다. </p>
+                </li>
+            </ul>
+
+        </div>
+
+
+    </div>
+    <!--//낙찰내역-->
+    
+</div>
+
+
+<script>
+
+    ;(function () {
+        $(".mypage_detail_btn").each(function(){
+            $(this).click(function(){
+                $.commonUtils.mypageModal($(this))
+            });
+        });
+
+    })();
+
+</script>

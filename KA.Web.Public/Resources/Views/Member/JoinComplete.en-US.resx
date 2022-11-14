@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #3 (Hint)</comment>
+  </data>
+  <data name="&lt;span&gt;온라인 응찰 가능 여부&lt;/span&gt;는 증빙서류 심사후 메일로 알려드립니다." xml:space="preserve">
+    <value>We will let you know whether you can &lt;span&gt;bid online&lt;/span&gt; after reviewing the documentary evidence.</value>
+    <comment>[JoinComplete] 02. Title - Sub #2</comment>
+  </data>
+  <data name="e-도록 및 온라인 뉴스레터 발송" xml:space="preserve">
+    <value>Send e-Lots and online newsletters</value>
+    <comment>[JoinComplete] 04. 회원 제공 서비스 - Sub #4</comment>
+  </data>
+  <data name="※ 동의에 대한 재설정은 &lt;span&gt;&lt;a href='/Member/MyPage' target='_self'&gt;마이페이지 &gt; 정보수정 &gt; 회원정보&lt;/a&gt;&lt;/span&gt;에서 가능합니다" xml:space="preserve">
+    <value>※ Settings regarding agreement can be modified in &lt;span&gt;&lt;a href='/Member/MyPage' target='_self'&gt;My Page &gt; Modifying information &gt; Membership information&lt;/a&gt;&lt;/span&gt;.</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #7</comment>
+  </data>
+  <data name="가입 완료" xml:space="preserve">
+    <value>Join Complete</value>
+    <comment>[JoinComplete] 02. Title</comment>
+  </data>
+  <data name="경매 작품위탁 신청" xml:space="preserve">
+    <value>Application for consignment of auction works</value>
+    <comment>[JoinComplete] 04. 회원 제공 서비스 - Sub #2</comment>
+  </data>
+  <data name="광고성 정보 수신 동의 처리 결과 안내" xml:space="preserve">
+    <value>Preferences Regarding Consent to Receiving Advertising Information​</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내</comment>
+  </data>
+  <data name="동의" xml:space="preserve">
+    <value>Accepted</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #4</comment>
+  </data>
+  <data name="동의하기" xml:space="preserve">
+    <value>Accept</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #6</comment>
+  </data>
+  <data name="마이페이지 서비스 및 현장경매/온라인경매 정보 제공" xml:space="preserve">
+    <value>Provide Mypage service and site auction/online auction information</value>
+    <comment>[JoinComplete] 04. 회원 제공 서비스 - Sub #3</comment>
+  </data>
+  <data name="메인으로 가기" xml:space="preserve">
+    <value>Go to Main</value>
+    <comment>[JoinComplete] 02. Title - Sub #3 Button</comment>
+  </data>
+  <data name="문자메시지" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #1</comment>
+  </data>
+  <data name="소장 작품의​ 위탁을 원하신다면?" xml:space="preserve">
+    <value>Sell with K Auction</value>
+    <comment>[JoinComplete] 03.2 위탁</comment>
+  </data>
+  <data name="소장하신 작품의 위탁 상담이 필요한 경우 ‘위탁 문의’를 진행하세요." xml:space="preserve">
+    <value>If you need consignment consultation for your work, please proceed with the 'consignment inquiry'.</value>
+    <comment>[JoinComplete] 03.2 위탁 - #1</comment>
+  </data>
+  <data name="수신거부" xml:space="preserve">
+    <value>Not Accepted</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #5</comment>
+  </data>
+  <data name="온라인경매 응찰 및 자동응찰 가능" xml:space="preserve">
+    <value>Online auction and automatic bidding are available.</value>
+    <comment>[JoinComplete] 04. 회원 제공 서비스 - Sub #1</comment>
+  </data>
+  <data name="위클리 온라인 경매" xml:space="preserve">
+    <value>Weekly Online Auction</value>
+    <comment>[JoinComplete] 04.1 바로가기 버튼</comment>
+  </data>
+  <data name="위탁문의" xml:space="preserve">
+    <value>Entrustment inquiry</value>
+    <comment>[JoinComplete] 03.2 위탁 - #2</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>EMAIL</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #2</comment>
+  </data>
+  <data name="작품 위탁 신청" xml:space="preserve">
+    <value>Consignment Submission</value>
+    <comment>[JoinComplete] 04.1 바로가기 버튼</comment>
+  </data>
+  <data name="저장" xml:space="preserve">
+    <value>Save</value>
+    <comment>[JoinComplete] 06. 저장 버튼</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>PHONE</value>
+    <comment>[JoinComplete] 07. 광고성 정보 수신 동의 처리 결과 안내 - #3</comment>
+  </data>
+  <data name="직업" xml:space="preserve">
+    <value>Job</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #1</comment>
+  </data>
+  <data name="직장 상세 주소" xml:space="preserve">
+    <value>Office Address Line 2</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #8</comment>
+  </data>
+  <data name="직장 우편번호" xml:space="preserve">
+    <value>Office Postal Code</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #5</comment>
+  </data>
+  <data name="직장 전화번호" xml:space="preserve">
+    <value>Office Tel</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #3</comment>
+  </data>
+  <data name="직장 주소" xml:space="preserve">
+    <value>Office Address Line 1</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #7</comment>
+  </data>
+  <data name="직장 주소 검색" xml:space="preserve">
+    <value>Office Address Search</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #6</comment>
+  </data>
+  <data name="직장 팩스번호" xml:space="preserve">
+    <value>Office Fax</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #4</comment>
+  </data>
+  <data name="직장명" xml:space="preserve">
+    <value>Company</value>
+    <comment>[JoinComplete] 05. 추가 정보 - #2</comment>
+  </data>
+  <data name="추가 정보" xml:space="preserve">
+    <value>Additional Information</value>
+    <comment>[JoinComplete] 05. 추가 정보</comment>
+  </data>
+  <data name="케이옥션 홈으로 이동" xml:space="preserve">
+    <value>Go to K Auction Home</value>
+    <comment>[JoinComplete] 03.3 홈으로</comment>
+  </data>
+  <data name="케이옥션 홈페이지에서 다양한 경매 소식을 만나보세요​.​" xml:space="preserve">
+    <value>Check out various auction news on the K Auction website.​</value>
+    <comment>[JoinComplete] 03.3 홈으로 - #1</comment>
+  </data>
+  <data name="케이옥션에 가입해 주셔서 감사합니다." xml:space="preserve">
+    <value>Thank you for joining K Auction.</value>
+    <comment>[JoinComplete] 02. Title - Sub #1</comment>
+  </data>
+  <data name="프로필을 보강하려면?" xml:space="preserve">
+    <value>Update your profile</value>
+    <comment>[JoinComplete] 03.1 프로필</comment>
+  </data>
+  <data name="프리미엄 온라인 경매" xml:space="preserve">
+    <value>Premium Online Auction</value>
+    <comment>[JoinComplete] 04.1 바로가기 버튼</comment>
+  </data>
+  <data name="홈으로 이동" xml:space="preserve">
+    <value>Go Home</value>
+    <comment>[JoinComplete] 03.3 홈으로 - #2</comment>
+  </data>
+  <data name="화면 하단으로 이동↓" xml:space="preserve">
+    <value>Go to bottom of screen ↓</value>
+    <comment>[JoinComplete] 03.1 프로필 - #2</comment>
+  </data>
+  <data name="회원 제공 서비스" xml:space="preserve">
+    <value>Member-Provided Services</value>
+    <comment>[JoinComplete] 04. 회원 제공 서비스</comment>
+  </data>
+  <data name="회원가입" xml:space="preserve">
+    <value>Join</value>
+    <comment>[JoinComplete] 01. Breadcrumb</comment>
+  </data>
+  <data name="회원님의 직업, 직장 등 추가적인 정보를 입력하시려면 하단 버튼을 클릭해주세요." xml:space="preserve">
+    <value>Click the bottom button to enter additional information such as your job, job, etc.</value>
+    <comment>[JoinComplete] 03.1 프로필 - #1</comment>
+  </data>
+</root>

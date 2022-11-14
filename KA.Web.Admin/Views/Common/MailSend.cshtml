@@ -1,0 +1,87 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-default">
+            <div class="card-header separator cardheader">
+                <div class="card-title t1">메일 발송 정보</div>
+            </div>
+            <div class="card-body c1 apply m-t-10">
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-2 info-tit"><strong>제목</strong></div>
+                    <div class="col-sm-10 topdesc1">
+                        <input id="subject" type="text" class="form-control" value="@ViewBag.Subject" />
+                    </div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-2 info-tit"><strong>보내는 사람</strong></div>
+                    <div class="col-sm-10 topdesc1">K Auction</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-2 info-tit"><strong>받는 사람</strong></div>
+                    <div class="col-sm-10 topdesc1">@ViewBag.Receiver</div>
+                </div>
+                <div class="row r1 h-px-30 toptit top-tit lh-30">
+                    <div class="col-sm-2 info-tit"><strong>내용</strong></div>
+                    <div class="col-sm-10 topdesc1">
+                        <div id="layer_content">@Html.Raw(ViewBag.Body)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-secondary" onclick="history.back();">취소</button>
+                <button class="btn btn-primary" onclick="sendMail();">발송</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="mode" param="Y" value="@ViewBag.Mode" />
+<input type="hidden" id="type" param="Y" value="@ViewBag.Type" />
+<input type="hidden" id="uid" param="Y" value="@ViewBag.Uid" />
+<input type="hidden" id="receiver_name" param="Y" value="@ViewBag.ReceiverName" />
+<input type="hidden" id="receiver_email" param="Y" value="@ViewBag.ReceiverEmail" />
+
+<script>
+
+    var requestParam = {};
+
+    $(document).ready(function () {
+        $('#layer_content').summernote({
+            height: 300,
+            lang: 'ko-KR',
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                ['color', ['forecolor', 'color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
+        }).on("summernote.enter", function (we, e) {
+             $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+             e.preventDefault();
+        });
+    });
+
+    function sendMail() {
+        $.commonUtils.confirm("메일", "발송하시겠습니까?", "sendMailProc();");
+    }
+
+    function sendMailProc() {
+        requestParam["subject"] = $("#subject").val();
+        requestParam["body"] = $('#layer_content').summernote('code');
+
+        var result = $.ajaxUtils.getApiData("/api/Common/SendMail", $.ajaxUtils.setParameter(requestParam), null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            if (requestParam["mode"] === "consign") {
+                window.location.href = "/Consign/@ViewBag.Uid";
+            }
+        } else {
+            $.commonUtils.alert("발송 처리 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+        }
+    }
+
+</script>

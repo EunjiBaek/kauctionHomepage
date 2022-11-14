@@ -1,0 +1,204 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메인 주요 출품작</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h6 class="m-0">[활성화 작품]<span class="fs-12"> - 경매 다음날 자동 삭제</span></h6>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <button onclick="procWorkHighlight('SORT_AUCKIND', 0);" class="btn btn-secondary">경매 순서 반영</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-b-20 m-t-25 w-100" id="data-grid"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="row m-r-0 m-l-0">
+                            <select class="full-width" data-init-plugin="select2" id="auctionSchedule" onchange="requestParam['page'] = 1; getAuctionWork();">
+                                <option value="">::: 경매를 선택하세요. :::</option>
+                            </select>
+                        </div>
+                        <div class="row list-row">
+                            <div class="data-grid" id="data-work-grid"></div>
+                            <div class="dataTables_wrapper">
+                                <div class="dataTables_paginate paging_full_numbers">
+                                    <ul class="pagination"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+
+    $(document).ready(function () {
+        getWorkHighlight();
+        getAuctionSchedule();
+    });
+
+    function getWorkHighlight() {
+        $.ajaxUtils.getApiData("/api/Main/GetWorkHighlight", null, getWorkHighlightComplete);
+    }
+
+    function getWorkHighlightComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        } else {
+                            $('#total-record').html('총 0건');
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "thum_file_name", type: "text", title: "사진", width: "60",
+                    itemTemplate: function (value, data) {
+                        return $('<img />', { "src": data.thum_file_name, "style": "width: 50px;" })
+                    }
+                },
+                {
+                    name: "auc_kind", type: "text", title: "경매", width: "80",
+                    itemTemplate: function (value) {
+                        switch (value) {
+                            case "1": return "메이저";
+                            case "2": return "프리미엄";
+                            case "4": return "위클리";
+                            default: return "";
+                        }
+                    }
+                },
+                { name: "lot_num", type: "number", title: "Lot", width: "40" },
+                { name: "title", type: "text", title: "작품명", width: "130" },
+                { name: "click_count", type: "number", title: "조회수", width: "60" },
+                {
+                    name: "btn", type: "text", title: "", width: "130",
+                    itemTemplate: function (value, data) {
+                        return $('<div />').append(
+                            $('<button />', { "class": "btn m-r-5", "onclick": "procWorkHighlight('UP', '" + data.uid + "')" }).append('<i class="fas fa-chevron-up"></i>'),
+                            $('<button />', { "class": "btn m-r-5", "onclick": "procWorkHighlight('DOWN', '" + data.uid + "')" }).append('<i class="fas fa-chevron-down"></i>'),
+                            $('<button />', { "class": "btn m-r-5", "onclick": "procWorkHighlight('DELETE', '" + data.uid + "')" }).append('<i class="far fa-trash-alt"></i>'));
+                    }
+                }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function getAuctionSchedule() {
+        $.ajaxUtils.getApiData("/api/Main/GetAuctionSchedule", null, getAuctionScheduleComplete);
+    }
+
+    function getAuctionScheduleComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.each(result.data, function (index, item) {
+                var option = $('<option />', { "value": item.auc_seq, "data-auc-kind": item.auc_kind, "data-auc-num": item.auc_num }).append(item.auc_title_kr);
+                $("#auctionSchedule").append(option);
+            });
+        }
+    }
+
+    function getAuctionWork() {
+        var selectedValue = $("#auctionSchedule option:selected");
+        if (selectedValue.val() !== "") {            
+            requestParam["auc_kind"] = selectedValue.get(0).dataset.aucKind;
+            requestParam["auc_num"] = selectedValue.get(0).dataset.aucNum;
+            requestParam["page_size"] = 20;
+            $.ajaxUtils.getApiData("/api/Main/GetAuctionWork", requestParam, getAuctionWorkComplete);
+        }
+    }
+
+    function getAuctionWorkComplete(result) {
+        $("#data-work-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: result.data.recordsTotal,
+                                parameters: requestParam,
+                                callback: getAuctionWork,
+                                page: result.data.draw,
+                                pageSize: 20
+                            });
+                        } else {
+                            $('#total-record').html('총 0건');
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "lot_num", type: "text", title: "Lot", width: "40" },
+                {
+                    name: "thum_file_name", type: "text", title: "사진", width: "60",
+                    itemTemplate: function (value, data) {
+                        return $('<img />', { "src": data.thum_file_name, "style": "width: 50px;" });
+                    }
+                },
+                { name: "title", type: "text", title: "작품명" },
+                { name: "artist_name", type: "text", title: "작가명" },
+                {
+                    name: "btn", type: "text", title: "",
+                    itemTemplate: function (value, data) {                        
+                        return $('<div />').append(
+                            $('<button />', { "class": "btn m-r-5", "style": "width: 95px;", "onclick": "procWorkHighlight('INSERT', '" + data.uid + "')" }).append("추가(처음)"),
+                            $('<button />', { "class": "btn", "style": "width: 95px;", "onclick": "procWorkHighlight('INSERT_LAST', '" + data.uid + "')" }).append("추가(마지막)")
+                        );
+                    }
+                }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function procWorkHighlight(mode, obj) {
+        var param = {};
+        param["mode"] = mode;
+        param["work_uid"] = obj;
+        var result = $.ajaxUtils.getApiData("/api/Main/SetWorkHighlight", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            if (mode === "SORT_AUCKIND") {
+                $.commonUtils.alert("메이저, 프리미엄, 위클리 순으로 정렬하였습니다.", "success");
+            }
+            getWorkHighlight();
+        } else {
+            $.commonUtils.alert("처리중에 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+        }
+    }
+
+</script>

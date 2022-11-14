@@ -1,0 +1,550 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@inject KA.Web.Public.Services.CommonService CommonService
+
+@section Styles {
+    <style>
+        .underline-text {
+            margin-top: 5px;
+            display: block;
+        }
+        .underline-text:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+}
+
+<div class="container">
+    <div class="mypage_wrap">
+        <div class="right_area tab_cnt">
+            <div class="mypage_tab">
+                <div class="btn_wrap b01 tab_btn">
+                    <ul>
+                        <li id="bid-li" data-content-id="bid-content-div">
+                            <a id="bid-nav" href="#">@L["응찰내역"]</a>
+                        </li>
+                        <li id="successful-bid-li" data-content-id="successful-bid-content-div">
+                            <a id="successful-bid-nav" href="#">@L["낙찰내역"]</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn_content b01 tab_cnt">
+                    <!--응찰 내역-->
+                    <div id="bid-content-div" class="mypage_bid_state" style="display: none;">
+                        <div class="filter_wrap">
+                            <div class="top">
+                                <div class="checkbox_wrap">
+                                    <div>
+                                        <input name="bid_state_check" class="default" type="checkbox" value="1" id="bid_state_check_01">
+                                        <label for="bid_state_check_01">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["메이저 서면"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <input name="bid_state_check" class="default" type="checkbox" value="5" id="bid_state_check_02">
+                                        <label for="bid_state_check_02">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["메이저 라이브"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <input name="bid_state_check" class="default" type="checkbox" value="2" id="bid_state_check_03">
+                                        <label for="bid_state_check_03">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["프리미엄"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <input name="bid_state_check" class="default" type="checkbox" value="4" id="bid_state_check_04">
+                                        <label for="bid_state_check_04">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["위클리"]</p>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bid_auc_state_filter" id="auc-state-checkbox-group">
+
+                                    <div class="radio_btn_wrap" style="margin-right: 15px;">
+                                        <input type="checkbox" id="bid_check" name='bid_state' value="N">
+                                        <label for="bid_check">
+                                            <div><span></span></div>
+                                            <p>@L["응찰만"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div class="radio_btn_wrap">
+                                        <input type="checkbox" id="bid_success_check" name='bid_state' value="Y">
+                                        <label for="bid_success_check">
+                                            <div><span></span></div>
+                                            <p>@L["낙찰만"]</p>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <div>
+                                    <span>@L["조회기간"]</span>
+                                    <div class="select_date calendar" id="bid-date-picker">
+                                        <input type="text" data-input data-id="range" readonly="readonly"
+                                            value="@L["조회기간 선택"]"/>
+                                        <div class="icon" title="toggle" data-toggle></div>
+                                    </div>
+                                </div>
+
+                                <div class="search_wrap">
+                                    <span>@L["검색어"]</span>
+                                    <div class="search_area">
+                                        <input id="search-bid-input" class="search_default" type="search" placeholder="@L["작가 또는 작품 명 입력"]">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+
+                                    <button id="search-bid-btn" class="filter_search_btn btn_blue">
+                                        @L["찾기"]
+                                    </button>
+
+                                </div>
+
+                                
+                                <div id="bid-reset-btn" class="reset-btn">
+                                    <button class="btn_nt btn-hg-more-lg">
+                                        <img src="/img/icons/refresh_icon.png" alt="" srcset="/img/icons/refresh_icon.png 1x,/img/icons/refresh_icon@2x.png 2x,/img/icons/refresh_icon@3x.png 3x">
+                                        @L["필터 초기화"]
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table_wrap">
+                            <table class="mypage_work_table bid_state">
+                                <thead>
+                                <tr>
+                                    <th>@L["경매 구분"]</th>
+                                    <th>@L["경매일"]</th>
+                                    <th class="th_work_info">@L["작품 정보"]</th>
+                                    <th>@L["응찰 상세"]</th>
+                                    <th>@L["최종 응찰 일시"]</th>
+                                    <th class="price">
+                                        @L["최총 응찰 가격"]
+                                        <span>(KRW)</span>
+                                    </th>
+                                    <th>@L["진행 상태"]</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="bid-table-body">
+                                </tbody>
+
+                            </table>
+                            <div id="bid-table-body-empty" class="container m-t-50 m-b-30 p-b-10" style="display: none;">
+                                <div class="ico-page text-center">
+                                    <img src="/img/icons/notbid-ico@1x.png" alt="@L["응찰 내역이 없습니다."]" srcset="/img/icons/notbid-ico@1x.png 1x, /img/icons/notbid-ico@2x.png 2x, /img/icons/notbid-ico@3x.png 3x">
+                                    <p>@L["응찰 내역이 없습니다."]</p>
+                                </div>
+                            </div>
+                            <!-- 페이지네이션 영역 -->
+                            <div class="dataTables_wrapper m-b-10">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6 text-center">
+                                        <div class="dataTables_paginate paging_full_numbers">
+                                            <ul class="pagination" id="bid-pagination"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="precautions_wrap">
+                            <h5>
+                                <img src="/img/icons/join_info.png" alt="">
+                                @L["응찰 내역 확인 시 유의사항"]
+                            </h5>
+                            <ul>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["낙찰가격이 300만원 초과되는 경우, 배송비 외에는 온라인 결제가 불가합니다."]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["배송비는 회원의 등급과 배송주소에 따라 설정됩니다. 직접픽업시 배송비는 부과되지 않습니다."]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["배송주소는 기본 배송지로 설정되며, [<a href='{0}'>주소변경</a>]을 눌러 변경이 가능합니다..", "/Mypage/Member"]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["설치 등 추가 작업시 추가요금이 부과될 수 있습니다."]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["“메이저 서면”의 경우 홈페이지에서 신청한 서면응찰만 표시됩니다."]</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--//응찰내역-->
+                    <!--낙찰내역-->
+                    <div id="successful-bid-content-div" class="mypage_bid_success_state" style="display: none;">
+                        <!--상단필터-->
+                        <div class="filter_wrap">
+                            <div class="top">
+                                <div class="checkbox_wrap">
+                                    <div>
+                                        <input class="default" type="checkbox" id="successfulBid_check_01" value="1" name="successfulBid_check">
+                                        <label for="successfulBid_check_01">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["메이저"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <input class="default" type="checkbox" id="successfulBid_check_02" value="2" name="successfulBid_check">
+                                        <label for="successfulBid_check_02">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["프리미엄"]</p>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <input class="default" type="checkbox" id="successfulBid_check_03" value="4" name="successfulBid_check">
+                                        <label for="successfulBid_check_03">
+                                            <div>
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <p>@L["위클리"]</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom">
+
+                                <div>
+                                    <span>@L["조회기간"]</span>
+                                    <div class="select_date calendar" id="successful-bid-date-picker">
+                                        <input type="text" data-input data-id="range" readonly="readonly"
+                                               value="@L["조회기간 선택"]"/>
+                                        <div class="icon" title="toggle" data-toggle></div>
+                                    </div>
+                                </div>
+
+                                <div class="search_wrap">
+                                    <span>@L["검색어"]</span>
+                                    <div class="search_area">
+                                        <input id="search-successful-bid-input" class="search_default" type="search" placeholder="@L["작가 또는 작품 명 입력"]">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+
+                                    <button id="search-successful-bid-btn" class="filter_search_btn btn_blue">
+                                        @L["찾기"]
+                                    </button>
+
+                                </div>
+                                <div id="successful-bid-reset-btn" class="reset-btn">
+                                    <button class="btn_nt btn-hg-more-lg">
+                                        <img src="/img/icons/refresh_icon.png" alt="" srcset="/img/icons/refresh_icon.png 1x,/img/icons/refresh_icon@2x.png 2x,/img/icons/refresh_icon@3x.png 3x">
+                                        @L["필터 초기화"]
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//상단필터-->
+
+                        <div class="table_wrap">
+                            <table class="mypage_work_table bid_state">
+                                <thead>
+                                <tr>
+                                    <th>@L["경매 구분"]</th>
+                                    <th>@L["경매일"]</th>
+                                    <th class="th_work_info">@L["작품 정보"]</th>
+                                    <th>@L["낙찰 일 시"]</th>
+                                    <th class="price">
+                                        @L["낙찰 가격"]
+                                        <span>(KRW)</span>
+                                    </th>
+                                    <th class="price">
+                                        @L["낙찰 수수료"]
+                                        <span>(KRW)</span>
+                                    </th>
+                                    <th colspan="2">@L["상태"]</th>
+                                </tr>
+                                </thead>
+                                <tbody id="successful-bid-table-body">
+                                </tbody>
+                            </table>
+                            <div id="successful-bid-table-body-empty" class="container m-t-50 m-b-30 p-b-10" style="display: none;">
+                                <div class="ico-page text-center">
+                                    <img src="/img/icons/notbid-ico@1x.png" alt="@L["낙찰 내역이 없습니다."]" srcset="/img/icons/notbid-ico@1x.png 1x, /img/icons/notbid-ico@2x.png 2x, /img/icons/notbid-ico@3x.png 3x">
+                                    <p>@L["낙찰 내역이 없습니다."]</p>
+                                </div>
+                            </div>
+                            <!-- 페이지네이션 영역 -->
+                            <div class="dataTables_wrapper m-b-10">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6 text-center">
+                                        <div class="dataTables_paginate paging_full_numbers">
+                                            <ul class="pagination" id="successful-bid-pagination"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="precautions_wrap">
+                            <h5>
+                                <img src="/img/icons/join_info.png" alt="">
+                                @L["낙찰 내역 확인 시 유의사항"]
+                            </h5>
+                            <ul>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["낙찰가격이 300만원 초과되는 경우, 배송비 외에는 온라인 결제가 불가합니다."] </p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["배송주소는 기본 배송지로 설정되며, [<a href='{0}'>주소변경</a>]을 눌러 변경이 가능합니다..", "/Mypage/Member"]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["설치 등 추가 작업시 추가요금이 부과될 수 있습니다."]</p>
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>•</span>
+                                    </div>
+                                    <p>@L["“메이저 서면”의 경우 홈페이지에서 신청한 서면응찰만 표시됩니다."]</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--//낙찰내역-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* data-title="응찰 내역 상세" *@
+<div class="mypage_modal" id="bid-detail-modal">
+    <div class="mypage_modal_wrap">
+        <button class="close-modal mypage_modal_close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+
+        <div class="mypage_modal_header">
+            @L["응찰 내역 상세"]
+        </div>
+        <div class="mypage_modal_content">
+            <div class="cnt">
+                <div class="bid_detail_table">
+                    <table class="mypage_table modal_table">
+                        <tbody>
+                        <tr>
+                            <td>@L["경매 일"]</td>
+                            <td id="auc-date"></td>
+                        </tr>
+
+                        <tr>
+                            <td>@L["작품 정보"]</td>
+                            <td class="work_info">
+                                <div>
+                                    <div class="img">
+                                        <img id="work-img" alt="" src="/img/list_noimg.jpg">
+                                    </div>
+                                    <div class="work_detail">
+                                        <strong id="work-info"></strong>
+                                        <span id="work-title"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>@L["온라인 응찰 내역"]</td>
+                            <td>
+                                <div class="bid_list">
+                                    <ul id="bid-detail-content">
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal_table_btn_wrap">
+                <button class="default_btn btn_blue close-modal" onclick="$('.mypage_modal').removeClass('show');$('body').removeClass('scroll_lock');">@L["확인"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mypage_modal modal-show-popup" id="modal-bid-noti">
+    <div>
+        <button class="close-modal mypage_modal_close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <div style="position: relative; padding: 30px 30px; background-color: #fff; width: 700px; box-sizing: border-box;">
+            <div style="text-align: center;">
+                <img src="/img/logo_black@1x.png" alt="케이옥션로고" srcset="/img/logo_black@1x.png 1x, /img/logo_black@2x.png 2x, /img/logo_black@3x.png 3x">
+                <h3 id="bid_notification-title" style="font-size: 16px; font-weight:500; margin-top: 12px; line-height:1.2em"><span id="auc_title"></span></h3>
+            </div>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <div style="position: relative;">
+                <div class="modal-bid-noti-table" style="margin-top: 40px;"></div>
+                <div class="modal-gradient-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="modal-bid-noti-btn">
+                <button id="bid-notification-modal-btn">@L["표 전체보기"]</button>
+            </div>
+            <div class="modal-bid-noti-desc" style="margin: 40px 0; padding: 0 40px;">
+                <h6 style="font-size: 12px; color: #000; font-weight: 500;">@L["대금 결제 및 배송 절차"]</h6>
+                <ul>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">1.</div>
+                        <p>@L["낙찰된 작품은 낙찰을 철회할 수 없습니다. 기타 자세한 사항은 당사의 약관에 따릅니다."]</p>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">2. </div>
+                        <p>@L["낙찰된 작품의 총 구매대금은"]&nbsp;<span id="expire_date"></span>@L["까지 아래의 입금계좌로 입금되어야 합니다."]</p>
+                    </li>
+                    @if (CommonService.IsKor())
+                    {
+                        <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                            <div style="margin-right: 3px;">3. </div>
+                            <p>낙찰자와 송금계좌 예금주가 다른 경우, 반드시 입금 통장 표시에 낙찰자명 기재 부탁드립니다.</p>
+                        </li>
+                    }
+                    <div class="bank-account-num" style="background-color: #f9f9f9; margin: 10px 0; text-align: center; padding: 12px 0;">
+                        <p style="font-size: 14px; font-weight: 500; color: #000;">@L["입금 계좌 : 하나은행 196-910005-07204 (주)케이옥션"]</p>
+                    </div>
+                    @if (!CommonService.IsKor())
+                    {
+                        <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                            <div style="margin-right: 3px;">3. </div>
+                            <p>Please contact a K Auction specialist regarding payment in currencies other than South Korean Won.</p>
+                        </li>
+                    }
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">4. </div>
+                        <p>@L["배송비는 설정된 배송지 기준으로 부과됩니다. 이후 배송지가 변경되는 경우 금액이 변경될 수 있으며, 당사에서 직접 픽업하는 경우에는 배송비가 부과되지 않습니다."]</p>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">5. </div>
+                        <p>
+                            @if (CommonService.IsKor())
+                            {
+                                @:구매 대금은 낙찰 일로부터 7일 이내에 입금해 주시기 바랍니다. 7일 초과 시 추가 비용이 발생합니다. <a href="https://www.k-auction.com/HowTo/OnlineClause" style="color: #ff5d16; text-decoration: underline;">(약관 참조)</a>
+                            }
+                            else
+                            {
+                                @:The total payment amount must be rendered within 7 days of the closing date of the auction. Additional fees may be incurred if payment has not bee completed in full within 7 days. Please refer to the <a href="https://www.k-auction.com/HowTo/OnlineClause?lang=en" style="color: #ff5d16; text-decoration: underline;">Terms & Conditions</a> for additional details.
+                            }
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL - REPORT START -->
+<div class="mypage_modal bid-popup bp01 modal-show-popup modal" id="guarantee-modal" aria-hidden="true">
+    <div>
+        <button class="close-modal mypage_modal_close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <div>
+            <h1>@L["보증서 출력"]</h1>
+            @if (CommonService.IsMacintosh() || CommonService.IsMobile())
+            {
+                var message = CommonService.IsMacintosh()
+                    ? L["죄송합니다. 맥OS의 경우 보증서 사용자 출력이 불가하므로, 윈도우OS기기에서 출력을 진행하시기 바랍니다. 만약, 우편 수신을 원하는 경우 '보증서 배송 신청' 버튼을 눌러주세요."]
+                    : L["해당 기능은 데스크톱에서만 가능합니다."];
+                <ul>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@message</p>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul id="not-print-guarantee" style="display: none;">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["현재 출고 전으로 보증서 출력이 불가능 합니다."]</p>
+                    </li>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["출고가 되었는데도 출력이 되지 않는 경우에는 담당자에게 문의 바랍니다."]</p>
+                    </li>
+                </ul>
+                <ul id="print-guarantee" style="display: none;">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["보증서 원본 출력은 1회만 가능하며, 1회 출력 이후에는 재출력이 불가합니다."]</p>
+                    </li>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["원본 출력 전에 가급적 테스트출력을 먼저 진행해 오출력을 예방하시기 바랍니다."]</p>
+                    </li>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["프린트 보안프로그램(MarkAny ePageSafer) 설치 후 테스트 출력이 정상적이지 않은 경우 컴퓨터를 재 부팅 후 시도하시기 바랍니다."]</p>
+                    </li>
+                </ul>
+            }
+            <p></p>
+            <div class="bidagree-btn">
+                <a class="cancel close-modal" style="cursor: pointer;" onclick="this.parentNode.parentNode.parentNode.parentNode.style.display='none'; document.body.classList.remove('scroll_lock');">@L["취소"]</a>
+                <a id="guarantee-btn" data-print-test="Y" class="middle" style="cursor: pointer;"></a>
+            </div>
+            @if (!CommonService.IsMacintosh())
+            {
+                <div class="bidagree-check-wrap">
+                    <input class="default" type="checkbox" id="guarantee-print-checkbox">
+                    <label for="guarantee-print-checkbox"><div><i class="fas fa-check"></i></div><p>@L["테스트 없이 바로 원본을 출력합니다."]</p></label>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- MODAL - REPORT END -->
+@section Scripts {
+    <script type="module" src="~/js/views/myPage/bids.js" asp-append-version="true"></script>
+}

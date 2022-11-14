@@ -1,0 +1,1036 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var searchTerms = commonService.GetSearchTerms();
+}
+
+<style type="text/css">
+    .sh-none { box-shadow: none !important; }
+    .card.artwork .description, .card.artwork .list-inline-item { font-size: 14px !important; line-height: 24px; }
+    .row-pad { padding: 20px 20px !important; margin: 0 !important; }
+    .row-pad > div { position: relative; padding: 0 !important; }
+    .art { padding: 0 !important; }
+    .row-pad > div:first-child > img { padding: 0 !important; }
+    .row-pad > div:nth-child(2) > .lot { font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 500; color: #0d0d0d; }
+    .row-pad > div:nth-child(2) > .heartic { position: absolute; top: 0; right: 35px; z-index: 1; }
+    .row-pad > div:nth-child(2) > h5:last-child { margin-bottom: 0 !important; }
+    .row-pad > div:last-child > a { margin-top: 25px; }
+    .row-pad > div:last-child > ul > li:last-child { font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    .row-pad > div:last-child > ul > li.text-primary { font-weight: 700; }
+    .irs-min, .irs-max, .irs-from, .irs-to { display: none; }
+    .irs--big .irs-bar { top: 18px; height: 2px; background: #dadada !important; border: none; box-shadow: none; }
+    .panel-body-price-filter > ul > li.on .irs--big .irs-bar { background: #767f91 !important }
+    .irs--big .irs-handle { top: 9px; width: 6px; height: 6px; box-shadow: none; border: 0; border-radius: 0; background: #dadada !important; }
+    .panel-body-price-filter > ul > li.on .irs--big .irs-handle { background: #071839 !important; }
+    .irs-handle.from { margin-left: -3px; }
+    .irs-handle.from:after { position: absolute; bottom: -5px; left: 0; content: ''; width: 0; height: 0; border-top: 5px solid #dadada; border-left: 6px solid transparent; }
+    .panel-body-price-filter > ul > li.on .irs-handle.from:after { border-top: 5px solid #071839; }
+    .irs-handle.to { margin-left: 3px; }
+    .irs-handle.to:after { position: absolute; bottom: -5px; left: 0; content: ''; width: 0; height: 0; border-top: 5px solid #dadada; border-right: 6px solid transparent; }
+    .panel-body-price-filter > ul > li.on .irs-handle.to:after { border-top: 5px solid #071839; }
+    .irs--big .irs-line { top: 18px; height: 2px; border-radius: 0; background: #d8d8d8; border: none; }
+    .irs-single { display: none; }
+    .card-list {
+        height: 225px;
+    }
+    @@media(max-width:768px) { 
+        .row-pad > div:nth-child(2) { margin-top: 25px; } 
+        .row-pad > div:nth-child(2) > svg { top: 0; right: 0; }
+        .row-pad > .card-list-info { width: 100%; margin-top: 10px; }
+        .card-list {
+            height: auto;
+        }
+        .row-pad .card-price-info {
+            box-sizing: border-box;
+            padding-top: 25px !important;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="search-page-top-area">
+        <div class="search-wrap-list-all">
+            <div class="search-page-top-wrap">
+                <input type="text" class="form-control search-page" autocomplete="off" id="search" placeholder="@L["작가명 또는 작품명을 검색하세요."]" style="width: 315px; flex: initial;">
+                <div class="input-group-append search-page-btn-wrap"><button id="search-addon" class="btn btn-outline-secondary" type="button"><i class="fas fa-search fa-fw"></i></button></div>
+            </div>
+            <div class="search-page-top-layer">
+                <ul id="search-history-layer"></ul>
+                <div class="search-list-reset"><span>@L["초기화"]</span></div>
+            </div>
+        </div>
+        <div class="search-page-search-terms">
+            @if (searchTerms.Where(x => x.Lang.Equals(commonService.IsKor() ? "K" : "E")).Any())
+            {
+            <div>
+                <p>@L["추천 검색어"]:</p>
+                @foreach (var item in searchTerms.Where(x => x.Lang.Equals(commonService.IsKor() ? "K" : "E")))
+                {
+                    <div class="search-terms-area">
+                        <span style="cursor: pointer;" onclick="window.open(window.location.pathname + '?key=' + encodeURI('@item.Term'), '_self');">@item.Term</span>
+                    </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    <div class="search-page-cnt-area">
+        <div id="search-integration-pannel">
+            <div class="search-integration-close-btn"><i class="fas fa-times"></i></div>
+            <div class="search-pannel-cnt-wrap">
+                <h2>@L["검색 옵션"]</h2>
+                <div id="search-pannel-accordian">
+                    <!-- PANEL SCOPE -->
+                    <div class="panel-question">
+                        <div class="panel-heading"><h3>@L["검색 범위"]</h3><i class="fas fa-minus"></i></div>
+                        <div class="panel-body">
+                            <div>
+                                <ul class="search-auction-range-list">
+                                    <li>
+                                        <input type="checkbox" id="search-auction-range-check-last" name="search-auction-range-check" class="search-auction01 auction-range-L">
+                                        <label for="search-auction-range-check-last"><div><span></span></div><strong>@L["지난 경매"]</strong></label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="search-auction-range-check-progress" name="search-auction-range-checkk" class="search-auction01 auction-range-P">
+                                        <label for="search-auction-range-check-progress"><div><span></span></div><strong>@L["진행중인 경매"]</strong></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PANEL AUCTION -->
+                    <div class="panel-question">
+                        <div class="panel-heading"><h3>@L["경매 구분"]</h3><i class="fas fa-minus"></i></div>
+                        <div class="panel-body">
+                            <div>
+                                <ul class="search-auction-range-list">
+                                    <li>
+                                        <input type="checkbox" id="search-auction-kind-check-M" name="search-auction-kind-check" class="search-auction01 search-auc-kind-0 search-auc-kind-1" value="1">
+                                        <label for="search-auction-kind-check-M"><div><span></span></div><strong>@L["메이저 경매"]</strong></label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="search-auction-kind-check-P" name="search-auction-kind-check" class="search-auction01 search-auc-kind-0 search-auc-kind-2" value="2">
+                                        <label for="search-auction-kind-check-P"><div><span></span></div><strong>@L["프리미엄 경매"]</strong></label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="search-auction-kind-check-W" name="search-auction-kind-check" class="search-auction01 search-auc-kind-0 search-auc-kind-4" value="4">
+                                        <label for="search-auction-kind-check-W"><div><span></span></div><strong>@L["위클리 경매"]</strong></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PANEL PRICE -->
+                    <div class="panel-question">
+                        <div class="panel-heading">
+                            <h3>@L["가격대 범위 (KRW)"]</h3>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel-body-price-filter">
+                                <ul>
+                                    <li>
+                                        <div class="price-range-top">
+                                            <input type="checkbox" id="search-price-range-check_01" name="search-price-range-check" class="search-price-range-check">
+                                            <label for="search-price-range-check_01"><div><span></span></div><strong>@L["시작가"]</strong></label>
+                                        </div>
+                                        <div class="price-range-bottom">
+                                            <p><span class="from_01">0</span> - <span class="to_01">0</span></p>
+                                            <div class="slider-price-range_01"></div>
+                                        </div>
+                                    </li>
+                                    <li style="display: none;">
+                                        <div class="price-range-top">
+                                            <input type="checkbox" id="search-price-range-check_02" name="search-price-range-check" class="search-price-range-check">
+                                            <label for="search-price-range-check_02"><div><span></span></div><strong>@L["낮은 추정가"]</strong></label>
+                                        </div>
+                                        <div class="price-range-bottom">
+                                            <p><span class="from_02">0</span> - <span class="to_02">0</span></p>
+                                            <div class="slider-price-range_02"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="price-range-top">
+                                            <input type="checkbox" id="search-price-range-check_03" name="search-price-range-check" class="search-price-range-check">
+                                            <label for="search-price-range-check_03"><div><span></span></div><strong>@L["높은 추정가"]</strong></label>
+                                        </div>
+                                        <div class="price-range-bottom">
+                                            <p><span class="from_03">0</span> - <span class="to_03">0</span></p>
+                                            <div class="slider-price-range_03"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PANEL MATERIAL -->
+                    <div class="panel-question">
+                        <div class="panel-heading"><h3>@L["작품 재료"]</h3><i class="fas fa-minus"></i></div>
+                        <div class="panel-body">
+                            <div><div class="material-search-wrap"><div class="material-search" style="height: 30px;"><input id="material" type="search" placeholder="@L["검색할 재료명을 입력하세요"]" class="material-search-area" style="height: 30px;"><button class="material-search-area-btn"><i class="fas fa-search"></i></button></div></div></div>
+                        </div>
+                    </div>
+                    <!-- PANEL TITLE -->
+                    <div class="panel-question">
+                        <div class="panel-heading"><h3>@L["작품명"]</h3><i class="fas fa-minus"></i></div>
+                        <div class="panel-body">
+                            <div><div class="material-search-wrap"><div class="material-search" style="height: 30px;"><input id="title" type="search" placeholder="@L["검색할 작품명을 입력하세요"]" class="material-search-area" style="height: 30px;"><button class="material-search-area-btn"><i class="fas fa-search"></i></button></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-search-padding"></div>
+            <div class="search-pannel-btn-wrap"><button class="search-pannel-btn">@L["검색 하기"]</button></div>
+        </div>
+        <div id="search-integration-list">
+            <div class="selected-search-option-wrap">
+                <div class="selected-search-option-area">
+                    <div><p>@L["선택된 검색옵션"]</p></div>
+                    <div id="selected-search-option"></div>
+                </div>
+            </div>
+            <div>
+                <div style="float: left;">
+                    <!-- SORT -->
+                    <div class="search-dropdown-toggle-wrap menu_02">
+                        <button class="btn dropdown-toggle search-dropdown-button" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" style="min-width: 150px;"><span id="sort" style="">@L["최신 순"]</span><i class="fas fa-chevron-down"></i></button>
+                        <div class="dropdown-menu search-dropdown-list-wrap" aria-labelledby="dropdownMenuButton1" style="width: 150px !important;">
+                            <a id="sort_DD" class="dropdown-item" href="#" onclick="filterList('sort', 'DD', this);">@L["최신 순"]</a>
+                            <a id="sort_DA" class="dropdown-item" href="#" onclick="filterList('sort', 'DA', this);">@L["오래된 순"]</a>
+                            @if (LoginInfo.Uid > 0)
+                            {
+                                <a id="sort_PD" class="dropdown-item" href="#" onclick="filterList('sort', 'PD', this);">@L["낙찰가 높은 순"]</a>
+                                <a id="sort_PA" class="dropdown-item" href="#" onclick="filterList('sort', 'PA', this);">@L["낙찰가 낮은 순"]</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right; margin-bottom: 15px;"><span>@L["검색 결과"] ( <strong id="auc-cnt-0"></strong> )</span></div>
+            </div>
+            <div id="list" class="search-integration-list-cnt"></div>
+            <pagination />
+
+            <div id="loading" style="display: block;">
+                <div class="search-not-result">
+                    <div class="search-not-result-icon_02">
+                        <img class="search-loading-ani_01" src="/img/icons/error-page-ani-icon.gif" alt="loading icon">
+                        <div class="loading-ani"></div>
+                    </div>
+                    <p>
+                        <span>@L["정보를 찾고있습니다."]</span>
+                        <span>@L["잠시만 기다려주세요."]</span>      
+                    </p>
+                </div>
+            </div>
+
+            <div id="empty" style="display: none;">
+                <div class="result-empty-wrap">
+                    <img src="/img/icons/search-error-icon@1x.png"
+                        srcset="/img/icons/search-error-icon@1x.png 1x,
+                        /img/icons/search-error-icon@2x.png 2x,
+                        /img/icons/search-error-icon@3x.png 3x"
+                    />
+                    <p>@L["죄송합니다.<br />입력한 검색어에 해당하는 결과를 찾을 수 없습니다."]</p>
+                </div>
+            </div>
+            <div id="search-empty-cnt" style="display: none;">
+                <div class="empty-wrap">
+                    <div class="empty-cnt-tit">
+                        <p>@L["검색기능 이렇게 활용하세요"]</p>
+                        <img src="/img/icons/TIP@1x.png" srcset="/img/icons/TIP@1x.png 1x,/img/icons/TIP@2x.png 2x,/img/icons/TIP@3x.png 3x"/>
+                    </div>
+                    <div class="empty-cnt-desc">
+                        <div>
+                            <div><span>1.</span></div>
+                            <div>
+                                <img src="/img/icons/no-search_01@1x.png" srcset="/img/icons/no-search_01@1x.png 1x,/img/icons/no-search_01@2x.png 2x,/img/icons/no-search_01@3x.png 3x" />
+                                <p>@L["찾고자 하는 작가 또는 작품의<br />이름을 입력하세요."]</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div><span>2.</span></div>
+                            <div>
+                                <img src="/img/icons/no-search_02@1x.png" srcset="/img/icons/no-search_02@1x.png 1x,/img/icons/no-search_02@2x.png 2x,/img/icons/no-search_02@3x.png 3x" />
+                                <p>@L["필터링 조건을 조정하여<br />원하는 정보만 간추려 보세요."]</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div><span>3.</span></div>
+                            <div>
+                                <img src="/img/icons/no-search_03@1x.png" srcset="/img/icons/no-search_03@1x.png 1x,/img/icons/no-search_03@2x.png 2x,/img/icons/no-search_03@3x.png 3x" />
+                                <p>@L["마음에 드는 작품이 있다면<br />하트아이콘을 눌러 위시리스트에 담아보세요."]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="search-pannel-integrated-mb-btn"></div>
+<div id="search-pannel-btn" style="display: none;"><i class="fas fa-filter"></i></div>
+
+<script>
+
+    var isProcess = false;
+    var isFilterArea = false;
+    var requestParam = {};
+    requestParam["auc_kind"] = "";
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+
+            if (!requestParam["auction_range"]) {
+                requestParam["auction_range"] = "A";
+            }
+            if (!requestParam["auc_kind"]) {
+                requestParam["auc_kind"] = "A";
+            }
+
+            if (requestParam["sort"]) {
+                $("#sort").html($("#sort_" + requestParam["sort"]).html());
+            }
+        }
+        
+        if ($.commonUtils.decodeHTML("@ViewBag.Key") !== "") {
+            requestParam["search"] = requestParam["search"] ? requestParam["search"] : $.commonUtils.decodeHTML("@ViewBag.Key");
+            $.searchUtils.setSearchKey("T", requestParam["search"], true);
+        }
+
+        $("#search").val(requestParam["search"]);
+        getList();
+
+        function resizeEvent() {
+            if (window.innerWidth <= 1030) {
+                $("#search-pannel-btn").addClass('active');
+            } else {
+                $("#search-pannel-btn").removeClass('active');
+            }
+        }
+
+        // resize 이벤트
+        $(window).resize(function(){
+            resizeEvent();
+        }).resize();
+
+        let search_pannel_dim = $(".search-pannel-dim");
+        $('body').append(search_pannel_dim);
+        
+        $("#search-pannel-btn").click(function(e){
+            e.preventDefault();
+            $(this).toggleClass('show');
+            $('#search-integration-pannel').toggleClass('show');
+            $('.search-pannel-integrated-mb-btn').toggleClass('show');
+            $("body").toggleClass('yhidden');
+
+            if($(this).hasClass('show')) {
+                $('body').addClass('yhidden');
+                search_pannel_dim.addClass("show");
+            } else {
+                $('body').removeClass('yhidden');
+                search_pannel_dim.removeClass("show");
+            }
+        });
+
+        function searchBtn_02() {
+            if (matchMedia("screen and (max-width: 768px)").matches) {
+                document.querySelector("#search-integration-pannel").style.overflowY = "scroll";
+                document.querySelector("#search-integration-pannel .search-pannel-cnt-wrap").classList.add("mobile");
+                document.querySelector("#search-integration-pannel .search-pannel-btn-wrap").classList.add("mobile");
+            } else {
+                document.querySelector("#search-integration-pannel").style.overflowY = "initial";
+                document.querySelector("#search-integration-pannel .search-pannel-cnt-wrap").classList.remove("mobile");
+                document.querySelector("#search-integration-pannel .search-pannel-btn-wrap").classList.remove("mobile");
+            }
+        }
+        searchBtn_02();
+        window.addEventListener("resize", searchBtn_02);
+
+        let search_integrated_btn_clone = document.querySelector('#search-integration-pannel .search-pannel-btn-wrap .search-pannel-btn').cloneNode(true);
+
+        document.querySelector('.search-pannel-integrated-mb-btn').append(search_integrated_btn_clone);
+        $(".search-pannel-integrated-mb-btn").find("button").on("click", function () {
+            search();
+        });
+
+        // 클래스명 .search-pannel-dim
+        search_pannel_dim.click(function(e){
+            $('#search-integration-pannel').removeClass('show');
+            $("#search-pannel-btn").removeClass('show');
+            $(".search-pannel-integrated-mb-btn").removeClass('show');
+            $('body').removeClass('yhidden');
+            search_pannel_dim.removeClass("show");
+        });
+
+        $(".search-auction01").change(function(){
+            let target = $(this);
+            if(target.is(":checked")){
+                target.parent().addClass('on');
+            }else{
+                target.parent().removeClass('on');
+            }
+        });
+
+        $(".irs-handle").click(function(e){
+            e.preventDefault();
+            $(".search-price-range-check").eq(0).prop("checked", true);
+            $(".panel-body-price-filter > ul > li:nth-child(1)").addClass('on');
+        });
+
+        // 가격 range checkbox event
+        $(".search-price-range-check").change(function(){
+            let target = $(this);
+            if(target.is(":checked")){
+                target.parent().parent().addClass('on');
+            }else{
+                target.parent().parent().removeClass('on');
+            }
+        });
+
+        $(".panel-heading").click(function (e) {
+            e.preventDefault();
+            $(this).next().slideToggle("100");
+            if ($(this).find('i').attr('class') == "fas fa-minus") {
+                $(this).find('i').attr('class', "fas fa-plus").css("color", "#000000");
+            } else {
+                $(this).find('i').attr('class', "fas fa-minus").css("color", "#9d9d9d");
+            }
+        });
+
+        $(".search-page").keyup(function(e){
+            $(this).parent().addClass('on');
+            $(this).parent().next().css("display", "block");
+
+            if ($(this).val() == '') {
+                $(this).parent().removeClass('on');
+                $(this).parent().next().css("display", "none");
+            }
+        });
+    });
+
+    $("#search, #material, #title").keydown(function (e) {
+        if (e.which === 13) { search(); }
+    });
+
+    $("#search-addon, .search-pannel-btn, .material-search-area-btn").on("click", function () {
+        search();
+    });
+
+    function search() {
+        var value = $("#search").val();
+        if (value.replace(/ /ig, '') === "") {
+            $.commonUtils.alert(ka.msg.list.emptySearchInput);
+            return;
+        };
+
+        requestParam["page"] = 1;
+        requestParam["key"] = value;
+        delete requestParam["search"];
+
+        // 패널 #1 - 검색 범위
+        let auctionRangeLast = $("#search-auction-range-check-last");
+        let auctionRangeProgress = $("#search-auction-range-check-progress");
+        if (auctionRangeLast.is(":checked") && auctionRangeProgress.is(":checked")) {
+            requestParam["auction_range"] = "A";
+        } else if (auctionRangeLast.is(":checked")) {
+            requestParam["auction_range"] = "L";
+        } else if (auctionRangeProgress.is(":checked")) {
+            requestParam["auction_range"] = "P";
+        } else {
+            // delete requestParam["auction_range"];
+            requestParam["auction_range"] = "E";
+        }
+
+        // 패널 #2 - 경매 유형
+        let auctionMajor = $("#search-auction-kind-check-M");
+        let auctionPremium = $("#search-auction-kind-check-P");
+        let auctionWeekly = $("#search-auction-kind-check-W");
+        requestParam["auc_kind"] = "";
+        if (auctionMajor.is(":checked") && auctionPremium.is(":checked") && auctionWeekly.is(":checked")) {
+            requestParam["auc_kind"] = "A";
+        } else {
+            if (auctionMajor.is(":checked")) {
+                requestParam["auc_kind"] += (requestParam["auc_kind"] !== "") ? "|1" : "1";
+            }
+            if (auctionPremium.is(":checked")) {
+                requestParam["auc_kind"] += (requestParam["auc_kind"] !== "") ? "|2" : "2";
+            }
+            if (auctionWeekly.is(":checked")) {
+                requestParam["auc_kind"] += (requestParam["auc_kind"] !== "") ? "|4" : "4";
+            }
+        }
+        if (requestParam["auc_kind"] === "") requestParam["auc_kind"] = "E";
+
+        // 패널 #3 - 가격대 범위
+        let searchPriceRangeCheck01 = $("#search-price-range-check_01");
+        let searchPriceRangeCheck01Value = false;
+        if (searchPriceRangeCheck01.is(":checked")) {
+            searchPriceRangeCheck01Value = true;
+            requestParam["price_start_from"] = $(".slider-price-range_01").data("ionRangeSlider").result.from;
+            requestParam["price_start_to"] = $(".slider-price-range_01").data("ionRangeSlider").result.to;
+        } else {
+            delete requestParam['price_start_from'];
+            delete requestParam['price_start_to'];
+        }
+
+        let searchPriceRangeCheck02 = $("#search-price-range-check_02");
+        let searchPriceRangeCheck02Value = false;
+        if (searchPriceRangeCheck02.is(":checked")) {
+            searchPriceRangeCheck02Value = true;
+            requestParam["price_estimated_low_from"] = $(".slider-price-range_02").data("ionRangeSlider").result.from;
+            requestParam["price_estimated_low_to"] = $(".slider-price-range_02").data("ionRangeSlider").result.to;
+        } else {
+            delete requestParam['price_estimated_low_from'];
+            delete requestParam['price_estimated_low_to'];
+        }
+
+        let searchPriceRangeCheck03 = $("#search-price-range-check_03");
+        let searchPriceRangeCheck03Value = false;
+        if (searchPriceRangeCheck03.is(":checked")) {
+            searchPriceRangeCheck03Value = true;
+            requestParam["price_estimated_high_from"] = $(".slider-price-range_03").data("ionRangeSlider").result.from;
+            requestParam["price_estimated_high_to"] = $(".slider-price-range_03").data("ionRangeSlider").result.to;
+        } else {
+            delete requestParam['price_estimated_high_from'];
+            delete requestParam['price_estimated_high_to'];
+        }
+
+        // 패널 #4 - 재료
+        if ($("#material").val().replace(/ /ig, '') !== '') {
+            requestParam["material"] = $("#material").val();
+        } else {
+            delete requestParam["material"];
+        }
+
+        // 패널 #5 - 작품명
+        if ($("#title").val().replace(/ /ig, '') !== '') {
+            requestParam["title"] = $("#title").val();
+        } else {
+            delete requestParam["title"];
+        }
+
+        window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+    }
+
+    $(".irs-handle.from.type_last").mousemove(function(e){
+        e.preventDefault();
+
+        $(".search-price-range-check").eq(0).prop("checked", true);
+        $(".panel-body-price-filter > ul > li:nth-child(1)").addClass('on');
+    });
+
+    document.querySelector(".search-integration-close-btn").addEventListener('click', function(e){
+        e.preventDefault();
+        document.querySelector("#search-integration-pannel").classList.remove("show");
+        document.querySelector("#search-pannel-btn").classList.remove("show");
+        document.querySelector('.search-pannel-integrated-mb-btn').classList.remove("show");
+        document.querySelector("body").classList.remove("yhidden");
+        search_pannel_dim.removeClass("show");
+    });
+
+    function filterList(type, value, obj) {
+        if ((type === "sort" && value === requestParam["sort"])) {
+            return false;
+        }
+
+        requestParam[type] = value;
+        requestParam["page"] = 1;
+        
+        window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+    }
+
+    function getList() {
+        if (isProcess) return;
+        isProcess = true;
+
+        $("#contents").hide();
+        $("#empty").hide();
+        $("#loading").show();
+
+        if (requestParam["search"] && (!(requestParam["auction_range"] && requestParam["auction_range"] === "E" || requestParam["auc_kind"] && requestParam["auc_kind"] === "E"))) {
+            $.ajaxUtils.getApiData("/api/Search/" + $("#search").val(), requestParam, getListComplete);
+        } else {
+            makeSelectedSearchOptionArea();
+            
+            $("#auc-cnt-0").html("0");
+            $(".pagination").empty();
+            $("#loading").hide();
+            
+            $("#search-empty-cnt").css("display", "flex");
+
+            if ($("#selected-search-option").find("div").length < 1) {
+                $("#selected-search-option").empty();
+                $("#selected-search-option").append("<p>" + ka.msg.common.nothingSearch + "</p>");
+            }
+            $("#search-price-range-check_01").attr("disabled", "disabled");
+            $("#search-price-range-check_02").attr("disabled", "disabled");
+            $("#search-price-range-check_03").attr("disabled", "disabled");
+
+            let priceRange_01 = $(".slider-price-range_01");
+            priceRange_01.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+            let priceRange_02 = $(".slider-price-range_02");
+            priceRange_02.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+            let priceRange_03 = $(".slider-price-range_03");
+            priceRange_03.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+        }
+    }
+
+    function getListComplete(result, parameters) {
+        isProcess = false;
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#list").empty();
+            var totalCount = 0;
+            var rangeSliderFlag = false;
+
+            $.each(result.data.list, function (index, item) {
+                if (index === 0) {
+                    rangeSliderFlag = true;
+                    let priceRange_01 = $(".slider-price-range_01");
+                    priceRange_01.ionRangeSlider({
+                        type: "double",
+                        skin: "big",
+                        min: 0,
+                        max: item["price_start_max"],
+                        from: item["price_start_min"],
+                        to: item["price_start_max"],
+                        step: 100000
+                    });
+                    priceRange_01.on("change", function () {
+                        var $inp = $(this);
+                        var from = $inp.data("from");
+                        var to = $inp.data("to");
+
+                        if (isKor === "True") {
+                            $inp.prev().prev().find('span.from_01').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                            $inp.prev().prev().find('span.to_01').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+                        } else {
+                            $inp.prev().prev().find('span.from_01').text($.stringUtils.comma(from.toString()));
+                            $inp.prev().prev().find('span.to_01').text($.stringUtils.comma(to.toString()));
+                        }
+
+                        function priceRangeChange_01() {
+                            $(".search-price-range-check").eq(0).prop("checked", true);
+                            $(".panel-body-price-filter > ul > li:nth-child(1)").addClass('on');
+                        }
+
+                        var price01_handle_01 = $(this).prev().find(".irs-handle.from.type_last");
+
+                        price01_handle_01.on('mousemove', function (e){
+                            e.preventDefault();
+                            priceRangeChange_01();
+                        });
+
+                        // 모바일
+                        price01_handle_01.on('touchmove', function (e){
+                            e.preventDefault();
+                            priceRangeChange_01();
+                        });
+
+                        var price01_handle_02 = $(this).prev().find(".irs-handle.to.type_last")
+
+                        price01_handle_02.on('mousemove', function (e){
+                            e.preventDefault();
+                            priceRangeChange_01();
+                        });
+
+                        // 모바일
+                        price01_handle_02.on('touchmove', function(e) {
+                            e.preventDefault();
+                            priceRangeChange_01();
+                        });
+
+                    });
+                    priceRange_01.trigger("change");
+
+                    let priceRange_02 = $(".slider-price-range_02");
+                    priceRange_02.ionRangeSlider({
+                        type: "double",
+                        skin: "big",
+                        min: 0,
+                        max: item["price_estimated_low_max"],
+                        from: item["price_estimated_low_min"],
+                        to: item["price_estimated_low_max"],
+                        step: 100000
+                    });
+                    priceRange_02.on("change", function () {
+                        var $inp = $(this);
+                        var from = $inp.data("from");   // input data-from attribute
+                        var to = $inp.data("to");       // input data-to attribute
+
+                        if (isKor === "True") {
+                            $inp.prev().prev().find('span.from_02').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                            $inp.prev().prev().find('span.to_02').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+                        } else {
+                            $inp.prev().prev().find('span.from_02').text($.stringUtils.comma(from.toString()));
+                            $inp.prev().prev().find('span.to_02').text($.stringUtils.comma(to.toString()));
+                        }
+
+                        function priceRangeChange_02() {
+                            $(".search-price-range-check").eq(1).prop("checked", true);
+                            $(".panel-body-price-filter > ul > li:nth-child(2)").addClass('on');
+                        }
+
+
+                        var price02_handle_01 = $(this).prev().find("> .irs-handle.to");
+                        price02_handle_01.on('mousemove', function (e) {
+                            e.preventDefault();
+                            priceRangeChange_02();
+                        });
+
+                        // 모바일
+                        price02_handle_01.on('touchstart', function (e) {
+                            e.preventDefault();
+                            priceRangeChange_02();
+                        });
+
+                        var price02_handle_02 = $(this).prev().find("> .irs-handle.from");
+                        price02_handle_02.on('mousedown', function (e) {
+                            e.preventDefault();
+                            priceRangeChange_02();
+                        });
+
+                        // 모바일 touchstart
+                        price02_handle_02.on('touchstart', function (e) {
+                            e.preventDefault();
+                            priceRangeChange_02();
+                        });
+
+                    });
+                    priceRange_02.trigger("change");
+
+                    let priceRange_03 = $(".slider-price-range_03");
+                    priceRange_03.ionRangeSlider({
+                        type: "double",
+                        skin: "big",
+                        min: 0,
+                        max: item["price_estimated_high_max"],
+                        from: item["price_estimated_high_min"],
+                        to: item["price_estimated_high_max"],
+                        step: 100000
+                    });
+                    priceRange_03.on("change", function () {
+                        var $inp = $(this);
+                        var from = $inp.data("from");
+                        var to = $inp.data("to");
+
+                        if (isKor === "True") {
+                            $inp.prev().prev().find('span.from_03').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                            $inp.prev().prev().find('span.to_03').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+                        } else {
+                            $inp.prev().prev().find('span.from_03').text($.stringUtils.comma(from.toString()));
+                            $inp.prev().prev().find('span.to_03').text($.stringUtils.comma(to.toString()));
+                        }
+
+                        function priceRangeChange_03() {
+                            $(".search-price-range-check").eq(2).prop("checked", true);
+                            $(".panel-body-price-filter > ul > li:nth-child(3)").addClass('on');
+                        }
+
+                        var price03_handle_01 = $(this).prev().find("> .irs-handle.to");
+                        // mousedown
+                        price03_handle_01.on('mousedown', function(e) {
+                            e.preventDefault();
+                            priceRangeChange_03();
+                        });
+
+                        // 모바일 touchstart
+                        price03_handle_01.on('touchstart', function (e) {
+                            e.preventDefault();
+                            priceRangeChange_03();
+                        });
+
+                        var price03_handle_02 = $(this).prev().find("> .irs-handle.from")
+                        // mousedown
+                        price03_handle_02.on('mousedown', function(e) {
+                            e.preventDefault();
+                            priceRangeChange_03();
+                        });
+
+                        // 모바일 touchstart
+                        price03_handle_02.on('touchstart', function(e) {
+                            e.preventDefault();
+                            priceRangeChange_03();
+                        });
+
+                    });
+                    priceRange_03.trigger("change");
+                }
+
+                $.cardUtils.setWorkHorizonalCard("#list", item, index, "search");
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+            });
+
+            if (!rangeSliderFlag) {
+                let priceRange_01 = $(".slider-price-range_01");
+                priceRange_01.ionRangeSlider({
+                    type: "double",
+                    skin: "big",
+                    min: 0,
+                    max: 0,
+                    from: 0,
+                    to: 0,
+                    step: 100000
+                });
+                let priceRange_02 = $(".slider-price-range_02");
+                priceRange_02.ionRangeSlider({
+                    type: "double",
+                    skin: "big",
+                    min: 0,
+                    max: 0,
+                    from: 0,
+                    to: 0,
+                    step: 100000
+                });
+                let priceRange_03 = $(".slider-price-range_03");
+                priceRange_03.ionRangeSlider({
+                    type: "double",
+                    skin: "big",
+                    min: 0,
+                    max: 0,
+                    from: 0,
+                    to: 0,
+                    step: 100000
+                });
+            }
+
+            if (!isFilterArea) {
+                makeSelectedSearchOptionArea();
+            }
+
+            let tabTotalCount = 0;
+            if (typeof result.data.search_result === "string" && result.data.search_result !== "") {
+                $.each(result.data.search_result.split('^'), function (index, item) {
+                    $("#auc-cnt-" + item.split('|')[0].toString()).html("(" + item.split('|')[1].toString() + ")");
+                    $("#section-" + item.split('|')[0].toString()).attr("data-count", item.split('|')[1].toString());
+                    tabTotalCount += parseInt(item.split('|')[1], 10);
+                });
+            }
+
+            $("#auc-cnt-0").html(result.data.total_count);
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    callback: getList,
+                    page: JSON.parse(parameters).page
+                });
+            } else {
+                $("#auc-cnt-0").html(totalCount);
+                $(".pagination").empty();
+                $("#empty").show();
+                $("#selected-search-option").empty();
+                $("#selected-search-option").append("<p>" + ka.msg.common.nothingSearch + "</p>");
+
+                $("#search-price-range-check_01").attr("disabled", "disabled");
+                $("#search-price-range-check_02").attr("disabled", "disabled");
+                $("#search-price-range-check_03").attr("disabled", "disabled");
+            }
+
+            $("#contents").show();
+            $("#loading").hide();
+        } else {
+            $("#empty").show();
+            $("#loading").hide();
+            $("#auc-cnt-0").html("0");
+            $("#selected-search-option").empty();
+            $("#selected-search-option").append("<p>" + ka.msg.common.nothingSearch + "</p>");
+
+            $("#search-price-range-check_01").attr("disabled", "disabled");
+            $("#search-price-range-check_02").attr("disabled", "disabled");
+            $("#search-price-range-check_03").attr("disabled", "disabled");
+
+            let priceRange_01 = $(".slider-price-range_01");
+            priceRange_01.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+            let priceRange_02 = $(".slider-price-range_02");
+            priceRange_02.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+            let priceRange_03 = $(".slider-price-range_03");
+            priceRange_03.ionRangeSlider({
+                type: "double",
+                skin: "big",
+                min: 0,
+                max: 0,
+                from: 0,
+                to: 0,
+                step: 100000
+            });
+        }
+
+        $(window).resize();
+    }
+
+    function makeSelectedSearchOptionArea() {
+        isFilterArea = true;
+        let enabled = false;
+
+        if (requestParam["search"]) {
+            enabled = true;
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("search", requestParam["search"], ka.msg.list.keyword + ": " + requestParam["search"]));
+        }
+
+        if (requestParam["auction_range"]) {
+            var auctionRangeL = $(".auction-range-L");
+            var auctionRangeP = $(".auction-range-P");
+            if (requestParam["auction_range"] === "A") {
+                auctionRangeP.trigger("click");
+                auctionRangeL.trigger("click");
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auction_range", "P", ka.msg.list.aucRange + ": " + ka.msg.list.aucRangeP));
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auction_range", "L", ka.msg.list.aucRange + ": " + ka.msg.list.aucRangeL));
+            } else if (requestParam["auction_range"] === "P") {
+                auctionRangeP.trigger("click");
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auction_range", "P", ka.msg.list.aucRange + ": " + ka.msg.list.aucRangeP));
+            } else if (requestParam["auction_range"] === "L") {
+                auctionRangeL.trigger("click");
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auction_range", "L", ka.msg.list.aucRange + ": " + ka.msg.list.aucRangeL));
+            }
+        }
+
+        if (requestParam["auc_kind"]) {
+            if (requestParam["auc_kind"] === "A") {
+                $(".search-auc-kind-0").trigger("click");
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auc_kind", "1", ka.msg.list.aucKind + ": " + ka.msg.list.aucKind1));
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auc_kind", "2", ka.msg.list.aucKind + ": " + ka.msg.list.aucKind2));
+                $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auc_kind", "4", ka.msg.list.aucKind + ": " + ka.msg.list.aucKind4));
+            } else if (requestParam["auc_kind"] !== "E") {
+                let paramAucKind = requestParam["auc_kind"].split('|');
+                paramAucKind.forEach(function (value) {
+                    $(".search-auc-kind-" + value).trigger("click");
+                    $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("auc_kind", value, ka.msg.list.aucRange + ": " + eval("ka.msg.list.aucKind" + value)));
+                });
+            }
+        }
+
+        if (requestParam["material"]) {
+            enabled = true;
+            $("#material").val(requestParam["material"]);
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("material", requestParam["material"], ka.msg.list.material + ": " + requestParam["material"]));
+        }
+
+        if (requestParam["title"]) {
+            enabled = true;
+            $("#title").val(requestParam["title"]);
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("title", requestParam["title"], ka.msg.list.title + ": " + requestParam["title"]));
+        }
+
+        if (requestParam["price_start_from"] && requestParam["price_start_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_01").trigger("click");
+
+            let dispPriceStart = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_start_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_start_to"])
+                : $.stringUtils.comma(requestParam["price_start_from"]) + "~" + $.stringUtils.comma(requestParam["price_start_to"]);
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("price_start", "", ka.msg.auction.starting + ": " + dispPriceStart));
+            let selectedSearchOption = $(".slider-price-range_01").data("ionRangeSlider");
+            if (selectedSearchOption) {
+                selectedSearchOption.update({
+                    from: requestParam["price_start_from"],
+                    to: requestParam["price_start_to"]
+                });
+            }
+        }
+
+        if (requestParam["price_estimated_low_from"] && requestParam["price_estimated_low_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_02").trigger("click");
+
+            let dispPriceEstimatedLow = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_estimated_low_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_estimated_low_to"])
+                : $.stringUtils.comma(requestParam["price_estimated_low_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_low_to"]);
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("price_estimated_low", "", ka.msg.auction.lowEstimate + ": " + dispPriceEstimatedLow));
+
+            let selectedSearchOption = $(".slider-price-range_02").data("ionRangeSlider");
+            if (selectedSearchOption) {
+                selectedSearchOption.update({
+                    from: requestParam["price_estimated_low_from"],
+                    to: requestParam["price_estimated_low_to"]
+                });
+            }
+        }
+
+        if (requestParam["price_estimated_high_from"] && requestParam["price_estimated_high_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_03").trigger("click");
+
+            let dispPriceEstimatedHigh = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_estimated_high_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_estimated_high_to"])
+                : $.stringUtils.comma(requestParam["price_estimated_high_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_high_to"]);
+            $("#selected-search-option").append($.searchUtils.getSelectedSearchOptionLabelTag("price_estimated_high", "", ka.msg.auction.highEstimate + ": " + dispPriceEstimatedHigh));
+            let selectedSearchOption = $(".slider-price-range_03").data("ionRangeSlider");
+            if (selectedSearchOption) {
+                selectedSearchOption.update({
+                    from: requestParam["price_estimated_high_from"],
+                    to: requestParam["price_estimated_high_to"]
+                });
+            }
+        }
+
+        if (enabled) {
+            $("#selected-search-option").append('<div class="selected-list-clearall"><span onclick="window.location.href = window.location.pathname;">Clear All</span></div>');
+        }
+    }
+
+    // 초기화 버튼추가
+    $(".selected-list-clearall > span").click(function () {
+        window.location.href = window.location.pathname;
+    });
+
+    var mobileArr = new Array("iPhone", "iPod", "BlackBerry", "Android", "Windows CE", "LG", "MOT", "SAMSUNG", "SonyEricsson");
+
+    for(var txt in mobileArr){
+        if(navigator.userAgent.match(mobileArr[txt]) != null){
+            try {
+                document.querySelector("#search-integration-pannel").style.overflowY = "scroll";
+                document.querySelector("#search-integration-pannel .search-pannel-cnt-wrap").classList.add("mobile");
+                document.querySelector("#search-integration-pannel .search-pannel-btn-wrap").classList.add("mobile");
+            } catch (e) {
+
+            }
+            break;
+        }
+    }
+
+</script>

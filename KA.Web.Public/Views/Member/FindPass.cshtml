@@ -1,0 +1,127 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+
+<div class="container">
+    <div class="memberSearch psSearch">
+        <h2>@L["비밀번호 찾기"]</h2>
+        <div class="memberSearch-radiobtn password">
+            <div class="active" data-country="password-email-search"><input type="radio" id="emailAddress" name="selector"/><label for="emailAddress"><span></span>@L["이메일주소"]</label></div>
+            <div data-country="password-phonenum-search"><input type="radio" id="phoneNumber" name="selector"/><label for="phoneNumber"><span></span>@L["핸드폰번호"]</label></div>
+        </div>
+        <div class="memberSearch-password">
+            <div id="password-email-search" class="active">
+                <p>@L["회원정보의 이메일주소로 임시 비밀번호를 발송해 드립니다."]</p>
+                <form onsubmit="return false;">
+                    <div><input type="text" id="id-email" placeholder="@L["아이디"]" class="formControl" /></div>
+                    <div><input type="text" id="email" placeholder="@L["이메일주소"]" class="formControl" /></div>
+                    <div><button data-type="email" type="submit" class="btn-request">@L["확인"]</button></div>
+                </form>
+            </div>
+            <div id="password-phonenum-search">
+                <p>@L["회원정보의 핸드폰번호로 임시 비밀번호를 발송해 드립니다."]</p>
+                <form onsubmit="return false;">
+                    <div><input type="text" id="id-mobile" placeholder="@L["아이디"]" class="formControl" /></div>
+                    <div><input type="tel" id="mobile" placeholder="@L["핸드폰번호"]" class="formControl" /></div>
+                    <div><button data-type="mobile" type="submit" class="btn-request">@L["확인"]</button></div>
+                </form>
+            </div>
+        </div>
+        <div class="memberSearch-link">
+            <p>@L["아이디를 모르시나요?"]</p>
+            <span><a href="/Member/FindId">@L["아이디 찾기"]</a></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    var param = {};
+
+    const mem_Search_passwordlink = document.querySelectorAll(".memberSearch-radiobtn.password > div");
+    const mem_Searchcnt_password = document.querySelectorAll(".memberSearch-password > div");
+
+    document.querySelector('.memberSearch-radiobtn.password > div.active input').checked = true;
+
+    mem_Search_passwordlink.forEach(function(el) {
+        el.addEventListener("click", openDesc);
+    });
+
+    function openDesc(el) {
+        el.preventDefault();
+        const btnTarget = el.currentTarget;
+        const country = btnTarget.dataset.country;
+        mem_Searchcnt_password.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelectorAll('.memberSearch-radiobtn.password > div input').checked = false;
+        mem_Search_passwordlink.forEach(function(el) {
+            el.classList.remove("active");
+        });
+        document.querySelector("#" + country).classList.add("active");
+        btnTarget.classList.add("active");
+        btnTarget.firstElementChild.checked = true;
+    }
+
+    $(".btn-request").click(function (e) {
+        var type = e.target.dataset.type;
+
+        if ($("#id-" + type).val().replace(/ /ig, '') === "") {
+            $.commonUtils.alert(ka.msg.join.idEmpty);
+            $("#id-" + type).focus();
+            return false;
+        }
+
+        if ($("#" + type).val().replace(/ /ig, '') === '') {
+            $.commonUtils.alert(type === 'email' ? ka.msg.findIdPwd.emptyEmail : ka.msg.findIdPwd.emptyMobile);
+            $("#" + type).focus();
+            return false;
+        }
+
+        if (type === 'email' && !$.validateUtils.checkEmail(type)) {
+            $.commonUtils.alert(ka.msg.join.memEmailRule);
+            $("#" + type).focus();
+            return false;
+        }
+
+        param["type"] = type === "email" ? "E" : "M";
+        param[type] = $("#" + type).val();
+        param["id"] = $("#id-" + type).val();
+        param["mode"] = "C";
+        var result = $.ajaxUtils.getApiData("/api/Member/SetFindPass", param, null, false);
+
+        if (typeof result !== "undefined") {
+            if (typeof result.code === "string" && result.code !== "") {
+                if (result.message === "ka.msg.findIdPwd.findPwd") {
+                    var msg = '';
+                    if (typeof result.data.email === "string" && result.data.email !== "") {
+                        msg = ka.msg.findIdPwd.findPwdEmail.replace(/{Email}/ig, result.data.email);
+                    }
+                    if (typeof result.data.mobile === "string" && result.data.mobile !== "") {
+                        msg = ka.msg.findIdPwd.findPwdMobile.replace(/{Mobile}/ig, result.data.mobile);
+                    }
+                    if (msg !== "") {
+                        $.commonUtils.confirm(ka.msg.findIdPwd.findPwdTitle, msg, "proc();");
+                    } else {
+                        $.commonUtils.alert(ka.msg.common.error);
+                    }
+                } else {
+                    $.commonUtils.alert(eval(result.message), result.code);
+                }
+            }
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+    });
+
+    function proc() {
+        param["mode"] = "S";
+        var result = $.ajaxUtils.getApiData("/api/Member/SetFindPass", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.confirmLogin(ka.msg.findIdPwd.findPwdTitle, ka.msg.findIdPwd.findPwdComplete, "$.commonUtils.openLogin();");
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+    }
+
+</script>
+

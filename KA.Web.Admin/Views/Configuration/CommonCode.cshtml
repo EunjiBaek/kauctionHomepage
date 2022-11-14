@@ -1,0 +1,107 @@
+﻿
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">코드</div>
+            </div>
+            <div class="card-body no-scroll">
+                <div id="treeview"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">코드 상세<span class="fs-12" id="selectedCode"></span></div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- 설명 영역 -->
+                    <div class="col-lg-12" id="selectedDesc" style="display: none;"></div>
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20 w-100" id="data-grid">
+                        <div class="w-100">코드를 선택하세요.</div>
+                    </div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <div class="dataTables_paginate paging_full_numbers text-center w-100">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        initTreeView();
+    });
+
+    function initTreeView() {
+        $.treeViewUtils.init({
+            url: "/api/Configuration/GetCommonCodeTreeView",
+            param: { "mode": "treeview" },
+            target: "#treeview",
+            onClick: selectedCode,
+            id_field: "main_code",
+            display_field: "code_name",
+            disabled_field: "use_yn"
+        });
+    }
+
+    function selectedCode(node, item) {
+        var param = {};
+        param["main_code"] = item.main_code;
+
+        $("#selectedCode").html(" - " + item.code_name);
+
+        if (item.desc === null) {
+            $("#selectedDesc").empty();
+            $("#selectedDesc").hide();
+        } else {
+            $("#selectedDesc").html(item.desc);
+            $("#selectedDesc").show();
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Configuration/GetCommonCodeList", param, null, false);
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        return result.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "sub_code", type: "text", title: "Code" },
+                { name: "code_name", type: "text", title: "Code Name" },
+                { name: "extra1", type: "text", title: "Extra1" },
+                { name: "extra2", type: "text", title: "Extra2" },
+                { name: "extra3", type: "text", title: "Extra3" },
+                { name: "extra4", type: "text", title: "Extra4" },
+                { name: "extra5", type: "text", title: "Extra5" },
+                { name: "use_yn", type: "text", title: "UseYN" },
+                { name: "sort", type: "text", title: "Sort" }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+</script>

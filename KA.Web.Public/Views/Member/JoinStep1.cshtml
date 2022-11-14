@@ -1,0 +1,312 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.RegisterViewModel
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    string GetAgreementTag(string value)
+    {
+        return value.Equals("Y") ? $"<span>[{L["필수"].Value}]</span>" : $"<span class='hint-text fs-12'>[{L["선택"].Value}]</span>";
+    }
+}
+
+<div class="join-container">
+    <div class="join-wrap">
+        <div class="join_step01">
+            <div class="join_top_area">
+                <div class="join_go_back_btn" onclick="window.location.href='/'"><img src="/img/icons/home_icon.svg" alt=""><span>@L["홈으로 이동"]</span></div>
+                <div class="join_step01_dropdown">
+                    <button class="join_step01_dropdown_btn dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false"><span style="">@L["한국어"]</span><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu" aria-labelledby="">
+                        <label class="dropdown-item" onclick="location.href='/Home/SetLanguage?culture=KOR'"><input class="RadioDropdown" type="radio" value="@L["한국어"]" name="RadioDropdown">@L["한국어"]</label>
+                        <label class="dropdown-item" onclick="location.href='/Home/SetLanguage?culture=ENG'"><input class="RadioDropdown" type="radio" value="@L["영어"]" name="RadioDropdown">@L["영어"]</label>
+                    </div>
+                </div>
+            </div>
+            <div class="join_step_tit"><p>@L["약관 동의 및 인증"]</p><ul class="join_step_list"><li class="on">1</li><li>2</li><li>3</li></ul></div>
+            <div class="join_cnt_wrap">
+                <div class="join-all-agree-wrap">
+                    <div class="join-all-agree-cnt all-certified">
+                        <input type="checkbox" name="join-conditions-all-agree" class="join-conditions-all-agree join-conditions" id="join-conditions-all-agree">
+                        <label for="join-conditions-all-agree">
+                            <div class="check"><span><i class="fas fa-check"></i></span></div>
+                            <div class="text"><strong>@L["모두 동의합니다."]</strong><p>@L["각 이용약관들과 개인정보 수집 이용에 동의합니다."]</p></div>
+                        </label>
+                    </div>
+                </div>
+                <div id="join-accordion">
+                    @foreach (var item in Model.memberClauses)
+                    {
+                        <div class="join-accordion-menu">
+                            <div class="join-accordion-head">
+                                <div>
+                                    <input type="checkbox" name="join-conditions" class="join-conditions join-accordion_condition" id="join-conditions_@item.Code" data-required-yn="@item.RequiredYN">
+                                    <label for="join-conditions_@item.Code"><div><span><i class="fas fa-check"></i></span></div><strong>@Html.Raw(GetAgreementTag(item.RequiredYN)) @item.DisplayCodeName</strong></label>
+                                </div>
+                                <span onclick="window.open('/HowTo/Clause/Join/@item.Code', '_blank');"><i class="fas fa-chevron-right"></i></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="join-certified">
+                    <div class="join-certified_01">
+                        <div class="join-certified-dropdown">
+                            <div>
+                                <select id="join-certified-select">
+                                    @foreach (var item in Model.memberType)
+                                    {
+                                        <option value="@item.SubCode"><span>@item.DisplayCodeName</span><i class="fas fa-chevron-down"></i></option>
+                                    }
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="join-certified-desc">
+                            <div class="overseas-individuals-member" data-member-type="000">
+                                <p class="desc">@L["본인 명의의 휴대전화번호를 입력하고 문자 인증을 진행하세요."]</p>
+                                <div class="overseas-member_input">
+                                    <div class="join-input-btn">
+                                        <div class="usernumber_input"><input class="country_tel default_type" type="tel" name="usernumber" id="mobile-001" placeholder="@L["전화번호 입력"]"></div>
+                                        <div class="usernumber_btn">
+                                            <button id="fg-mobile-req-btn-001" onclick="openAuth('M');">@L["인증번호 발송"]</button>
+                                            <button id="fg-mobile-cancel-btn-001" onclick="$.joinUtils.openAuthCancel('000', 'M');" style="display: none;">@L["취소"]</button>
+                                            <button id="fg-mobile-retry-btn-001" onclick="$.joinUtils.retryMobileForeignAuth('000');" style="display: none;">@L["다시 입력"]</button>
+                                        </div>
+                                    </div>
+                                    <div class="join-input-btn join_02">
+                                        <div class="usernumber_input">
+                                            <input class="default_type" type="number" name="authentication-number" id="confirm-code-001" placeholder="@L["6자리 인증번호 입력"]" disabled="disabled" maxlength="6">
+                                            <span class="usernumber_input_time" id="auth-remain-time-001"></span>
+                                        </div>
+                                        <div class="usernumber_btn">
+                                            <button id="fg-mobile-auth-btn-001" style="display: none;">@L["인증 확인"]</button>
+                                        </div>
+                                    </div>
+                                    <div id="mobile-cont-001-error" style="color: red;"></div>
+                                </div>
+                                <div class="join-member-certified_box">
+                                    <div id="cont-corp-auth" style="display: none;"><div><span>·</span></div><p>@L["법인 회원의 경우 전화번호 인증 외에도 사업자 증빙자료를 추가 제출 해야 합니다."]</p></div>
+                                    <div id="cont-email-auth" style="display: none;"><div><span>·</span></div><p>@L["인증 문자를 받지 못한 경우, “<span class='btn-email-auth'>여기</span>”를 눌러 다른 방법으로 인증을 진행하세요."]</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="join_footer">
+    <div class="container">
+        <div class="join_footer_wrap">
+            <ul>
+                <li><a href="/HowTo/MajorClause">@L["경매약관"]</a></li>
+                <li><a href="/HowTo/OnlineClause">@L["온라인경매약관"]</a></li>
+                <li><a class="PrivacyClause" href="/HowTo/PrivacyClause">@L["개인정보처리방침"]</a></li>
+                <li><a target="_self" href="/HowTo/Clause/InfoMng">@L["내부정보관리규정"]</a></li>
+            </ul>
+            <p class="copyright"><span>Copyright ⓒ <a href="http://www.k-auction.com">K Auction.</a> All Rights Reserved</span></p>
+        </div>
+    </div>
+</div>
+<div class="mypage_modal" style="z-index: 900;">
+    <div class="mypage_modal_wrap">
+        <button class="mypage_modal_close"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="mypage_modal_header"></div>
+        <div class="mypage_modal_content">
+            <div class="cnt">
+                <div class="certified_number">
+                    <p class="desc fs-14">@L["본인의 이메일로 인증을 진행하세요."]</p>
+                    <p class="desc m-b-10 fs-14">@L["인증이 완료될 때 까지 창을 닫지 말아주세요."]</p>
+                    <div class="number_input_wrap m-b-10">
+                        <div class="input_wrap"><input id="email-auth-input" class="default_type ka-email" type="text" placeholder="@L["본인의 이메일 입력"]" autocomplete="off"></div>
+                        <button id="btn-email-auth-request" onclick="openAuth('E');">@L["인증번호 발송"]</button>
+                    </div>
+                    <div class="number_input_wrap">
+                        <div class="input_wrap"><input id="email-auth-confirm" class="default_type" type="number" placeholder="@L["6자리 인증번호 입력"]" maxlength="6" disabled="disabled" autocomplete="off"></div>
+                        <button id="btn-email-auth-confirm" disabled="disabled" onclick="$.joinUtils.setMobileForeignAuth('CONFIRM', 'J', 'E');">@L["인증 확인"]</button>
+                    </div>
+                    <div id="email-auth-input-error" style="color: red;"></div>
+                </div>
+            </div>
+            <div class="modal_table_btn_wrap"><button class="default_btn btn_blue modal_close"></button></div>
+        </div>
+    </div>
+</div>
+<script>
+    let selectedAuthType = "001";
+
+    $(document).ready(function () {
+        $.joinUtils.authSequence = "@Model.JoinToken";
+
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(1):after', 'content: "' + ka.msg.join.joinStep1 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(2):after', 'content: "' + ka.msg.join.joinStep2 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(3):after', 'content: "' + ka.msg.join.joinStep3 + '";');
+
+        $("body").addClass("bgcolor");
+        $(".content").addClass("not_pad");
+        $(".header, footer, .footer-padding").addClass("none");
+        $("#mobile-bottom-menu").remove();
+        $("#alltop-btn").remove();
+
+        let btnEmailAuth = $('.btn-email-auth');
+        btnEmailAuth.css("text-decoration", "underline");
+        btnEmailAuth.css("cursor", "pointer");
+        btnEmailAuth.attr("data-tit", ka.msg.join.memEmailAuth);
+        btnEmailAuth.attr("data-value", "email_certify");
+        btnEmailAuth.on("click", function () {
+            if (!$.joinUtils.checkJoinCondition()) {
+                $.commonUtils.alert(ka.msg.join.memAgreementEmpty);
+                return false;
+            }
+            $("#email-auth-input").val('');
+            $("#email-auth-input-error").html('');
+            $("#email-auth-input-error").css("color", "red");
+            $.commonUtils.mypageModal($(this));
+        });
+        $(".modal_close").on("click", function () {
+            document.querySelector(".mypage_modal.show").classList.remove('show');
+            document.querySelector("body").classList.remove('scroll_lock');
+        });
+        $('.ka-email').keyup(function (e) {
+            if (e.keyCode === 32) {
+                var v = $(this).val();
+                $(this).val(v.replace(/ /g, ''));
+            }
+            return $.joinUtils.checkEmail(this.id);
+        });
+        $("#fg-mobile-auth-btn-001").on("click", function () {
+            return $.joinUtils.setMobileAuth('CONFIRM', 'J', 'M');
+        });
+    });
+
+    if (document.getElementById("join-certified-select")) {
+        let join_certified_select = document.getElementById("join-certified-select");
+        join_certified_select.addEventListener("change", function () {
+            var val = join_certified_select.options[join_certified_select.selectedIndex].value;
+            $.htmlUtils.setAttribute("#mobile-" + selectedAuthType, "id", "mobile-" + val);
+            $.htmlUtils.setAttribute("#fg-mobile-req-btn-" + selectedAuthType, "id", "fg-mobile-req-btn-" + val);
+            $.htmlUtils.setAttribute("#fg-mobile-cancel-btn-" + selectedAuthType, "id", "fg-mobile-cancel-btn-" + val);
+            $.htmlUtils.setAttribute("#fg-mobile-retry-btn-" + selectedAuthType, "id", "fg-mobile-retry-btn-" + val);
+            $.htmlUtils.setAttribute("#confirm-code-" + selectedAuthType, "id", "confirm-code-" + val);
+            $.htmlUtils.setAttribute("#auth-remain-time-" + selectedAuthType, "id", "auth-remain-time-" + val);
+            $.htmlUtils.setAttribute("#fg-mobile-auth-btn-" + selectedAuthType, "id", "fg-mobile-auth-btn-" + val);
+            $.htmlUtils.setAttribute("#mobile-cont-" + selectedAuthType + "-error", "id", "mobile-cont-" + val + "-error");
+            selectedAuthType = val;
+
+            if (val === "001") {
+                $("#cont-corp-auth").hide();
+                $("#cont-email-auth").hide();
+            } else if (val === "002") {
+                $("#cont-corp-auth").hide();
+                $("#cont-email-auth").show();
+            } else if (val === "003") {
+                $("#cont-corp-auth").show();
+                $("#cont-email-auth").hide();
+            } else {
+                $("#cont-corp-auth").show();
+                $("#cont-email-auth").show();
+            }
+
+            $("#fg-mobile-auth-btn-" + val).on("click", function () {
+                if (val === "001" || val === "003") {
+                    $.joinUtils.setMobileAuth('CONFIRM', 'J', 'M');
+                } else {
+                    $.joinUtils.setMobileForeignAuth('CONFIRM', 'J', 'M')
+                }
+            });
+
+            document.querySelectorAll(".country_tel").forEach((elem) => {
+                window.intlTelInput(elem, {
+                    nationalMode: true,
+                    separateDialCode: true,
+                    initialCountry: "kr",
+                    utilsScript: "../../build/js/utils.js?1638200991544"
+                });
+
+                if (val === "001" || val === "003") {
+                    $(".iti__flag-container").hide();
+                    $("#mobile-" + val).css("padding-left", "11px");
+                    $("#mobile-" + val).css("height", "40px");
+
+                } else {
+                    $(".iti__flag-container").show();
+                    $("#mobile-" + val).css("padding-left", "89px");
+                }
+            });
+        });
+    }
+
+    function complete(elem) {
+        let checkIcon = document.createElement('i');
+        elem.style.display = "none";
+        checkIcon.className = 'fas fa-check complete_check';
+        elem.previousElementSibling.style.display = "none";
+        elem.parentElement.append(checkIcon);
+    }
+
+    function classListAdd (elem) {
+        elem.forEach(function(el){
+            el.addEventListener('click', function(e){
+                for (let i = 0; i< elem.length; i++) {
+                    elem[i].classList.remove('on');
+                }
+                let target = e.currentTarget;
+                target.classList.add('on');
+            });
+        });
+    };
+
+    classListAdd(document.querySelectorAll('.domestic-individuals-member > .certified-btn > button'));
+    classListAdd(document.querySelectorAll('.domestic-artificial-member > .certified-btn > button'))
+
+    function all_agree_check_func (joinAll, joinCheck) {
+        joinCheck.forEach(function(el){
+            el.addEventListener('click', function(){
+                for(var i = 0, len = joinCheck.length; i < len; ++i) {
+                    if(!joinCheck[i].checked) {
+                        joinAll.checked = false;
+                        return;
+                    }
+                }
+                joinAll.checked = true;
+            });
+        });
+
+        joinAll.addEventListener('change', function(e){
+            for(let i = 0; i < joinCheck.length; i++){
+                joinCheck[i].checked = e.target.checked;
+            }
+        });
+    }
+
+    all_agree_check_func(document.getElementById("join-conditions-all-agree"), document.querySelectorAll('.join-accordion_condition'));
+
+    $('.RadioDropdown').change(function() {
+        var dropdown = $('.join_step01_dropdown_btn.dropdown-toggle');
+        var thislabel = $(this).closest('label');
+        if( $(this).is(':checked')) {
+            dropdown.find('span').html( thislabel.text());
+        }
+    });
+
+    $("#btn-modal-confirm").on("click", function () {
+        $("#btn-modal-cancel").click();
+        var selectedMemType = $("#join-certified-select").val();
+        $.joinUtils.openAuthV2(selectedMemType, selectedAuthType);
+    });
+
+    function openAuth(type) {
+        let memType = $("#join-certified-select").val();
+        if (type === 'E') {
+            $.joinUtils.openAuthConfirmEmail(memType, type);
+        } else {
+            if (!$.joinUtils.checkJoinCondition()) {
+                $.commonUtils.alert(ka.msg.join.memAgreementEmpty);
+                return false;
+            }
+
+            $.joinUtils.openAuthConfirm(memType, type);
+        }
+    }
+
+</script>

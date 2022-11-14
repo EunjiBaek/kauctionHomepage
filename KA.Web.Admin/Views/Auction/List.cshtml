@@ -1,0 +1,114 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">경매 목록</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-9 col-sm-9 text-right">
+                        <div class="form-group">
+                            <span class="btn btn-primary" style="height: 35px; cursor: pointer; float: right;" onclick="search();">검색</span>
+                            <input id="search" onkeydown="checkSearch(event);" style="float: right; width: 240px;" class="form-control" type="text" placeholder="경매명을 입력해 주세요." />
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-row">
+                    <div class="data-grid" id="data-grid"></div>
+                    <div class="dataTables_wrapper">
+                        <div class="dataTables_paginate paging_full_numbers">
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["code"] = "@ViewBag.Code";
+    requestParam["page_size"] = 20;
+
+    var header1 = [
+        { name: "auc_num", type: "text", title: "회차", width: 50 },
+        {
+            name: "auc_title", type: "text", title: "경매명", width: 300,
+            itemTemplate: function (value, data) {
+                return $("<a />", { "href": "/Auction/Schedule/" + requestParam["code"] + "/" + data.auc_num + "/" + data.uid  }).append(value);
+            }
+        },
+        { name: "auc_date", type: "text", title: "경매일시", width: 120 },
+        { name: "work_count", type: "text", title: "출품작품수", width: 50 }
+    ];
+
+    $(document).ready(function () {
+        getList();
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Auction/GetScheduleList", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            width: "100%",            
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: result.data.recordsTotal,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: result.data.draw,
+                                pageSize: requestParam["page_size"]
+                            });
+                        } else {
+                            $('#total-record').html('총 0건');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: 0,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: 1,
+                                pageSize: requestParam["page_size"]
+                            });
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: header1,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["search"] = $('#search').val();
+        getList();
+    }
+
+</script>

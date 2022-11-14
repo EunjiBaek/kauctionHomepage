@@ -1,0 +1,251 @@
+﻿@using KA.Entities.Models.Common
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+    var majorLiveReqMng = CommonService.GetCodeList("MAJOR_LIV_REQ_MNG", CommonService.IsKor());
+    var manager = majorLiveReqMng != null && majorLiveReqMng.Count() > 0 ? majorLiveReqMng.Where(x => x.SubCode.Equals("001")).First() : new CommonCode();
+}
+<style type="text/css">
+    .form-group-default.form-group-default-select2 > label {
+        z-index: initial !important;
+    }
+
+    .select2-container {
+        width: 100% !important;
+        z-index: initial !important;
+    }
+
+    .select2-dropdown {
+        z-index: initial !important;
+    }
+
+    .select2-container.select2-container--default.select2-container--open {
+        z-index: 1700 !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: transparent !important;
+    }
+
+    @@media(max-width:768px) {
+        .card {
+            margin-bottom: 45px
+        }
+    }
+</style>
+
+@if (ViewBag.MemberBidAllowYn)
+{
+    <div class="applyform">
+        <breadcrumb titles="Live Auction|@L["메이저 경매"].Value|@L["온라인 라이브응찰 신청"].Value" />
+        <h1>@L["온라인 라이브응찰 참가신청서"]</h1>
+    </div>
+    <div class="container">
+        <div class="written-call-apply">
+            <div>
+                <h5>@L["신청자 정보"]</h5>
+                <table class="apply-table">
+                    <tr>
+                        <td>@L["이름"]</td>
+                        <td>@LoginInfo.Name</td>
+                    </tr>
+                    <tr>
+                        <td>@L["생년월일"]</td>
+                        <td>@LoginInfo.BirthDate</td>
+                    </tr>
+                    <tr>
+                        <td>@L["주소"]</td>
+                        @if (ViewBag.AddressFlag)
+                        {
+                            <td>@LoginInfo.FullAddress</td>
+                        }
+                        else
+                        {
+                            <td><button class="btn" onclick="$.mypageUtils.openAddressPopup('I');">@L["주소 정보 등록하기"]</button></td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>@L["휴대전화"]</td>
+                        <td>@LoginInfo.Mobile</td>
+                    </tr>
+                    <tr>
+                        <td>@L["이메일"]</td>
+                        <td>@LoginInfo.Email</td>
+                    </tr>
+                    <tr>
+                        <td>@L["담당자"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.DisplayCodeName
+                            }
+                            else
+                            {
+                                @LoginInfo.MngName
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["담당자 이메일"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.Extra2
+                            }
+                            else
+                            {
+                                @LoginInfo.MngEmail
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@L["담당자 내선번호"]</td>
+                        <td>
+                            @if (LoginInfo.MngUid <= 1 || LoginInfo.MngUid.Equals(116))
+                            {
+                                @manager.Extra1
+                            }
+                            else
+                            {
+                                @LoginInfo.MngExTel
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bid-write-info">
+                <h5>@L["신청 및 응찰 시 유의사항"]</h5>
+
+                <div class="sign-agree live-aucapply">
+                    <ul>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["온라인라이브응찰 가능 여부는 당사 검토 후 확정됩니다. 신청 결과는 이메일로 전달되니 이메일 주소를 다시 한번 확인해 주시기 바랍니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["신청자는 온라인라이브응찰과 관련된 부분을 포함하여 당사 홈페이지, 경매 약관 및 유의사항 등에 기재된 내용(특히 중요 사항)을 반드시 읽고 숙지하셔야 합니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["온라인라이브응찰은 실시간 응찰의 특성 상 응찰하기 버튼 클릭 즉시 응찰이 당사에 수령되고 응찰 취소가 불가합니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["응찰자의 단말기, 통신 환경 등에 따라 응찰 수령 속도의 차이가 있을 수 있습니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["라이브 응찰 시 서면, 전화 응찰과 병행할 경우 이중 응찰이 될 수 있으니 주의 바랍니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["낙찰 시에는 낙찰대금 외에 15%의 구매 수수료 (부가세 별도) 및 기타 비용 (발생 시)도 같이 납부하여야 합니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["낙찰 후 취소하고자 하는 경우, 낙찰자는 낙찰철회비로 낙찰가의 30%에 해당하는 금액을 납부하여야 하므로 신중하게 응찰하시기 바랍니다."]</span>
+                        </li>
+                        <li>
+                            <img src="/img/icons/bullet02.png">
+                            <span>@L["한국의 문화재 및 유물로 추정되는 경매물품은 국외로 수출 및 반출이 불가합니다."]</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="realchk" style="margin-bottom: 60px;">
+                        <input type="checkbox" id="agree" class="agreeRequired ui-helper-hidden-accessible">
+                        <label for="agree"><span></span>@L["위 내용 및 그와 관련된 내용들을 읽고 이해하였으며 동의하므로 이에 신청합니다."]</label>
+                    </p>
+                </div>
+                <div class="apply-btn">
+                    <a href="#" onclick="window.location.href = '/Auction/Major/@ViewBag.AucNum';">@L["취소"]</a>
+                    @if (ViewBag.AddressFlag)
+                    {
+                        <a href="#" onclick="request();">@L["참여 신청"]</a>
+                    }
+                    else
+                    {
+                        <a class="bid-address-btn" href="javascript:$.mypageUtils.openAddressPopup('I');">@L["주소 정보 등록하기"]</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL - ADDRESS MANAGE START -->
+    <partial name="_Partial/_AddressModalPartial" />
+    <!-- MODEL - ADDRESS MANAGE END -->
+
+    <script>
+
+        var isKor = "@CommonService.IsKor()";
+        var addressFlag = "@ViewBag.AddressFlag";
+        var process = false;
+
+        $(document).ready(function () {
+            if (addressFlag === 'False') {
+                let work_address_tooltip = document.createElement('div');
+                work_address_tooltip.className = "work_address_tooltip";
+                work_address_tooltip.innerHTML = `<i class="fas fa-times"></i><p>` + ka.msg.auction.regAddrForLive + `</p>`;
+
+                document.querySelectorAll('.bid-address-btn')[0].append(work_address_tooltip);
+
+                if (isKor !== 'True') {
+                    $(".work_address_tooltip").css("top", "-78px");
+                }
+
+                $('.form-country-code').select2({
+                    placeholder: '',
+                    templateSelection: $.addressUtils.formatCountry,
+                    templateResult: $.addressUtils.formatCountry,
+                    escapeMarkup: function (m) { return m; }
+                }).on('select2:select', function () {
+                    $(this).parents('.form-group').removeClass('focused');
+                    if ($(this).val()) {
+                        $(this).closest('.form-group').find('label').addClass('fade');
+                    } else {
+                        $(this).closest('.form-group').find('label').removeClass('fade');
+                    }
+                });
+
+                $("#modal-country-code").val("KOR").trigger('change');
+
+                $.mypageUtils.openAddressPopup('I');
+            }
+        });
+
+        function request() {
+            if ($("#agree").is(":checked")) {
+                $.commonUtils.confirm(ka.msg.auction.apply, ka.msg.auction.liveAuctionConfirm, "requestProc();");
+            } else {
+                $.commonUtils.alert(ka.msg.auction.liveAuctionAgree);
+            }
+        }
+
+        function requestProc() {
+            if (process) return false;
+            process = true;
+
+            var result = $.ajaxUtils.getApiData("/api/Auction/SetLiveRequest/@ViewBag.AucNum", null, null, false);
+            var resultCode = $.ajaxUtils.getResultCode(result);
+            if (resultCode === "104") {
+                $.commonUtils.redirectAlert(result.message, "success", '/Auction/Major/@ViewBag.AucNum');
+            } else {
+                $.commonUtils.alert(resultCode.indexOf("ka.") > -1 ? eval(resultCode) : result.message.replace('{MANAGER}', ''));
+            }
+            process = false;
+        }
+
+</script>
+}
+else
+{
+    <script>
+        $(document).ready(function () {
+            $.commonUtils.alertWithFn(ka.msg.auction.bid_block, "", "history.back();");
+        });
+    </script>
+}

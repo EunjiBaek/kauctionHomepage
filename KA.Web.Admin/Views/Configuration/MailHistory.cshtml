@@ -1,0 +1,132 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메일 발송 목록</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-right">
+                        <div class="form-group">
+                            <div class="input-group-append" style="float: right;">
+                                <span class="input-group-text primary fw-500" style="height: 35px; cursor: pointer;" onclick="search();">검색</span>
+                            </div>
+                            <div class="form-input-group" style="float: right; width: 300px;">
+                                <input id="search" onkeydown="checkSearch(event);" class="typeahead form-control sample-typehead" type="text" placeholder="제목/수신/참조/본문 검색어를 입력해 주세요." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        @foreach (var item in ViewBag.MailCode)
+                        {
+                            <li class="nav-item">
+                                <a onclick="getTabList('@item.SubCode');" class="nav-link text-center" data-toggle="tab" href="#tab-@item.SubCode">@item.CodeName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20 w-100" id="data-grid"></div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 text-center">
+                                    <div class="dataTables_paginate paging_full_numbers text-center w-100">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["type"] = "";
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        var tabs = $(".nav-tabs").find("a");
+        if (tabs.length > 0) tabs[0].click();
+    });
+
+    function getTabList(type) {
+        requestParam["page"] = "1";
+        requestParam["type"] = type;
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Configuration/GetEmailHistories", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: 20
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "site", type: "text", title: "사이트", width: 30 },
+                { name: "type_name", type: "text", title: "유형", width: 40 },
+                { name: "subject", type: "text", title: "제목", width: 100 },
+                { name: "to", type: "text", title: "수신", width: 50 },
+                {
+                    name: "result", type: "text", title: "발송결과", width: 40,
+                    itemTemplate: function (value) {
+                        return value === "T" ? "성공" : "실패";
+                    }
+                },
+                { name: "reg_name", type: "text", title: "발송인", width: 40 },
+                { name: "reg_date", type: "text", title: "시간", width: 40 }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            search();
+        }
+    }
+
+    function search() {
+        requestParam["page"] = "1";
+        requestParam["filter"] = $('#search').val();
+        getList();
+    }
+
+</script>

@@ -1,0 +1,139 @@
+﻿@inject KA.Web.Public.Services.CommonService commonService
+
+
+
+<div class="suseefulBid_back_btn" onclick="history.back()";>
+    <i class="fas fa-chevron-left"></i>
+    <span>@(commonService.IsKor() ? "뒤로가기" : "Back")</span>
+</div>
+<h1 class="suseefulBid_logo">
+    <a href="/">
+        <img src="/img/join_logo_02.png" />
+    </a>
+</h1>
+
+<div class="m-10 modal_document_wrap">
+    <div class="modal-bid-noti-table" style="margin-top: 40px;"></div>
+</div>
+
+<script>
+    var aucKind = "@ViewBag.AucKind";
+    var aucNum = "@ViewBag.AucNum";
+    var requestParam = {};
+
+    $(document).ready(function () {
+        $("body").addClass("scroll_x")
+        $(".ka-container").addClass("auto");
+        $(".content").addClass("inherit");
+        $(".ka-content-wrapper").addClass("inherit");
+        $("body").removeClass("yhidden");
+        $("#alltop-btn").remove();
+        $("#back-btn").remove();
+        $("footer").remove();
+        $("body .header").remove();
+        $("#mobile-bottom-menu").remove();
+        $(".content").css({"padding-bottom": "0px"});
+
+
+        isProcess = true;
+
+        requestParam["auc_kind"] = aucKind;
+        requestParam["auc_num"] = aucNum;
+
+        $.ajaxUtils.getApiData('/api/MyPage/GetBidNotification', requestParam, getGetBidNotificationComplete);
+    });
+
+    function getGetBidNotificationComplete(result) {
+        isProcess = false;
+
+        var isKor = "@commonService.IsKor()" === "True";
+        var colspan = isKor ? "5" : "4";
+        var rowspan = isKor ? "2" : "1";
+
+        $('#modal-bid-noti').addClass('block');
+        $('body').addClass('yhidden');
+
+        $('#auc_title').html(result.data.auc_title);
+        $('#expire_date').html(result.data.expire_date);
+
+        var table = $("<table class='bidnoti-table'/>", {
+              "style": "width:100%; border-collapse: collapse; font-family: 'Noto Sans', sans-serif; font-size:15px; text-align: right; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;"
+            , "cellspacing" : "0"
+            , "cellpadding": "4"
+            , "id" : "auction_nak"
+        });
+
+        table.append(
+            $("<tr />", { "style": "background-color:#F5F5F5; text-align: center;" })
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append("Lot")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.title)))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.auction.hammerPrice + "<br>(A)")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.premium + "<br>(B)")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.purchasePrice + "<br>(A+B)")))
+                .append(isKor ? $("<th />", { "style": "padding:4px; border: 1px solid #ccc; font-size: 12px; font-weight: 700;", "colspan": "2"}).append($("<strong />", { "style": "font-size: 12px;" }).append("배송비(C)")) : "")
+        , isKor ?
+            $("<tr />", { "style": "background-color:#F5F5F5; text-align: center;" })
+                    .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc" }).append($("<span />", { "style": "font-size: 12px; font=weight:400" }).append("1.직접 방문 시")))
+                    .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc; font=weight:400" }).append($("<span />", { "style": "font-size: 12px;" }).append("2.배송 요청 시")))
+            : ""
+        );
+
+        $(".modal-bid-noti-table").append($("<div class='topbox1'/>").append(table));
+
+        const topbox2 = $("<div class='topbox2'/>");
+
+        var table_02 = $("<table class='bidnoti-table'/>", {
+            "style": "width:100%; border-collapse: collapse; font-family: 'Noto Sans', sans-serif; font-size:15px; text-align: right; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;"
+            , "cellspacing" : "0"
+            , "cellpadding": "4"
+        });
+
+        $.each(result.data.AuctionNak, function (index, item) {
+            var bgcolor = index % 2 == 0 ? "#fff" : "#f9f9f9" ;
+            var container = $("<tr />", { "style": "background-color:" + bgcolor });
+
+            container.append(
+                  $("<td />", { "style": "width: 7%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: center; border-left: 1px solid #ffffff" }).append(item.lot_num)
+                , $("<td />", { "style": "width: 24%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: left;" }).append(
+                    $("<div />", {"class": "tb-item-name_01"}).append(item.a_name),
+                    $("<div />", {"class": "tb-item-name_02"}).append(item.w_name),
+                )
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;"}).append(item.price_successful_bid)
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append(item.buy_comm_sum)
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append(item.work_sum)
+                , isKor ? $("<td />", { "style": "width: 16.5%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append("0") : ""
+                , isKor ? $("<td />", { "style": "width: 16.5%; padding:4px; font-size: 12px; color:#666; text-align: right; border-right: 1px solid #ffffff;" }).append(item.delivery_fee) : ""
+            );
+
+            $(".modal-bid-noti-table").append(topbox2);
+            topbox2.append(table_02);
+            table_02.append(container);
+        });
+
+        table_02.append(
+            $("<tr />", { "style": "background-color: #efefef; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500; color:#000;" })
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center;", "colspan": "2" }).append(ka.msg.successfulBid.total))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;" }).append(result.data.total_price_successful_bid))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append(result.data.total_buy_comm_sum))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append(result.data.total_price))
+                .append(isKor ? $("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append("0") : "")
+                .append(isKor ? $("<td />", { "style": "padding:4px; font-size: 12px; color:#000; text-align: right;"}).append(result.data.total_delivery_fee) : "")
+        );
+
+        let tb_item_name02 = document.querySelectorAll('.tb-item-name_02');
+        tb_item_name02.forEach(function(el){
+            if (el.textContent.length > 10) {
+                return el.textContent = el.textContent.substr(0, 10) + '...';
+            }
+        });
+
+        table_02.append(
+            $("<tr />", { "style": "background-color: #fff; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500;" })
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center;", "colspan" : colspan}).append(ka.msg.successfulBid.totalAmount))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#d32f2f; text-align: right;" }).append(result.data.total_price))
+                .append(isKor ? $("<td />", { "style": "padding:4px; font-size: 12px; color:#d32f2f; text-align: right;" }).append(result.data.total_price_fee) : "")
+        );
+    }
+
+
+</script>

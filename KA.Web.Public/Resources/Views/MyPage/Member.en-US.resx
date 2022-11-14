@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- 제외한 숫자만 입력" xml:space="preserve">
+    <value>Enter only numbers, excluding '-'</value>
+    <comment>[Member] 01.07.01</comment>
+  </data>
+  <data name="6자리 인증번호 입력" xml:space="preserve">
+    <value>Enter 6-digit verification code</value>
+    <comment>[Member] 04.04</comment>
+  </data>
+  <data name="관련 법령 등에서 달리 정하지 않는 한, 탈퇴 후 30일 내 정보가 파기됩니다." xml:space="preserve">
+    <value>Unless otherwise specified by relevant law, your information will be deleted within 30 days of deleting your account.</value>
+    <comment>[Member] 06.06.02</comment>
+  </data>
+  <data name="국가" xml:space="preserve">
+    <value>Country</value>
+    <comment>[Member] 01.02 국가</comment>
+  </data>
+  <data name="낙찰자에 한해 낙찰대금을 모두 지불하기 전 까지는 탈퇴가 불가능 합니다." xml:space="preserve">
+    <value>If you have made a winning bid, you cannot delete your account until all purchase prices have been paid in full.</value>
+    <comment>[Member] 06.06.03</comment>
+  </data>
+  <data name="다시 입력" xml:space="preserve">
+    <value>Re-enter</value>
+    <comment>[Member] 04.03</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>Name of recipient</value>
+    <comment>[Member] 01.06 받는사람</comment>
+  </data>
+  <data name="받는사람을 입력하세요." xml:space="preserve">
+    <value>Please enter recipients.</value>
+    <comment>[Member] 01.06.01</comment>
+  </data>
+  <data name="변경할 비밀번호를 입력하세요" xml:space="preserve">
+    <value>Enter the password to change</value>
+    <comment>[Member] 02.02</comment>
+  </data>
+  <data name="변경할 비밀번호를 한번 더 입력하세요" xml:space="preserve">
+    <value>Please re-enter the password to change</value>
+    <comment>[Member] 02.03</comment>
+  </data>
+  <data name="비밀번호 입력" xml:space="preserve">
+    <value>Input password</value>
+    <comment>[Member] 06.05</comment>
+  </data>
+  <data name="비밀번호 재설정" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+    <comment>[Member] 02. 비밀번호 재설정</comment>
+  </data>
+  <data name="사업자 등록번호 입력 (숫자만 입력하세요)" xml:space="preserve">
+    <value>Enter business registration number (enter only numbers)</value>
+    <comment>[Member] 05. 사업자 등로번호 인증</comment>
+  </data>
+  <data name="상세주소" xml:space="preserve">
+    <value>Detailed address</value>
+    <comment>[Member] 01.05 상세주소</comment>
+  </data>
+  <data name="상세주소를 입력하세요." xml:space="preserve">
+    <value>Please enter detailed address.</value>
+    <comment>[Member] 01.05.01</comment>
+  </data>
+  <data name="신용카드 본인인증" xml:space="preserve">
+    <value>Credit Card Authentication</value>
+    <comment>[Member] 03.01.02</comment>
+  </data>
+  <data name="아이디 입력" xml:space="preserve">
+    <value>Input ID</value>
+    <comment>[Member] 06.04</comment>
+  </data>
+  <data name="아이디와 비밀번호를 한번 더 입력한 후 [탈퇴신청]을 해 주시기 바랍니다." xml:space="preserve">
+    <value>Please enter you ID and password and click [Delete Account].</value>
+    <comment>[Member] 06.03</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[Member] 01.07 연락처</comment>
+  </data>
+  <data name="연락처를 입력하세요." xml:space="preserve">
+    <value>Please enter your contact number.</value>
+    <comment>[Member] 01.07.02</comment>
+  </data>
+  <data name="영문과 숫자 또는 특수문자 조합 최소 10자 이상" xml:space="preserve">
+    <value>At least 10 letters, numbers, or special characters</value>
+    <comment>[Member] 02.04</comment>
+  </data>
+  <data name="우편번호" xml:space="preserve">
+    <value>Postal code</value>
+    <comment>[Member] 01.03 우편번호</comment>
+  </data>
+  <data name="우편번호를 입력하세요." xml:space="preserve">
+    <value>Please enter your zip code.</value>
+    <comment>[Member] 01.03.01</comment>
+  </data>
+  <data name="원하는 인증 수단을 선택하세요." xml:space="preserve">
+    <value>Please select your preferred authentication method.</value>
+    <comment>[Member] 03.02</comment>
+  </data>
+  <data name="인증 수단 선택" xml:space="preserve">
+    <value>인증 수단 선택</value>
+    <comment>[Member] 03. 인증 수단 선택</comment>
+  </data>
+  <data name="인증 확인" xml:space="preserve">
+    <value>Verification</value>
+    <comment>[Member] 04.05</comment>
+  </data>
+  <data name="인증번호 발송" xml:space="preserve">
+    <value>Receive Code</value>
+    <comment>[Member] 04.02</comment>
+  </data>
+  <data name="자택" xml:space="preserve">
+    <value>Home</value>
+    <comment>[Member] 01.01.01</comment>
+  </data>
+  <data name="전화번호 수정" xml:space="preserve">
+    <value>Modify Phone Number</value>
+    <comment>[Member] 04. 인증 수단 선택</comment>
+  </data>
+  <data name="전화번호 입력" xml:space="preserve">
+    <value>Enter your phone number</value>
+    <comment>[Member] 04.01</comment>
+  </data>
+  <data name="주소" xml:space="preserve">
+    <value>Address</value>
+    <comment>[Member] 01.04 주소</comment>
+  </data>
+  <data name="주소 검색" xml:space="preserve">
+    <value>Search</value>
+    <comment>[Member] 01.03.02</comment>
+  </data>
+  <data name="주소 등록/수정" xml:space="preserve">
+    <value>Register/Modify Address</value>
+    <comment>[Member] 01. 주소 등록/수정</comment>
+  </data>
+  <data name="주소명" xml:space="preserve">
+    <value>Address Name</value>
+    <comment>[Member] 01.01 주소명</comment>
+  </data>
+  <data name="주소입력" xml:space="preserve">
+    <value>Address input</value>
+    <comment>[Member] 01.04.01</comment>
+  </data>
+  <data name="직장" xml:space="preserve">
+    <value>Office</value>
+    <comment>[Member] 01.01.02</comment>
+  </data>
+  <data name="직접입력" xml:space="preserve">
+    <value>Direct input</value>
+    <comment>[Member] 01.01.03</comment>
+  </data>
+  <data name="직접입력 주소를 입력하세요." xml:space="preserve">
+    <value>Please enter the direct input address.</value>
+    <comment>[Member] 01.01.04</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[Member] 01.07.03</comment>
+  </data>
+  <data name="탈퇴 사유를 입력해 주시면 사이트 개선에 적극 반영하겠습니다." xml:space="preserve">
+    <value>Please explain your reasons for deleting your account. We will take them into consideration to improve our website.</value>
+    <comment>[Member] 06.01</comment>
+  </data>
+  <data name="탈퇴사유" xml:space="preserve">
+    <value>Delete Account Reasons</value>
+    <comment>[Member] 06 회원 탈퇴</comment>
+  </data>
+  <data name="탈퇴신청" xml:space="preserve">
+    <value>Delete Account</value>
+    <comment>[Member] 06.02</comment>
+  </data>
+  <data name="탈퇴하기" xml:space="preserve">
+    <value>To leave</value>
+    <comment>[Member] 06.08</comment>
+  </data>
+  <data name="통신사 본인인증" xml:space="preserve">
+    <value>Mobile authentication</value>
+    <comment>[Member] 03.01.01</comment>
+  </data>
+  <data name="현재 비밀번호를 입력하세요" xml:space="preserve">
+    <value>Please enter your current password</value>
+    <comment>[Member] 02.01</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>[Member] 02.05</comment>
+  </data>
+  <data name="회원 탈퇴 내용에 동의합니다." xml:space="preserve">
+    <value>I consent to the terms of deleting my account.</value>
+    <comment>[Member] 06.07</comment>
+  </data>
+  <data name="회원이 응찰한 경매가 진행중인 경우에는 해당경매가 마감되기 전까지 탈퇴가 불가능 합니다." xml:space="preserve">
+    <value>If you have bid in an ongoing auction, you cannot delete your account until the auction has closed.</value>
+    <comment>[Member] 06.06.01</comment>
+  </data>
+  <data name="인증번호 입력" xml:space="preserve">
+    <value>Certification number input</value>
+    <comment>인증번호 입력</comment>
+  </data>
+</root>

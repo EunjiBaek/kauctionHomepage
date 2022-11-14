@@ -1,0 +1,171 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+
+<div class="container">
+
+    <div class="mypage_wrap">
+        <div class="right_area tab_cnt">
+            <div class="btn_wrap b03 tab_btn">
+                <ul>
+                    <li id="consignment-li" data-content-id="consignment-content-div">
+                        <a id="consignment-nav" href="#">@Localizer["위탁 문의 내역"]</a>
+                    </li>
+                    <li id="work-li" data-content-id="work-content-div">
+                        <a id="work-nav" href="#">@Localizer["작품 문의 내역"]</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_content b03 tab_cnt">
+                <div class="consignment_cnt" id="consignment-content-div" style="display: none;">
+                    <div class="filter_wrap">
+                        <div class="top">
+                            <div class="checkbox_wrap">
+                                <div>
+                                    <input name="consignment_state_check" class="default" type="checkbox" value="waiting" id="consignment_state_check_01">
+                                    <label for="consignment_state_check_01">
+                                        <div>
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p>@Localizer["대기중"]</p>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input name="consignment_state_check" class="default" type="checkbox" value="possible" id="consignment_state_check_02">
+                                    <label for="consignment_state_check_02">
+                                        <div>
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p>@Localizer["위탁가능"]</p>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input name="consignment_state_check" class="default" type="checkbox" value="impossible" id="consignment_state_check_03">
+                                    <label for="consignment_state_check_03">
+                                        <div>
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p>@Localizer["위탁불가"]</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div>
+                                <span>@Localizer["조회기간"]</span>
+                                <div class="select_date calendar" id="consignment-date-picker">
+                                    <input type="text" data-input data-id="range" readonly="readonly"
+                                           value="@Localizer["조회기간 선택"]"/>
+                                    <div class="icon" title="toggle" data-toggle></div>
+                                </div>
+                            </div>
+                            <div class="search_wrap">
+                                <span>@Localizer["검색어"]</span>
+                                <div class="search_area">
+                                    <input id="search-consignment-input" class="search_default" type="search" placeholder="@Localizer["작가 또는 작품 명 입력"]">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </div>
+                                <button id="search-consignment-btn" class="filter_search_btn btn_blue">
+                                    @Localizer["찾기"]
+                                </button>
+                            </div>
+                            <div id="consignment-reset-btn" class="reset-btn">
+                                <button class="btn_nt btn-hg-more-lg">
+                                    <img src="/img/icons/refresh_icon.png" alt="" srcset="/img/icons/refresh_icon.png 1x,/img/icons/refresh_icon@2x.png 2x,/img/icons/refresh_icon@3x.png 3x">
+                                    @Localizer["필터초기화"]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inquiry-btn-wrap">
+                        <div class="total">검색결과 <b id="consignment-item-count"></b></div>
+                        <button id="consign-inquiry-btn" class="btn-hg-more-lg inquiry-btn" href="/MyPage/ConsignRequest">
+                            <a href="/MyPage/ConsignRequest">
+                                @Localizer["문의하기"]
+                            </a>
+                        </button>
+                    </div>
+                    <div class="list_wrap" id="consignment-items-div">
+                    </div>
+                    <div id="consignment-items-div-empty" style="display: none;">
+                        <div class="ico-page text-center">
+                            <img src="/img/icons/notbid-ico@1x.png" alt="@Localizer["문의 내역이 없습니다."]" srcset="/img/icons/notbid-ico@1x.png 1x, /img/icons/notbid-ico@2x.png 2x, /img/icons/notbid-ico@3x.png 3x">
+                            <p>@Localizer["문의 내역이 없습니다."]</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="inquiry_cnt" id="work-content-div" style="display: none;">
+                    <div class="filter_wrap">
+                        <div class="top">
+                            <div class="checkbox_wrap">
+                                <div>
+                                    <input name="work_state_check" class="default" type="checkbox" value="D" id="work_state_check_01">
+                                    <label for="work_state_check_01">
+                                        <div>
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p>@Localizer["답변 대기중"]</p>
+                                    </label>
+                                </div>
+                                <div>
+                                    <input name="work_state_check" class="default" type="checkbox" value="C" id="work_state_check_02">
+                                    <label for="work_state_check_02">
+                                        <div>
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <p>@Localizer["답변 완료"]</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div>
+                                <span>@Localizer["조회기간"]</span>
+                                <div class="select_date calendar" id="work-date-picker">
+                                    <input type="text" data-input data-id="range" readonly="readonly"
+                                           value="@Localizer["조회기간 선택"]"/>
+                                    <div class="icon" title="toggle" data-toggle></div>
+                                </div>
+                            </div>
+                            <div class="search_wrap">
+                                <span>@Localizer["검색어"]</span>
+                                <div class="search_area">
+                                    <input id="search-work-input" class="search_default" type="search" placeholder="@Localizer["작가 또는 작품 명 입력"]">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </div>
+                                <button id="search-work-btn" class="filter_search_btn btn_blue">
+                                    @Localizer["찾기"]
+                                </button>
+                            </div>
+  
+                            <div id="work-reset-btn" class="reset-btn">
+                                <button class="btn_nt btn-hg-more-lg">
+                                    <img src="/img/icons/refresh_icon.png" alt="" srcset="/img/icons/refresh_icon.png 1x,/img/icons/refresh_icon@2x.png 2x,/img/icons/refresh_icon@3x.png 3x">
+                                    @Localizer["필터초기화"]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inquiry-btn-wrap">
+                        <div class="total">@Localizer["검색 결과"] <b id="inquiry-item-count"></b></div>
+                    </div>
+                    
+                    <div class="inquiry_details_wrap" id="work-items-div">
+                    </div>
+                    <div id="work-items-div-empty" style="display: none;">
+                        <div class="ico-page text-center">
+                            <img src="/img/icons/notbid-ico@1x.png" alt="@Localizer["문의 내역이 없습니다."]" srcset="/img/icons/notbid-ico@1x.png 1x, /img/icons/notbid-ico@2x.png 2x, /img/icons/notbid-ico@3x.png 3x">
+                            <p>@Localizer["문의 내역이 없습니다."]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Partial/_WorkInquiryModalPartial" />
+@section Scripts {
+    <script type="module" src="~/js/views/myPage/inquiries.js" asp-append-version="true"></script>
+}

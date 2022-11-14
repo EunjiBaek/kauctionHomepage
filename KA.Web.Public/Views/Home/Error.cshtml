@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@model ErrorViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.Code) && Model.Code.Equals("auction_work"))
+{
+    <div class="countdown-wrap">
+        <h1>@L["프리뷰까지"]</h1>
+        <div class="previwe-countdown">
+            <span id="previwe-countdown">00 : 00 : 00</span>
+        </div>
+        <ul>
+            <li>Hours</li>
+            <li>Mins</li>
+            <li>Sec</li>
+        </ul>
+        <p>@Html.Raw(L["[AUCTITLE]는 <span>[AUCDATE] [AUCTIME]</span>에 공개 될 예정입니다.<br />잠시만 기다려 주세요."].Value.Replace("[AUCDATE]", Model.AuctionWork.DisplayPreviewDate).Replace("[AUCTITLE]", Model.AuctionWork.DisplayAucTitle).Replace("[AUCTIME]", Model.AuctionWork.DisplayPreviewTime))</p>
+        <button><a href="/" target="_self">@L["홈으로 이동"]</a></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(Model.Code) && Model.Code.Equals("auction_list"))
+{
+    <div class="countdown-wrap">
+        <h1>@L["프리뷰까지"]</h1>
+        <div class="previwe-countdown">
+            <span id="previwe-countdown">00 : 00 : 00</span>
+        </div>
+        <ul>
+            <li>Hours</li>
+            <li>Mins</li>
+            <li>Sec</li>
+        </ul>
+        <p>@Html.Raw(L["[AUCTITLE]는 <span>[AUCDATE] [AUCTIME]</span>에 공개 될 예정입니다.<br />잠시만 기다려 주세요."].Value.Replace("[AUCDATE]", Model.AuctionSchedule.DisplayPreviewDate).Replace("[AUCTITLE]", Model.AuctionSchedule.DisplayAucTitle).Replace("[AUCTIME]", Model.AuctionSchedule.DisplayPreviewTime))</p>
+        <button><a href="/" target="_self">@L["홈으로 이동"]</a></button>
+    </div>
+}
+else
+{
+    <div id="error-desc" class="error-desc">
+        <div>
+            <img src="/img/icons/error-ico@1x.png" alt="">
+            @if (string.IsNullOrWhiteSpace(Model.Code))
+            {
+                <p>@L["권한이 없거나 허용되지 않은 접근입니다."]</p>
+            }
+            else
+            {
+                <p>
+                    <script>document.write(ka.msg.common.@Model.Code);</script>
+                </p>
+            }
+            <div class="error-btn">
+                <a href="/">@L["홈으로 이동"]</a>
+            </div>
+
+        </div>
+    </div>
+}
+
+<script>
+
+    @if (Model.AuctionWork != null && Model.Code.Equals("auction_work")) {
+        @:let countdownText = '@Model.AuctionWork.AucPreviewDate.ToString("yyyy/MM/dd HH:mm:ss").Replace("/", "-")';
+
+        @:$(document).ready(function() { 
+            @:$.commonScript.countDownTimer(countdownText, 'previwe-countdown');
+        @:});
+    }
+    @if (Model.AuctionSchedule != null && Model.Code.Equals("auction_list")) {
+        @:let countdownText = '@Model.AuctionSchedule.AucPreviewDate.ToString("yyyy/MM/dd HH:mm:ss").Replace("/", "-")';
+
+        @:$(document).ready(function() {
+            @:$.commonScript.countDownTimer('hourContDown', countdownText, 'previwe-countdown');
+        @:});
+    }
+
+</script>

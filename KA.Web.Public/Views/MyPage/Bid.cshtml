@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<style type="text/css">
+    .card.artwork .description, .card.artwork .list-inline-item {
+        font-size: 14px !important;
+        line-height: 24px;
+    }
+</style>
+
+<div class="jumbotron bg-transparent m-b-0">
+    @{
+        var breadcrumbModel = new[] { "My Page", Localizer["응찰내역"].Value };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+    <div class="container m-t-50 m-b-30 p-b-10">
+        <!-- 섹션/정렬 영역 -->
+        <div class="row m-t-20 m-b-20">
+            <div class="col-12 col-sm-12">
+                <style>
+                    .nav li a.active, .nav li a:hover {
+                        border-bottom: 1px solid #f47104;
+                        color: #f47104;
+                        cursor: pointer;
+                    }
+                </style>
+                <ul class="nav nav-auction">
+                    <li class="nav-item"><a id="section-0" class="nav-link active" onclick="sectionList('0');">@Localizer["전체"]</a></li>
+                    <li class="nav-item"><a id="section-1" data-title-default="@Localizer["메이저 경매"]" data-title-mobile="@Localizer["메이저"]" class="nav-link" onclick="sectionList('1');">@Localizer["메이저 경매"]</a></li>
+                    <li class="nav-item"><a id="section-2" data-title-default="@Localizer["프리미엄 온라인"]" data-title-mobile="@Localizer["프리미엄"]" class="nav-link" onclick="sectionList('2');">@Localizer["프리미엄 온라인"]</a></li>
+                    <li class="nav-item"><a id="section-4" data-title-default="@Localizer["위클리 온라인"]" data-title-mobile="@Localizer["위클리"]" class="nav-link" onclick="sectionList('4');">@Localizer["위클리 온라인"]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 아코디언 영역 -->
+        <div class="row" id="accordion"></div>
+
+        <!-- 페이지네이션 영역 -->
+        <div class="dataTables_wrapper m-b-10">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <div class="dataTables_paginate paging_full_numbers">
+                        <ul class="pagination"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var isProcess = false;
+    var requestParam = {};
+    requestParam["page"] = 1;
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+        }
+
+        getList();
+    });
+
+
+    function getList() {
+        if (isProcess) return;
+        isProcess = true;
+        $.ajaxUtils.getApiData('/api/MyPage/GetBidList', requestParam, getListComplete);
+    }
+
+    function sectionList(type) {
+        requestParam["page"] = 1;
+        requestParam["auc_kind"] = type > 0 ? type.toString() : "";
+
+        var el = $(".nav").find("a").attr("class", "nav-link");
+        $("#section-" + type.toString()).addClass("active");
+
+        getList();
+    }
+
+    function getListComplete(result) {
+        isProcess = false;
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#accordion").empty();
+            var totalCount = 0;
+            var aucRank = 0;
+            $.each(result.data, function (index, item) {
+                if (item.auc_rank != aucRank) {
+                    var panel = $("<div />", { "class": "card card-default", "style": "margin-bottom: 0px;" });
+                    var header = $("<div />", { "class": "card-header separator", "style": "padding: 15px 20px 5px 20px;" }).append(
+                        $("<div />", { "class": "card-title w-100 fs-16" }).append(
+                            $("<label />", { "class": "fs-18", "style": "float: left; cursor: pointer;", "data-toggle": "collapse", "data-parent": "#accordion", "href": "#collapse-" + item.auc_rank.toString() }).append(
+                                item.auc_title)
+                        )
+                    );
+                    var body = $("<div />", { "id": "collapse-" + item.auc_rank.toString(), "class": "panel-collapse collapse in show" }).append(
+                        $("<div />", { "class": "card-body", "id": "card-body-" + item.auc_rank.toString() })
+                    );
+
+                    $("#accordion").append(panel.append(header, body));
+                }
+
+                $.cardUtils.setBidWorkCardTag("#card-body-" + item.auc_rank, item, "N");
+
+                aucRank = item.auc_rank;
+
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+            });
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    callback: getList
+                });
+            } else {
+                $.cardUtils.setEmptyCardTag("#accordion", "bid");
+                $(".pagination").empty();
+            }
+        } else { $.commonUtils.alert(ka.msg.common.error); }
+    }
+
+</script>

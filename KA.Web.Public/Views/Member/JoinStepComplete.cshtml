@@ -1,0 +1,226 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Entities.Models.Member.Member
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var jobList = commonService.GetCodeList("MEM_JOB");
+    var disabled = LoginInfo.Type.Equals("001") ? "disabled" : "";
+}
+
+<div class="join-container">
+    <div class="join-wrap">
+        <div class="join_step_tit"><p>@L["회원가입 완료"]</p><ul class="join_step_list"><li class="on">1</li><li class="on">2</li><li class="on">3</li></ul></div>
+        <div class="joincomlete-wrap">
+            <div class="joincomlete_tit">
+                <svg width="50px" height="50px" viewBox="0 0 133 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="check-group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <circle id="filled-circle" fill="#FF9534" cx="66.5" cy="66.5" r="54.5"></circle>
+                        <circle id="white-circle" fill="#FFFFFF" cx="66.5" cy="66.5" r="55.5"></circle>
+                        <circle id="outline" stroke="#FF9534" stroke-width="4" cx="66.5" cy="66.5" r="54.5"></circle>
+                        <polyline id="check" stroke="#FFFFFF" stroke-width="4" points="41 70 56 85 92 49"></polyline>
+                    </g>
+                </svg>
+                @if (!commonService.IsKor())
+                {
+                    <h2>Thank you for registering as a <strong>K Auction member</strong></h2>
+                }
+                else
+                {
+                    <h2><strong>케이옥션 <span>가</span><span>입</span></strong>을 <br />축하합니다.</h2>
+                }
+            </div>
+            <div class="joincomlete_cnt c_01">
+                <p>@L["주요 가입정보"]</p>
+                <table class="join_info_form">
+                    <tbody>
+                        <tr><td>@L["가입유형"]</td><td>@(!commonService.IsKor() ? Model.TypeNameEn : Model.TypeName)</td></tr>
+                        <tr><td>ID</td><td>@Model.ID</td></tr>
+                        <tr><td>@L["이름"]</td><td>@Model.Name</td></tr>
+                    </tbody>
+                </table>
+                <span>@L["더 자세한 내용은 회원정보에서 확인하세요.  <a href='/Mypage/Member'>[회원정보로 이동]</a>"]</span>
+            </div>
+            <div class="joincomlete_cnt c_02">
+                <p>@L["광고성 정보 수신 동의 처리 결과"]</p>
+                <table class="advertisement-agree-tb">
+                    <tbody>
+                        <tr>
+                            <td>@L["문자메시지"]</td>
+                            <td>@L["이메일"]</td>
+                            <td>@L["전화"]</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @if (Model.ReceiveSmsInfo != null && Model.ReceiveSmsInfo.Equals("Y"))
+                                {
+                                    <div>
+                                        <span>@L["동의"]</span>
+                                        <span>@Model.ReceiveSmsDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <span>@L["수신거부"]</span>
+                                        <a target="_self" href="/Member/JoinStepComplete/Sms">@L["동의하기"]</a>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @if (Model.ReceiveEmailInfo != null && Model.ReceiveEmailInfo.Equals("Y"))
+                                {
+                                    <div>
+                                        <span>@L["동의"]</span>
+                                        <span>@Model.ReceiveEmailDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <span>@L["수신거부"]</span>
+                                        <a target="_self" href="/Member/JoinStepComplete/Email">@L["동의하기"]</a>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @if (Model.ReceivePhoneInfo != null && Model.ReceivePhoneInfo.Equals("Y"))
+                                {
+                                    <div>
+                                        <span>@L["동의"]</span>
+                                        <span>@Model.ReceivePhoneDate.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <span>@L["수신거부"]</span>
+                                        <a target="_self" href="/Member/JoinStepComplete/Phone">@L["동의하기"]</a>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="joincomlete_btn_cnt">
+                <p><a href="/MyPage/Member">@L["회원정보 변경"]</a><i class="fas fa-chevron-right"></i></p>
+                <button onclick="location.href='/';">@L["메인페이지로 이동"]</button>
+                @if (LoginInfo.Type != null && LoginInfo.Type.Equals("001") && !ViewBag.AuthFlag)
+                {
+                    <button class="btn_default_ef mypage_button" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="pwModalOpen($(this));">@L["응찰을 위해 본인인증 하기"]</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="join_footer">
+    <div class="container">
+        <div class="join_footer_wrap">
+            <ul>
+                <li><a href="/HowTo/MajorClause">@L["경매약관"]</a></li>
+                <li><a href="/HowTo/OnlineClause">@L["온라인경매약관"]</a></li>
+                <li><a class="PrivacyClause" href="/HowTo/PrivacyClause">@L["개인정보처리방침"]</a></li>
+                <li><a target="_self" href="/HowTo/Clause/InfoMng">@L["내부정보관리규정"]</a></li>
+            </ul>
+            <p class="copyright"><span>Copyright ⓒ <a href="http://www.k-auction.com">K Auction.</a> All Rights Reserved</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="mypage_modal" style="z-index: 1500;">
+    <div class="mypage_modal_wrap">
+        <button class="mypage_modal_close"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="mypage_modal_header">@L["인증번호 입력"]</div>
+        <div class="mypage_modal_content">
+            <div class="cnt">                
+                <div class="certified_choice">
+                    <p class="fw-700">@L["원하는 인증 수단을 선택하세요."]</p>
+                    <h2 class="text-center mb-3">@L["인증 된 정보는 회원정보로 활용됩니다.<br />인증 수단을 선택하세요."]</h2>
+                    <div class="list">
+                        <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'M', 'JoinComplete');"><div class="icon_img"></div><p>@L["통신사 본인인증"]</p></div>
+                        <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'C', 'JoinComplete');"><div class="icon_img"></div><p>@L["신용카드 본인인증"]</p></div>
+                    </div>
+                </div>                
+            </div>
+            <div class="modal_table_btn_wrap"><button class="defautl_btn">@L["확인"]</button></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $.joinUtils.authSequence = "@ViewBag.JoinToken";
+
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(1):after', 'content: "' + ka.msg.join.joinStep1 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(2):after', 'content: "' + ka.msg.join.joinStep2 + '";');
+        document.styleSheets[0].addRule('ul.join_step_list li:nth-child(3):after', 'content: "' + ka.msg.join.joinStep3 + '";');
+
+        // 클래스명 추가하기
+        $("body").addClass("bgcolor");
+        $(".content").addClass("not_pad");
+        $(".header, footer, .footer-padding").addClass("none");
+        $(".select2-container").addClass("sequence");
+        $("#titleGoHome").html(ka.msg.join.goToHome);
+        $("#mobile-bottom-menu").remove();
+        $("#alltop-btn").remove();
+
+        $('.join-next > div:nth-child(1) > .joinnext-btn').click(function () {
+            const addinfo = $('#etc-info-1');
+            const addinfotop = addinfo.offset().top * 0.95;
+            $('html, body').animate({ scrollTop: addinfotop }, 600, "swing");
+        });
+
+        const cardheader = document.querySelectorAll('.card-header.separator');
+        const cardbody = document.querySelectorAll('.card-body');
+        for (i = 0; i < cardheader.length; i++) {
+            cardheader[i].classList.add('member-header');
+            cardheader[i].classList.remove('separator');
+            cardbody[i].classList.add('cardbody');
+        }
+
+        if (document.querySelector('.card.card-default') != null) {
+            document.querySelector('.card.card-default').classList.add('card-join');
+        }
+
+        if (document.querySelector('.join-profile') !== null) {
+            if (document.querySelector('.join-profile').style.display == "none") {
+                if (document.getElementById('etc-info-1') !== null) {
+                    document.getElementById('etc-info-1').style.display == "none";
+                }
+            }
+        }
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+    });
+
+    function handleResize() {
+        const windowWidth = window.innerWidth;
+
+        if (windowWidth > 992) {
+            for (i = 0; i < 3; i++) {
+                if (document.querySelector('.join-profile') !== null) {
+                    if (document.querySelector('.join-profile').style.display == "none") {
+                        document.querySelectorAll('.join-next > div')[i].style.width = 49 + "%";
+                    }
+                }
+            }
+        } else {
+            for (i = 0; i < 3; i++) {
+                if (document.querySelector('.join-profile') != null) {
+                    if (document.querySelector('.join-profile').style.display == "none") {
+                        document.querySelectorAll('.join-next > div')[i].style.width = 100 + "%";
+                    }
+                }
+            }
+        }
+    }
+
+    function pwModalOpen(target) {
+        $.commonUtils.mypageModal(target);
+    }
+
+</script>

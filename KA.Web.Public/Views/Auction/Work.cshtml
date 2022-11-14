@@ -1,0 +1,1966 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using KA.Entities.Helpers
+@using KA.Entities.Models.Auction
+@model KA.Web.Public.ViewModels.Auction.AuctionWorkViewModel
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var countryList = commonService.GetCodeList("MEM_COUNTRY", commonService.IsKor());
+
+    var colIndex = ViewBag.AucKind.Equals("1") ? "6" : "4";
+
+    var imgClass = Model.AuctionWork.AucPreviewDate <= DateTime.Now || Model.AuctionWork.BidYN.Equals("Y") || LoginInfo.ManagerYN.Equals("Y") ? "galley" : "galley-img";
+    if (Model.AuctionWork.MinimalImageYN.Equals("Y"))
+    {
+        imgClass = "galley-img-copy";
+    }
+    var imgClass2 = imgClass + "2";
+    var divWorkInfoClass = Model.AuctionWork.WorkTextKoDisplayAllYN.Equals("Y") ? "writer-info" : "";
+    var divArtistInfoClass = Model.AuctionWork.EtcDisplayAllYN.Equals("Y") ? "writer-info" : "";
+
+    var viewingImage = Model.AuctionWorkImages.Count() > 0 ? Model.AuctionWorkImages.Where(x => x.ImgType.Equals("04")).FirstOrDefault() : new AuctionWorkImage();
+    var viewingImagePath = viewingImage.ImgFileName;
+}
+
+@section Styles {
+    <style>
+        #alltop-btn {
+            display: none !important;
+        }
+    
+        #highlight {
+            margin: 0 !important;
+        }
+    
+        @@media (max-width:768px) {
+            .ka-container .ka-content-wrapper .content {
+                padding-bottom: 180px;
+            }
+    
+            #highlight {
+                padding: 0 !important;
+            }
+        }
+    
+        @@media (max-width:450px) {
+            .ka-container .ka-content-wrapper .content {
+                padding-bottom: 150px;
+            }
+        }
+    
+        #mobile-bottom-menu {
+            display: none !important;
+        }
+    
+        .form-group-default.form-group-default-select2 > label {
+            z-index: initial !important;
+        }
+    
+        .select2-container {
+            width: 100% !important;
+            z-index: initial !important;
+        }
+    
+        .select2-dropdown {
+            z-index: initial !important;
+        }
+    
+        .select2-container.select2-container--default.select2-container--open {
+            z-index: 1700 !important;
+        }
+    
+        .select2-container--default .select2-selection--single {
+            background-color: transparent !important;
+        }
+    
+        @@media(max-width:768px) {
+            .card {
+                margin-bottom: 45px
+            }
+        }
+    </style>
+}
+
+<div id="canvaswrap" class="canvaswrap">
+    <button>
+        <img src="/img/work/work_detail_close_btn.png" alt="" srcset="/img/work/work_detail_close_btn.png 1x, /img/work/work_detail_close_btn@2x.png 2x, /img/work/work_detail_close_btn@3x.png 3x">
+    </button>
+    <div class="canvas-content">
+        <div>
+            <img src="/img/work/virtual-exhibition-widthSize.png" class="exhibition-widthSize" />
+            <div class="canvas-slide">
+                <img src="/img/work/human01.png" alt="인물사진" class="human-picture" />
+                <img src="/img/bg/canvas-bg.jpg" class="canvasBackground" />
+                <canvas width="998" height="570" id="canvas"></canvas>
+                <button class="canvas_btn" type="button">
+                    <img class="canvas_btn_icon" src="/img/icons/canvas_btn_icon@1x.png" alt="" srcset="/img/icons/canvas_btn_icon@1x.png 1x,
+                    /img/icons/canvas_btn_icon@2x.png 2x,
+                    /img/icons/canvas_btn_icon@3x.png 3x">
+                    <span>@L["근접배경으로 변경하기"]</span>
+                </button>
+            </div>
+            <ul>
+                <li><div>•</div><span>@L["작품의 위치는 드래그하여 이동할 수 있습니다."]</span></li>
+                <li><div>•</div><span>@L["작품이 정상적으로 보이지 않을 경우, 새로고침으로 이미지를 갱신하시기 바랍니다. <span style='cursor: pointer; color: #ff5d16; font-weight: 600;' onclick='refreshViewInRoom();'>[새로고침]</span>"]</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section id="main" oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+    <!--mobile-top-->
+    <div class="mobile-top"><div class="mobile-top-aucname"><span>@Model.AuctionWork.DisplayAucTitle</span></div></div>
+    <!--//mobile-top-->
+    <!-- TOP-HEADER (AUCTION TITLE, WORK LOT, LIST/BEFORE/NEXT) START -->
+    <section id="top-header">
+        <div class="work-container">
+            <div class="main-row">
+                <div class="top-header">
+                    @if (Model.AuctionWork.PrevUid > 0)
+                    {
+                        <div class="top-prev-btn" onclick="window.open('/Auction/@ViewBag.Auction/@Model.AuctionWork.AucNum/@Model.AuctionWork.PrevUid' + '@Context.Request.QueryString.Value', '_self');">
+                            <i class="fas fa-chevron-left" style="margin-right: 5px;"></i>
+                            <span>@L["이전"]</span>
+                        </div>
+                    }
+                    <div class="top-center">
+                        <div class="lot-desc">
+                            <div class="top-list" onclick="window.location.href = '/Auction/@ViewBag.Auction/@ViewBag.AucNum' + '@Context.Request.QueryString.Value';" style="margin-right: 10px;">
+                                <i class="fas fa-list-ul"></i>
+                            </div>
+                            <div class="auctionName">
+                                <span>@Model.AuctionWork.DisplayAucTitle</span>
+                            </div>
+                            <div class="top-lot-num">
+                                <span>LOT @Model.AuctionWork.LotNum</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="lot-dropdown" style="display: none;">
+                            <div class="searchBox">
+                                <input type="text" id="search-input" placeholder="@L["LOT번호 입력"]" />
+                                <button class="lot-btn" type="submit" name="click" value="">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="listBox">
+                                @foreach (var item in Model.LotList)
+                                {
+                                    <div class="listInner" onclick="location.href = '@item.WorkLink';" data-link="@item.WorkLink">
+                                        <div class="lotarr">
+                                            <div class="listImg">
+                                                <img loading="lazy" src="@item.ThumFileURL" />
+                                            </div>
+                                            <div class="listLot">
+                                                LOT @item.LotNum
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.AuctionWork.NextUid > 0)
+                    {
+                        <div class="top-next-btn" onclick="window.open('/Auction/@ViewBag.Auction/@Model.AuctionWork.AucNum/@Model.AuctionWork.NextUid' + '@Context.Request.QueryString.Value', '_self');">
+                            <span>@L["다음"]</span>
+                            <i class="fas fa-chevron-right" style="margin-left: 5px;"></i>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TOP-HEADER (AUCTION TITLE, WORK LOT, LIST/BEFORE/NEXT) END -->
+    <!-- WORK START -->
+    <section id="work">
+        <div class="work-container">
+            <div class="main-row">
+                <div class="main">
+                    <div class="main-content">
+                        <div class="left">
+                            <!-- IMAGE START -->
+                            <div class="work-gallery">
+                                <div class="image-list">
+                                    <ul>
+                                        @foreach (var item in Model.AuctionWorkImages)
+                                        {
+                                            @if (item.ImgType.Equals("04"))
+                                            {
+                                                @Html.Raw($"<li class='{(item.ImgSeq.Equals(1) ? "active" : "")}'>")
+                                                @Html.Raw($"<a href='#'><img src='{item.ImgFileName}' /></a></li>")
+                                            }
+                                        }
+                                    </ul>
+                                    <div class="viewInRoom">
+                                        <img id="viewInRoomImg" src="/img/icons/viewinroom@1x.png" alt="view in room icon" srcset="/img/icons/viewinroom@1x.png 1x,/img/icons/viewinroom@2x.png 2x,/img/icons/viewinroom@3x.png 3x" />
+                                    </div>
+                                </div>
+                                <!-- PC IMAGE START -->
+                                <div class="work-all">
+                                    <div class="slide-all">
+                                        <div id="@imgClass">
+                                            @foreach (var item in Model.AuctionWorkImages)
+                                            {
+                                                if (Model.AuctionWork.MinimalImageYN.Equals("Y"))
+                                                {
+                                                    if (item.ImgType.Equals("04"))
+                                                    {
+                                                        <div class="slide"><img style="width: 80px;" class="zoomImage" src="@item.ImgFileNameThum" /></div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (item.ImgType.Equals("04"))
+                                                    {
+                                                        <div class="slide"><img src="@(Model.IsBid ? item.ImgFileName : item.ImgFileNameThum)" /></div>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <!-- PC IMAGE END -->
+                                    <!-- MOBILE IMAGE START -->
+                                    <div class="slide-all swiper-container">
+                                        <div id="@imgClass2" class="swiper-wrapper">
+                                            @foreach (var item in Model.AuctionWorkImages)
+                                            {
+                                                if (item.ImgType.Equals("04"))
+                                                {
+                                                    <div class="slide swiper-slide"><img src="@item.ImgFileName" /></div>
+                                                }
+                                            }
+                                        </div>
+                                        <div class="swiper-pagination list"></div>
+                                    </div>
+                                    <!-- MOBILE IMAGE END -->
+                                    <!-- GALLERY START -->
+                                    <div class="gallery-icon">
+                                        <!-- WISHLIST ICON START -->
+                                        <div class="heartic heartic-@Model.AuctionWork.Uid" data-wish-yn="@Model.AuctionWork.WishYN" data-uid="@Model.AuctionWork.Uid">
+                                            <i class="@(Model.AuctionWork.WishYN.Equals("Y") ? "fas" : "far") fa-heart"></i>
+                                        </div>
+                                        <!-- WISHLIST ICON END -->
+                                        <!-- SHARE ICON START -->
+                                        <div class="share">
+                                            <a href="#" onclick="copy_to_clipboard()" style="width:100%; height:100%; display:block; z-index: 300;">
+                                                <script>document.write(ka.icon.share);</script>
+                                            </a>
+                                        </div>
+                                        <!-- SHARE ICON END -->
+                                        <!-- EXPANSION ICON START -->
+                                        @if (!Model.AuctionWork.MinimalImageYN.Equals("Y") && (Model.AuctionWork.BidYN.Equals("Y") || LoginInfo.ManagerYN.Equals("Y")))
+                                        {
+                                            <div class="expansion">
+                                                <script>document.write(ka.icon.expansion);</script>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <!-- GALLERY END -->
+                                </div>
+                            </div>
+                            <!-- IMAGE END -->
+                            <!-- RIGHT (MOBILE) START -->
+                            <div class="right">
+                                <!-- TITLE / MATERIAL START -->
+                                <div class="top-tit">
+                                    <div class="lot-num">
+                                        <span>LOT @Model.AuctionWork.LotNum</span>
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayBadgeDesc))
+                                        {
+                                            <p class="charity_text">@Model.AuctionWork.DisplayBadgeDesc</p>
+                                        }
+                                    </div>
+                                    <p class="writer">
+                                        @Model.AuctionWork.DisplayArtistName
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.ArtistExtraInfo))
+                                        {
+                                            <span>@Model.AuctionWork.ArtistExtraInfo</span>
+                                        }
+                                    </p>
+                                    <div class="heartic active heartic-@Model.AuctionWork.Uid" data-wish-yn="@Model.AuctionWork.WishYN" data-uid="@Model.AuctionWork.Uid">
+                                        <i class="@(Model.AuctionWork.WishYN.Equals("Y") ? "fas" : "far") fa-heart"></i>
+                                    </div>
+                                    <!--SHARE START -->
+                                    <div class="share">
+                                        <a href="#" onclick="copy_to_clipboard()" style="width:100%; height:100%; display:block; z-index: 300;">
+                                            <script>document.write(ka.icon.share);</script>
+                                        </a>
+                                    </div>
+                                    <!-- SHARE END -->
+                                    <p class="sub-tit">@Model.AuctionWork.DisplayTitle</p>
+                                    <div class="material">
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMaterial))
+                                        {
+                                            <p>
+                                                <span>
+                                                    @Model.AuctionWork.DisplayMaterial
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.Edition))
+                                                    {
+                                                        @Model.AuctionWork.DisplayEdition
+                                                    }
+                                                </span>
+                                            </p>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) || !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                        {
+                                            <p>
+                                                <span>
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize))
+                                                    {
+                                                        @Model.AuctionWork.DisplaySize
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                                    {
+                                                        @:|
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                                    {
+                                                        @Model.AuctionWork.DisplayMakeDate
+                                                    }
+                                                </span>
+                                            </p>
+                                        }
+                                    </div>
+                                </div>
+                                <!-- TITLE / METERIAL END -->
+                                <!-- BID TIME START -->
+                                @if (!ViewBag.AucKind.Equals("1"))
+                                {
+                                    <div class="deadline-hour">
+                                        <span>@L["남은시간"]</span>
+                                        <div id="countdown">
+                                            <ul>
+                                                <li><span class="remainTime"></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                                <!-- BID TIME END -->
+                                <!-- PRICE START -->
+                                <div class="es-price">
+                                    <p>
+                                        <strong>@L["추정가"]</strong>
+                                        @if (Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y"))
+                                        {
+                                            @L["별도문의"]
+                                        }
+                                        else
+                                        {
+                                            @:KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedLow) ~ @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedHigh)
+                                        }
+                                    </p>
+                                    @if (!ViewBag.AucKind.Equals("1"))
+                                    {
+                                        <p>
+                                            <strong>@L["시작가"]</strong>
+                                            KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)
+                                            @if (Model.AuctionWork.BidCnt < 1 && Model.IsAuthenticated)
+                                            {
+                                                <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                    <script>document.write(ka.icon.refresh);</script>
+                                                </a>
+                                            }
+                                        </p>
+                                        @if (Model.AuctionWork.BidCnt > 0)
+                                        {
+                                            <p>
+                                                <strong>@L["현재가"]</strong>
+                                                KRW <label class="price-max" style="margin-bottom:0px">@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceMax)</label>
+                                                <span class="bid-list-cont-mb-total2"></span>
+                                                @if (Model.IsAuthenticated)
+                                                {
+                                                    <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                        <script>document.write(ka.icon.refresh);</script>
+                                                    </a>
+                                                }
+                                            </p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Model.AuctionWork.AucEndDate <= DateTime.Now)
+                                        {
+                                            @if (Model.IsAuthenticated)
+                                            {
+                                                @if (Model.AuctionWork.PriceHammer > 0)
+                                                {
+                                                    <p style="color: #F47104; font-weight: bold;">
+                                                        <strong style="color: #000;">@L["낙찰가"]</strong>
+                                                        KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceHammer)
+                                                    </p>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p><strong class="w-auto" style="color: #F47104;">@L["로그인 하시면 낙찰가를 확인하실 수 있습니다."]</strong></p>
+                                            }
+                                        }
+                                    }
+                                </div>
+                                <!-- PRICE END -->
+                                <!-- MODAL START -->
+                                @if (!ViewBag.AucKind.Equals("1"))
+                                {
+                                    <div class="right-modal">
+                                        <div class="closing-hour">
+                                            @L["마감시간"]
+                                            <span>@Model.AuctionWork.DisplayEndTime</span>
+                                        </div>
+                                        <ul>
+                                            <li class="rightmodalBtn">
+                                                <p><span>@L["낙찰 수수료"]</span></p>
+                                                <script>document.write(ka.icon.more);</script>
+                                                <div class="preview-bubble">
+                                                    <p><span>@L["현재가 기준"]</span></p>
+                                                    <strong>KRW <span>@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceComm)</span></strong>
+                                                </div>
+                                            </li>
+                                            <li class="rightmodalBtn">
+                                                <p><span>@L["예상 배송비"]</span></p>
+                                                <script>document.write(ka.icon.more);</script>
+                                                <div class="preview-bubble">
+                                                    <p>@L["기본 배송지기준"]</p>
+                                                    <strong>KRW <span>@StringHelper.GetMoneyFormat(Model.DeliveryPrice)</span></strong>
+                                                </div>
+                                            </li>
+                                            <li class="rightmodalBtn">
+                                                <p><span>@L["경매 호가표"]</span></p>
+                                                <script>document.write(ka.icon.more);</script>
+                                            </li>
+                                            <li class="rightmodalBtn">
+                                                <p><span>@L["설치 및 보관"]</span></p>
+                                                <script>document.write(ka.icon.more);</script>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                                <!-- MODAL END -->
+                                <!-- INQUIRE START -->
+                                <div class="inquiry">
+                                    <script>document.write(ka.icon.inquiry);</script>
+                                    <p class="btn-inquiry">@L["상세문의"]</p>
+
+                                    <!--마이페이지개편 작품문의 모달창 버튼-->
+                                    <!-- <p data-toggle="modal" data-target="#inquiry_popup" class="btn-inquiry">@L["상세문의"]</p> -->
+                                    <span>02-3479-8888</span>
+
+                                    <img class="btn-print" src="/img/icons/print-ico@1x.png" alt="Print"
+                                         srcset="/img/icons/print-ico@1x.png 1x,
+                                        /img/icons/print-ico@2x.png 2x,
+                                        /img/icons/print-ico@3x.png 3x" onclick="printDiv('@Model.AuctionWork.AucKind', '@Model.AuctionWork.AucNum', '@Model.AuctionWork.Uid')">
+                                </div>
+                                <!-- INQUIRE END -->
+                            </div>
+                            <!-- RIGHT (MOBILE) END -->
+                            <!-- WORKINFO START -->
+                            <div class="work-info">
+                                <!-- WORK DESC START -->
+                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayDesc) || !string.IsNullOrWhiteSpace(Model.AuctionWork.Copyright) || Model.WorkAddtionalInfo.ToList().Count > 0 || Model.WorkAdditionalImages.ToList().Count > 0)
+                                {
+                                    <div class="work-desc">
+                                        <!-- WRITER INFO START -->
+                                        <div class="@divWorkInfoClass">
+                                            <h3>@L["작품 정보"]</h3>
+                                            <div class="cont">
+                                                <p>@Html.Raw(Model.AuctionWork.DisplayDesc)</p>
+                                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.Copyright))
+                                                {
+                                                    <p>@Html.Raw(Model.AuctionWork.Copyright)</p>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayCategoryDesc))
+                                                {
+                                                    <p>@Html.Raw(Model.AuctionWork.DisplayCategoryDesc)</p>
+                                                }
+                                            </div>
+                                            @if (Model.WorkAddtionalInfo.ToList().Count > 0)
+                                            {
+                                                <div class="cont" id="ref-cont">
+                                                    <div class="reference">
+                                                        <h6>@L["작품의 참고 자료"]</h6>
+                                                        @foreach (var item in Model.WorkAddtionalInfo)
+                                                        {
+                                                            <p class="refer-link">
+                                                                <a href="@item.Href" onclick="@item.Click">
+                                                                    @if (item.Flag.Equals("EB"))
+                                                                    {
+                                                                        <img src="@item.ImageUrl" alt="Image" style="height: 100px !important;" />
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @item.Value1
+                                                                        <script>document.write(ka.icon.reference);</script>
+                                                                    }
+                                                                </a>
+                                                            </p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if (Model.WorkAdditionalImages.ToList().Count > 0)
+                                            {
+                                                <div class="cont" id="ref-video-cont">
+                                                    <div class="video-info">
+                                                        <h6>@L["작품의 영상 자료"]</h6>
+                                                        <ul>
+                                                            @foreach (var item in Model.WorkAdditionalImages)
+                                                            {
+                                                                @if (item.Flag.Equals("EI"))
+                                                                {
+                                                                    @if (item.Value1 != null && !string.IsNullOrWhiteSpace(item.Value1))
+                                                                    {
+                                                                        <li style="width: 100%; overflow: auto;">@Html.Raw(item.Value1)</li>
+                                                                    }
+                                                                }
+                                                                else if (item.Flag.Equals("EU") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2)))
+                                                                {
+                                                                    <li onclick="@item.Click">
+
+                                                                        <div><img src="https://img.youtube.com/vi/@(item.Value2.Contains("watch?v=") ? item.Value2.ToString().Split('=')[1] : "")/mqdefault.jpg" /></div>
+                                                                        <!-- #551 -->
+                                                                        @if (!string.IsNullOrWhiteSpace(item.Value5))
+                                                                        {
+                                                                            <p title="@item.Value5">@item.Value5</p>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                                else if (item.Flag.Equals("ED") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2)))
+                                                                {
+                                                                    @if (!string.IsNullOrWhiteSpace(item.YoutubeThum))
+                                                                    {
+                                                                        <li onclick="@item.Click">
+                                                                            @Html.Raw($"<div><img src='{Config.ImageDomain}/{item.YoutubeThum}' alt='image' /></div>")
+                                                                            @if (!string.IsNullOrWhiteSpace(item.Value5))
+                                                                            {
+                                                                                <p title="@item.Value5">@item.Value5</p>
+                                                                            }
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                        <!-- WRITER INFO END -->
+                                    </div>
+                                }
+                                <!-- WORK DESC END -->
+                                <!-- CONDITION REPORT (Online Auction Works) START -->
+                                @if (!Model.AuctionWork.AucKind.Equals("1"))
+                                {
+                                    if (LoginInfo.ManagerYN.Equals("Y") || Model.AuctionWork.AucStartDate <= DateTime.Now)
+                                    {
+                                        <div class="report">
+                                            <div class="report-tit">
+                                                <h3>Condition Report</h3>
+                                                <div class="inquiry">
+                                                    <svg id="inquiryico" data-name="inquiryico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 15.56" width="14px" height="15px" style="margin-right: 3px; cursor:pointer"><path d="M3.11,10.89H8.56v1.55H3.11Zm0-3.11h7.78V9.33H3.11Zm0-3.11h7.78V6.22H3.11Zm9.33-3.11H9.19a2.32,2.32,0,0,0-4.38,0H1.56a1.16,1.16,0,0,0-.32,0A1.53,1.53,0,0,0,.46,2a1.7,1.7,0,0,0-.34.5,1.64,1.64,0,0,0-.12.6V14a1.79,1.79,0,0,0,.12.61,1.66,1.66,0,0,0,.34.49,1.55,1.55,0,0,0,.78.43,1.73,1.73,0,0,0,.32,0H12.44A1.56,1.56,0,0,0,14,14V3.11A1.56,1.56,0,0,0,12.44,1.56ZM7,1.36a.59.59,0,1,1-.58.58A.59.59,0,0,1,7,1.36ZM12.44,14H1.56V3.11H12.44Z"></path></svg>
+                                                    <p id="btn-inquiry-condition" class="btn-inquiry">@L["상세문의"]</p>
+                                                </div>
+                                            </div>
+                                            <div class="cont">
+                                                <ul>
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayCondition))
+                                                    {
+                                                        <li>
+                                                            <img src="/img/icons/bullet.png" alt="">
+                                                            @Html.Raw(Model.AuctionWork.DisplayCondition)
+                                                        </li>
+                                                    }
+
+                                                    @foreach (var item in Model.AuctionWorkCondition)
+                                                    {
+                                                        <li>
+                                                            <img src="/img/icons/bullet.png" alt="">
+                                                            @Html.Raw(item.ConditionText)
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <!-- CONDITION REPORT (Online Auction Works) END -->
+                                <!-- ARTIST START -->
+                                <div class="@divArtistInfoClass" style="margin-bottom: 0;">
+                                    @if (Model.ArtistImages.Count() > 0 || Model.AuctionWork.DisplayOption.Contains("EC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayEtc) || Model.AuctionWork.DisplayOption.Contains("SC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySchoolCareer) || Model.AuctionWork.DisplayOption.Contains("EH") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayExhibition) || Model.AuctionWork.DisplayOption.Contains("RI") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayReferenceInfo))
+                                    {
+                                        <h3>@L["작가 설명"]</h3>
+                                        <div class="writer-detail">
+                                            @if (Model.ArtistImages.Count() > 0)
+                                            {
+                                                <div class="writer-img">
+                                                    @foreach (var item in Model.ArtistImages)
+                                                    {
+                                                        @Html.Raw($"<img src='{Config.ImageDomainKoffice}/images/{item.ImagePath}' />")
+                                                    }
+                                                </div>
+                                            }
+                                            <div class="writer-desc">
+                                                @if (Model.AuctionWork.DisplayOption.Contains("EC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayEtc))
+                                                {
+                                                    <div>
+                                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayEtc))
+                                                    </div>
+                                                }
+                                                @if (Model.AuctionWork.DisplayOption.Contains("SC") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySchoolCareer))
+                                                {
+                                                    <div class="degree">
+                                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplaySchoolCareer))
+                                                    </div>
+                                                }
+                                                @if (Model.AuctionWork.DisplayOption.Contains("EH") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayExhibition))
+                                                {
+                                                    <div class="achieve">
+                                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayExhibition))
+                                                    </div>
+                                                }
+                                                @if (Model.AuctionWork.DisplayOption.Contains("RI") && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayReferenceInfo))
+                                                {
+                                                    <div class="reference">
+                                                        @Html.Raw(StringHelper.ReplaceNewLineTag(Model.AuctionWork.DisplayReferenceInfo))
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Model.ArtistAdditionalInfo.ToList().Count > 0)
+                                    {
+                                        <div class="cont" id="ref-artist-cont">
+                                            <div class="reference">
+                                                <h6>@L["작가의 참고 자료"]</h6>
+                                                @foreach (var item in Model.ArtistAdditionalInfo)
+                                                {
+                                                    <p class="refer-link">
+                                                        <a href="@item.Href" onclick="@item.Click">
+                                                            @if (item.Flag.Equals("EB"))
+                                                            {
+                                                                <img src="@item.ImageUrl" alt="Image" style="height: 100px !important;" />
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Value1
+                                                                <script>document.write(ka.icon.reference);</script>
+                                                            }
+                                                        </a>
+                                                    </p>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Model.ArtistAdditionalImages.ToList().Count > 0)
+                                    {
+                                        <div class="cont" id="ref-artist-video-cont">
+                                            <div class="video-info">
+                                                <h6>@L["작가의 영상 자료"]</h6>
+                                                <ul>
+                                                    @foreach (var item in Model.ArtistAdditionalImages)
+                                                    {
+                                                        @if (item.Flag.Equals("EI"))
+                                                        {
+                                                            @if (item.Value1 != null && !string.IsNullOrWhiteSpace(item.Value1))
+                                                            {
+                                                                <li style="width: 100%; overflow: auto;">@Html.Raw(item.Value1)</li>
+                                                            }
+                                                        }
+                                                        else if (item.Flag.Equals("EU") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2)))
+                                                        {
+                                                            <li onclick="@item.Click">
+                                                                <div><img src="https://img.youtube.com/vi/@(item.Value2.Contains("watch?v=") ? item.Value2.ToString().Split('=')[1] : "")/mqdefault.jpg" /></div>
+                                                                <!-- #551 -->
+                                                                @if (!string.IsNullOrWhiteSpace(item.Value5))
+                                                                {
+                                                                    <p title="@item.Value5">@item.Value5</p>
+                                                                }
+                                                            </li>
+                                                        }
+                                                        else if (item.Flag.Equals("ED") && (!string.IsNullOrWhiteSpace(item.Value1) || !string.IsNullOrWhiteSpace(item.Value2)))
+                                                        {
+                                                            @if (!string.IsNullOrWhiteSpace(item.YoutubeThum))
+                                                            {
+                                                                <li onclick="@item.Click">
+                                                                    @Html.Raw($"<div><img src='{Config.ImageDomain}/{item.YoutubeThum}' alt='image' /></div>")
+                                                                    @if (!string.IsNullOrWhiteSpace(item.Value5))
+                                                                    {
+                                                                        <p title="@item.Value5">@item.Value5</p>
+                                                                    }
+                                                                </li>
+                                                            }
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- ARTIST END -->
+                            </div>
+                            <!-- WORKINFO END -->
+                        </div>
+                        <!-- RIGHT (PC) START -->
+                        <div class="right">
+                            <!-- TITLE / MATERIAL START -->
+                            <div class="top-tit">
+                                <div class="lot-num">
+                                    <span>LOT @Model.AuctionWork.LotNum</span>
+                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayBadgeDesc))
+                                    {
+                                        <p class="charity_text">@Model.AuctionWork.DisplayBadgeDesc</p>
+                                    }
+                                </div>
+                                <p class="writer">
+                                    @Model.AuctionWork.DisplayArtistName
+                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.ArtistExtraInfo))
+                                    {
+                                        <span>@Model.AuctionWork.ArtistExtraInfo</span>
+                                    }
+                                </p>
+                                <p class="sub-tit">@Model.AuctionWork.DisplayTitle</p>
+                                <div class="material">
+                                    <div class="material">
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMaterial))
+                                        {
+                                            <p>
+                                                <span>
+                                                    @Model.AuctionWork.DisplayMaterial
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.Edition))
+                                                    {
+                                                        @Model.AuctionWork.DisplayEdition
+                                                    }
+                                                </span>
+                                            </p>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) || !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                        {
+                                            <p>
+                                                <span>
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize))
+                                                    {
+                                                        @Model.AuctionWork.DisplaySize
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplaySize) && !string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                                    {
+                                                        @:|
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(Model.AuctionWork.DisplayMakeDate))
+                                                    {
+                                                        @Model.AuctionWork.DisplayMakeDate
+                                                    }
+                                                </span>
+                                            </p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- TITLE / MATERIAL END -->
+                            @if (!ViewBag.AucKind.Equals("1"))
+                            {
+                                <!-- BID TIME START -->
+                                <div class="deadline-hour">
+                                    <span>@L["남은시간"]</span>
+                                    <div id="countdown">
+                                        <ul><li><span class="remainTime"></span></li></ul>
+                                    </div>
+                                </div>
+                                <!-- BID TIME END -->
+                                <!-- PRICE / MODAL START -->
+                                <div class="es-price">
+                                    <p>
+                                        <strong>@L["추정가"]</strong>
+                                        @if (Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y"))
+                                        {
+                                            @L["별도문의"]
+                                        }
+                                        else
+                                        {
+                                            @:KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedLow) ~ @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedHigh)
+                                        }
+                                    </p>
+                                    <p>
+                                        <strong>@L["시작가"]</strong>
+                                        KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)
+                                        @if (Model.IsAuthenticated && Model.AuctionWork.BidCnt < 1)
+                                        {
+                                            <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                <script>document.write(ka.icon.refresh);</script>
+                                            </a>
+                                        }
+                                    </p>
+                                    @if (Model.AuctionWork.BidCnt > 0)
+                                    {
+                                        <p>
+                                            <strong>@L["현재가"]</strong>
+                                            KRW <label class="price-max" style="margin-bottom:0px">@Model.AuctionWork.DisplayPriceMaxHome</label>
+                                            <span class="bid-list-cont-total2"></span>
+                                            @if (Model.IsAuthenticated)
+                                            {
+                                                <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                    <script>document.write(ka.icon.refresh);</script>
+                                                </a>
+                                            }
+                                        </p>
+                                    }
+                                </div>
+                                <div class="right-modal">
+                                    <div class="closing-hour">
+                                        @L["마감시간"]
+                                        <span>@Model.AuctionWork.DisplayEndTime</span>
+                                    </div>
+                                    <ul>
+                                        <li class="rightmodalBtn2">
+                                            <p><span>@L["낙찰 수수료"]</span></p>
+                                            <script>document.write(ka.icon.more);</script>
+                                            <div class="preview-bubble">
+                                                <p><span>@L["현재가 기준"]</span></p>
+                                                <strong><span>@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceComm)</span> @L["원"]</strong>
+                                            </div>
+                                        </li>
+                                        <li class="rightmodalBtn2">
+                                            <p><span>@L["예상 배송비"]</span></p>
+                                            <script>document.write(ka.icon.more);</script>
+                                            <div class="preview-bubble">
+                                                <p>@L["기본 배송지기준"]</p>
+                                                <strong><span>@StringHelper.GetMoneyFormat(Model.DeliveryPrice)</span> @L["원"]</strong>
+                                            </div>
+                                        </li>
+                                        <li class="rightmodalBtn2">
+                                            <p><span>@L["경매 호가표"]</span></p>
+                                            <script>document.write(ka.icon.more);</script>
+                                        </li>
+                                        <li class="rightmodalBtn2">
+                                            <p><span>@L["설치 및 보관"]</span></p>
+                                            <script>document.write(ka.icon.more);</script>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- LAYER (PC) - BIDDING START -->
+                                <div class="bid-price">
+                                    <div class="bid-list">
+                                        <script>document.write(ka.icon.close);</script>
+                                        <p>@L["응찰내역"]</p>
+                                        <div class="bidlist-btn">
+                                            <ul>
+                                                <li class="active"><a href="#">@L["전체"]<span class="bid-list-cont-total"></span></a></li>
+                                                <li><a href="#">@L["내응찰"]<span class="bid-list-cont-my"></span></a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="highest-bidder" style="display: none;">
+                                            <div>
+                                                <strong>@L["나의 최고 응찰가"]</strong>
+                                                <P class="my-highest-price"></P>
+                                            </div>
+                                            <span class="my-highest-date"></span>
+                                        </div>
+
+                                        <div class="bidlist-desc">
+                                            <div class="b1">
+                                                <!-- BID NONE START -->
+                                                <p class="bidnone-all" style="display: none;">
+                                                    <script>document.write(ka.icon.bidnone);</script>
+                                                    @L["응찰내역이 없습니다."]
+                                                </p>
+                                                <!-- BID NONE END -->
+                                                <!-- BID LIST START -->
+                                                <ul id="bid-list-cont" class="bid-list-cont"></ul>
+                                                <!-- BID LIST END -->
+                                            </div>
+                                            <div class="b2">
+                                                <p class="my-bidnone-all bidnone-all" style="display: none;">
+                                                    <script>document.write(ka.icon.bidnone);</script>
+                                                    @L["응찰내역이 없습니다."]
+                                                </p>
+                                                <!-- MY BID LIST START -->
+                                                <ul id="bid-my-list-cont" class="bid-my-list-cont"></ul>
+                                                <!-- MY BID LIST END -->
+                                            </div>
+                                        </div>
+                                        @if (Model.IsAuthenticated)
+                                        {
+                                            if (Model.IsBid)
+                                            {
+                                                <div class="price-choice">
+                                                    <div>
+                                                        <strong>@L["시작가"]</strong>
+                                                        <div>
+                                                            <strong>KRW <label>@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)</label></strong>
+                                                            @if (Model.IsAuthenticated && Model.AuctionWork.BidCnt < 1)
+                                                            {
+                                                                <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                                    <script>document.write(ka.icon.refresh);</script>
+                                                                </a>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    @if (Model.AuctionWork.BidCnt > 0)
+                                                    {
+                                                        <div class="current-price">
+                                                            <strong>@L["현재가"]</strong>
+                                                            <div>
+                                                                <strong>KRW <label class="price-max" style="margin-bottom:0px">@Model.AuctionWork.DisplayPriceMaxHome</label></strong>
+                                                                <span class="bid-list-cont-total3"></span>
+                                                                @if (Model.IsAuthenticated)
+                                                                {
+                                                                    <a href="javascript:" onclick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                                                        <script>document.write(ka.icon.refresh);</script>
+                                                                    </a>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="choice pc">
+                                                        <strong>@L["응찰가"]</strong>
+                                                        <div class="price-dropdown">
+                                                            <div class="caption">
+                                                                @L["최고 응찰가를 선택하세요."]
+                                                            </div>
+                                                            <i class="fas fa-caret-down"></i>
+                                                            <i class="fas fa-times"></i>
+                                                            <ul class="list bid-price-list"></ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bidcont-desc">
+                                                        <p>@L["최고 응찰가를 선택하세요"]</p>
+                                                        <img src="/img/icons/bidchoice-ico@2x.png" style="max-width: 15px; height: auto;">
+                                                    </div>
+                                                    @if (DateTime.Now < Model.AuctionWork.EndTime)
+                                                    {
+                                                        if (Model.AuctionWork.ConNTSYN.Equals("Y") && (LoginInfo.ManagerYN.Equals("Y") || LoginInfo.ManagerYN.Equals("R")))
+                                                        {
+                                                            if (commonService.IsKor())
+                                                            {
+                                                                <div class="bid-btn bid-limit-alert"><a href="#"><span id="text"></span> <span class="text-msg">응찰하기</span></a></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bid-btn bid-limit-alert"><a href="#"><span class="text-msg">Bid</span> <span id="text"></span></a></div>
+                                                            }
+
+                                                        }
+                                                        else if (LoginInfo.ManagerYN.Equals("Y"))
+                                                        {
+                                                            if (commonService.IsKor())
+                                                            {
+                                                                <div class="bid-btn bid-mng-alert"><a href="#"><span id="text"></span> <span class="text-msg">응찰하기</span></a></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bid-btn bid-mng-alert"><a href="#"><span class="text-msg">Bid</span> <span id="text"></span></a></div>
+                                                            }
+                                                        }
+                                                        else if (LoginInfo.ManagerYN.Equals("R"))
+                                                        {
+                                                            if (commonService.IsKor())
+                                                            {
+                                                                <div class="bid-btn bid-relation_alert"><a href="#"><span id="text"></span> <span class="text-msg">응찰하기</span></a></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bid-btn bid-relation_alert"><a href="#"><span class="text-msg">Bid</span> <span id="text"></span></a></div>
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            if (commonService.IsKor())
+                                                            {
+                                                                <div class="bid-btn"><a href="javascript:$.auction.checkBid();"><span id="text"></span><span class="text-btn">응찰하기</span></a></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bid-btn"><a href="javascript:$.auction.checkBid();"><span class="text-btn">Bid</span> <span id="text"></span></a></div>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    @if (Model.IsAuthenticated)
+                                    {
+                                        if (Model.IsBid)
+                                        {
+                                            if (Model.AddressFlag && Model.AuthFlag)
+                                            {
+                                                <div class="bid-active-btn bid-btn bid-active">
+                                                    <a href="#"><span id="text"></span> <span class="text-msg">@L["응찰하기"]</span></a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @*<div class="bid-active-btn bid-btn bid-address-btn"><a href="#" onclick="$.mypageUtils.openAddressPopup('I');"><span id="text"></span> <span class="text-msg">@L["주소 정보 등록하기"]</span></a></div>*@
+                                                <div class="bid-active-btn bid-btn bid-address-btn">
+                                                    <a href="#" data-tit="@L["경매 참여를 위한 준비사항"]" data-value="preparation" onclick="$('#modal-auc-participation').modal();">
+                                                        <span id="text"></span> 
+                                                        <span class="text-msg">@L["응찰 필수정보 등록하기"]</span>
+                                                    </a>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (LoginInfo.ManagerApproval.Equals("N"))
+                                            {
+                                                <div class="bid-btn"><a href="#">@L["증빙서류 검수 후 응찰이 가능합니다."]</a></div>
+                                            }
+                                            else
+                                            {
+                                                @if (Model.AuctionWork.PreviewYN.Equals("Y"))
+                                                {
+                                                    <div class="bid-btn">
+                                                        <a id="bidReady" href="#">
+                                                            @if (Model.AuctionWork.PreviewTodayYN)
+                                                            {
+                                                                <span class="bidStartRemainTime"></span>
+                                                            }
+                                                            else
+                                                            {
+                                                                @L["경매 준비중"]
+                                                            }
+                                                        </a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="bid-btn"><a href="#">@L["경매가 종료되었습니다."]</a></div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Model.IsBid)
+                                        {
+                                            <button class="btn btn-primary w-100 btn-lg m-t-15" onclick="$('#modal-login').modal('show');">@L["로그인하시면 응찰이 가능합니다."]</button>
+                                        }
+                                        else
+                                        {
+                                            @if (Model.AuctionWork.PreviewYN.Equals("Y"))
+                                            {
+                                                <div class="bid-btn">
+                                                    <a id="bidReady" href="#">
+                                                        @if (Model.AuctionWork.PreviewTodayYN)
+                                                        {
+                                                            <span class="bidStartRemainTime"></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            @L["경매 준비중"]
+                                                        }
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="bid-btn"><a href="#">@L["경매가 종료되었습니다."]</a></div>
+                                            }
+                                        }
+                                    }
+                                    <div class="btn w-100 btn-lg btn-primary bid-end" style="display: none;"><span>@L["경매가 종료되었습니다."]</span></div>
+                                </div>
+                                <!-- LAYER (PC) - BIDDING END -->
+                                <!-- PRICE / MODAL END -->
+                            }
+                            else
+                            {
+                                <div class="es-price">
+                                    <p>
+                                        <strong>@L["추정가"]</strong>
+                                        @if (Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y"))
+                                        {
+                                            @L["별도문의"]
+                                        }
+                                        else
+                                        {
+                                            @:KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedLow) ~ @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceEstimatedHigh)
+                                        }
+                                    </p>
+                                    @if (Model.AuctionWork.AucEndDate <= DateTime.Now)
+                                    {
+                                        @if (Model.IsAuthenticated)
+                                        {
+                                            @if (Model.AuctionWork.PriceHammer > 0)
+                                            {
+                                                <p style="color: #F47104; font-weight: bold;">
+                                                    <strong style="color: #000;">@L["낙찰가"]</strong>
+                                                    KRW @StringHelper.GetMoneyFormat(Model.AuctionWork.PriceHammer)
+                                                </p>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p><strong class="w-auto" style="color: #F47104;">@L["로그인 하시면 낙찰가를 확인하실 수 있습니다."]</strong></p>
+                                        }
+                                    }
+                                </div>
+                                @if (Model.AuctionWork.AucBidEndDate >= DateTime.Now)
+                                {
+                                    <div class="bid-price">
+                                        <div class="bid-btn bid-active">
+                                            @if (Model.IsAuthenticated)
+                                            {
+                                                if (Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y"))
+                                                {
+                                                    <a style="cursor:pointer;" onclick="$.commonUtils.alert(ka.msg.auction.separateInquiry);"><span id="text"></span>@L["서면/전화 응찰 신청"]</a>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.AddressFlag && Model.AuthFlag)
+                                                    {
+                                                        <a style="cursor:pointer;" onclick="window.open('/Auction/BidApplication/@Model.AuctionWork.Uid', '_self');"><span id="text"></span>@L["서면/전화 응찰 신청"]</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        @*<div class="bid-active-btn bid-btn bid-address-btn"><a href="#" onclick="$.mypageUtils.openAddressPopup('I');"><span id="text"></span> <span class="text-msg">@L["주소 정보 등록하기"]</span></a></div>*@
+                                                        <div class="bid-active-btn bid-btn bid-address-btn">
+                                                            <a href="#" data-tit="@L["경매 참여를 위한 준비사항"]" data-value="preparation" onclick="$('#modal-auc-participation').modal();">
+                                                                <span id="text"></span> 
+                                                                <span class="text-msg">@L["응찰 필수정보 등록하기"]</span>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a style="cursor: pointer;" onclick="$.commonUtils.openLogin();" class="@(!commonService.IsKor() ? "fs-13" : "")"><span id="text"></span>@L["로그인하시면 서면/전화 응찰 신청이 가능합니다."]</a>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <!-- INQUIRE START -->
+                            <div class="inquiry">
+                                <svg id="inquiryico" data-name="inquiryico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 15.56" width="14px" height="15px" style="margin-right: 3px; cursor:pointer"><path d="M3.11,10.89H8.56v1.55H3.11Zm0-3.11h7.78V9.33H3.11Zm0-3.11h7.78V6.22H3.11Zm9.33-3.11H9.19a2.32,2.32,0,0,0-4.38,0H1.56a1.16,1.16,0,0,0-.32,0A1.53,1.53,0,0,0,.46,2a1.7,1.7,0,0,0-.34.5,1.64,1.64,0,0,0-.12.6V14a1.79,1.79,0,0,0,.12.61,1.66,1.66,0,0,0,.34.49,1.55,1.55,0,0,0,.78.43,1.73,1.73,0,0,0,.32,0H12.44A1.56,1.56,0,0,0,14,14V3.11A1.56,1.56,0,0,0,12.44,1.56ZM7,1.36a.59.59,0,1,1-.58.58A.59.59,0,0,1,7,1.36ZM12.44,14H1.56V3.11H12.44Z" /></svg>
+                                <p class="btn-inquiry">@L["상세문의"]</p>
+                                <span>02-3479-8888</span>
+                                <img class="btn-print" src="/img/icons/print-ico@1x.png" alt="Print"
+                                     srcset="/img/icons/print-ico@1x.png 1x,
+                                        /img/icons/print-ico@2x.png 2x,
+                                        /img/icons/print-ico@3x.png 3x" onclick="printDiv()">
+                            </div>
+                            <!-- INQUIRE END -->
+                        </div>
+                        <!-- RIGHT (PC) END -->
+                    </div>
+                    <div class="main-exception">
+                        @if (Model.ArtistWorks.Count() > 0)
+                        {
+                            <div class="exception-work">
+                                <h3>@L["작가의 다른 작품들"]</h3>
+                                <div id="highlight">
+                                    <div class="hl-list">
+                                        <div>
+                                            <ul class="hllilst clearfix">
+                                                @foreach (var item in Model.ArtistWorks)
+                                                {
+                                                    <li>
+                                                        <a href="#">
+                                                            <img src="@item.ThumFileName" alt="">
+                                                        </a>
+                                                        <div data-wish-yn="@item.WishYN" data-uid="@item.Uid" onclick="window.open('/Auction/@item.AucKindName/@item.AucNum/@item.Uid', '_self');">
+                                                            <script>document.write(@(item.WishYN.Equals("Y") ? "ka.icon.mainwishopen" : "ka.icon.mainwish"));</script>
+                                                            <div class="info">
+                                                                <p class="name">@item.DisplayArtistName</p>
+                                                                <p class="tit">@item.DisplayTitle</p>
+                                                                <div>
+                                                                    @if (item.SeparateInquiryYN != null && item.SeparateInquiryYN.Equals("Y"))
+                                                                    {
+                                                                        <p class="cr">@L["별도 문의"]</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p class="cr" data-display="@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)">@(item.PriceMax > 0 ? L["현재가"].Value : L["시작가"].Value)</p>
+                                                                        <p class="price"><strong>KRW</strong><span>@item.DisplayPriceMaxHome</span></p>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="exception-work">
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- WORK END -->
+</section>
+
+<input id="my-url" type="text" value="" style="display: none;">
+
+<!-- BUTTON - SCROLL START -->
+<div class="top-scrollbtn">
+    <!--응찰페이지 아이콘 변경-->
+    <img src="/img/icons/alltop-btn.png" alt="GO TO TOP" srcset="/img/icons/alltop-btn.png 1x, /img/icons/alltop-btn@2x.png 2x, /img/icons/alltop-btn@3x.png 3x">
+</div>
+<!-- BUTTON SCROLL END -->
+<!-- MODAL - CONTACT WORK START -->
+<partial name="_Partial/_WorkInquiryModalPartial" />
+<!-- MODAL - CONTACT WORK END -->
+<!-- BUTTON - BIDDING START -->
+@if (Model.AuctionWork.BidYN.Equals("Y"))
+{
+    if (Model.AuctionWork.AucKind.Equals("1"))
+    {
+        if (!(Model.AuctionWork.SeparateInquiryYN != null && Model.AuctionWork.SeparateInquiryYN.Equals("Y")) && Model.AuctionWork.AucBidEndDate > DateTime.Now)
+        {
+            if (Model.AddressFlag && Model.AuthFlag)
+            {
+                <div class="mobile-bidbtn m1"><p>@L["신청"]</p></div>
+            }
+            else
+            {
+                <div class="mobile-bidbtn m1 address-popup"><p>@L["응찰 필수정보 등록하기"]</p></div>
+            }
+        }
+    }
+    else
+    {
+        if (Model.AddressFlag && Model.AuthFlag)
+        {
+            <div class="mobile-bidbtn m1"><p>@L["응찰하기"]</p></div>
+        }
+        else
+        {
+            <div class="mobile-bidbtn m1 address-popup"><p>@L["응찰 필수정보 등록하기"]</p></div>
+        }
+    }
+    <a class="hide btn-info" href="#" data-tit="@L["경매 참여를 위한 준비사항"]" data-value="preparation" onclick="pwModalOpen($(this));"></a>
+}
+<!-- BUTTON - BIDDING END -->
+<!-- LAYER - BIDDING START -->
+<div id="mobilebid">
+    <div class="bidbtn-bg">
+        <p>@L["응찰내역을 보기 위해서 화면을 돌려주세요."]</p>
+    </div>
+    <div class="mobile-bidbtn m2">
+        <script>document.write(ka.icon.closeBidList);</script>
+        <div class="bid-listmb">
+            <p>@L["응찰내역"]</p>
+            <div class="bidlistmb-btn">
+                <ul>
+                    <li class="active"><a href="#">@L["전체"]<span class="bid-list-cont-total"></span></a></li>
+                    <li><a href="#">@L["내응찰"]<span class="bid-list-cont-my"></span></a></li>
+                </ul>
+            </div>
+            <div class="bidlistmb-desc">
+                <div class="b1">
+                    <p class="bidnone-all" style="display: none;">
+                        <script>document.write(ka.icon.bidnoneMobile);</script>
+                        @L["응찰내역이 없습니다."]
+                    </p>
+                    <ul class="bid-list-cont"></ul>
+                </div>
+                <div class="b2">
+                    <p class="my-bidnone-all bidnone-all" style="display: none;">
+                        <script>document.write(ka.icon.bidnoneMobile);</script>
+                        @L["응찰내역이 없습니다."]
+                    </p>
+                    <ul class="bid-my-list-cont"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="price-choice">
+            <div>
+                <strong>@L["시작가"]</strong>
+                <div>
+                    <strong>KRW <label>@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)</label></strong>
+                    @if (Model.IsAuthenticated && Model.AuctionWork.BidCnt < 1)
+                    {
+                        <a href="javascript:" onClick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                            <script>document.write(ka.icon.refresh);</script>
+                        </a>
+                    }
+                </div>
+            </div>
+            @if (Model.AuctionWork.BidCnt > 0)
+            {
+                <div class="current-price">
+                    <strong>@L["현재가"]</strong>
+                    <div>
+                        <strong>KRW <label class="price-max" style="margin-bottom:0px">@Model.AuctionWork.DisplayPriceMaxHome</label></strong>
+                        <span class="bid-list-cont-total2"></span>
+                        @if (Model.IsAuthenticated)
+                        {
+                            <a href="javascript:" onClick="$.auction.getBidTotalList('refresh');" id="re-btn">
+                                <script>document.write(ka.icon.refresh);</script>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="choice">
+                <strong>@L["응찰가"]</strong>
+                <div class="price-dropdown">
+                    <div class="caption">
+                        @L["최고 응찰가를 선택하세요."]
+                    </div>
+                    <i class="fas fa-caret-down"></i>
+                    <i class="fas fa-times"></i>
+                    <ul class="list bid-price-list"></ul>
+                </div>
+            </div>
+            @if (Model.IsAuthenticated)
+            {
+                if (Model.IsBid)
+                {
+                    if (Model.AuctionWork.ConNTSYN.Equals("Y") && (LoginInfo.ManagerYN.Equals("Y") || LoginInfo.ManagerYN.Equals("R")))
+                    {
+                        <div class="bid-btn bid-limit-alert"><a href="#"><span id="text"></span> <span class="text-msg">@L["응찰하기"]</span></a></div>
+                    }
+                    else if (LoginInfo.ManagerYN.Equals("Y"))
+                    {
+                        <div class="bid-btn bid-mng-alert"><a href="#"><span id="text"></span> <span class="text-msg">@L["응찰하기"]</span></a></div>
+                    }
+                    else if (LoginInfo.ManagerYN.Equals("R"))
+                    {
+                        <div class="bid-btn bid-relation_alert"><a href="#"><span id="text"></span> <span class="text-msg">@L["응찰하기"]</span></a></div>
+                    }
+                    else
+                    {
+                        <div class="bid-btn"><a href="javascript:$.auction.checkBid();"><span id="text"></span><span class="text-btn">@L["응찰하기"]</span></a></div>
+                    }
+                }
+                else
+                {
+                    if (!LoginInfo.ManagerApproval.Equals("A"))
+                    {
+                        <div class="bid-btn bid-active"><a href="#">@L["증빙서류 검수 후 응찰이 가능합니다."]</a></div>
+                    }
+                    else
+                    {
+                        <div class="bid-btn bid-active"><a href="#">@L["경매가 종료되었습니다. (응찰 마감전에 재응찰이 있을 경우 30초 간격으로 자동 연장됩니다.)"]</a></div>
+                    }
+                }
+            }
+            else
+            {
+                if (Model.IsBid)
+                {
+                    <button class="btn btn-primary w-100 btn-lg m-t-15" onclick="$('#modal-login').modal('show');">@L["로그인하시면 응찰이 가능합니다."]</button>
+                }
+                else
+                {
+                    <div class="bid-btn bid-active"><a href="#">@L["경매가 종료되었습니다."]</a></div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<!-- LAYER - BIDDING END -->
+<!-- MODAL - SET THE HIGHEST BID START -->
+<div class="bid-popup bp02 modal-show-popup">
+    <div>
+        <div>
+            <img src="/img/icons/close-ico.png" onclick="bidpopupClose(); return false;">
+            <h1>@L["최고 응찰가 설정"]</h1>
+            <ul>
+                <li>@L["현재가를 확인하시고 최고 응찰가를 설정하여 응찰하시면, 다른 응찰에 대응하여 설정한 금액까지 자동 응찰 됩니다.​"]</li>
+                <li>@L["최고 응찰가가 동일한 경우, 먼저 등록된 응찰자에게 낙찰됩니다.​"]</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- MODAL - SET THE HIGHEST BID END -->
+<!-- MODAL - ADDRESS MANAGE START -->
+<partial name="_Partial/_AddressModalPartial" />
+<!-- MODEL - ADDRESS MANAGE END -->
+<!--경매참여를 위한 준비사항-->
+<div class="modal fade" id="modal-auc-participation" tabindex="-1" role="dialog" aria-labelledby="modal-auc-participation" aria-hidden="true" >
+    <div div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <h2>@L["경매 참여를 위한 준비사항​"]</h2>
+            <p>@L["경매에 참여하려면 아래 조건 충족이 완료되어야 합니다."]</p>
+            <div class="box_wrap">
+                @if (!Model.IsOverSeas)
+                {
+                    @if (Model.AuthFlag)
+                    {
+                        <div class="box active" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="return false;">
+
+                            <div class="cnt">@L["<span>통신사 또는 신용카드</span><strong>본인인증</strong>"]</div>
+
+                            <div class="check"><i class="fas fa-check"></i></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="box" data-target="#certified_modal_popup"
+                             data-toggle="modal">
+
+                            <div class="cnt">@L["<span>통신사 또는 신용카드</span><strong>본인인증</strong>"]</div>
+
+                            <button type="button">@L["인증받기"]</button>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="box">
+                        <div class="cnt">
+                            <span>
+                                @L["여권이나 다른 본인 인증 증명"]
+                            </span>
+                            <strong>
+                                @L["본인인증"]
+                            </strong>
+                        </div>
+                        @if (string.Equals(LoginInfo.BidAllowYN, "N", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <button type="button" onclick="window.location.href = '/MyPage/Member';">@L["인증받기"]</button>
+                        }
+                        else
+                        {
+                            <div class="check"><i class="fas fa-check"></i></div>
+                        }
+                    </div>
+                }
+                @if (Model.AddressFlag)
+                {
+                    <div class="box active" onclick="return false;">
+
+                        <div class="cnt">@L["<span>낙찰 시 배송을 위한</span><strong>배송지 주소</strong>"]</div>
+
+                        <div class="check"><i class="fas fa-check"></i></div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="box" onclick="$.mypageUtils.openAddressPopup('I');">
+
+                        <div class="cnt">@L["<span>낙찰 시 배송을 위한</span><strong>배송지 주소</strong>"]</div>
+
+                        <button type="button">@L["입력하기"]</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--인증수단팝업-->
+<div class="modal fade show" id="certified_modal_popup" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal_wrap">
+        <div class="modal-content">
+            <div class="modal-header">@L["인증번호 입력"]</div>
+            <div class="modal-desc">
+                <p>@L["원하는 인증 수단을 선택하세요."]</p>
+                <p>@L["인증 된 정보는 회원정보로 활용됩니다.<br />인증 수단을 선택하세요."]</p>
+            </div>
+
+        
+            <div class="list">
+                <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'M', 'JoinComplete');"><div class="icon_img"></div><p>@L["통신사 본인인증"]</p></div>
+                <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'C', 'JoinComplete');"><div class="icon_img"></div><p>@L["신용카드 본인인증"]</p></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--//인증수단팝업-->
+<!-- START MODAL -->
+@*<partial name="~/Views/Shared/_ModalAuctionPartial.cshtml" />*@
+@await Html.PartialAsync("_ModalAuctionPartial", Model)
+<!-- END MODAL -->
+@section Scripts {
+    <script type="module">
+        import { WorkInquiryModal } from '/js/components/modals/WorkInquiryModal.js';
+        (function (){
+            const workInquiryModal = new WorkInquiryModal('inquiry_popup');
+            // 작품문의하기
+            $(".btn-inquiry").on("click", function (e) {
+                if ($.loginUtils.isLogin()) {
+                    e.preventDefault();
+                    workInquiryModal.show({
+                        work_uid: '@Html.Raw(Model.AuctionWork.Uid)',
+                        title: '@Html.Raw(Model.AuctionWork.DisplayTitle)',
+                        auc_title: '@Html.Raw(Model.AuctionWork.DisplayAucTitle)',
+                        lot_num: '@Html.Raw(Model.AuctionWork.LotNum)',
+                        artist_name: '@Html.Raw(Model.AuctionWork.DisplayArtistName)',
+                        img_file_name: '@Html.Raw(Model.AuctionWorkImages.First().ImgFileName)',
+                    });
+                } else {
+                    $.commonUtils.openLogin(ka.msg.inquiry.login);
+                }
+            });
+        })()
+    </script>
+    <script asp-append-version="true" src="~/js/ka.work.js"></script>
+    <script src="~/plugins/jquery-elevatezoom/jquery.elevateZoom-3.0.8.min.js"></script>
+    <script>        
+        var isBid = "@Model.IsBid";
+        var config = {};
+        var existBidFlag = false;
+        var zoom = "@imgClass";
+        var aucKind = "@Model.AuctionWork.AucKind";
+        var requireMobileAuth = "@Model.IsRequireMobileAuth";
+        var mobileAuthType = "@Model.MobileAuthType";
+        var uid = "@Model.AuctionWork.Uid";
+    
+        // Work Size Info
+        var primaryImage = "@viewingImagePath";
+        var sizeWidth = "@Model.AuctionWork.WorkWidth";
+        var sizeLength = "@Model.AuctionWork.WorkLength";
+    
+        if (parseInt(@Model.AuctionWork.MemBidCnt) > 0) {
+            existBidFlag = true;
+        }
+    
+        config["auc_kind"] = "@Model.AuctionWork.AucKind";
+        config["auc_num"] = "@Model.AuctionWork.AucNum";
+        config["work_uid"] = "@Model.AuctionWork.Uid";
+        config["wish_yn"] = "@Model.AuctionWork.WishYN";
+        config["bid_list"] = ".bid-list-cont";
+        config["bid_my_list"] = ".bid-my-list-cont";
+        config["bid_empty"] = ".bidnone-all";
+        config["bid_my_empty"] = ".my-bidnone-all";
+        config["price_start"] = "@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceStart)";
+        config["price_max"] = "@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceMax)";
+        config["price_ascend"] = "@StringHelper.GetMoneyFormat(Model.AuctionWork.PriceAscend)";
+    
+        Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+    
+        var viewerOption = {
+            url: 'src',
+            title: function (image) { return ''; },
+            toolbar: false,
+            maxZoomRatio: 1
+        };
+    
+        var galley = document.getElementById('galley');
+        var galley2 = document.getElementById('galley2');
+        var viewer = galley === null ? null : new Viewer(galley, viewerOption);
+        var viewer2 = galley2 === null ? null : new Viewer(galley2, viewerOption);
+    
+        $(document).ready(function () {
+            $.auction.init(config);
+            $.wishlist.setDisplay(".heart");
+    
+            $('.form-country-code').select2({
+                placeholder: '',
+                templateSelection: $.addressUtils.formatCountry,
+                templateResult: $.addressUtils.formatCountry,
+                escapeMarkup: function (m) { return m; }
+            }).on('select2:select', function () {
+                $(this).parents('.form-group').removeClass('focused');
+                if ($(this).val()) {
+                    $(this).closest('.form-group').find('label').addClass('fade');
+                } else {
+                    $(this).closest('.form-group').find('label').removeClass('fade');
+                }
+            });
+    
+            $("#modal-country-code").val("KOR").trigger('change');
+    
+            if ($.auction.aucKind !== "1") {
+                $.auction.setCountDown(".remainTime", new Date(("@Model.BidRemainTime").replace(/-/ig, '/')));
+                if ($.loginUtils.isLogin()) {
+                    $.auction.getBidTotalList();
+                }
+            }
+            @if (Model.AuctionWork.PreviewTodayYN)
+            {
+                @:$.auction.setBidStartCountDown(".bidStartRemainTime", new Date(("@Model.BidStartRemainTime").replace(/-/ig, '/')));
+            }
+    
+            if (zoom === "galley-img-copy") {
+                if (typeof isMobile === "string" && isMobile === "True") {
+                    $('.zoomImage').elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair"
+                    });
+                } else {
+                    $('.zoomImage').elevateZoom({
+                        tint: true,
+                        tintColour: '#ccc',
+                        tintOpacity: 0.5,
+                        zoomWindowPosition: 1,
+                        zoomWindowHeight: 320,
+                        zoomWindowWidth: 320
+                    });
+                }
+                $(".expansion").hide();
+            }
+    
+            if (location.search.slice(1) !== '') {
+                var redirect = $('#btn-all-list').attr("onclick");
+            }
+    
+            $("body").attr("oncontextmenu", "return false;");
+            $("body").attr("onselectstart", "return false;");
+            $("body").attr("ondragstart", "return false;");
+    
+            if (requireMobileAuth === "Y") {
+                $.commonUtils.confirm(ka.msg.join.reqCode, ka.msg.join.mobileAuthConfirm, "$.joinUtils.openAuth(" + parseInt(mobileAuthType, 10).toString() + ", 'M', 'A', '@LoginInfo.ID');");
+            }
+    
+            if ($.commonUtils.getCookie("ka-bid-layer") === "Y") {
+                if (isMobile === "True" || $(window).width() < 1200) {
+                    $(".mobile-bidbtn").trigger("click");
+                } else {
+                    $(".bid-list").css("display", "block");
+                }
+                $.commonUtils.setCookie("ka-bid-layer", "");
+            }
+    
+            if ($.virtualExhibition.isActive("@LoginInfo.ID")) {
+                $("#virtual-exhibition").show();
+            }
+    
+    
+            @* 가상갤러리 변수 *@
+            const exhibitionBtn = document.querySelector('.viewInRoom'),
+                exhibitionModal = document.getElementById('canvaswrap'),
+                exhibitionClose = document.querySelector('#canvaswrap> button'),
+                exhibitionImg = document.querySelector(".canvas-content > div > .exhibition-widthSize"),
+                humanPicture = document.querySelector(".human-picture"),
+                canvasBackground = document.querySelector('.canvas-slide .canvasBackground');
+                canvasBtn = document.querySelector(".canvas-slide > .canvas_btn"),
+                canvasBtnText = document.querySelector(".canvas-slide > .canvas_btn > span");
+    
+            let canvasBtnCliked = false;
+    
+            // sizeWidth이 있을경우에만 버튼 활성화
+            (function(){
+                if (!sizeWidth || sizeWidth == "0") {
+                    document.querySelector('.viewInRoom').classList.remove('on');
+                } else {
+                    document.querySelector('.viewInRoom').classList.add('on');
+                }
+    
+                if (Number(sizeWidth) <= 75 && Number(sizeLength) <= 75) {
+                    canvasBtn.classList.add("on");
+                } else {
+                    canvasBtn.classList.add("remove");
+                }
+    
+            })();
+    
+    
+            var imgArray = [];
+            imgArray[0] = "/img/work/human01.png";
+            imgArray[1] = "/img/work/human02.png";
+            imgArray[2] = "/img/work/human03.png";
+            imgArray[3] = "/img/work/human04.png";
+            imgArray[4] = "/img/work/human05.png";
+    
+            function showImage(){
+                var imgNum = Math.round(Math.random()*4);
+                var objImg = document.querySelector(".human-picture");
+                objImg.src = imgArray[imgNum];
+            }
+    
+            /*가상갤러리 띄우기*/
+    
+            @* 근접배경 변환 버튼 마우스 호버시 이미지변경 *@
+            canvasBtn.addEventListener("mouseenter", (e) => {
+                let target = e.currentTarget.getElementsByClassName("canvas_btn_icon")[0];
+                target.src = "/img/icons/canvas_btn_hover_icon@1x.png";
+                target.srcset = `/img/icons/canvas_btn_hover_icon@1x.png 1x,
+                                    /img/icons/canvas_btn_hover_icon@2x.png 2x,
+                                    /img/icons/canvas_btn_hover_icon@3x.png 3x`;
+            });
+    
+            canvasBtn.addEventListener("mouseleave", (e) => {
+                let target = e.currentTarget.getElementsByClassName("canvas_btn_icon")[0];
+                target.src = "/img/icons/canvas_btn_icon@1x.png";
+                target.srcset = `/img/icons/canvas_btn_icon@1x.png 1x,
+                                    /img/icons/canvas_btn_icon@2x.png 2x,
+                                    /img/icons/canvas_btn_icon@3x.png 3x`;
+            });
+    
+    
+            @* 가상갤러리 버튼 클릭 이벤트 *@
+            exhibitionBtn.addEventListener('click', function(){
+                exhibitionImg.src = "/img/work/virtual-exhibition-widthSize.png";
+                humanPicture.style.display = "block";
+                canvasBackground.src = "/img/bg/canvas-bg.png";
+                showImage();
+                canvasBtnText.textContent = "@L["근접배경으로 변경하기"]";
+                canvasBtnCliked = false;
+                canvasfunc("default_mode", document.getElementById("canvas"), primaryImage, sizeWidth, sizeLength);
+    
+                exhibitionModal.classList.add('on');
+                document.querySelector('body').classList.add('yhidden');
+            });
+    
+    
+            @* 근접배경모드 변환 클릭 이벤트 *@
+            canvasBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+    
+                if (!canvasBtnCliked) {
+                    exhibitionImg.src = "/img/work/virtual-exhibition-widthSize02.png";
+                    humanPicture.style.display = "none";
+                    canvasBackground.src = "/img/bg/canvas-bg2.png";
+                    canvasBtnText.textContent = "@L["일반배경으로 변경하기"]";
+                    canvasBtnCliked = true;
+                    canvasfunc("close_mode", document.getElementById("canvas"), primaryImage, sizeWidth, sizeLength);
+                } else {
+                    exhibitionImg.src = "/img/work/virtual-exhibition-widthSize.png";
+                    humanPicture.style.display = "block";
+                    canvasBackground.src = "/img/bg/canvas-bg.png";
+                    showImage();
+                    canvasBtnText.textContent = "@L["근접배경으로 변경하기"]";
+                    canvasBtnCliked = false;
+                    canvasfunc("default_mode", document.getElementById("canvas"), primaryImage, sizeWidth, sizeLength);
+                }
+    
+            });
+    
+    
+    
+            exhibitionClose.addEventListener('click', function(){
+                exhibitionModal.classList.remove('on');
+                document.querySelector('body').classList.remove('yhidden');
+            });
+    
+            window.addEventListener('click', function(event){
+                const hasClass = event.target.classList.contains('canvas-content');
+                if (hasClass) {
+                    event.target.parentNode.classList.remove('on');
+                    document.querySelector('body').classList.remove('yhidden');
+                }
+            });
+    
+            if ($.commonUtils.getCookie("ka-viewinroom") === "Y") {
+                $.commonUtils.setCookie("ka-viewinroom", "", 1);
+                $(".viewInRoom").trigger("click");
+            }
+    
+            $('.form-country-code').select2({
+                placeholder: '',
+                templateSelection: formatCountry,
+                templateResult: formatCountry,
+                escapeMarkup: function (m) { return m; }
+            }).on('select2:select', function () {
+                $(this).parents('.form-group').removeClass('focused');
+                if ($(this).val()) {
+                    $(this).closest('.form-group').find('label').addClass('fade');
+                } else {
+                    $(this).closest('.form-group').find('label').removeClass('fade');
+                }
+            });
+    
+            $(document).keyup(function (event) {
+                if (event.keyCode === 37 || event.which === 37) {
+                    if ($(".top-prev-btn").length > 0) {
+                        $(".top-prev-btn").click();
+                    }
+                } else if (event.keyCode === 39 || event.which === 39) {
+                    if ($(".top-next-btn").length > 0) {
+                        $(".top-next-btn").click();
+                    }
+                }
+            });
+        });
+    
+        function formatCountry(country) {
+            if (!country.id) {
+                return country.text;
+            }
+            var countryOption = country.element;
+            return "<span class='m-r-10 m-b-1 flag flag-" + $(countryOption).data('iso-alpha2').toLowerCase() + "'></span><span class='text-uppercase'>" + country.text + "</span>";
+        }
+    
+        $("#expansion").on("click", function (e) {
+            viewer.show();
+        });
+    
+        $("#listico").on("click", function (e) {
+            $("#btn-all-list").click();
+        });
+    
+        $("#bidReady").on("click", function (e) {
+            if ("@Model.AuctionWork.AucKind" == "2") {
+                $.commonUtils.alert(ka.msg.auction.premiumReadyAlert);
+            } else if ("@Model.AuctionWork.AucKind" == "4") {
+                $.commonUtils.alert(ka.msg.auction.weeklyReadyAlert);
+            }
+        });
+    
+        function printDiv() {
+            window.open('/Print/@ViewBag.Auction/@Model.AuctionWork.AucNum/@Model.AuctionWork.Uid', 'kauctionPrint', 'width=770,height=650,location=no,scrollbars=yes,menubar=no,resizable=no,status=no,toolbar=no');
+        }
+    
+        function requestProc(seq) {
+            var param = {};
+            param["id"] = "@LoginInfo.ID";
+            param["seq"] = typeof seq === "string" ? seq : "";
+            var result = $.ajaxUtils.getApiData("/api/Member/SetAgreement", param, null, false);
+            if ($.ajaxUtils.getResultCode(result) === "00") {
+                window.location.reload();
+            } else {
+                $.commonUtils.alert(ka.msg.common.error);
+            }
+        }
+    
+        function refreshViewInRoom() {
+            $.commonUtils.setCookie("ka-viewinroom", "Y", 1);
+            window.location.reload();
+        }
+    
+        function work_openAddrSearch () {
+            $("#search_addr").val('');
+            $("#addr_list").empty();
+            $("#addr_list").css("display", "none");
+            $("#join_member_address_modal").modal();
+            $('.modal-backdrop').eq(1).css({"z-index": "1649"});
+        }
+    
+        function addrSearch() {
+            let keyword = $("#search_addr").val();
+    
+            if (keyword.replace(/ /ig, '') !== "") {
+                $("#addrKeyword").val(keyword);
+                event.keyCode = 0;
+                getAddr();
+            }
+        }
+    
+        function enterAddrSearch() {
+            let evt_code = (window.netscape) ? ev.which : event.keyCode;
+            if (evt_code === 13) {
+                let keyword = $("#search_addr").val();
+    
+                if (keyword.replace(/ /ig, '') !== "") {
+                    $("#addrKeyword").val(keyword);
+                    event.keyCode = 0;
+                    getAddr();
+                }
+            }
+            return false;
+        }
+    
+        function getAddr() {
+            $.ajax({
+                url: "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do",
+                type: "post",
+                data: $("#address-form").serialize(),
+                dataType: "jsonp",
+                crossDomain: true,
+                async: true,
+                success: function (jsonStr) {
+                    try {
+                        var errCode = jsonStr.results.common.errorCode;
+                        var errDesc = jsonStr.results.common.errorMessage;
+                        if (errCode != "0") {
+                            console.log(errCode + "=" + errDesc);
+                        } else {
+                            if (jsonStr != null) {
+                                makeListJson(jsonStr);
+                            }
+                        }
+                    } catch (e) { console.log(e.description); }
+                }, error: function (xhr, status, error) {
+                    console.log("에러발생");
+                }
+            });
+        }
+    
+        function makeListJson(jsonStr) {
+            let addrList = $("<ul />", { "class": "w-100 addrList" });
+            $.each(jsonStr.results.juso, function (index, item) {
+                $("<li >", { "onclick": "setAddrData(this);", "style": "cursor: pointer;", "data-road-addr": item.roadAddr, "data-jibun-addr": item.jibunAddr, "data-zip-no": item.zipNo }).append(
+                    "<div><span class='new'>도로명</span> " + item.roadAddr + "</div>" + "<div><span class='old'>지번</span> " + item.jibunAddr + "</div>").appendTo(addrList);
+            });
+            $('#join_member_address_modal .tip').css("display", "none");
+            $("#addr_list").css("display", "block");
+            $("#addr_list").append(addrList);
+        }
+    
+        function setAddrData(obj) {
+            $("#modal-zipcode").val(obj.dataset.zipNo);
+            $("#modal-address1").val(obj.dataset.roadAddr);
+            $("#join_member_address_modal").modal('hide');
+        }
+    
+        function all_agree_check_func(joinAll, joinCheck) {
+            joinCheck.forEach(function (el) {
+                el.addEventListener('click', function () {
+                    for (var i = 0, len = joinCheck.length; i < len; ++i) {
+                        if (!joinCheck[i].checked) {
+                            joinAll.checked = false;
+                            return;
+                        }
+                    }
+                    joinAll.checked = true;
+                });
+            });
+    
+            joinAll.addEventListener('change', function (e) {
+                for (let i = 0; i < joinCheck.length; i++) {
+                    joinCheck[i].checked = e.target.checked;
+                }
+            });
+        }
+    
+        if (document.getElementById("address_add_info_all_agree")) {
+            all_agree_check_func(document.getElementById("address_add_info_all_agree"), document.querySelectorAll('.join-accordion_condition'));
+        }
+    
+        function saveAddress() {
+            if (checkAgreeCondition()) {
+                $.mypageUtils.updateAddressResult();
+            } else {
+                $.commonUtils.alert(ka.msg.join.collectPersonalInfoOtherNotSelect);
+            }
+        }
+    
+        function checkAgreeCondition() {
+            let result = true;
+            for (var i = 0; i < $("input[name=address_add_info]:checkbox").length; i++) {
+                if (result) {
+                    let el = $("input[name=address_add_info]:checkbox");
+                    if (!el[i].checked) {
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
+    
+        document.querySelectorAll('.work-info .video-info ul li > p').forEach(function(elem) {
+            elem.addEventListener("mouseenter", (e) => {
+                elem.classList.add('show');
+            });
+        });
+    
+        document.querySelectorAll('.work-info .video-info ul li > p').forEach(function(elem) {
+            elem.addEventListener("mouseleave", (e) => {
+                elem.classList.remove('show');
+            });
+        });
+    
+        function pwModalOpen(target) {
+            $.commonUtils.mypageModal(target);
+        }
+    
+    </script>
+}
+

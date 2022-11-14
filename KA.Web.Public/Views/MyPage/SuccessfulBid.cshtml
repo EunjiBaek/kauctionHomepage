@@ -1,0 +1,613 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+
+<style>
+    .hover_underline:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="jumbotron bg-transparent m-b-0">
+    @{
+        var breadcrumbModel = new[] { "My Page", L["낙찰내역"].Value };
+    }
+    <partial name="_Partial/_Breadcrumb" model="breadcrumbModel"/>
+    <div class="container m-t-50 m-b-30 p-b-10">
+        <!-- 섹션/정렬 영역 -->
+        <div class="row m-t-20 m-b-20">
+            <div class="col-12 col-sm-12">
+                <style>
+                    .nav li a.active, .nav li a:hover {
+                        border-bottom: 1px solid #f47104;
+                        color: #f47104;
+                        cursor: pointer;
+                    }
+                </style>
+                <ul class="nav nav-auction">
+                    <li class="nav-item"><a id="section-0" class="nav-link active" onclick="sectionList('0');">@L["전체"]</a></li>
+                    @*<li class="nav-item"><a id="section-1" data-title-default="@Localizer["메이저 경매"]" data-title-mobile="@Localizer["메이저"]" class="nav-link" onclick="sectionList('1');">@Localizer["메이저 경매"]</a></li>*@
+                    <li class="nav-item"><a id="section-2" data-title-default="@L["프리미엄 온라인"]" data-title-mobile="@L["프리미엄"]" class="nav-link" onclick="sectionList('2');">@L["프리미엄 온라인"]</a></li>
+                    <li class="nav-item"><a id="section-4" data-title-default="@L["위클리 온라인"]" data-title-mobile="@L["위클리"]" class="nav-link" onclick="sectionList('4');">@L["위클리 온라인"]</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- GUIDE -->
+        <div class="row">
+            <div class="container">
+                <div class="wishlistguide-content">
+                    <h4>
+                        <img src="/img/howto/icons/precau-ico@1x.png" alt="Icon"
+                             srcset="/img/howto/icons/precau-ico@1x.png 1x,/img/howto/icons/precau-ico@2x.png 2x,/img/howto/icons/precau-ico@3x.png 3x">
+                        @L["보증서 출력 전에 읽어주세요."]
+                    </h4>
+                    <ul>
+                        <li>
+                            <div class="ellipse">
+                                <img src="/img/icons/ellipse@1x.png" alt="Bullet" srcset="/img/icons/ellipse@1x.png 1x,/img/icons/ellipse@2x.png 2x,/img/icons/ellipse@3x.png 3x">
+                            </div>
+                            <p>@L["2022년 5월 2일 이후 마감 된 경매의 낙찰 작품에 대해 보증서 출력 기능을 지원합니다."]</p>
+                        </li>
+                        <li>
+                            <div class="ellipse">
+                                <img src="/img/icons/ellipse@1x.png" alt="Bullet" srcset="/img/icons/ellipse@1x.png 1x,/img/icons/ellipse@2x.png 2x,/img/icons/ellipse@3x.png 3x">
+                            </div>
+                            <p>@L["보증서는 My Page > 낙찰 내역 중 '보증서 출력'버튼을 통해 직접 출력이 가능합니다."]</p>
+                        </li>
+                        <li>
+                            <div class="ellipse">
+                                <img src="/img/icons/ellipse@1x.png" alt="Ellipse" srcset="/img/icons/ellipse@1x.png 1x,/img/icons/ellipse@2x.png 2x,/img/icons/ellipse@3x.png 3x">
+                            </div>
+                            <p>@L["출력은 위변조 방지를 위해 1회만 가능하니 주의하시기 바랍니다."]</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 아코디언 영역 -->
+        <div class="row" id="accordion"></div>
+        <!-- 페이지네이션 영역 -->
+        <div class="dataTables_wrapper m-b-10">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <div class="dataTables_paginate paging_full_numbers">
+                        <ul class="pagination"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-show-popup" id="modal-bid-noti">
+    <div>
+        <button class="close-modal mypage_modal_close">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <div style="position: relative; padding: 30px 30px; background-color: #fff; width: 700px; box-sizing: border-box;">
+            <div style="text-align: center;">
+                <img src="/img/logo_black@1x.png" alt="케이옥션로고" srcset="/img/logo_black@1x.png 1x, /img/logo_black@2x.png 2x, /img/logo_black@3x.png 3x">
+                <h3 id="bid_notification-title" style="font-size: 16px; font-weight:500; margin-top: 12px; line-height:1.2em"><span id="auc_title"></span></h3>
+            </div>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <div style="position: relative;">
+                <div class="modal-bid-noti-table" style="margin-top: 40px;"></div>
+                <div class="modal-gradient-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="modal-bid-noti-btn"><button>@L["표 전체보기"]</button></div>
+            <div class="modal-bid-noti-desc" style="margin: 40px 0; padding: 0 40px;">
+                <h6 style="font-size: 12px; color: #000; font-weight: 500;">@L["대금 결제 및 배송 절차"]</h6>
+                <ul>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">1.</div>
+                        <p>@L["낙찰된 작품은 낙찰을 철회할 수 없습니다. 기타 자세한 사항은 당사의 약관에 따릅니다."]</p>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">2. </div>
+                        <p>@L["낙찰된 작품의 총 구매대금은"]&nbsp;<span id="expire_date"></span>@L["까지 아래의 입금계좌로 입금되어야 합니다."]</p>
+                    </li>
+                    @if (commonService.IsKor())
+                    {
+                        <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                            <div style="margin-right: 3px;">3. </div>
+                            <p>낙찰자와 송금계좌 예금주가 다른 경우, 반드시 입금 통장 표시에 낙찰자명 기재 부탁드립니다.</p>
+                        </li>
+                    }
+                    <div class="bank-account-num" style="background-color: #f9f9f9; margin: 10px 0; text-align: center; padding: 12px 0;">
+                        <p style="font-size: 14px; font-weight: 500; color: #000;">@L["입금 계좌 : 하나은행 196-910005-07204 (주)케이옥션"]</p>
+                    </div>
+                    @if (!commonService.IsKor())
+                    {
+                        <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                            <div style="margin-right: 3px;">3. </div>
+                            <p>Please contact a K Auction specialist regarding payment in currencies other than South Korean Won.</p>
+                        </li>
+                    }
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">4. </div>
+                        <p>@L["배송비는 설정된 배송지 기준으로 부과됩니다. 이후 배송지가 변경되는 경우 금액이 변경될 수 있으며, 당사에서 직접 픽업하는 경우에는 배송비가 부과되지 않습니다."]</p>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; color:#666; font-size: 12px;">
+                        <div style="margin-right: 3px;">5. </div>
+                        <p>
+                            @if (commonService.IsKor())
+                            {
+                                @:구매 대금은 낙찰 일로부터 7일 이내에 입금해 주시기 바랍니다. 7일 초과 시 추가 비용이 발생합니다. <a href="https://www.k-auction.com/HowTo/OnlineClause" style="color: #ff5d16; text-decoration: underline;">(약관 참조)</a>
+                            }
+                            else
+                            {
+                                @:The total payment amount must be rendered within 7 days of the closing date of the auction. Additional fees may be incurred if payment has not bee completed in full within 7 days. Please refer to the <a href="https://www.k-auction.com/HowTo/OnlineClause?lang=en" style="color: #ff5d16; text-decoration: underline;">Terms & Conditions</a> for additional details.</a>
+                            }
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL - REPORT START -->
+<div class="bid-popup bp01 modal-show-popup">
+    <div>
+        <div>
+            <img src="/img/icons/close-ico.png" onclick="bidpopupClose(); return false;">
+            <h1>@L["보증서 출력"]</h1>
+            @if (commonService.IsMacintosh())
+            {
+                <ul id="certificate_notice_N">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["죄송합니다. 맥OS의 경우 보증서 사용자 출력이 불가하므로, 윈도우OS기기에서 출력을 진행하시기 바랍니다. 만약, 우편 수신을 원하는 경우 '보증서 배송 신청' 버튼을 눌러주세요."]</p>
+                    </li>
+                </ul>
+            }
+            else if (commonService.IsMobile())
+            {
+                <ul id="certificate_notice_N">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["해당 기능은 데스크톱에서만 가능합니다."]</p>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul id="certificate_notice_N" style="display: none;">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["현재 출고 전으로 보증서 출력이 불가능 합니다."]</p>
+                    </li>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["출고가 되었는데도 출력이 되지 않는 경우에는 담당자에게 문의 바랍니다."]</p>
+                    </li>
+                </ul>
+                <ul id="certificate_notice_Y" style="display: none;">
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["보증서 원본 출력은 1회만 가능하며, 1회 출력 이후에는 재출력이 불가합니다."]</p>
+                    </li>
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["원본 출력 전에 가급적 테스트출력을 먼저 진행해 오출력을 예방하시기 바랍니다."]</p>
+                    </li>
+                    @*<li>
+                    <img src="/img/icons/bullet.png" alt="">
+                    <p>@L["먼저 테스트 출력을 통해 프린터 설정 등을 확인하시기 바랍니다."]</p>
+                </li>*@
+                    <li>
+                        <img src="/img/icons/bullet.png" alt="">
+                        <p>@L["프린트 보안프로그램(MarkAny ePageSafer) 설치 후 테스트 출력이 정상적이지 않은 경우 컴퓨터를 재 부팅 후 시도하시기 바랍니다."]</p>
+                    </li>
+                </ul>
+            }
+            <p></p>
+            <div class="bidagree-btn">
+                @if (commonService.IsMacintosh())
+                {
+                    <a class="cancel" href="#" onclick="bidpopupClose(); return false;">@L["취소"]</a>
+                    <a id="btn-bidagree" data-print-test="Y" href="javascript:requestDelivery();">@L["보증서 배송 신청"]</a>
+                }
+                else if (commonService.IsMobile())
+                {
+                    <a class="cancel" href="#" onclick="bidpopupClose(); return false;">@L["취소"]</a>
+                }
+                else
+                {
+                    <a class="cancel" href="#" onclick="bidpopupClose(); return false;">@L["취소"]</a>
+                    <a id="btn-bidagree" data-print-test="Y" class="middle" href="javascript:openReport('Y');">@L["테스트 출력"]</a>
+                    <a id="btn-bidagree2" data-print-test="N" href="javascript:openReport('N');" style="display: none;">@L["원본 출력"]</a>
+                }
+            </div>
+            @if (!commonService.IsMacintosh())
+            {
+                <div class="bidagree-check-wrap">
+                    <input class="default" type="checkbox" id="bidagree-check-print" onclick="bidagree_checked(this)">
+                    <label for="bidagree-check-print"><div><i class="fas fa-check"></i></div><p>@L["테스트 없이 바로 원본을 출력합니다."]</p></label>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="popupbg"></div>
+<!-- MODAL - REPORT END -->
+<script>
+
+    var isProcess = false;
+    var reportParam = {};
+    var requestParam = {};
+    requestParam["page"] = 1;
+
+    $(document).ready(function () {
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+        }
+
+        function topbox1_scroll () {
+            if ($(window).width() <= 750) {
+                $('.topbox1').addClass('pad');
+            } else {
+                $('.topbox1').removeClass('pad');
+            }
+        }
+
+        topbox1_scroll();
+
+        $(window).resize(function () {
+            const windowWidth = $(window).width();
+            if (windowWidth > 750) {
+                document.querySelector(".modal-gradient-arrow").style.display = "none";
+            }
+        });
+
+        document.querySelector('.modal-bid-noti-table').addEventListener('scroll', function(e){
+            if (document.querySelector('.modal-bid-noti-table').scrollWidth - (document.querySelector('.modal-bid-noti-table').scrollLeft + document.querySelector('.modal-bid-noti-table').clientWidth) + 1 < 20) {
+                document.querySelector(".modal-gradient-arrow").style.display = "none";
+            } else {
+                document.querySelector(".modal-gradient-arrow").style.display = "block";
+            }
+        });
+
+        $(window).resize(function () {
+            topbox1_scroll();
+        });
+
+        getList();
+        getAddressList();
+    });
+
+    function getList() {
+        if (isProcess) return;
+        isProcess = true;
+        $.ajaxUtils.getApiData('/api/MyPage/GetSuccessfulBidList', requestParam, getListComplete);
+    }
+
+    function sectionList(type) {
+        requestParam["page"] = 1;
+        requestParam["auc_kind"] = type > 0 ? type.toString() : "";
+
+        var el = $(".nav").find("a").attr("class", "nav-link");
+        $("#section-" + type.toString()).addClass("active");
+
+        getList();
+    }
+
+    function getListComplete(result) {
+        isProcess = false;
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#accordion").empty();
+            var totalCount = 0;
+            var aucRank = 0;
+            var totalPrice = 0;
+            var fees = 0.0;
+            var auc_kind = "";
+            var auc_num = "";
+
+            $.each(result.data, function (index, item) {
+                if (item.auc_rank != aucRank) {
+                    var panel = $("<div />", { "class": "card card-default", "style": "margin-bottom: 0px;" });
+                    var header = $("<div />", { "class": "card-header separator bid-result-notice", "style": "padding: 15px 20px 5px 20px;", "id": "card-header-" + item.auc_rank.toString() }).append(
+                        $("<div />", { "class": "card-title w-100 fs-16" }).append(
+                            $("<label />", { "class": "fs-18", "style": "float: left; cursor: pointer;", "data-toggle": "collapse", "data-parent": "#accordion", "href": "#collapse-" + item.auc_rank.toString() }).append(
+                                item.auc_title)
+                        )
+                    );
+                    var body = $("<div />", { "id": "collapse-" + item.auc_rank.toString(), "class": "panel-collapse collapse in show" }).append(
+                        $("<div />", { "class": "card-body", "id": "card-body-" + item.auc_rank.toString() })
+                    );
+
+                    $("#accordion").append(panel.append(header, body));
+
+                    if (aucRank > 0) {
+                        $.cardUtils.setSuccessfulBidInfoCardTag('#card-header-' + aucRank.toString(), totalPrice, fees, auc_kind, auc_num);
+                        totalPrice = 0;
+                    }
+                }
+
+                totalPrice += item.price_purchase;
+                fees = item.fees;
+                auc_kind = item.auc_kind;
+                auc_num = item.auc_num;
+
+                $.cardUtils.setBidWorkCardTag("#card-body-" + item.auc_rank, item, "Y");
+
+                aucRank = item.auc_rank;
+
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+            });
+
+            if (aucRank > 0) {
+                $.cardUtils.setSuccessfulBidInfoCardTag('#card-header-' + aucRank.toString(), totalPrice, fees, auc_kind, auc_num);
+            }
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    page: requestParam["page"] ? requestParam["page"] : 1,
+                    callback: getList
+                });
+            } else {
+                $.cardUtils.setEmptyCardTag("#accordion", "successfulBid");
+                $(".pagination").empty();
+            }
+        } else { $.commonUtils.alert(ka.msg.common.error); }
+    }
+
+
+    function bidagree_checked(elem) {
+        let checked = elem.checked;
+
+        const btn_bidagree = document.getElementById("btn-bidagree"),
+        btn_bidagree2 = document.getElementById("btn-bidagree2");
+
+        if (checked) {
+            btn_bidagree.style.display = "none";
+            btn_bidagree2.style.display = "block";
+        } else {
+            btn_bidagree.style.display = "block";
+            btn_bidagree2.style.display = "none";
+        }
+    }
+
+    function GetBidNotification(aucKind, aucNum) {
+        if (isProcess) return;
+
+        isProcess = true;
+
+        requestParam["auc_kind"] = aucKind;
+        requestParam["auc_num"] = aucNum;
+
+        $.ajaxUtils.getApiData('/api/MyPage/GetBidNotification', requestParam, getGetBidNotificationComplete);
+    }
+
+    function getGetBidNotificationComplete(result) {
+        isProcess = false;
+
+        var isKor = "@commonService.IsKor()" === "True";
+        var colspan = isKor ? "5" : "4";
+        var rowspan = isKor ? "2" : "1";
+
+        if (result.data.mail_send_yn !== "Y") {
+            $.commonUtils.alert(ka.msg.successfulBid.notYetAlert);
+            return;
+        }
+
+        $('#modal-bid-noti').addClass('block');
+        $('body').addClass('yhidden');
+
+        bodyHidden();
+
+        $('.modal-bg').addClass('block');
+        $('.modal-bid-noti-table').html('');
+
+        $('#auc_title').html(result.data.auc_title);
+        $('#expire_date').html(result.data.expire_date);
+
+        var table = $("<table class='bidnoti-table'/>", {
+              "style": "width:100%; border-collapse: collapse; font-family: 'Noto Sans', sans-serif; font-size:15px; text-align: right; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;"
+            , "cellspacing" : "0"
+            , "cellpadding": "4"
+            , "id" : "auction_nak"
+        });
+
+        table.append(
+            $("<tr />", { "style": "background-color:#F5F5F5; text-align: center;" })
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append("Lot")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.title)))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.auction.hammerPrice + "<br>(A)")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.premium + "<br>(B)")))
+                .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc;", "rowspan": rowspan }).append($("<strong />", { "style": "font-size: 12px;" }).append(ka.msg.successfulBid.purchasePrice + "<br>(A+B)")))
+                .append(isKor ? $("<th />", { "style": "padding:4px; border: 1px solid #ccc; font-size: 12px; font-weight: 700;", "colspan": "2"}).append($("<strong />", { "style": "font-size: 12px;" }).append("배송비(C)")) : "")
+        , isKor ?
+            $("<tr />", { "style": "background-color:#F5F5F5; text-align: center;" })
+                    .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc" }).append($("<span />", { "style": "font-size: 12px; font=weight:400" }).append("1.직접 방문 시")))
+                    .append($("<th />", { "style": "padding:4px; border: 1px solid #ccc; font=weight:400" }).append($("<span />", { "style": "font-size: 12px;" }).append("2.배송 요청 시")))
+            : ""
+        );
+
+        $(".modal-bid-noti-table").append($("<div class='topbox1'/>").append(table));
+
+        const topbox2 = $("<div class='topbox2'/>");
+
+        var table_02 = $("<table class='bidnoti-table'/>", {
+            "style": "width:100%; border-collapse: collapse; font-family: 'Noto Sans', sans-serif; font-size:15px; text-align: right; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;"
+            , "cellspacing" : "0"
+            , "cellpadding": "4"
+        });
+
+        $.each(result.data.AuctionNak, function (index, item) {
+            var bgcolor = index % 2 == 0 ? "#fff" : "#f9f9f9" ;
+            var container = $("<tr />", { "style": "background-color:" + bgcolor });
+
+            container.append(
+                  $("<td />", { "style": "width: 7%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: center; border-left: 1px solid #ffffff" }).append(item.lot_num)
+                , $("<td />", { "style": "width: 24%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: left;" }).append(
+                    $("<div />", {"class": "tb-item-name_01"}).append(item.a_name),
+                    $("<div />", {"class": "tb-item-name_02"}).append(item.w_name),
+                )
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;"}).append(item.price_successful_bid)
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append(item.buy_comm_sum)
+                , $("<td />", { "style": "width: 12%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append(item.work_sum)
+                , isKor ? $("<td />", { "style": "width: 16.5%; padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#666; text-align: right;" }).append("0") : ""
+                , isKor ? $("<td />", { "style": "width: 16.5%; padding:4px; font-size: 12px; color:#666; text-align: right; border-right: 1px solid #ffffff;" }).append(item.delivery_fee) : ""
+            );
+
+            $(".modal-bid-noti-table").append(topbox2);
+            topbox2.append(table_02);
+            table_02.append(container);
+        });
+
+        table_02.append(
+            $("<tr />", { "style": "background-color: #efefef; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500; color:#000;" })
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center;", "colspan": "2" }).append(ka.msg.successfulBid.total))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;" }).append(result.data.total_price_successful_bid))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append(result.data.total_buy_comm_sum))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append(result.data.total_price))
+                .append(isKor ? $("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: right;"}).append("0") : "")
+                .append(isKor ? $("<td />", { "style": "padding:4px; font-size: 12px; color:#000; text-align: right;"}).append(result.data.total_delivery_fee) : "")
+        );
+
+        let tb_item_name02 = document.querySelectorAll('.tb-item-name_02');
+        tb_item_name02.forEach(function(el){
+            if (el.textContent.length > 10) {
+                return el.textContent = el.textContent.substr(0, 10) + '...';
+            }
+        });
+
+        table_02.append(
+            $("<tr />", { "style": "background-color: #fff; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; font-weight: 500;" })
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; text-align: center;", "colspan" : colspan}).append(ka.msg.successfulBid.totalAmount))
+                .append($("<td />", { "style": "padding:4px; border-right: 1px solid #ccc; font-size: 12px; color:#d32f2f; text-align: right;" }).append(result.data.total_price))
+                .append(isKor ? $("<td />", { "style": "padding:4px; font-size: 12px; color:#d32f2f; text-align: right;" }).append(result.data.total_price_fee) : "")
+        );
+
+        $(".modal-bid-noti-btn > button").on("click", function () {
+            window.location.href = "/MyPage/SuccessfulBidDocument/" + requestParam["auc_kind"] + "/" + requestParam["auc_num"];
+        });
+    }
+
+    function modalReport(uid, state) {
+        const elem = document.querySelector("#bidagree-check-print"),
+            btn_bidagree = document.getElementById("btn-bidagree"),
+            btn_bidagree2 = document.getElementById("btn-bidagree2");
+
+        var param = {};
+        param["work_uid"] = uid;
+        var result = $.ajaxUtils.getApiData("/api/MyPage/CheckTestPrint", param, null, false);
+        var resultCode = $.ajaxUtils.getResultCode(result);
+        //if (resultCode === "00") { // 테스트 출력 이력 없음
+        //    elem.checked = false;
+        //    btn_bidagree.style.display = "block";
+        //    btn_bidagree2.style.display = "none";
+        //} else if (resultCode === "01") { // 테스트 출력 이력 있음
+        //    elem.checked = true;
+        //    btn_bidagree.style.display = "none";
+        //    btn_bidagree2.style.display = "block";
+        //} else {
+        //    $.commonUtils.alert(ka.msg.common.error);
+        //    return false;
+        //}
+        if (resultCode === "00" || resultCode === "01") { // 테스트 출력 이력에 상관없이
+            if (elem) {
+                elem.checked = false;
+            }
+            btn_bidagree.style.display = "block";
+            if (btn_bidagree2) {
+                btn_bidagree2.style.display = "none";
+            }
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+            return false;
+        }
+
+        reportParam["uid"] = uid;
+        $("#certificate_notice_" + state).show();
+        document.querySelector('.bid-popup.bp01').classList.add('block');
+        modalAddClass();
+    }
+
+    function modalAddClass() {
+        document.querySelector('body').classList.add('yhidden');
+        document.querySelector('.popupbg').classList.add('block');
+    }
+
+    function modalRemoveClass() {
+        document.querySelector('body').classList.remove('yhidden');
+        document.querySelector('.popupbg').classList.remove('block');
+    }
+
+    function bidpopupClose() {
+        document.querySelector('.bid-popup.bp01').classList.remove('block');
+        document.querySelector('.popupbg').classList.remove('block');
+        if (document.body.clientWidth > 768) {
+            document.querySelector('body').classList.remove('yhidden');
+        } else {
+            document.querySelector('body').classList.add('yhidden');
+        }
+        return false;
+    }
+
+    function openReport(testMode) {
+        reportParam["test_mode"] = testMode;
+        var result = $.ajaxUtils.getApiData("/api/MyPage/SuccessfulBidReport", reportParam, null, false);
+        var resultCode = $.ajaxUtils.getResultCode(result);
+        if (resultCode === "00") {
+            poptastic(result.message);
+        } else if (resultCode === "80") {
+            $.commonUtils.alert(ka.msg.successfulBid.printOut);
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+    }
+
+    function poptastic(url) {
+        newwindow = window.open(url, 'popWinC', 'height=400,width=500,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes');
+        if (window.focus) { newwindow.focus() }
+    }
+
+    function requestDelivery() {
+        $("#certificate-work-uid").val(reportParam["uid"]);
+        requestDeliveryDetail();
+    }
+
+    function requestDeliveryDetail() {
+        bidpopupClose();
+        $.commonUtils.modalOpen(ka.msg.mypage.certificateService, 'certificate')
+    }
+
+    function getAddressList() {
+        $.ajaxUtils.getApiData('/api/Member/AddressList', null, getAddressListComplete);
+    }
+
+    function getAddressListComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.each(result.data, function (index, item) {
+                var el = $('<option />', { "id": "opt-" + item.uid, "data-uid": item.uid, "data-receiver": item.receiver, "data-contact": item.contact }).append(item.zipcode + ". " + item.address + " " + item.address2);
+                $("#certificate-address").append(el);
+            });
+            let certificateAddress = $("#certificate-address option:selected");
+            $("#certificate-receiver-name").val(certificateAddress.attr("data-receiver"));
+            $("#certificate-receiver-mobile").val(certificateAddress.attr("data-contact"));
+
+            $("#certificate-address").on("change", function (e) {
+                let certificateAddress = $("#certificate-address option:selected");
+                $("#certificate-receiver-name").val(certificateAddress.attr("data-receiver"));
+                $("#certificate-receiver-mobile").val(certificateAddress.attr("data-contact"));
+            });
+        }
+    }
+
+    function certificateAlert(type) {
+        let messageContent;
+        if (type === 'C') {
+            messageContent = '<span style="font-weight: bold;">' + ka.msg.mypage.certificateComplete1 + '</span><br /><br />' + ka.msg.mypage.certificateComplete2 + '<br />' + ka.msg.mypage.certificateComplete3;
+        } else if (type === 'R') {
+            messageContent = '<span style="font-weight: bold;">' + ka.msg.mypage.certificateRequest1 + '</span><br /><br />' + ka.msg.mypage.certificateRequest2 + '<br />' + ka.msg.mypage.certificateRequest3;
+        }
+        $.commonUtils.alert(messageContent, "success");
+    }
+
+</script>

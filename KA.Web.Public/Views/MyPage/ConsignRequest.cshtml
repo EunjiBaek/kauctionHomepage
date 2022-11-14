@@ -1,0 +1,434 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@inject KA.Web.Public.Services.CommonService commonService
+@{
+    var workMaterial = commonService.GetCodeList("WORK_MATERIAL");
+}
+
+<style>
+    input[type="text"] { width: 180px; height: 32px; line-height: normal; font-family: inherit; border: 1px solid #c4c4c4; border-radius: 0; outline-style: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding: 0.2em 0.2em; }
+    @@media(max-width:768px) { .card { margin-bottom: 45px }}
+</style>
+
+<div class="applyform">
+    <breadcrumb titles="My Page|@L["위탁신청"].Value" />
+    <h1>@L["소장품 위탁문의 신청서"]</h1>
+</div>
+<div class="container">
+    <div id="consign-request-guide">
+        <div class="consignguide-container">
+            <div class="consignguide-content">
+                <h4><img src="/img/howto/icons/precau-ico@1x.png" alt="Icon" srcset="/img/howto/icons/precau-ico@1x.png 1x,/img/howto/icons/precau-ico@2x.png 2x,/img/howto/icons/precau-ico@3x.png 3x">@L["소장품 위탁 전에 읽어주세요."]</h4>
+                <ul>
+                    <li><div class="ellipse"><span>•</span></div><p>@L["접수된 문의 내역은 분야별 스페셜리스트들의 내부 심사를 거친 후, 접수일로부터 7일 이내 담당자를 통해 개별적으로 연락을 드립니다."]</p></li>
+                    <li><div class="ellipse"><span>•</span></div><p>@L["소장하고 계신 물품에 관하여 판매 제한 사유(리세일 금지 약정 등)가 있는지 위탁 문의/신청 전에 확인 부탁드립니다. 고객님께서 물품을 위탁하시는 경우, 해당 물품에 관하여 제한 없이 소유권을 이전할 수 있다는 점을 스스로 진술/보증할 의무가 있습니다."]</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="written-call-apply">
+        <div>
+            <h5>@L["위탁인 정보"]</h5>
+            <table class="apply-table">
+                <tr>
+                    <td>@L["이름"]</td>
+                    <td>@LoginInfo.Name</td>
+                </tr>
+                <tr>
+                    <td>@L["주소"]</td>
+                    <td>@LoginInfo.ZipCode @LoginInfo.Address @LoginInfo.Address2</td>
+                </tr>
+                <tr>
+                    <td>@L["휴대전화"]</td>
+                    <td>@LoginInfo.Mobile</td>
+                </tr>
+                <tr>
+                    <td>@L["이메일"]</td>
+                    <td>@LoginInfo.Email</td>
+                </tr>
+            </table>
+        </div>
+        <div class="conapply-form">
+            <h5>@L["위탁작품 정보"]</h5>
+            <table class="apply-table">
+                <tr>
+                    <td>@L["작가명"]</td>
+                    <td><div id="artist-area"><input id="artist" type="text" param="Y"></div></td>
+                </tr>
+                <tr>
+                    <td class="essential"><span>@L["작품명"]</span></td>
+                    <td><div><input id="title" class="apply-input" type="text" param="Y"></div></td>
+                </tr>
+                <tr>
+                    <td>@L["작품의 재료"]</td>
+                    <td>
+                        <div>
+                            <select id="material-code" class="material-ch" param="Y">
+                                <option value="">@L["재료를 선택해 주세요."]</option>
+                                <option value="001">@L["캔버스에 유채"]</option>
+                                <option value="002">@L["종이에 채색"]</option>
+                                <option value="003">@L["사진"]</option>
+                                <option value="004">@L["판화"]</option>
+                                <option value="005">@L["조각"]</option>
+                                <option value="006">@L["도자기"]</option>
+                                <option value="007">Etc</option>
+                            </select>
+                            <input type="text">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@L["작품의 크기 (cm)"]</td>
+                    <td>
+                        <div class="sizeinfo">
+                            <div><label for="s_size01">@L["작품의 세로"]</label><input type="text" name="s_size01" id="s_size01" param="Y" class="s_fld s_size01" numberOnly></div>
+                            <span>X</span>
+                            <div><label for="s_size02">@L["작품의 가로"]</label><input type="text" name="s_size02" id="s_size02" param="Y" class="s_fld s_size02" numberOnly></div>
+                            <span>X</span>
+                            <div><label for="s_size03">@L["작품의 폭"]</label><input type="text" name="s_size03" id="s_size03" param="Y" class="s_fld s_size03" numberOnly></div>
+                            <span>/</span>
+                            <input type="text" id="ho" param="Y" class="size" numberOnly>
+                            <span>@L["호"]</span>
+                        </div>
+                        <div><span>@L["※ 작품의 실제사이즈로 기재해주세요 (판화는 시트지 사이즈)"]</span></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Edition</td>
+                    <td><div><input type="text" id="edition" param="Y"><span style="display: block;">@L["※ 작품이 판화인 경우에는 Edition을 기입해 주세요."]</span></div></td>
+                </tr>
+                <tr>
+                    <td>@L["제작연도"]</td>
+                    <td><div><input type="text" id="make-date" param="Y"></div></td>
+                </tr>
+                <tr>
+                    <td>@L["출처"]</td>
+                    <td><div><textarea class="conapply-text" id="desc" param="Y" placeholder="@L["소장경위, 구매처, 보증서/감정서 유무, 전시이력, 수록 도서 등을 기재해주세요."]"></textarea></div></td>
+                </tr>
+                <tr>
+                    <td>@L["기타"]</td>
+                    <td><div><textarea class="conapply-text" id="etc" param="Y" placeholder="@L["작품 보관상태 및 출품 검토에 도움이 될만한 추가 내용을 자유롭게 기입해주세요."]"></textarea></div></td>
+                </tr>
+                <tr>
+                    <td class="essential"><span>@L["작품이미지"]</span></td>
+                    <td class="essential-img-upload">
+                        <form method="POST" onsubmit="return false;" enctype="multipart/form-data">
+                            <div id="essential-img-upload-wrap">
+                                <div class="essential-img-upload-item">
+                                    <h6>@L["앞면"]</h6>
+                                    <p>@L["작품이 잘 보이는 정면 모습을 업로드 해주세요."]</p>
+                                    <div class="file-list" data-target="F">
+                                        <div class="icon">
+                                            <img src="/img/icons/add_photo_alternate.png" alt="" srcset="/img/icons/add_photo_alternate.png 1x, /img/icons/add_photo_alternate@2x.png 2x, /img/icons/add_photo_alternate@3x.png 3x">
+                                            <p>@L["첨부할 파일을 드래그 하세요."]</p>
+                                        </div>
+                                        <input id="essential-img-upload_01" type="file" multiple style="display: none;" onchange="addFile(this)" />
+                                    </div>
+                                    <label class="essential-img-upload-label btn_default_ef" for="essential-img-upload_01" data-set="essential-img-upload_01">@L["파일선택"]</label>
+                                </div>
+                                <div class="essential-img-upload-item">
+                                    <h6>@L["뒷면"]</h6>
+                                    <p>@L["장애물이 없는 상태의 뒷면을 업로드 해주세요."]</p>
+                                    <div class="file-list" data-target="B">
+                                        <div class="icon">
+                                            <img src="/img/icons/add_photo_alternate.png" alt="" srcset="/img/icons/add_photo_alternate.png 1x, /img/icons/add_photo_alternate@2x.png 2x, /img/icons/add_photo_alternate@3x.png 3x">
+                                            <p>@L["첨부할 파일을 드래그 하세요."]</p>
+                                        </div>
+                                        <input id="essential-img-upload_02" type="file" multiple style="display: none;" onchange="addFile(this)" />
+                                    </div>
+                                    <label class="essential-img-upload-label btn_default_ef" for="essential-img-upload_02" data-set="essential-img-upload_02">@L["파일선택"]</label>
+                                </div>
+                                <div class="essential-img-upload-item">
+                                    <h6>@L["서명"]</h6>
+                                    <p>@L["서명 부분을 가까이 촬영해서 업로드 해주세요."]</p>
+                                    <div class="file-list" data-target="S">
+                                        <div class="icon">
+                                            <img src="/img/icons/add_photo_alternate.png" alt="" srcset="/img/icons/add_photo_alternate.png 1x, /img/icons/add_photo_alternate@2x.png 2x, /img/icons/add_photo_alternate@3x.png 3x">
+                                            <p>@L["첨부할 파일을 드래그 하세요."]</p>
+                                        </div>
+                                        <input id="essential-img-upload_03" type="file" multiple style="display: none;" onchange="addFile(this)" />
+                                    </div>
+                                    <label class="essential-img-upload-label btn_default_ef" for="essential-img-upload_03" data-set="essential-img-upload_03">@L["파일선택"]</label>
+                                </div>
+                                <div class="essential-img-upload-item">
+                                    <h6>@L["구매서류"]</h6>
+                                    <p>@L["보증서, 확인서 등 출처를 확인할 서류를 업로드 해주세요."]</p>
+                                    <div class="file-list" data-target="P">
+                                        <div class="icon">
+                                            <img src="/img/icons/add_photo_alternate.png" alt="" srcset="/img/icons/add_photo_alternate.png 1x, /img/icons/add_photo_alternate@2x.png 2x, /img/icons/add_photo_alternate@3x.png 3x">
+                                            <p>@L["첨부할 파일을 드래그 하세요."]</p>
+                                        </div>
+                                        <input id="essential-img-upload_04" type="file" multiple style="display: none;" onchange="addFile(this)" />
+                                    </div>
+                                    <label class="essential-img-upload-label btn_default_ef" for="essential-img-upload_04" data-set="essential-img-upload_04">@L["파일선택"]</label>
+                                </div>
+                            </div>
+                            <div class="essential-detail-img-upload">
+                                <div class="essential-img-upload-item">
+                                    <h6>@L["상세사진"]</h6>
+                                    <p>@L["작품 디테일이나 결함 등을 촬영해서 업로드 해주세요."]</p>
+                                    <div class="file-list" data-target="D">
+                                        <div class="icon">
+                                            <img src="/img/icons/add_photo_alternate.png" alt="" srcset="/img/icons/add_photo_alternate.png 1x, /img/icons/add_photo_alternate@2x.png 2x, /img/icons/add_photo_alternate@3x.png 3x">
+                                            <p>@L["첨부할 파일을 드래그 하세요."]</p>
+                                        </div>
+                                        <input id="essential-img-upload_05" type="file" multiple="" style="display: none;" onchange="addFile(this)">
+                                    </div>
+                                    <label class="essential-img-upload-label btn_default_ef" for="essential-img-upload_05" data-set="essential-img-upload_04">@L["파일선택"]</label>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@L["구입가"]<span style="font-size: 12px; margin-left:3px">(KRW)</span></td>
+                    <td><div><input type="text" pattern="\d*" id="price-purchase" param="Y" numberOnly /></div></td>
+                </tr>
+                <tr>
+                    <td>@L["희망가"]</td>
+                    <td><div><input type="text" pattern="\d*" id="price-desired" param="Y" numberOnly /></div></td>
+                </tr>
+            </table>
+            <div class="apply-btn">
+                <a href="#" onclick="history.back();">@L["취소"]</a>
+                <a href="#" onclick="validate();">@L["위탁 신청"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js"></script>
+<script src="~/plugins/tui.file-uploader/tui-file-uploader.js"></script>*@
+<script>
+
+    let placeholderTarget = $('#artist-area input[type="text"]');
+    placeholderTarget.on('focus', function () { $(this).siblings('label').fadeOut('fast'); });
+    placeholderTarget.on('focusout', function () { if ($(this).val() == '') { $(this).siblings('label').fadeIn('fast'); } });
+
+    $("input:text[numberOnly]").on("keyup", function () {
+        $(this).val($.stringUtils.comma($(this).val().replace(/[^0-9]/g, "")));
+    });
+
+    $(document).ready(function () {
+        $(".s_fld").on("focus", function () {
+            $("label[for='" + this.id + "']").css('visibility', 'hidden');
+        });
+
+        $(".s_fld").on("blur", function () {
+            var txt = $.trim($(this).val());
+
+            if (txt == "")
+                $("label[for='" + this.id + "']").css('visibility', 'visible');
+        });
+
+        $("#material-code").change(function (e) {
+            if (this.value === "007") {
+                $('#material-etc').removeAttr("disabled");
+            } else {
+                $('#material-etc').val('');
+                $('#material-etc').attr("disabled", "disabled");
+            }
+        });
+    });
+
+    var isProcess = false;
+    const uploadBox = document.querySelectorAll('.file-list'),
+    uploadBox_leng = document.querySelectorAll('.file-list').length,
+
+    // 이미지파일 담기
+    filesArr = [];
+    var fileNo = 0;
+
+    function readData(file) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            filesArr.push(file);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    uploadBox.forEach(el => {
+        /* 박스 안에 Drag 들어왔을 때 */
+        el.addEventListener('dragenter', function(e) {
+            console.log('dragenter');
+        });
+
+        /* 박스 안에 Drag를 하고 있을 때 */
+        el.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+
+        /* 박스 밖으로 Drag가 나갈 때 */
+        el.addEventListener('dragleave', function(e) {
+        });
+
+        el.addEventListener('drop', function(e) {
+            e.preventDefault();
+
+            this.firstElementChild.style.display = "none";
+            var data = e.dataTransfer.files;
+
+            for( let i = 0; i < data.length; i++) {
+                const file = data[i];
+                const date = file.lastModified;
+
+                let htmlData = '';
+                htmlData = '<div id="file' + fileNo + '" class="filebox"' + 'data-set="' + date + '">';
+                htmlData += '<p class="name">' + file.name + '</p>';
+                htmlData += '<a class="delete" onclick="deleteFile(' + fileNo + ');"><img class="remove-img" src="/img/icons/remove_icon.png"/></a>';
+                htmlData += '</div>';
+
+                this.innerHTML += htmlData;
+                fileNo++;
+            }
+
+            if (document.querySelectorAll(".filebox").length > 0 ) {
+                document.querySelectorAll(".filebox").forEach((el) => {
+                    el.addEventListener('mouseenter', (e) => {
+                        const target = e.currentTarget;
+                        target.querySelector(".remove-img").src = "/img/icons/remove_icon_on.png";
+                    });
+                });
+
+                document.querySelectorAll(".filebox").forEach((el) => {
+                    el.addEventListener('mouseleave', (e) => {
+                        const target = e.currentTarget;
+                        target.querySelector(".remove-img").src = "/img/icons/remove_icon.png";
+                    });
+                });
+            }
+        });
+
+    })
+
+    function addFile(obj) {
+        const parent = obj.parentElement;
+        var objLeng = obj.files.length;
+        var data = obj.files;
+
+        parent.querySelector('.icon').style.display = "none";
+
+        var imageFile = true;
+        debugger;
+        for(let i = 0; i < objLeng; i++) {
+            const file = data[i];
+            const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if (file.type.indexOf("image") < 0 && fileExt !== '.heic') {
+                imageFile = false;
+                continue;
+            }
+            Object.defineProperty(file, 'target', {
+                value: parent.dataset.target,
+                writable: false
+            });
+
+            readData(file)
+
+            let htmlData = '';
+            htmlData = '<div id="file' + fileNo + '" class="filebox">';
+            htmlData += '<p class="name">' + file.name + '</p>';
+            htmlData += '<a class="delete" onclick="deleteFile(' + fileNo + ');"><img class="remove-img" src="/img/icons/remove_icon.png"/></a>';
+            htmlData += '</div>';
+
+            parent.innerHTML += htmlData;
+            fileNo++;
+
+        }
+
+        if (document.querySelectorAll(".filebox").length > 0 ) {
+            document.querySelectorAll(".filebox").forEach((el) => {
+                el.addEventListener('mouseenter', (e) => {
+                    const target = e.currentTarget;
+                    target.querySelector(".remove-img").src = "/img/icons/remove_icon_on.png";
+                });
+            });
+
+            document.querySelectorAll(".filebox").forEach((el) => {
+                el.addEventListener('mouseleave', (e) => {
+                    const target = e.currentTarget;
+                    target.querySelector(".remove-img").src = "/img/icons/remove_icon.png";
+                });
+            });
+        }
+
+        if (!imageFile) {
+            $.commonUtils.alert(ka.msg.consign.onlyImageFile);
+            obj.value = '';
+        }
+
+        imageFile = true;
+    }
+
+    function deleteFile(num) {
+        const dataSet = document.querySelector("#file" + num).dataset.set;
+        const parent = document.querySelector("#file" + num).parentElement;
+        document.querySelector("#file" + num).remove();
+
+        const leng = parent.querySelectorAll('.filebox').length;
+        if(leng === 0) {
+            parent.querySelector('.icon').style.display = "flex";
+        }
+
+        filesArr[num].is_delete = true;
+        fileNo--;
+    }
+
+    function validate() {
+        if ($("#title").val() === "") {
+            $.commonUtils.alert(ka.msg.consign.titleEmpty);
+            $("#title").focus();
+            return false;
+        }
+
+        if (fileNo < 1) {
+            $.commonUtils.alert(ka.msg.consign.fileEmpty);
+            return false;
+        }
+
+        $.commonUtils.confirm(ka.msg.consign.title, ka.msg.consign.confirm, "process();");
+    }
+
+    function process() {
+        $("#btn-warning-confirm").attr("onclick", "return false;");
+
+        if (isProcess) return false;
+        isProcess = true;
+
+        var param = {};
+
+        var uploadResult = $.ajaxUtils.getUploadDatas(filesArr, "/api/File/Upload/Consign");
+        if (uploadResult["result"] && uploadResult.file_info.filename.length === filesArr.length) {
+            let fileInfos = new Array();
+            for (var i = 0; i < filesArr.length; i++) {
+                let fileInfo = {};
+                fileInfo["filename"] = filesArr[i].name;
+                fileInfo["target"] = filesArr[i].target;
+                fileInfos.push(fileInfo);
+            }
+            param["file_info"] = fileInfos;
+        } else {
+            $.commonUtils.alert(ka.msg.common.fileError);
+            isProcess = false;
+            return false;
+        }
+
+        param["work_y"] = $("#s_size01").val();
+        param["work_x"] = $("#s_size02").val();
+        param["work_z"] = $("#s_size03").val();
+        param["material"] = $("#material-code option:selected").val();
+        param["material_name"] = $("#material-code option:selected").text();
+
+        var result = $.ajaxUtils.getApiData("/api/MyPage/SetConsignRequest", $.ajaxUtils.setParameter(param), null, false);
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.commonUtils.redirectAlert(ka.msg.consign.complete, "success", "/myPage/inquiries/consignments");
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+
+        isProcess = false;
+    }
+
+</script>
+
+

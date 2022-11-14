@@ -1,0 +1,232 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    Layout = "_LayoutForLive";
+}
+
+
+<!-- mid -->
+<section id="mid-content">
+    <div class="container">
+        <div class="row">
+            <div class="content-sec">
+                <div class="left"></div>
+                <div class="mid">
+                    <div class="mid-middle">
+                        <div class="video">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="right"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script type="application/json" id="jsonAuctionInfo">
+    @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.None, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore }))
+</script>
+
+<script id="tp_player_flash" type="text/template">
+    <div class="video-container">
+        <UnrealHTML5VideoPlayer id="RtcPlayer"></UnrealHTML5VideoPlayer>
+    </div>
+</script>
+
+<script id="tp_player_webrtc" type="text/template">
+    <div class="video-container">
+        <video id="RtcPlayer" style="background-color:black" width="588" height="320" autoplay playsinline controls></video>
+    </div>
+</script>
+
+@section Scripts {
+<script src="/js/ka.live.player.js" asp-append-version="true"></script>
+
+<script>
+    var playDelay = null;
+
+    var LiveObj = {
+        get videoType() {
+            return enabledUnrealHTML5VideoPlayer();
+        }
+    }
+
+    var LiveFunc = {
+        fn_template_set: function ($template, data, $target) {
+            var rendered = Mustache.render($template.html(), data);
+            $target.html("").append(rendered);
+        },
+        fn_template_append: function ($template, data, $target) {
+            var rendered = Mustache.render($template.html(), data);
+            $target.append(rendered);
+        },
+        fn_template_prepend: function ($template, data, $target) {
+            var rendered = Mustache.render($template.html(), data);
+            $target.prepend(rendered);
+        },
+        fn_video_load: function () {
+
+            //console.log("fn_video_load");
+
+            isVideoConnect = true;
+            var count = 0;
+
+            //if (LiveObj.videoType === 0 || LiveObj.videoType === 1) {
+            //    try {
+
+            //        var func = {
+            //            init: function () { LiveFunc.fn_template_set($("#tp_player_flash"), {}, $(".video")); }
+            //            ,
+            //            play: function () {
+            //                if (!("MediaSource" in window && "WebSocket" in window))
+            //                    document.getElementById("RtcPlayer").innerHTML = "브라우저가 지원하지 않습니다. 크롬브라우저를 설치해주십시요";
+
+            //                //RunPlayer("RtcPlayer", "588", "320", "115.68.235.77", 5119, false, "kalive", "", true, true, -1, "", false);
+            //                RunPlayer("RtcPlayer", "588", "320", "stream.camtour.net", 448, true, "kalive", "", true, true, -1, "", false);
+
+            //                var videoCatch = setInterval(function () {
+            //                    try {
+            //                        var $RtcPlayer_Video = document.getElementById("RtcPlayer_Video");
+            //                        //$RtcPlayer_Video.muted = true;
+            //                        var promise = $RtcPlayer_Video.play();
+            //                        if (promise !== undefined) {
+            //                            promise.then(function () {
+            //                                clearInterval(videoCatch);
+            //                            }).catch(function (error) {
+            //                                console.log(error);
+            //                            });
+            //                        }
+            //                    }
+            //                    finally {
+            //                        promise = null;
+            //                        if (count > 30) clearInterval(videoCatch);
+            //                        count++;
+            //                    }
+            //                }, 200);
+            //            }
+            //            ,
+            //            interval: function () {
+            //                clearInterval(playDelay);
+            //                playDelay = setInterval(function () {
+            //                    var video = document.getElementById("RtcPlayer_Video");
+            //                    video.currentTime = video.duration;
+            //                }, 60000);
+            //            }
+            //        }
+
+            //        new Promise(func.init).then(new Promise(func.play)).then(new Promise(func.interval));
+            //    }
+            //    finally {
+            //        func = null;
+            //    }
+            //} else {
+            //    LiveFunc.fn_template_set($("#tp_player_message"), { messageHtml: " 현재 브라우저에서 지원 되지 않는 서비스 입니다." }, $(".video"));
+            //}
+
+
+             if (LiveObj.videoType === 0 || LiveObj.videoType === 1) {
+                 try {
+
+                     var func = {
+                         init: function () { LiveFunc.fn_template_set($("#tp_player_flash"), {}, $(".video")); }
+                         ,
+                         play: function () {
+                             if (!("MediaSource" in window && "WebSocket" in window))
+                                 document.getElementById("RtcPlayer").innerHTML = "브라우저가 지원하지 않습니다. 크롬브라우저를 설치해주십시요";
+
+                             //RunPlayer("RtcPlayer", "588", "320", "115.68.235.77", 5119, false, "kalive", "", true, true, -1, "", false);
+                             RunPlayer("RtcPlayer", "588", "320", "stream.camtour.net", 448, true, "kalive", "", true, true, -1, "", false);
+
+                             var videoCatch = setInterval(function () {
+                                 try {
+                                     var $RtcPlayer_Video = document.getElementById("RtcPlayer_Video");
+                                     //$RtcPlayer_Video.muted = true;
+                                     var promise = $RtcPlayer_Video.play();
+                                     if (promise !== undefined) {
+                                         promise.then(function () {
+                                             clearInterval(videoCatch);
+                                         }).catch(function (error) {
+                                             console.log(error);
+                                         });
+                                     }
+                                 }
+                                 finally {
+                                     promise = null;
+                                     if (count > 30) clearInterval(videoCatch);
+                                     count++;
+                                 }
+                             }, 200);
+                         }
+                         ,
+                         interval: function () {
+                             clearInterval(playDelay);
+                             playDelay = setInterval(function () {
+                                 var video = document.getElementById("RtcPlayer_Video");
+                                 video.currentTime = video.duration;
+                             }, 60000);
+                         }
+                     }
+
+                     new Promise(func.init).then(new Promise(func.play)).then(new Promise(func.interval));
+                 }
+                 finally {
+                     func = null;
+                 }
+             } else if (LiveObj.videoType === 2) {
+
+                 try {
+                     var func = {
+                         init: function () { LiveFunc.fn_template_set($("#tp_player_webrtc"), {}, $(".video")); }
+                         ,
+                         play: function () {
+                             //webrtcPlayer = new UnrealWebRTCPlayer("RtcPlayer", "kaopus", "", "115.68.235.77", "5119", false, true, "tcp");
+
+
+                             // 임시 주석처리
+                             webrtcPlayer = new UnrealWebRTCPlayer("RtcPlayer", "kaopus", "", "stream.camtour.net", "448", true, true, "tcp");
+                             webrtcPlayer.Play();
+
+
+
+
+                             var videoCatch = setInterval(function () {
+                                 try {
+                                     var $RtcPlayer_Video = document.getElementById("RtcPlayer");
+                                     //$RtcPlayer_Video.muted = true;
+                                     //webrtcPlayer.Play();
+                                     var promise = $RtcPlayer_Video.play();
+                                     if (promise !== undefined) {
+                                         promise.then(function () {
+                                             clearInterval(videoCatch);
+                                         }).catch(function (error) {
+                                             console.log(error);
+                                         });
+                                     }
+                                 }
+                                 finally {
+                                     promise = null;
+                                     if (count > 30) clearInterval(videoCatch);
+                                     count++;
+                                 }
+                             }, 200);
+                         }
+                     }
+
+                     new Promise(func.init).then(new Promise(func.play));
+                 }
+                 finally {
+                     func = null;
+                 }
+             } else {
+                 LiveFunc.fn_template_set($("#tp_player_message"), { messageHtml: " 현재 브라우저에서 지원 되지 않는 서비스 입니다." }, $(".video"));
+             }
+        }
+    }
+
+
+    LiveFunc.fn_video_load();
+</script>
+}

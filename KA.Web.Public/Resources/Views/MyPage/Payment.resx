@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="결제 및 출고요청" xml:space="preserve">
+    <value>결제 및 출고요청</value>
+    <comment>[Payment] 01. Tab Menu - #1</comment>
+  </data>
+  <data name="결제 및 출고요청 관련 유의사항" xml:space="preserve">
+    <value>결제 및 출고요청 관련 유의사항</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4 유의사항</comment>
+  </data>
+  <data name="결제 및 출고요청 내역" xml:space="preserve">
+    <value>결제 및 출고요청 내역</value>
+    <comment>[Payment] 01. Tab Menu - #2</comment>
+  </data>
+  <data name="결제 및 출고요청 완료" xml:space="preserve">
+    <value>결제 및 출고요청 완료</value>
+    <comment>[Payment] 02. Step Title - #5</comment>
+  </data>
+  <data name="결제 진행" xml:space="preserve">
+    <value>결제 진행</value>
+    <comment>[Payment] 02. Step Title - #4</comment>
+  </data>
+  <data name="기타 메모" xml:space="preserve">
+    <value>기타 메모</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.9 기타메모</comment>
+  </data>
+  <data name="낙찰 수수료, 기타 비용 및 배송비 결제를 가상계좌 입금 이외의 방법으로 결제하려는 경우, 낙찰금액을 먼저 가상계좌 입금 결제 후 추가로 결제 가능합니다. (복합결제)" xml:space="preserve">
+    <value>낙찰 수수료, 기타 비용 및 배송비 결제를 가상계좌 입금 이외의 방법으로 결제하려는 경우, 낙찰금액을 먼저 가상계좌 입금 결제 후 추가로 결제 가능합니다. (복합결제)</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.2</comment>
+  </data>
+  <data name="낙찰금액은 가상계좌 입금만 가능하며, 낙찰 수수료, 기타비용 및 배송비는 가상계좌입금/실시간 계좌이체/신용카드로 결제가 가능합니다." xml:space="preserve">
+    <value>낙찰금액은 가상계좌 입금만 가능하며, 낙찰 수수료, 기타비용 및 배송비는 가상계좌입금/실시간 계좌이체/신용카드로 결제가 가능합니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.1</comment>
+  </data>
+  <data name="당사 낙찰 작품에 한하여 설치 요청 가능하며, &lt;a&gt;설치 시 추가 비용이 발생&lt;/a&gt;합니다." xml:space="preserve">
+    <value>당사 낙찰 작품에 한하여 설치 요청 가능하며, &lt;a&gt;설치 시 추가 비용이 발생&lt;/a&gt;합니다.</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.10.2 설명</comment>
+  </data>
+  <data name="당사 내방 직접 수령은 배송비 0원 &lt;br /&gt;명품/악기류는 직접 수령 필수" xml:space="preserve">
+    <value>당사 내방 직접 수령은 배송비 0원 &lt;br /&gt;명품/악기류는 직접 수령 필수</value>
+    <comment>[Payment] 10. 수령방식 선택 - #3.1 메뉴 설명 (직접방문)</comment>
+  </data>
+  <data name="동의합니다" xml:space="preserve">
+    <value>동의합니다</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.8.2</comment>
+  </data>
+  <data name="메이저 경매 낙찰대금 결제는 홈페이지에서 불가합니다." xml:space="preserve">
+    <value>메이저 경매 낙찰대금 결제는 홈페이지에서 불가합니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.3</comment>
+  </data>
+  <data name="명품 및 악기의 경우 직접픽업만 가능합니다." xml:space="preserve">
+    <value>명품 및 악기의 경우 직접픽업만 가능합니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.6</comment>
+  </data>
+  <data name="받는사람" xml:space="preserve">
+    <value>받는사람</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.2 받는사람</comment>
+  </data>
+  <data name="배송 관련 안내 확인하기" xml:space="preserve">
+    <value>배송 관련 안내 확인하기</value>
+    <comment>[Payment] 10. 수령방식 선택 - #1.1 안내 팝업</comment>
+  </data>
+  <data name="배송비는 작품별로 부과되며, 동일 배송 건에서는 1점 추가당 1만원 추가됩니다. (단, 단일 주소 단일 배송건일 경우에 해당). 상세한 내용은&lt;a href='javascript:$.commonUtils.modalAuctionOpen(\&quot;.modal-auction-shipping\&quot;);'&gt;[배송관련 안내]&lt;/a&gt;를 참고 바랍니다." xml:space="preserve">
+    <value>배송비는 작품별로 부과되며, 동일 배송 건에서는 1점 추가당 1만원 추가됩니다. (단, 단일 주소 단일 배송건일 경우에 해당). 상세한 내용은&lt;a href='javascript:$.commonUtils.modalAuctionOpen(\".modal-auction-shipping\");'&gt;[배송관련 안내]&lt;/a&gt;를 참고 바랍니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.5</comment>
+  </data>
+  <data name="배송에 관해 추가 전달 사항이 있으면 남겨주세요." xml:space="preserve">
+    <value>배송에 관해 추가 전달 사항이 있으면 남겨주세요.</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.9.1 설명</comment>
+  </data>
+  <data name="배송주소" xml:space="preserve">
+    <value>배송주소</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.3 배송주소</comment>
+  </data>
+  <data name="배송주소는 기본 배송지로 설정되며, &lt;a href='/Member/MyPage/Address'&gt;[주소변경]&lt;/a&gt;을 눌러 변경이 가능합니다." xml:space="preserve">
+    <value>배송주소는 기본 배송지로 설정되며, &lt;a href='/Member/MyPage/Address'&gt;[주소변경]&lt;/a&gt;을 눌러 변경이 가능합니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.4</comment>
+  </data>
+  <data name="사다리차" xml:space="preserve">
+    <value>사다리차</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.8 사다리차</comment>
+  </data>
+  <data name="서울 5만원, 수도권 10만원 &lt;br /&gt;그 외 국내지역 15만원" xml:space="preserve">
+    <value>서울 5만원, 수도권 10만원 &lt;br /&gt;그 외 국내지역 15만원</value>
+    <comment>[Payment] 10. 수령방식 선택 - #2.1 메뉴 설명 (배송서비스)</comment>
+  </data>
+  <data name="설치 등 추가 작업시 추가요금이 부과될 수 있습니다." xml:space="preserve">
+    <value>설치 등 추가 작업시 추가요금이 부과될 수 있습니다.</value>
+    <comment>[Payment] 10. 수령방식 선택 - #4.7</comment>
+  </data>
+  <data name="설치 안함" xml:space="preserve">
+    <value>설치 안함</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.10.1 옵션2</comment>
+  </data>
+  <data name="설치 여부" xml:space="preserve">
+    <value>설치 여부</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.10 설치여부</comment>
+  </data>
+  <data name="설치함" xml:space="preserve">
+    <value>설치함</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.10.1 옵션1</comment>
+  </data>
+  <data name="수령방식 선택" xml:space="preserve">
+    <value>수령방식 선택</value>
+    <comment>[Payment] 02. Step Title - #1</comment>
+  </data>
+  <data name="엘리베이터" xml:space="preserve">
+    <value>엘리베이터</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.6 엘리베이터</comment>
+  </data>
+  <data name="연락처" xml:space="preserve">
+    <value>연락처</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.4 연락처</comment>
+  </data>
+  <data name="일요일, 국,공휴일은 배송 불가합니다." xml:space="preserve">
+    <value>일요일, 국,공휴일은 배송 불가합니다.</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.5.2 설명2</comment>
+  </data>
+  <data name="작품 수령 방식을 선택하세요" xml:space="preserve">
+    <value>작품 수령 방식을 선택하세요</value>
+    <comment>[Payment] 10. 수령방식 선택 - #1 타이틀</comment>
+  </data>
+  <data name="작품에 따라 엘리베이터가 없거나 계단폭이 좁은 경우, 사다리차가 필요합니다. 사다리차 이용이 필요한 경우 고객님 부담입니다. 이에 동의하십니까?" xml:space="preserve">
+    <value>작품에 따라 엘리베이터가 없거나 계단폭이 좁은 경우, 사다리차가 필요합니다. 사다리차 이용이 필요한 경우 고객님 부담입니다. 이에 동의하십니까?</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.8.1 동의</comment>
+  </data>
+  <data name="지역에 따라 선택가능한 배송희망일이 상이할 수 있습니다." xml:space="preserve">
+    <value>지역에 따라 선택가능한 배송희망일이 상이할 수 있습니다.</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.5.2 설명1</comment>
+  </data>
+  <data name="차량 진입" xml:space="preserve">
+    <value>차량 진입</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.7 엘리베이터</comment>
+  </data>
+  <data name="출고작 선택" xml:space="preserve">
+    <value>출고작 선택</value>
+    <comment>[Payment] 02. Step Title - #3</comment>
+  </data>
+  <data name="출고작 수령지 정보를 입력하세요" xml:space="preserve">
+    <value>출고작 수령지 정보를 입력하세요</value>
+    <comment>[Payment] 20. 출고정보 입력 - #1 타이틀</comment>
+  </data>
+  <data name="출고정보 입력" xml:space="preserve">
+    <value>출고정보 입력</value>
+    <comment>[Payment] 02. Step Title - #2</comment>
+  </data>
+  <data name="출고희망일" xml:space="preserve">
+    <value>출고희망일</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.5 출고희망일</comment>
+  </data>
+  <data name="케이옥션 배송서비스를&lt;br /&gt;이용할게요" xml:space="preserve">
+    <value>케이옥션 배송서비스를&lt;br /&gt;이용할게요</value>
+    <comment>[Payment] 10. 수령방식 선택 - #2 메뉴 (배송서비스)</comment>
+  </data>
+  <data name="케이옥션에 방문하여&lt;br /&gt;직접 수령 할게요" xml:space="preserve">
+    <value>케이옥션에 방문하여&lt;br /&gt;직접 수령 할게요</value>
+    <comment>[Payment] 10. 수령방식 선택 - #3 메뉴 (직접방문)</comment>
+  </data>
+  <data name="품 명" xml:space="preserve">
+    <value>품 명</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.1 품명</comment>
+  </data>
+  <data name="희망일" xml:space="preserve">
+    <value>희망일</value>
+    <comment>[Payment] 20. 출고정보 입력 - #2.5.1 희망일</comment>
+  </data>
+</root>

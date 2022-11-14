@@ -1,0 +1,728 @@
+﻿@inject KA.Web.Admin.Services.CommonService commonService
+
+<style type="text/css">
+    .tui-timepicker { padding: 0px 0px 0px 0px; border: 0px; }
+    .tui-timepicker-select { height: 32px; }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">기본 정보</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group required">
+                            <label>제목</label>
+                            <input id="title" type="text" class="form-control" value="@Model.Banner.Title" param="Y" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>이미지(PC)</label>
+                            <input id="image_file_name" type="file" class="form-control" value="" param="Y" />
+                            @if (Model.Banner.Uid > 0)
+                            {
+                                <div id="cont_image_file_name">
+                                    <img src="@Config.ImageDomain/www/Main/@Model.Banner.ImageFileName" style="max-width: 300px; margin-top: 10px;" />
+                                    <div><button class="btn btn-sm btn-secondary m-t-5" onclick="delImage('image_file_name');">파일삭제</button></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>이미지(모바일)</label>
+                            <input id="mobile_image_file_name" type="file" class="form-control" value="" param="Y" />
+                            @if (Model.Banner.Uid > 0 && !string.IsNullOrWhiteSpace(Model.Banner.MobileImageFileName))
+                            {
+                                <div id="cont_mobile_image_file_name">
+                                    <img src="@Config.ImageDomain/www/Main/@Model.Banner.MobileImageFileName" style="max-width: 300px; margin-top: 10px;" />
+                                    <div><button class="btn btn-sm btn-secondary m-t-5" onclick="delImage('mobile_image_file_name');">파일삭제</button></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>이미지/영문(PC)</label>
+                            <input id="image_file_name_en" type="file" class="form-control" value="" param="Y" />
+                            @if (Model.Banner.Uid > 0 && !string.IsNullOrWhiteSpace(Model.Banner.ImageFileNameEn))
+                            {
+                                <div id="cont_image_file_name_en">
+                                    <img src="@Config.ImageDomain/www/Main/@Model.Banner.ImageFileNameEn" style="max-width: 300px; margin-top: 10px;" />
+                                    <div><button class="btn btn-sm btn-secondary m-t-5" onclick="delImage('image_file_name_en');">파일삭제</button></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>이미지/영문(모바일)</label>
+                            <input id="mobile_image_file_name_en" type="file" class="form-control" value="" param="Y" />
+                            @if (Model.Banner.Uid > 0 && !string.IsNullOrWhiteSpace(Model.Banner.MobileImageFileNameEn))
+                            {
+                                <div id="cont_mobile_image_file_name_en">
+                                    <img src="@Config.ImageDomain/www/Main/@Model.Banner.MobileImageFileNameEn" style="max-width: 300px; margin-top: 10px;" />
+                                    <div><button class="btn btn-sm btn-secondary m-t-5" onclick="delImage('mobile_image_file_name_en');">파일삭제</button></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header ">
+                <div class="card-title">레이어 정보</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Title (국문)</label>
+                            <input id="layer_title" type="text" class="form-control" value="@Model.Banner.LayerTitle" param="Y" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Title (영문)</label>
+                            <input id="layer_title_en" type="text" class="form-control" value="@Model.Banner.LayerTitleEn" param="Y" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>SubTitle (국문)</label>
+                            <input id="layer_sub_title" type="text" class="form-control" value="@Model.Banner.LayerSubTitle" param="Y" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>SubTitle (영문)</label>
+                            <input id="layer_sub_title_en" type="text" class="form-control" value="@Model.Banner.LayerSubTitleEn" param="Y" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Content (국문)</label>
+                            <div id="layer_content">@Html.Raw(Model.Banner.LayerContent)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Content (영문)</label>
+                            <div id="layer_content_en">@Html.Raw(Model.Banner.LayerContentEn)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>레이어 사용여부</label>
+                            <div>
+                                <input id="use_layer" class="m-t-5" style="float:left;" name="use_layer" type="radio" value="A" param="Y" checked="checked" />
+                                <label style="float:left;" for="target-1">전체</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_layer" type="radio" value="K" />
+                                <label style="float:left;" for="target-2">국문</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_layer" type="radio" value="E" />
+                                <label style="float:left;" for="target-2">영문</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_layer" type="radio" value="X" />
+                                <label style="float:left;" for="target-2">사용안함</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header ">
+                <div class="card-title">게시 정보</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>게시 시작일자</label>
+                            <div>
+                                <div class="m-r-10" style="float: left;">
+                                    <input id="start_date" type="text" class="form-control datepicker" data-date-format="yyyy-mm-dd" value="@Model.Banner.StartDate.ToString("yyyy-MM-dd")" param="Y" />
+                                </div>
+                                <div class="m-r-10" id="start_time" style="float: left;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>게시 종료 일자</label>
+                            <div>
+                                <input id="use_end_flag_t" class="m-t-5 use_end_flag" style="float:left;" name="use_end_flag" type="radio" value="T" param="Y" checked="checked" />
+                                <label style="float:left; margin-right: 10px;" for="use_end_flag_t">기간 설정</label>
+                                <input id="use_end_flag_e" class="m-t-5 use_end_flag" style="float:left;" name="use_end_flag" type="radio" value="E" param="Y" />
+                                <label style="float:left;" for="use_end_flag_e">이벤트 설정</label>
+                            </div>
+                            <div style="clear: both;" class="end_flag_cont" id="end_flag_cont_T">
+                                <div class="m-r-10" style="float: left;">
+                                    <input id="end_date" type="text" class="form-control datepicker" data-date-format="yyyy-mm-dd" value="@Model.Banner.EndDate.ToString("yyyy-MM-dd")" param="Y" />
+                                </div>
+                                <div class="m-r-10" id="end_time" style="float: left;"></div>
+                            </div>
+                            <div style="clear: both; display: none;" class="end_flag_cont" id="end_flag_cont_E">
+                                <select class="full-width" data-init-plugin="select2" id="auctionScheduleEndFlag">
+                                    <option value="">::: 경매를 선택하세요. :::</option>
+                                </select>
+                                <div class="m-t-5">
+                                    <select class="full-width" data-init-plugin="select2" id="auctionEndOpt">
+                                        <option value="">::: 발동 조건을 선택하세요. :::</option>
+                                        <option value="PRES">온라인 프리뷰 시작</option>
+                                        <option value="AUCS">경매 시작</option>
+                                        <option value="AUCE">경매 종료</option>
+                                    </select>
+                                </div>
+                                <div class="m-t-5">
+                                    <input id="auctionEndVal" type="number" class="form-control" placeholder="타이밍 입력 (숫자만)" value="" />
+                                    <div style="color: gray;">※ 0=일치(기본값), -10=10분전, 15=15분후</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>게시 사용여부</label>
+                            <div>
+                                <input id="use_flag" class="m-t-5" style="float:left;" name="use_flag" type="radio" value="A" param="Y" checked="checked" />
+                                <label style="float:left;" for="target-1">전체</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_flag" type="radio" value="K" />
+                                <label style="float:left;" for="target-2">국문</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_flag" type="radio" value="E" />
+                                <label style="float:left;" for="target-2">영문</label>
+                                <input class="m-l-10 m-t-5" style="float:left;" name="use_flag" type="radio" value="X" />
+                                <label style="float:left;" for="target-2">사용안함</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>순서</label>
+                            <input id="order" type="number" class="form-control" value="@Model.Banner.Order" param="Y" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header ">
+                <div class="card-title">연결 작품 정보</div>
+            </div>
+            <div class="card-body">
+                <div id="divLinkWorkSelect" class="row" style="display: @(Model.Banner.UseLinkWork != null && Model.Banner.UseLinkWork.Equals("Y") ? "none": "")">
+                    <div class="col-lg-6">
+                        <select class="full-width" data-init-plugin="select2" id="auctionSchedule" onchange="getAuctionWork();">
+                            <option value="">::: 경매를 선택하세요. :::</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <select class="full-width" data-init-plugin="select2" id="auctionWork" onchange="setAuctionWork();">
+                            <option value="">::: 작품을 선택하세요. :::</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="divLinkWorkInfo" class="row" style="display: @(Model.Banner.UseLinkWork != null && Model.Banner.UseLinkWork.Equals("Y") ? "": "none");">
+                    <div class="col-lg-6">
+                        @if (Model.Banner.LinkWorkUid > 0)
+                        {
+                            <a href="@string.Format("{3}/Auction/{0}/{1}/{2}", commonService.GetAucKindName(Model.Banner.LinkWorkAucKind), Model.Banner.LinkWorkAucNum, Model.Banner.LinkWorkUid, Config.HomepageDomain)" target="_blank">Lot.@Model.Banner.LinkWorkLotNum @Model.Banner.LinkWorkArtistName @Model.Banner.LinkWorkTitle</a><button class="btn m-l-10" onclick="changeLinkWork();">작품변경</button>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group m-t-10">
+                            <input id="use_link_work" class="m-t-5" style="float:left;" name="use_link_work" type="radio" value="Y" param="Y" @(Model.Banner.UseLinkWork != null && Model.Banner.UseLinkWork.Equals("Y") ? "checked" : "") />
+                            <label style="float:left;" for="use_link_work">사용</label>
+                            <input id="use_link_work_n" class="m-l-10 m-t-5" style="float:left;" name="use_link_work" type="radio" value="N" @(Model.Banner.UseLinkWork != null && Model.Banner.UseLinkWork.Equals("Y") ? "" : "checked") />
+                            <label style="float:left;" for="use_link_work_n">사용안함</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header ">
+                <div class="card-title">버튼 정보</div>
+            </div>
+            <div class="card-body">
+                @if (Model.Banner.Uid > 0)
+                {
+                    foreach (var item in Model.BannerButtons)
+                    {
+                        <div id="button-@item.Order" class="row button-info" data-index="@item.Order">
+                            <div class="row col-lg-12">
+                                <label class="m-l-15" style="float: left;">@Html.Raw($"버튼{item.Order}.")</label>
+                                <div style="float: left; margin-left: 10px;">
+                                    <select id="use_flag_@item.Order" class="select2 w-100" param="Y">
+                                        <option value="A" selected="@(item.UseFlag.Equals("A"))">전체</option>
+                                        <option value="K" selected="@(item.UseFlag.Equals("K"))">국문</option>
+                                        <option value="E" selected="@(item.UseFlag.Equals("E"))">영문</option>
+                                        <option value="X" selected="@(item.UseFlag.Equals("X"))">사용안함</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row col-lg-12">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>버튼명(국문)</label>
+                                        <input id="text_@item.Order" type="text" class="form-control" value="@item.Text" param="Y" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="form-group">
+                                        <label>링크(국문)</label>
+                                        <input id="link_url_@item.Order" type="text" class="form-control" value="@item.LinkUrl" param="Y" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>새창열기</label>
+                                        <div>
+                                            <input id="target_blank_@item.Order" type="checkbox" checked="@(item.TargetBlank.Equals("Y"))" param="Y" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-lg-12">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>버튼명(영문)</label>
+                                        <input id="text_en_@item.Order" type="text" class="form-control" value="@item.TextEn" param="Y" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="form-group">
+                                        <label>링크(영문)</label>
+                                        <input id="link_url_en_@item.Order" type="text" class="form-control" value="@item.LinkUrlEn" param="Y" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>새창열기</label>
+                                        <div>
+                                            <input id="target_blank_en_@item.Order" type="checkbox" checked="@(item.TargetBlankEn.Equals("Y"))" param="Y" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div id="button-1" class="row button-info" data-index="1">
+                        <div class="row col-lg-12">
+                            <label class="m-l-15" style="float: left;">버튼1.</label>
+                            <div style="float: left; margin-left: 10px;">
+                                <select id="use_flag_1" class="select2 w-100" param="Y">
+                                    <option value="A">전체</option>
+                                    <option value="K">국문</option>
+                                    <option value="E">영문</option>
+                                    <option value="X" selected="selected">사용안함</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>버튼명(국문)</label>
+                                    <input id="text_1" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label>링크(국문)</label>
+                                    <input id="link_url_1" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label>새창열기</label>
+                                    <div>
+                                        <input id="target_blank_1" type="checkbox" value="Y" param="Y" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>버튼명(영문)</label>
+                                    <input id="text_en_1" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label>링크(영문)</label>
+                                    <input id="link_url_en_1" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label>새창열기</label>
+                                    <div>
+                                        <input id="target_blank_en_1" type="checkbox" value="Y" param="Y" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="button-2" class="row button-info" data-index="2">
+                        <div class="row col-lg-12">
+                            <label class="m-l-15" style="float: left;">버튼2.</label>
+                            <div style="float: left; margin-left: 10px;">
+                                <select id="use_flag_2" class="select2" param="Y">
+                                    <option value="A">전체</option>
+                                    <option value="K">국문</option>
+                                    <option value="E">영문</option>
+                                    <option value="X" selected="selected">사용안함</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>버튼명(국문)</label>
+                                    <input id="text_2" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label>링크(국문)</label>
+                                    <input id="link_url_2" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label>새창열기</label>
+                                    <div>
+                                        <input id="target_blank_2" type="checkbox" value="Y" param="Y" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>버튼명(영문)</label>
+                                    <input id="text_en_2" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <label>링크(영문)</label>
+                                    <input id="link_url_en_2" type="text" class="form-control" value="" param="Y" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label>새창열기</label>
+                                    <div>
+                                        <input id="target_blank_en_2" type="checkbox" value="Y" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-secondary" onclick="window.location = '/Main/Banner';">목록</button>
+                <button id="btn-save" class="btn btn-primary" onclick="save();">@(Model.Banner.Uid.Equals(0) ? "저장" : "수정")</button>
+                @if (Model.Banner.Uid > 0)
+                {
+                    <button class="btn btn-danger" onclick="del();">삭제</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="uid" value="@Model.Banner.Uid" param="Y" />
+<input type="hidden" id="image_file_name_original" value="@Model.Banner.ImageFileName" param="Y" />
+<input type="hidden" id="image_file_name_en_original" value="@Model.Banner.ImageFileNameEn" param="Y" />
+<input type="hidden" id="mobile_image_file_name_original" value="@Model.Banner.MobileImageFileName" param="Y" />
+<input type="hidden" id="mobile_image_file_name_en_original" value="@Model.Banner.MobileImageFileNameEn" param="Y" />
+<input type="hidden" id="link_work_uid" value="@Model.Banner.LinkWorkUid" param="Y" />
+
+<script>
+
+    var uid = "@Model.Banner.Uid";
+
+    var endFlag = "@Model.Banner.EndFlag";
+    var endAucUid = "@Model.Banner.EndAucUid";
+    var endAucOpt = "@Model.Banner.EndAucOpt";
+    var endAucVal = "@Model.Banner.EndAucVal";
+
+    var param = {};
+    param["end_flag"] = "T";
+
+    $(document).ready(function () {
+        $('#layer_content').summernote({
+            height: 200,
+            lang: 'ko-KR',
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather', 'Dotum', 'Gulim', 'Malgun Gothic']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });
+        $('#layer_content_en').summernote({
+            height: 200,
+            lang: 'ko-KR',
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather', 'Dotum', 'Gulim', 'Malgun Gothic']
+        }).on("summernote.enter", function (we, e) {
+            $(this).summernote("pasteHTML", "<br>&VeryThinSpace;");
+            e.preventDefault();
+        });;
+
+        $('input:radio[name=use_layer]:input[value="@Model.Banner.UseLayer"]').attr("checked", true);
+        $('input:radio[name=use_flag]:input[value="@Model.Banner.UseFlag"]').attr("checked", true);
+
+        new tui.TimePicker('#start_time', {
+            initialHour: uid === "0" ? 0 : @Model.Banner.StartDate.Hour,
+            initialMinute: uid === "0" ? 0 : @Model.Banner.StartDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+        new tui.TimePicker('#end_time', {
+            initialHour: uid === "0" ? 23 : @Model.Banner.EndDate.Hour,
+            initialMinute: uid === "0" ? 59 : @Model.Banner.EndDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+
+        if (endFlag === 'E') {
+            $('#use_end_flag_e').click();
+            $('#auctionEndOpt').val(endAucOpt).trigger('change');
+            $("#auctionEndVal").val(endAucVal);
+        }
+
+        getAuctionSchedule();
+    });
+
+    $(".use_end_flag").click(function (e) {
+        param["end_flag"] = e.currentTarget.value;
+
+        $(".end_flag_cont").hide();
+        $("#end_flag_cont_" + param["end_flag"]).show();
+    });
+
+    function getAuctionSchedule() {
+        $.ajaxUtils.getApiData("/api/Main/GetAuctionSchedule", null, getAuctionScheduleComplete);
+    }
+
+    function getAuctionScheduleComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $.each(result.data, function (index, item) {
+                $("#auctionSchedule").append($('<option />', { "value": item.auc_seq, "data-auc-kind": item.auc_kind, "data-auc-num": item.auc_num }).append(item.auc_title_kr));
+                if (endFlag === 'E' && item.uid.toString() === endAucUid.toString()) {
+                    $("#auctionScheduleEndFlag").append($('<option />', { "value": item.uid, "data-auc-kind": item.auc_kind, "data-auc-num": item.auc_num, "selected": "selected" }).append(item.auc_title_kr));
+                } else {
+                    $("#auctionScheduleEndFlag").append($('<option />', { "value": item.uid, "data-auc-kind": item.auc_kind, "data-auc-num": item.auc_num }).append(item.auc_title_kr));
+                }
+            });
+        }
+    }
+
+    function getAuctionWork() {
+        var selectedValue = $("#auctionSchedule option:selected");
+        if (selectedValue.val() !== "") {
+            var requestParam = {};
+            requestParam["auc_kind"] = selectedValue.get(0).dataset.aucKind;
+            requestParam["auc_num"] = selectedValue.get(0).dataset.aucNum;
+            requestParam["page"] = 1;
+            requestParam["page_size"] = 500;
+            $.ajaxUtils.getApiData("/api/Main/GetAuctionWork", requestParam, getAuctionWorkComplete);
+        }
+    }
+
+    function setAuctionWork() {
+        $("#link_work_uid").val($("#auctionWork").val());
+    }
+
+    function getAuctionWorkComplete(result) {
+        $("#auctionWork").empty();
+        $("#auctionWork").show();
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $("#auctionWork").append('<option value="">::: 작품을 선택하세요. :::</option>');
+            $.each(result.data.data, function (index, item) {
+                var option = $('<option />', { "value": item.uid, "data-auc-kind": item.auc_kind, "data-auc-num": item.auc_num }).append("Lot." + item.lot_num + " " + item.title + (item.artist_name !== null ? " " + item.artist_name : ""));
+                $("#auctionWork").append(option);
+            });
+        }
+    }
+
+    function save() {
+        var uid = $("#uid").val();
+
+        let endFlag = $("input[name='use_end_flag']:checked").val();
+        if (endFlag === "E") {
+            if ($("#auctionScheduleEndFlag").val() === '') {
+                $.commonUtils.alert("경매를 선택하세요.");
+                return false;
+            }
+            if ($("#auctionEndOpt").val() === '') {
+                $.commonUtils.alert("발동 조건을 선택하세요.");
+                return false;
+            }
+        }
+
+        if ($("#title").val() === "") {
+            $.commonUtils.alert("제목을 입력하세요.");
+            return false;
+        }
+
+        if (uid === "0" && $("#image_file_name").val() === "") {
+            $.commonUtils.alert("이미지 파일을 선택하세요.");
+            return false;
+        }
+
+        if ($("#start-date").val() === "") {
+            $.commonUtils.alert("게시 시작일을 선택하세요.");
+            return false;
+        }
+
+        if ($("#use_link_work").is(":checked") && ($("#link_work_uid").val() === "" || $("#link_work_uid").val().toString() === "0")) {
+            $.commonUtils.alert("연결 작품을 선택하세요.");
+            return false;
+        }
+
+        var msg = $("#btn-save").text();
+        $.commonUtils.confirm(msg, msg + "하시겠습니까?", "saveProc();");
+    }
+
+    function saveProc() {
+        var uid = $("#uid").val();
+        if (uid === "0" || (uid !== "0" && $("#image_file_name").val() !== "")) {
+            var uploadResult = $.ajaxUtils.getUploadData("image_file_name", "/api/File/Upload/Main");
+            if (uploadResult["result"]) {
+                param["upload_image"] = uploadResult.file_info.filename;
+            } else {
+                $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                return false;
+            }
+        }
+
+        if ($("#mobile_image_file_name").val() !== "") {
+            var uploadResult = $.ajaxUtils.getUploadData("mobile_image_file_name", "/api/File/Upload/Main");
+            if (uploadResult["result"]) {
+                param["upload_mobile_image"] = uploadResult.file_info.filename;
+            } else {
+                $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                return false;
+            }
+        }
+
+        if ($("#image_file_name_en").val() !== "") {
+            var uploadResult = $.ajaxUtils.getUploadData("image_file_name_en", "/api/File/Upload/Main");
+            if (uploadResult["result"]) {
+                param["upload_image_en"] = uploadResult.file_info.filename;
+            } else {
+                $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                return false;
+            }
+        }
+
+        if ($("#mobile_image_file_name_en").val() !== "") {
+            var uploadResult = $.ajaxUtils.getUploadData("mobile_image_file_name_en", "/api/File/Upload/Main");
+            if (uploadResult["result"]) {
+                param["upload_mobile_image_en"] = uploadResult.file_info.filename;
+            } else {
+                $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                return false;
+            }
+        }
+
+        param = $.ajaxUtils.setParameter(param);
+
+        param["layer_content"] = $('#layer_content').summernote('code');
+        param["layer_content_en"] = $('#layer_content_en').summernote('code');
+        param["button_info"] = getButtonInfo();
+        param["use_layer"] = $('input:radio[name="use_layer"]:checked').val();
+        param["use_flag"] = $('input:radio[name="use_flag"]:checked').val();
+        param["use_link_work"] = $('input:radio[name="use_link_work"]:checked').val();
+        param["link_work_uid"] = (param["use_link_work"] === "Y" ? $("#link_work_uid").val() : 0);
+
+        var startHour = $("#start_time").find(".tui-timepicker-hour select");
+        var startMinute = $("#start_time").find(".tui-timepicker-minute select");
+        if (startHour.length > 0 && startMinute.length > 0) {
+            param["start_date"] = param["start_date"] + " " + (startHour[0].value.length > 1 ? startHour[0].value : "0" + startHour[0].value) + ":" + (startMinute[0].value.length > 1 ? startMinute[0].value : "0" + startMinute[0].value);
+        }
+
+        param["end_flag"] = $("input[name='use_end_flag']:checked").val();
+        if (param["end_flag"] === "T") {
+            var endHour = $("#end_time").find(".tui-timepicker-hour select");
+            var endMinute = $("#end_time").find(".tui-timepicker-minute select");
+            if (endHour.length > 0 && endMinute.length > 0) {
+                param["end_date"] = param["end_date"] + " " + (endHour[0].value.length > 1 ? endHour[0].value : "0" + endHour[0].value) + ":" + (endMinute[0].value.length > 1 ? endMinute[0].value : "0" + endMinute[0].value);
+            }
+        } else if (param["end_flag"] === "E") {
+            param["end_auc_uid"] = $("#auctionScheduleEndFlag option:selected").val();
+            param["end_auc_opt"] = $("#auctionEndOpt").val();
+            param["end_auc_val"] = $("#auctionEndVal").val() === '' ? '0' : $("#auctionEndVal").val();
+        }
+
+        var result = $.ajaxUtils.getApiData("/api/Main/SetBanner", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Main/Banner";
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function del() {
+        $.commonUtils.confirm("삭제", "삭제하시겠습니까?", "delProc();");
+    }
+
+    function delProc() {
+        var result = $.ajaxUtils.getApiData("/api/Main/DelBanner", $.ajaxUtils.setParameter(param), null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Main/Banner";
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function getButtonInfo() {
+        var buttons = new Array();
+        var buttonInfo = $('.button-info');
+        $.each(buttonInfo, function (index, item) {
+            var index = item.dataset.index;
+            var button = {};
+            button["order"] = index;
+            button["text"] = $("#text_" + index).val();
+            button["link_url"] = $("#link_url_" + index).val();
+            button["target_blank"] = $("#target_blank_" + index).is(":checked") ? "Y" : "N";
+            button["text_en"] = $("#text_en_" + index).val();
+            button["link_url_en"] = $("#link_url_" + index).val();
+            button["target_blank_en"] = $("#target_blank_en_" + index).is(":checked") ? "Y" : "N";
+            button["use_flag"] = $("#use_flag_" + index).val();
+            buttons.push(button);
+        });
+        return buttons;
+    }
+
+    function changeLinkWork() {
+        $("#divLinkWorkInfo").hide();
+        $("#divLinkWorkSelect").show();
+    }
+
+    function delImage(type) {
+        $.commonUtils.confirm("파일삭제", "선택한 이미지를 삭제 하시겠습니까? 저장/수정 시 적용됩니다.", "delImageProc('" + type + "')");
+    }
+
+    function delImageProc(type) {
+        $("#cont_" + type).remove();
+        $("#" + type + "_original").val('');
+    }
+
+</script>

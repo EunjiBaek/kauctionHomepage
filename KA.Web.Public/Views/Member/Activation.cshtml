@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService CommonService
+@inject IViewLocalizer L
+@{ 
+    var memValidatePeriod = CommonService.GetCodeList("MEM_VALIDATE_PERIOD", CommonService.IsKor());
+}
+
+<div class="container">
+    <div class="dormant-account-wrap">
+        <h1>@L["휴면계정 활성화 전환 안내"]</h1>
+        <div class="dormant-account-cnt-box">
+            <p>
+                @L["(주)케이옥션을 다시 찾아주셔서 감사합니다."]<br /><br />
+                @L["회원님의 계정 상태가 휴면에서 활성화 상태로 전환됨에 따라,<br />분리 보관 되었던 회원님의 개인정보는 다시 서비스에 통합되어 운영됩니다."]<br /><br />
+                @L["지난 휴면 전환이 번거로우셨다면,  장기 미 이용 조건을 적절한 수준으로 조정하시기 바랍니다."]
+            </p>
+        </div>
+        <div class="dormant-account-chk-wrap">
+            @foreach (var item in memValidatePeriod)
+            {
+                @if (item.Extra1.Equals("Y"))
+                {
+                    <div><input type="radio" id="dormant-account_chk_@item.SubCode" name="dormant-account_chk" value="@item.SubCode" checked="checked"><label for="dormant-account_chk_@item.SubCode">@item.DisplayCodeName</label><span>( @L["기본설정"] )</span></div>
+                }
+                else
+                {
+                    <div><input type="radio" id="dormant-account_chk_@item.SubCode" name="dormant-account_chk" value="@item.SubCode"><label for="dormant-account_chk_@item.SubCode">@item.DisplayCodeName</label></div>
+                }
+            }
+        </div>
+        <div class="dormant-account-chk-btn"><button type="button" data-toggle="modal" data-target="#dormant-account-modal">@L["제출하기"]</button></div>
+    </div>
+</div>
+
+<div class="modal" id="dormant-account-modal" tabindex="-1" role="dialog" aria-labelledby="dormant-account-modal" aria-hidden="true">
+    <div class="modal-dialog" style="width: 100%; height: 100%; margin: 0; max-width: 100%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>@L["광고성 정보 수신 동의"]</h4>
+                <p>@L["케이옥션의 경매정보 제공, 경매일정 안내 등 서비스 이용을 위한 광고성 정보에 대해 관심이 있다면, 원하는 항목을 선택하여 주시기 바랍니다."]</p>
+                <div class="dormant-account-modal-list">
+                    <div>
+                        <input type="checkbox" id="receive-ad-chk_01" name="receive-ad-chk" class="receive-ad-chk">
+                        <label for="receive-ad-chk_01"><span><i class="fas fa-check"></i></span>@L["문자 메세지"]</label>
+                        <span>@L["수신거부"]</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="receive-ad-chk_02" name="receive-ad-chk" class="receive-ad-chk">
+                        <label for="receive-ad-chk_02"><span><i class="fas fa-check"></i></span>@L["이메일"]</label>
+                        <span>@L["수신거부"]</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="receive-ad-chk_03" name="receive-ad-chk" class="receive-ad-chk">
+                        <label for="receive-ad-chk_03"><span><i class="fas fa-check"></i></span>@L["전화"]</label>
+                        <span>@L["수신거부"]</span>
+                    </div>
+                </div>
+                <div class="dormant-account-modal-btn"><button onclick="$.loginUtils.setActivation();">@L["반영하기"]</button></div>
+            </div>
+        </div>
+    </div>
+</div>

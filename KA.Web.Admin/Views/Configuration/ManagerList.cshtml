@@ -1,0 +1,184 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">담당자 목록</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-right">
+                        <div class="form-group">
+                            <div class="input-group-append" style="float: right;">
+                                <span class="btn secondary fw-500 m-l-10" style="height: 35px; cursor: pointer;" onclick="sync();">동기화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20" id="data-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var process = false;
+    var selectedUid;
+    var requestParam = {};
+
+    $(document).ready(function () {
+        getList();
+    });
+
+    function getList() {
+        if (process) return;
+        process = true;
+        $.ajaxUtils.getApiData("/api/Configuration/GetManagers", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '명');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: result.data.recordsTotal,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: result.data.draw,
+                                pageSize: 20
+                            });
+                        } else {
+                            $('#total-record').html('총 0명');
+                            $.paginationUtils.init({
+                                target: $(".pagination"),
+                                totalCount: 0,
+                                parameters: requestParam,
+                                callback: getList,
+                                page: 1,
+                                pageSize: 20
+                            });
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                { name: "id", type: "text", title: "ID", width: 60 },
+                { name: "grp_name", type: "text", title: "부서명", width: 80 },
+                { name: "name", type: "text", title: "이름", width: 80 },
+                { name: "ex_tel", type: "text", title: "내선번호", width: 80 },
+                {
+                    name: "auth", type: "text", title: "권한",
+                    itemTemplate: function (value, data) {
+                        return $("<a />", { "href": "javascript:;", "onclick": "popModifyAuth(" + data.uid + ");" }).append(value === "" ? "[설정]" : value.replace(/ 관리자/ig, ""));
+                    }
+                },
+                { name: "create_date", type: "text", title: "등록일", width: 60 },
+                {
+                    name: "last_login_date", type: "text", title: "최종접속일", width: 60,
+                    itemTemplate: function (value) {
+                        return value === "0001-01-01" ? "" : value;
+                    }
+                },
+                { name: "use_yn", type: "text", title: "사용여부", width: 40 }
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+
+        process = false;
+    }
+
+    function sync() {
+        $.commonUtils.confirm("동기화", "동기화하시겠습니까?", "syncProc();");
+    }
+
+    function syncProc() {
+        if (process) return;
+        process = true;
+
+        var result = $.ajaxUtils.getApiData("/api/Configuration/SetManagerUpdateBatch", null, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+        } else {
+            $.commonUtils.alert("오류가 발생하였습니다.");
+        }
+
+        process = false;
+    }
+
+    function popModifyAuth(uid) {
+        if (process) return;
+        process = true;
+
+        selectedUid = uid;
+
+        var param = {};
+        param["uid"] = uid;
+        var result = $.ajaxUtils.getApiData("/api/Configuration/GetManagerAuth", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $(".modal-content-body").jsGrid({
+                autoload: true,
+                controller: {
+                    loadData: function () { return result.data.data; }
+                },
+                fields: [
+                    {
+                        name: "auth_yn", type: "text", title: "설정",
+                        itemTemplate: function (value, data) {
+                            var el = $("<input />", { "type": "checkbox", "name": "ckbAuth", "data-auth": data.sub_code });
+                            if (value === "Y") el.attr("checked", "checked");
+                            return el;
+                        }
+                    },
+                    { name: "code_name", type: "text", title: "권한명" }
+                ]
+            });
+            var el = $("#modal-content");
+            el.find(".modal-header").html("권한 설정");
+            el.find('#btn-content-confirm').attr("onclick", "setAuth();");
+            el.modal('show');
+        } else {
+            $.commonUtils.alert("담당자의 설정값을 가져오는 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+        }
+
+        process = false;
+    }
+
+    function setAuth() {
+        let selectedValue = '';
+        $(".modal-content-body").find("input[name='ckbAuth']").each(function (index, item) {
+            if (item.checked) {
+                selectedValue += (selectedValue !== "" ? "|" : "") + item.dataset.auth;
+            }
+        });
+        var param = {};
+        param["mode"] = "UPDATE";
+        param["uid"] = selectedUid;
+        param["auth"] = selectedValue;
+        var result = $.ajaxUtils.getApiData("/api/Configuration/SetManagerAuth", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+        } else {
+            $.commonUtils.alert("담당자 권한 설정중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+        }
+    }
+
+</script>

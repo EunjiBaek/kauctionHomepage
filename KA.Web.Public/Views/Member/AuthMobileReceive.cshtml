@@ -1,0 +1,86 @@
+﻿@model KA.Entities.Models.OkCert.ReceiveResult
+@inject KA.Web.Public.Services.CommonService CommonService
+@{
+    Layout = null;
+
+    var rsltMsg = Model.RSLT_MSG;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>휴대폰 본인 인증 - 케이옥션</title>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/jquery/jquery.easy.min.js"></script>
+</head>
+<body>
+    <form name="form1">
+        <input type="hidden" name="result" value="@Model.RSLT" />
+        <input type="hidden" name="mobile" value="@Model.IS_MOBILE" />
+        <input type="hidden" name="rslt" value="@(Model.RSLT ? "T" : "F")" />
+        <input type="hidden" name="rslt_msg" value="@CommonService.HTMLDecode(Model.RSLT_MSG)" />
+        <input type="hidden" name="request_key" value="@Model.REQUEST_KEY" />
+    </form>
+    <div id="temp" style="display: none;"></div>
+    <script>
+        var isMobile = "@Model.IS_MOBILE";
+        var result = "@Model.RSLT";
+        var type = "@Model.REQ_TYPE";
+        var infoChangeName = "@Model.INFO_CHANGE_NAME";
+
+        $(document).ready(function () {
+            if (isMobile === "Y") {
+                if (result !== "True") {
+                    alert(decodeHTML("@CommonService.HTMLDecode(Model.RSLT_MSG)"));
+                }
+                if (type === "A") {
+                    window.open("/Member/AgreementComplete?seq=@Model.REQUEST_KEY&target=@Model.MEM_ID", "_self");
+                } else if (type === "M") {
+                    window.open("/MyPage/Member?key=@Model.REQUEST_KEY&result=@(Model.RSLT ? "T" : "F")", "_self");
+                } else if (type === "JoinStep") {
+                    if (result === "True") {
+                        if (infoChangeName !== '') {
+                            alert('회원명이 인증 된 이름으로 업데이트 됩니다.​\n' + decodeHTML(infoChangeName));
+                        } else {
+                            alert("인증되었습니다.");
+                        }
+                    }
+                    window.open("@Model.REDIRECT_URL", "_self");
+                } else {
+                    window.open("/Member/Join?key=@Model.REQUEST_KEY&result=@(Model.RSLT ? "T" : "F")", "_self");
+                }
+            } else {
+                try {
+                    if (type === "JoinStep") {
+                        window.opener.$.joinUtils.openAuthResultV3("@(Model.RSLT ? "T" : "F")", "@CommonService.HTMLDecode(Model.RSLT_MSG)", "@Model.REDIRECT_URL", infoChangeName);
+                    } else if (type === "A") {
+                        window.opener.$.joinUtils.openAuthResultV3("@(Model.RSLT ? "T" : "F")", "@CommonService.HTMLDecode(Model.RSLT_MSG)", "/Member/AgreementComplete?seq=@Model.REQUEST_KEY&target=@Model.MEM_ID");
+                    } else if (type === "M") {
+                        if (window.opener.location.href.toLowerCase().indexOf("/mypage") > 0) {
+                            window.opener.$.joinUtils.openAuthResult("@(Model.RSLT ? "T" : "F")", "@CommonService.HTMLDecode(Model.RSLT_MSG)", "@Model.REQUEST_KEY");
+                        } else {
+                            window.opener.$.joinUtils.openAuthResultV2("@(Model.RSLT ? "T" : "F")", "@CommonService.HTMLDecode(Model.RSLT_MSG)", "@Model.REQUEST_KEY");
+                        }
+                    } else {
+                        window.opener.$.joinUtils.openAuthResultV2("@(Model.RSLT ? "T" : "F")", "@CommonService.HTMLDecode(Model.RSLT_MSG)", "@Model.REQUEST_KEY");
+                    }
+                    window.close();
+                } catch (e) {
+                    if (type === "JoinStep") {
+                        window.opener.$.joinUtils.openAuthResultV2("F", "인증에 실패했습니다.<br />확인 후 다시 이용해주세요.", "");
+                    } else {
+                        window.opener.$.joinUtils.openAuthResult("F", "인증에 실패했습니다.<br />확인 후 다시 이용해주세요.", "");
+                    }
+                    window.close();
+                }
+            }
+        });
+
+        function decodeHTML(value) {
+            return $('#temp').html(value).text();
+        }
+    </script>
+</body>
+</html> 

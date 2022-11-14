@@ -1,0 +1,1423 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Auction.AuctionListViewModel
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@inject KA.Web.Public.Services.CommonService CommonService
+@{
+    string GetTopAreaClassName(string aucKind)
+    {
+        switch (aucKind)
+        {
+            case "1": return "b1";
+            case "2": return "b3";
+            case "4": return "b4";
+            default: return "";
+        }
+    }
+
+    var endAttr = ViewBag.EndYN ? "false" : "true";
+    var maxLotNum = Model.LotList.Any() ? Model.LotList.First().MaxLotNum : 0;
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+}
+
+<style>
+    .dataTables_wrapper.m-b-50 {
+        display: none;
+    }
+
+    .form-group-default.form-group-default-select2 > label {
+        z-index: initial !important;
+    }
+
+    .select2-container {
+        width: 100% !important;
+        z-index: initial !important;
+    }
+
+    .select2-dropdown {
+        z-index: initial !important;
+    }
+
+    .select2-container.select2-container--default.select2-container--open {
+        z-index: 1700 !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: transparent !important;
+    }
+
+    @@media(max-width:768px) {
+        .card {
+            margin-bottom: 45px
+        }
+    }
+</style>
+
+<div id="list-scrollbtn">
+    <img class="list-topbtn" src="/img/icons/alltop-btn.png" alt="GO TO TOP" srcset="/img/icons/alltop-btn.png 1x, /img/icons/alltop-btn@2x.png 2x, /img/icons/alltop-btn@3x.png 3x">
+    <img class="list-botbtn" src="/img/icons/alltop-btn2.png" alt="GO TO BOTTOM" srcset="/img/icons/alltop-btn2.png 1x, /img/icons/alltop-btn2@2x.png 2x, /img/icons/alltop-btn2@3x.png 3x">
+</div>
+
+<section id="list-section" oncontextmenu='return @endAttr;' onselectstart="return @endAttr;" ondragstart="return @endAttr;">
+    <!-- 상단 영역 -->
+    <div class="subtop-bn @GetTopAreaClassName(Model.AuctionSchedule.AucKind)">
+        <breadcrumb titles="@Model.BreadcrumbLevel1|@L[Model.BreadcrumbLevel2].Value|@Model.BreadcrumbLevel3" />
+        <div class="container subtop">
+            <div class="subtop-desc">
+                <h1>@Model.DisplayAucTitle</h1>
+                @if (Model.AuctionSchedule.AucKind.Equals("1"))
+                {
+                    <p>@Model.DisplayAucDate</p>
+                    @if (Model.AuctionSchedule.LiveYN.Equals("Y"))
+                    {
+                        // L1 : 입장
+                        // L2 : 신청
+                        // L3 : 신청기간 종료
+                        // L4 : 신청 (승인완료)
+                        // L5 : 신청 (승인완료 아닌경우)
+                        @switch (Model.LiveState)
+                        {
+                            case "L1":
+                                @if (!commonService.IsLogin)
+                                {
+                                    <div class="subtop-btn"><a href="javascript:;" onclick="$.commonUtils.alertWithFn(ka.msg.list.liveAuctionNotLogin, '', '$.commonUtils.openLogin();');">@L["입장하기"]</a></div>
+                                }
+                                else
+                                {
+                                    <div class="subtop-btn"><a href="javascript:;" onclick="window.open('/Live/Major/@ViewBag.AucNum', '_self');">@L["입장하기"]</a></div>
+                                }
+                                break;
+                            case "L2":
+                                <div class="subtop-btn">
+                                    @if (!commonService.IsLogin)
+                                    {
+                                        <a href="javascript:$.commonUtils.openLogin('@L["로그인 후 응찰 신청이 가능합니다."]');">@L["온라인 응찰 사전예약"]</a>
+                                    }
+                                    else
+                                    {
+                                        if (!LoginInfo.EssentialClause.Equals(commonService.GetMemClauseVersion().ToString()))
+                                        {
+                                            <a data-toggle="modal" href="javascript:;" onclick="$.commonUtils.alert(ka.msg.auction.bid_block);">@L["온라인 응찰 사전예약"]</a>
+                                        }
+                                        else if (string.IsNullOrWhiteSpace(LoginInfo.Address) || !ViewBag.AuthFlag)
+                                        {
+                                            @*<a data-toggle="modal" href="javascript:;" onclick="$.commonUtils.alertWithFn(ka.msg.list.emptyAddress, null, '$.mypageUtils.openAddressPopup(\'I\');');">@L["온라인 응찰 사전예약"]</a>*@
+                                            <a href="#" data-tit="@L["경매 참여를 위한 준비사항"]" data-value="preparation" onclick="$('#modal-auc-participation').modal();">
+                                                <span id="text"></span> 
+                                                <span class="text-msg">@L["온라인 응찰 사전예약"]</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a data-toggle="modal" data-target="#major-apply-modal" href="/Auction/LiveRequest/@ViewBag.AucNum">@L["온라인 응찰 사전예약"]</a>
+                                        }
+                                    }
+                                </div>
+                                break;
+                            case "L4":
+                                <div class="subtop-btn"><a href="javascript:;" onclick="$.commonUtils.alert(ka.msg.auction.onlinePaddleButton);">@L["내 패들번호"]: @Model.AuctionLiveRequest.PaddleNum</a></div>
+                                break;
+                        }
+
+                        @switch (Model.LiveState)
+                        {
+                            case "L2":
+                            case "L3":
+                                <span style="text-align: center; color: rgba(255,255,255,0.75)">
+                                    @L["신청마감"]: @Model.AuctionSchedule.OnlineBidPeriod<br />
+                                    @L["<span style='color: #ffffff; text-decoration: underline;'>경매 실황은 별도 신청없이 로그인 후 시청</span><span style='color: #ffffff;'>하실 수 있습니다.</span>"]
+                                </span>
+                                break;
+                            case "L5":
+                                <span>@L["문의하기"]: @L["02-3479-8888"]</span>
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    <p>
+                        <strong>@Model.DisplayAucStartDate&nbsp;-&nbsp;@Model.DisplayAucEndDate</strong>
+                        <span>@L["전시장소"] : @Model.AuctionSchedule.DisplayAucPlace</span>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- 컨텐츠 영역 -->
+    <div class="container p-t-0 p-b-30">
+        <!-- 섹션/정렬 영역 -->
+        <div class="row section-align">
+            <div style="width: 100%; text-align: center">
+                <div class="btn-group list-btn-wrap" data-toggle="buttons">
+                    @if (Model.AuctionSchedule.WorkType != null)
+                    {
+                        <style>
+                            .nav li a.active, .nav li a:hover { border-bottom: 1px solid #f47104; color: #f47104; cursor: pointer; }
+                            @if (Model.AuctionWorkType.Count() > 5)
+                            {
+                                @Html.Raw(".nav-link { padding: 0.5rem; }")
+                            }
+                        </style>
+                        <ul class="nav">
+                            <li class="nav-item"><a id="section-0" class="nav-link active" onclick="sectionList(0);">@L["전체"]</a></li>
+                            @foreach (var item in Model.AuctionWorkType)
+                            {
+                                <li class="nav-item"><a id="section-@item.Uid" class="nav-link" onclick="sectionList(@item.Uid);">@Html.Raw(item.DisplayName)</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div class="list-gradient-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+        <!-- 검색 영역 -->
+        <div class="card card-default card-default-search-area">
+            <div class="card-body">
+                <div class="card-default-search-area-wrap">
+                    <!-- LOT LIST -->
+                    <div class="card-default-lot-search">
+                        <div class="lot-search-wrap" style="position: relative;">
+                            <span>LOT</span>
+                        </div>
+                        <span> / &nbsp;&nbsp;@maxLotNum</span>
+                        <div class="lot-dropdown">
+                            <div class="searchBox">
+                                <input type="text" id="search-input_list" placeholder="@L["LOT번호 입력"]">
+                                <button class="lot-btn" type="submit" name="click" value=""><i class="fas fa-search"></i></button>
+                            </div>
+                            <div class="listBox">
+                                @foreach (var item in Model.LotList)
+                                {
+                                    <div class="listInner" onclick="location.href = '@item.WorkLink';" data-link="@item.WorkLink">
+                                        <div class="lotarr">
+                                            <div class="listImg"><img src="@item.ThumFileURL" loading="lazy" /></div>
+                                            <div class="listLot">LOT @item.LotNum</div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- KEYWORD -->
+                    <div class="my-auto card-default-my-auto">
+                        <div class="input-group">
+                            <input id="search" type="text" class="form-control" placeholder="@L["작가 또는 작품명"]" aria-label="@L["작가 또는 작품명"]" aria-describedby="search-addon" maxlength="50">
+                            <div class="input-group-append"><button class="btn btn-outline-secondary" type="button" id="search-addon"><i class="fas fa-search fa-fw"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="btn-group">
+                        <!-- SORT -->
+                        <div class="search-dropdown-toggle-wrap menu_01">
+                            <button class="btn dropdown-toggle search-dropdown-button" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false"><span id="id_sort" style="">@L["LOT 번호 순"]</span><i class="fas fa-chevron-down"></i></button>
+                            <div class="dropdown-menu search-dropdown-list-wrap" aria-labelledby="dropdownMenuButton1" style="width: 140px;">
+                                <a id="sort_lot_asc" class="dropdown-item" href="#" onclick="sortList('LOT', 'ASC', this);">@L["LOT 번호 순"]</a>
+                                <a id="sort_price_estimated_desc" class="dropdown-item" href="#" onclick="sortList('PRICE_ESTIMATED', 'DESC', this);">@L["높은 추정가 순"]</a>
+                                <a id="sort_price_estimated_asc" class="dropdown-item" href="#" onclick="sortList('PRICE_ESTIMATED', 'ASC', this);">@L["낮은 추정가 순"]</a>
+                                @if (!(Model.AuctionSchedule.AucKind != null && Model.AuctionSchedule.AucKind == "1"))
+                                {
+                                    <a id="sort_price_start_desc" class="dropdown-item" href="#" onclick="sortList('PRICE_START', 'DESC', this);">@L["시작가 높은 순"]</a>
+                                    <a id="sort_price_start_asc" class="dropdown-item" href="#" onclick="sortList('PRICE_START', 'ASC', this);">@L["시작가 낮은 순"]</a>
+                                    <a id="sort_bid_cnt_desc" class="dropdown-item" href="#" onclick="sortList('BID_CNT', 'DESC', this);">@L["응찰 많은 순"]</a>
+                                    <a id="sort_bid_cnt_asc" class="dropdown-item" href="#" onclick="sortList('BID_CNT', 'ASC', this);">@L["응찰 적은 순"]</a>
+                                }
+                                @if (Model.AuctionSchedule.AucDate.AddHours(12) < DateTime.Now)
+                                {
+                                    <a id="sort_price_hammer_desc" class="dropdown-item" href="#" onclick="sortList('PRICE_HAMMER', 'DESC', this);">@L["낙찰가 높은 순"]</a>
+                                    <a id="sort_price_hammer_asc" class="dropdown-item" href="#" onclick="sortList('PRICE_HAMMER', 'ASC', this);">@L["낙찰가 낮은 순"]</a>
+                                }
+                            </div>
+                        </div>
+                        <!-- PAGE SIZE -->
+                        <div class="search-dropdown-toggle-wrap menu_02">
+                            <button class="btn dropdown-toggle search-dropdown-button" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false"><span id="id_page_size" style="">@L["10건씩"]</span><i class="fas fa-chevron-down"></i></button>
+                            <div class="dropdown-menu search-dropdown-list-wrap" aria-labelledby="dropdownMenuButton1" style="width: 95px;">
+                                <a id="page_size_10" class="dropdown-item" href="#" onclick="filterList('page_size', 10, this);">@L["10건씩"]</a>
+                                <a id="page_size_20" class="dropdown-item" href="#" onclick="filterList('page_size', 20, this);">@L["20건씩"]</a>
+                                <a id="page_size_30" class="dropdown-item" href="#" onclick="filterList('page_size', 30, this);">@L["30건씩"]</a>
+                                <a id="page_size_40" class="dropdown-item" href="#" onclick="filterList('page_size', 40, this);">@L["40건씩"]</a>
+                                <a id="page_size_50" class="dropdown-item" href="#" onclick="filterList('page_size', 50, this);">@L["50건씩"]</a>
+                            </div>
+                        </div>
+                        <!-- PAGE TYPE -->
+                        <div class="search-dropdown-toggle-wrap menu_03">
+                            <button class="btn dropdown-toggle search-dropdown-button" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false"><span id="id_page_type" style="">@L["페이지 방식"]</span><i class="fas fa-chevron-down"></i></button>
+                            <div class="dropdown-menu search-dropdown-list-wrap" aria-labelledby="dropdownMenuButton1" style="width: 133px;">
+                                <a id="page_type_p" class="dropdown-item" href="#" onclick="filterList('page_type', 'P', this);">@L["페이지 방식"]</a>
+                                <a id="page_type_m" class="dropdown-item" href="#" onclick="filterList('page_type', 'M', this);">@L["더보기 방식"]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--선택된 검색옵션-->
+        <div class="selected-search-option-wrap" style="display: none;">
+            <div class="selected-search-option-area">
+                <div><p>@L["선택된 검색옵션"]</p></div>
+                <div id="selected-search-option"><div class="selected-list-clearall"><span>Clear All</span></div></div>
+            </div>
+        </div>
+        <div class="selected-search-option-total">@L["검색결과"] <span style="font-size: 14px;font-weight: 700;"></span></div>
+
+
+        <!-- 리스트 영역 -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" id="list" style="margin-right: -5px; margin-left: -5px;"></div>
+
+
+        <!--5월19일 임시적용-->
+        @* <div class="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" id="list-skeleton" style="margin-right: -5px; margin-left: -5px;">
+            </div> *@
+
+
+        <!-- 페이지네이션 영역 -->
+        <div class="dataTables_wrapper m-b-50 auction-list-pagination" style="display: none;">
+            <div class="row justify-content-center"><div class="col-md-6 text-center"><div class="dataTables_paginate paging_full_numbers"><ul class="pagination"></ul></div></div></div>
+        </div>
+        <!-- 더보기 영역-->
+        <div class="auction-list-loadmore" style="display: none;"><div><span id="btnNextList"></span></div></div>
+    </div>
+</section>
+
+<div id="search-pannel">
+    <div class="search-pannel-close-btn"><i class="fas fa-times"></i></div>
+    <div class="search-pannel-cnt-wrap">
+        <h2>@L["세부 검색"]</h2>
+        <div id="search-pannel-accordian">
+            <!-- PANEL ARTIST -->
+            <div class="panel-question active">
+                <div class="panel-heading"><h3>@L["출품작가"]</h3><i class="fas fa-plus"></i></div>
+                <div class="panel-body">
+                    <div class="writer-search-input">
+                        <div>
+                            <i class="fas fa-search"></i>
+                            <input id="writer-search" onkeyup="writer_filter()" type="text" placeholder="@L["작가명 검색"]" />
+                        </div>
+                    </div>
+
+                    <div class="panel-tit-writer-search">
+                        <ul>
+                            <li id="sort_ARTIST" class="active"><a href="#" onclick="getArtistList('ARTIST');">@L["가나다"]</a></li>
+                            <li id="sort_ARTIST_EN"><a href="#" onclick="getArtistList('ARTIST_EN');">@L["ABC"]</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="panel-body-writer-search">
+                        <ul class="writer-search-wrap">
+                            @*@if (Model.ArtistList != null)
+                                {
+                                    @foreach (var item in Model.ArtistList)
+                                    {
+                                        <li>
+                                            <input type="checkbox" id="artist_@item.ArtistUid" name="search-writer-check" class="search-auction01" data-uid="@item.ArtistUid" data-name="@item.DisplayArtistName" />
+                                            <label for="artist_@item.ArtistUid"><div><span></span></div><strong>@item.ArtistName (@item.ArtistCount)</strong></label>
+                                        </li>
+                                    }
+                                }*@
+                        </ul>
+                        <div class="list-loading-ani" style="height: 350px; display: flex; align-items: center; justify-content: center; display: none;">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                            <path fill="#ff5d16" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="2s" repeatCount="indefinite"></animateTransform>
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PANEL PRICE -->
+            <div class="panel-question">
+                <div class="panel-heading panel-heading-2" style="position:  relative;"><h3>@L["가격대 범위 (KRW)"]</h3><i class="fas fa-plus"></i></div>
+                <div class="panel-body">
+                    <div class="panel-body-price-filter">
+                        <ul>
+                            <li>
+                                <div class="price-range-top">
+                                    <input type="checkbox" id="search-price-range-check_01" name="search-price-range-check" class="search-price-range-check">
+                                    <label for="search-price-range-check_01"><div><span></span></div><strong>@L["시작가"]</strong></label>
+                                </div>
+                                <div class="price-range-bottom">
+                                    <p>
+                                        @if (commonService.IsKor())
+                                        {
+                                            <span class="from_01">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceStartMin)</span><span style="margin: 0 10px;">-</span><span class="to_01">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceStartMax)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="from_01">@string.Format("{0:n0}", Model.AuctionSchedule.PriceStartMin)</span><span style="margin: 0 10px;">-</span><span class="to_01">@string.Format("{0:n0}", Model.AuctionSchedule.PriceStartMax)</span>
+                                        }
+                                    </p>
+                                    <div class="slider-price-range_01"></div>
+                                </div>
+                            </li>
+
+                            <li style="display: none;">
+                                <div class="price-range-top">
+                                    <input type="checkbox" id="search-price-range-check_02" name="search-price-range-check" class="search-price-range-check">
+                                    <label for="search-price-range-check_02"><div><span></span></div><strong>@L["낮은 추정가"]</strong></label>
+                                </div>
+                                <div class="price-range-bottom">
+                                    <p>
+                                        @if (commonService.IsKor())
+                                        {
+                                            <span class="from_02">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceEstimatedLowMin)</span><span style="margin: 0 10px;">-</span><span class="to_02">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceEstimatedLowMax)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="from_02">@string.Format("{0:n0}", Model.AuctionSchedule.PriceEstimatedLowMin)</span><span style="margin: 0 10px;">-</span><span class="to_02">@string.Format("{0:n0}", Model.AuctionSchedule.PriceEstimatedLowMax)</span>
+                                        }
+
+                                    </p>
+                                    <div class="slider-price-range_02"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="price-range-top">
+                                    <input type="checkbox" id="search-price-range-check_03" name="search-price-range-check" class="search-price-range-check">
+                                    <label for="search-price-range-check_03"><div><span></span></div><strong>@L["높은 추정가"]</strong></label>
+                                </div>
+                                <div class="price-range-bottom">
+                                    <p>
+                                        @if (commonService.IsKor())
+                                        {
+                                            <span class="from_03">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceEstimatedHighMin)</span><span style="margin: 0 10px;">-</span><span class="to_03">@commonService.GetMoneyUnitFormat(Model.AuctionSchedule.PriceEstimatedHighMax)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="from_03">@string.Format("{0:n0}", Model.AuctionSchedule.PriceEstimatedHighMin)</span><span style="margin: 0 10px;">-</span><span class="to_03">@string.Format("{0:n0}", Model.AuctionSchedule.PriceEstimatedHighMax)</span>
+                                        }
+                                    </p>
+                                    <div class="slider-price-range_03"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- PANEL MATERIAL -->
+            <div class="panel-question">
+                <div class="panel-heading panel-heading-3"><h3>@L["작품 재료"]</h3><i class="fas fa-plus"></i></div>
+                <div class="panel-body">
+                    <div>
+                        <div class="material-search-wrap">
+                            <div class="material-search">
+                                <input id="material" type="search" placeholder="@L["검색할 재료명을 입력하세요"]" class="material-search-area">
+                                <button class="material-search-area-btn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PANEL TITLE -->
+            <div class="panel-question">
+                <div class="panel-heading panel-heading-4"><h3>@L["작품명"]</h3><i class="fas fa-plus"></i></div>
+                <div class="panel-body">
+                    <div>
+                        <div class="material-search-wrap">
+                            <div class="material-search">
+                                <input id="title" type="search" placeholder="@L["검색할 작품명을 입력하세요"]" class="material-search-area">
+                                <button class="title-search-area-btn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search-pannel-btn-wrap"><button class="search-pannel-btn">@L["작품 찾기"]</button></div>
+    <div class="mobile-padding"></div>
+</div>
+<div class="search-pannel-mb-btn"></div>
+<div id="search-pannel-btn"><i class="fas fa-filter"></i></div>
+
+<!-- MODAL - ADDRESS MANAGE START -->
+<partial name="_Partial/_AddressModalPartial" />
+<!-- MODEL - ADDRESS MANAGE END -->
+
+<div class="modal fade" id="major-apply-modal" tabindex="-1" aria-labelledby="major-apply-modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h2>@L["신청 전에 읽어주세요."]</h2>
+            <div class="major-apply-modal-cnt">
+                <ul>
+                    <li><span>•</span><p>@L["본 경매에 응찰할 작품이 있는 경우에만 신청해 주시기 바랍니다."]</p></li>
+                    <li><span>•</span><p>@L["온라인 응찰을 신청하신 분께는 담당 직원의 확인 전화가 있을 수 있습니다."]</p></li>
+                    <li><span>•</span><p>@L["경매 인터넷 <span>중계 영상은 별도 신청 없이 시청하실 수 있으니,</span> 시청만 원하는 경우 온라인 응찰 신청은 하지 마시기 바랍니다."]</p></li>
+                </ul>
+            </div>
+            <div class="major-apply-modal-check">
+                <input type="checkbox" id="major-apply-modal-checkbox" name="major-apply-modal-checkbox" class="major-apply-modal-checkbox">
+                <label for="major-apply-modal-checkbox"><div><span></span></div><strong>@L["위 내용 확인했습니다."]</strong></label>
+                <div id="checkNotice"></div>
+            </div>
+            <div id="major-apply-modal-check-alert" style="margin-bottom: 10px; color: #ff5d16;">
+            </div>
+
+            <div class="major-apply-modal-btn">
+                <button data-dismiss="modal">@L["취소"]</button>
+                <button onclick="return sendit()">@L["확인"]</button>
+            </div>
+            <img src="/img/icons/popup-close@1x.png" alt="Close" srcset="/img/icons/popup-close@1x.png 1x,/img/icons/popup-close@2x.png 2x,/img/icons/popup-close@3x.png 3x" class="major-apply-modal-close" data-dismiss="modal">
+        </div>
+    </div>
+</div>
+
+@* 스켈레톤 ui *@
+<template id="list_page_skeleton">
+    <div class="list-skeleton-item">
+        <div class="list-skeleton-item-card">
+            <div class="list-skeleton-item-card-img"></div>
+            <div class="list-skeleton-item-card-body">
+                <span class="lot"></span>
+                <p class="name"></p>
+                <p class="work-name"></p>
+                <p class="desc-1"></p>
+                <p class="desc-2"></p>
+                <div class="button"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<!--경매참여를 위한 준비사항-->
+<div class="modal fade" id="modal-auc-participation" tabindex="-1" role="dialog" aria-labelledby="modal-auc-participation" aria-hidden="true">
+    <div div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <h2>@L["경매 참여를 위한 준비사항​"]</h2>
+            <p>@L["경매에 참여하려면 아래 조건 충족이 완료되어야 합니다."]</p>
+            <div class="box_wrap">
+                @if (ViewBag.AuthFlag != null && ViewBag.AuthFlag)
+                {
+                    <div class="box active" data-tit="@L["인증 수단 선택"]" data-value="certified_choice" onclick="return false;">
+           
+                        <div class="cnt">@L["<span>통신사 또는 신용카드</span><strong>본인인증</strong>"]</div>                         
+                  
+                        <div class="check"><i class="fas fa-check"></i></div>
+                    </div>
+                }
+                else
+                {
+                    @if (LoginInfo.Type is not "002" or "004")
+                    {
+                        <div class="box" data-target="#certified_modal_popup"
+                             data-toggle="modal">
+                   
+                            <div class="cnt">@L["<span>통신사 또는 신용카드</span><strong>본인인증</strong>"]</div>
+                     
+                            <button type="button">@L["인증받기"]</button>
+                        </div> 
+                    }
+                    else
+                    {
+                        <div class="box">
+                            <div class="cnt">
+                                <span>
+                                    @L["여권이나 다른 본인 인증 증명"]
+                                </span>
+                                <strong>
+                                    @L["본인인증"]
+                                </strong>
+                            </div>
+                            <button type="button" href="/MyPage/Member">@L["인증받기"]</button>
+                        </div> 
+                    }
+                }
+                @if (!string.IsNullOrWhiteSpace(LoginInfo.Address))
+                {
+                    <div class="box active" onclick="return false;">
+             
+                        <div class="cnt">@L["<span>낙찰 시 배송을 위한</span><strong>배송지 주소</strong>"]</div>
+   
+                        <div class="check"><i class="fas fa-check"></i></div>
+               
+                    </div>
+                }
+                else
+                {
+                    <div class="box" onclick="$.mypageUtils.openAddressPopup('I');">
+                   
+                        <div class="cnt">@L["<span>낙찰 시 배송을 위한</span><strong>배송지 주소</strong>"]</div>
+                   
+                        <button type="button">@L["입력하기"]</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--인증수단팝업-->
+<div class="modal fade show" id="certified_modal_popup" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal_wrap">
+        <div class="modal-content">
+            <div class="modal-header">@L["인증번호 입력"]</div>
+            <div class="modal-desc">
+                <p>@L["원하는 인증 수단을 선택하세요."]</p>
+                <p>@L["인증 된 정보는 회원정보로 활용됩니다.<br />인증 수단을 선택하세요."]</p>
+            </div>
+
+        
+            <div class="list">
+                <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'M', 'JoinComplete');"><div class="icon_img"></div><p>@L["통신사 본인인증"]</p></div>
+                <div class="box" onclick="$.joinUtils.openAuth(parseInt('@LoginInfo.Type', 10), 'C', 'JoinComplete');"><div class="icon_img"></div><p>@L["신용카드 본인인증"]</p></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--//인증수단팝업-->
+
+
+
+<script type="text/javascript">
+
+    var isProcess = false;
+    var isLogin = "@User.Identity.IsAuthenticated";
+    var auction = "@ViewBag.Auction";
+    var aucKind = "@ViewBag.AucKind";
+    var aucNum = "@ViewBag.AucNum";
+    var workType = "@ViewBag.WorkType";
+    var endAttr = @endAttr;
+    var endDate = "@ViewBag.EndDate";
+    var listViewMode = "@LoginInfo.ListViewMode";
+
+    var didScroll;
+    var lastScrollTop = 0;
+    var delta = 5;
+    var navbarHeight = $('.header').outerHeight();
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["page_size"] = 10;
+    requestParam["page_type"] = listViewMode === "002" ? "M" : "P";
+    requestParam["artist_sort"] = "";
+
+    var listType = "grid";
+    var isStorage = false;
+
+    var artistSortColumn = "ARTIST";
+
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function() {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+
+
+
+    $(document).ready(function () {
+        $('.form-country-code').select2({
+            placeholder: '',
+            templateSelection: $.addressUtils.formatCountry,
+            templateResult: $.addressUtils.formatCountry,
+            escapeMarkup: function (m) { return m; }
+        }).on('select2:select', function () {
+            $(this).parents('.form-group').removeClass('focused');
+            if ($(this).val()) {
+                $(this).closest('.form-group').find('label').addClass('fade');
+            } else {
+                $(this).closest('.form-group').find('label').removeClass('fade');
+            }
+        });
+
+        $("#modal-country-code").val("KOR").trigger('change');
+
+        if (isKor !== "True") {
+            artistSortColumn = "ARTIST_EN";
+            $("#sort_ARTIST_EN").addClass("active");
+            $("#sort_ARTIST").removeClass("active");
+        }
+
+        for (let i = 0; i < 10; i ++) {
+            const list_skeleton_item = document.importNode(document.querySelector('#list_page_skeleton').content, true);
+            document.getElementById("list").appendChild(list_skeleton_item);
+        }
+
+        // 시작가
+        let priceRange_01 = $(".slider-price-range_01");
+        priceRange_01.ionRangeSlider({
+            type: "double",
+            skin: "big",
+            min: 0,
+            max: @Model.AuctionSchedule.PriceStartMax,
+            from: @Model.AuctionSchedule.PriceStartMin,
+            to: @Model.AuctionSchedule.PriceStartMax,
+            step: 100000
+        });
+
+        priceRange_01.on("change", function(){
+            var $inp = $(this);
+            var from = $inp.data("from");
+            var to = $inp.data("to");
+            if (isKor === "True") {
+                $inp.prev().prev().find('span.from_01').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                $inp.prev().prev().find('span.to_01').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+            } else {
+                $inp.prev().prev().find('span.from_01').text($.stringUtils.comma(from.toString()));
+                $inp.prev().prev().find('span.to_01').text($.stringUtils.comma(to.toString()));
+            }
+            $(".search-price-range-check").eq(0).prop("checked", true);
+            $(".panel-body-price-filter > ul > li:nth-child(1)").addClass('on');
+        });
+
+        // 낮은 시작가
+        let priceRange_02 = $(".slider-price-range_02");
+        priceRange_02.ionRangeSlider({
+            type: "double",
+            skin: "big",
+            min: 0,
+            max: @Model.AuctionSchedule.PriceEstimatedLowMax,
+            from: @Model.AuctionSchedule.PriceEstimatedLowMin,
+            to: @Model.AuctionSchedule.PriceEstimatedLowMax,
+            step: 100000
+        });
+        priceRange_02.on("change", function(){
+            var $inp = $(this);
+            var from = $inp.data("from");
+            var to = $inp.data("to");
+            if (isKor === "True") {
+                $inp.prev().prev().find('span.from_02').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                $inp.prev().prev().find('span.to_02').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+            } else {
+                $inp.prev().prev().find('span.from_02').text($.stringUtils.comma(from.toString()));
+                $inp.prev().prev().find('span.to_02').text($.stringUtils.comma(to.toString()));
+            }
+            $(".search-price-range-check").eq(1).prop("checked", true);
+            $(".panel-body-price-filter > ul > li:nth-child(2)").addClass('on');
+        });
+
+         // 높은 시작가
+        let priceRange_03 = $(".slider-price-range_03");
+        priceRange_03.ionRangeSlider({
+            type: "double",
+            skin: "big",
+            min: 0,
+            max: @Model.AuctionSchedule.PriceEstimatedHighMax,
+            from: @Model.AuctionSchedule.PriceEstimatedHighMin,
+            to: @Model.AuctionSchedule.PriceEstimatedHighMax,
+            step: 100000
+        });
+
+        priceRange_03.on("change", function(){
+            var $inp = $(this);
+            var from = $inp.data("from");
+            var to = $inp.data("to");
+            if (isKor === "True") {
+                $inp.prev().prev().find('span.from_03').text($.stringUtils.comma($.stringUtils.numberToUnit(from)));
+                $inp.prev().prev().find('span.to_03').text($.stringUtils.comma($.stringUtils.numberToUnit(to)));
+            } else {
+                $inp.prev().prev().find('span.from_03').text($.stringUtils.comma(from.toString()));
+                $inp.prev().prev().find('span.to_03').text($.stringUtils.comma(to.toString()));
+            }
+            $(".search-price-range-check").eq(2).prop("checked", true);
+            $(".panel-body-price-filter > ul > li:nth-child(3)").addClass('on');
+        });
+
+        // 드롭다운 item클릭시 caption text change
+        $(".dropdown-item").click(function(e){
+            e.preventDefault();
+            $(this).parent().prev().find('span').text($(this).text());
+        });
+
+        $("#search-pannel-btn").mouseup(function(e){
+            e.preventDefault();
+            $('#search-pannel').toggleClass('show');
+            $('.search-pannel-mb-btn').toggleClass('show');
+            $(this).toggleClass('show');
+
+            if($(this).hasClass('show')) {
+                $('body').addClass('yhidden');
+                search_pannel_dim.addClass("show");
+            } else {
+                $('body').removeClass('yhidden');
+                search_pannel_dim.removeClass("show");
+            }
+        });
+
+        search_pannel_dim.click(function(e){
+            $('#search-pannel').removeClass('show');
+            $('.search-pannel-mb-btn').removeClass('show');
+            $("#search-pannel-btn").removeClass('show');
+            $('body').removeClass('yhidden');
+            search_pannel_dim.removeClass("show");
+        });
+
+        document.querySelector(".search-pannel-close-btn").addEventListener('click', function(e){
+            e.preventDefault();
+            document.querySelector("#search-pannel").classList.remove("show");
+            document.querySelector('.search-pannel-mb-btn').classList.remove("show");
+            document.querySelector("#search-pannel-btn").classList.remove("show");
+            document.querySelector("body").classList.remove("yhidden");
+            search_pannel_dim.removeClass("show");
+        });
+
+        $('.panel-body').hide().eq(0).show();
+
+        $(".panel-question.active > .panel-heading").find('i').removeClass('fa-plus').addClass("fa-minus").css("color", "#9d9d9d");
+
+        $(".panel-heading").click(function (e) {
+            e.preventDefault();
+            const idx = Array.from($(".panel-heading")).indexOf(e.currentTarget);
+
+            $(".search-pannel-cnt-wrap").animate({ scrollTop: $(".panel-heading").eq(idx).offset().top * 1.6}, 500);
+
+
+            if (idx == 0) {
+                $(".panel-body").eq(0).slideToggle("100");
+            } else if (idx == 1) {
+                $(".panel-body").eq(1).slideToggle("100");
+            } else if (idx == 2) {
+                $(".panel-body").eq(2).slideToggle("100");
+            } else {
+                $(".panel-body").eq(3).slideToggle("100");
+            }
+
+            let panelIcon = $(this).find('i');
+            if(panelIcon.hasClass('fa-plus') == true) {
+                panelIcon.removeClass('fa-plus').addClass("fa-minus").css("color", "#9d9d9d");;
+            } else {
+                panelIcon.removeClass('fa-minus').addClass("fa-plus").css("color", "#000000");
+            }
+        });
+
+        // 초기화 버튼추가
+        $(".selected-list-clearall > span").click(function () {
+            $(".selected-search-option-wrap").remove();
+            window.location.href = window.location.pathname;
+        });
+
+        // 작가 checkbox event
+        $(".search-auction01").change(function(){
+            let target = $(this);
+            if(target.is(":checked")){
+                target.parent().addClass('on');
+            }else{
+                target.parent().removeClass('on');
+            }
+        });
+
+        // 가격 range checkbox event
+        $(".search-price-range-check").change(function(){
+            let target = $(this);
+            if(target.is(":checked")){
+                target.parent().parent().addClass('on');
+            }else{
+                target.parent().parent().removeClass('on');
+            }
+        });
+
+        var qs = $.stringUtils.queryStringToJson();
+        if (qs !== null) {
+            requestParam = qs;
+
+            if (requestParam["page_type"]) {
+                $("#id_page_type").html($("#page_type_" + requestParam["page_type"].toLowerCase()).html());
+            }
+            if (requestParam["page_size"]) {
+                $("#id_page_size").html($("#page_size_" + requestParam["page_size"].toLowerCase()).html());
+            } else {
+                requestParam["page_size"] = 10;
+            }
+            if (requestParam["sort_column"] && requestParam["sort_option"]) {
+                $("#id_sort").html($("#sort_" + requestParam["sort_column"].toLowerCase() + "_" + requestParam["sort_option"].toLowerCase()).html());
+            }
+        }
+
+        listType = typeof requestParam["list_type"] === "string" && requestParam["list_type"] !== "" ? requestParam["list_type"] : "grid";
+        if (listType === "list") {
+            $('#list').removeClass('row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5');
+            $('#list').addClass('row-cols-1');
+            $('#btn-grid').removeClass('active');
+            $('#btn-list').addClass('active');
+        }
+
+        if (workType !== "") {
+            requestParam["work_type"] = requestParam["work_type"] ? requestParam["work_type"] : workType;
+        }
+
+        getList();
+
+        /*리스트페이지 스크롤이동버튼 스크롤 이벤트(작품검색탑값 이전에는 숨김처리)*/
+        $(window).on('scroll', function(){
+            const wScroll = $(this).scrollTop();
+            if(wScroll > $('#list-section > .container').offset().top){
+                $('#list-scrollbtn').css('display', 'block');
+            }else{
+                $('#list-scrollbtn').css('display', 'none');
+            }
+        });
+
+        // 리스트페이지 스크롤탑버튼
+        $("#list-scrollbtn > .list-topbtn").on('click', function (e) {
+            const listSection = $('#list-section > .container').offset().top;
+            e.preventDefault();
+            $('body, html').animate({
+                scrollTop: listSection
+            }, 600);
+        });
+
+        // 리스트페이지 스크롤바텀버튼
+        $("#list-scrollbtn > .list-botbtn").on('click', function (e) {
+            e.preventDefault();
+            $('body, html').animate({
+                scrollTop: $(document).height()
+            }, 600);
+        });
+
+        $('#btn-list').click(function (e) {
+            if (listType === "list") return;
+
+            requestParam["list_type"] = "list";
+            window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+        });
+
+        $('#btn-grid').click(function (e) {
+            if (listType === "grid") return;
+
+            requestParam["list_type"] = "grid";
+            window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+        });
+
+        $("#search").keydown(function (e) {
+            if (e.which === 13) {
+                requestParam["page"] = 1;
+                requestParam["search"] = $("#search").val();
+                window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+            }
+        });
+
+        $("#search-addon").click(function () {
+            if ($("#search").val() !== "") {
+                requestParam["page"] = 1;
+                requestParam["search"] = $("#search").val();
+                window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+            }
+        });
+
+        $(".search-pannel-btn").click(function () {
+            // Artist Check
+            let artistValue = '';
+            let artistEl = $(".search-auction01");
+            $.each(artistEl, function (index, item) {
+                if (item.checked) {
+                    artistValue += (artistValue === '') ? item.dataset.uid : "," + item.dataset.uid;
+                }
+            });
+
+            // Price Range
+            let searchPriceRangeCheck01 = $("#search-price-range-check_01");
+            let searchPriceRangeCheck01Value = false;
+            if (searchPriceRangeCheck01.is(":checked")) {
+                searchPriceRangeCheck01Value = true;
+                requestParam["price_start_from"] = $(".slider-price-range_01").data("ionRangeSlider").result.from;
+                requestParam["price_start_to"] = $(".slider-price-range_01").data("ionRangeSlider").result.to;
+            } else {
+                delete requestParam['price_start_from'];
+                delete requestParam['price_start_to'];
+            }
+
+            let searchPriceRangeCheck02 = $("#search-price-range-check_02");
+            let searchPriceRangeCheck02Value = false;
+            if (searchPriceRangeCheck02.is(":checked")) {
+                searchPriceRangeCheck02Value = true;
+                requestParam["price_estimated_low_from"] = $(".slider-price-range_02").data("ionRangeSlider").result.from;
+                requestParam["price_estimated_low_to"] = $(".slider-price-range_02").data("ionRangeSlider").result.to;
+            } else {
+                delete requestParam['price_estimated_low_from'];
+                delete requestParam['price_estimated_low_to'];
+            }
+
+            let searchPriceRangeCheck03 = $("#search-price-range-check_03");
+            let searchPriceRangeCheck03Value = false;
+            if (searchPriceRangeCheck03.is(":checked")) {
+                searchPriceRangeCheck03Value = true;
+                requestParam["price_estimated_high_from"] = $(".slider-price-range_03").data("ionRangeSlider").result.from;
+                requestParam["price_estimated_high_to"] = $(".slider-price-range_03").data("ionRangeSlider").result.to;
+            } else {
+                delete requestParam['price_estimated_high_from'];
+                delete requestParam['price_estimated_high_to'];
+            }
+
+            // Material
+            let materialValue = $('#material').val().replace(/ /ig, '') === "" ? "" : $('#material').val();
+
+            // Title
+            let titleValue = $("#title").val().replace(/ /ig, '') === "" ? "" : $('#title').val();
+
+            if (artistValue === "" && !searchPriceRangeCheck01Value && !searchPriceRangeCheck02Value && !searchPriceRangeCheck03Value && materialValue === "" && titleValue === "") {
+                $.commonUtils.alert(ka.msg.list.searchPanelEmpty);
+                return false;
+            }
+
+            requestParam["page"] = 1;
+            requestParam["search"] = $("#search").val();
+            requestParam["artist"] = artistValue;
+            requestParam["material"] = materialValue;
+            requestParam["title"] = titleValue;
+            window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+        });
+
+        $(".form-check-input").click(function () {
+            requestParam["page"] = 1;
+            getList();
+        });
+
+        if (document.querySelectorAll('.subtop-bn.b1').length > 1) {
+            document.querySelectorAll('.subtop-bn.b1')[1].classList.add('subtop02');
+        }
+        if (document.querySelectorAll('.subtop-bn.b1').length > 2) {
+            document.querySelectorAll('.subtop-bn.b1')[2].classList.add('subtop03');
+        }
+
+        $("#btnNextList").html(ka.msg.list.nextlist.replace('[SIZE]', requestParam["page_size"].toString()));
+
+        if ($(".panel-body-writer-search > ul > li").length > 7) {
+            $(".panel-body-writer-search").addClass("over");
+        }
+
+
+        getArtistList('');
+    });
+
+    function getArtistList(sortColumn) {
+        if (artistSortColumn === sortColumn) return;
+
+        sortColumn = sortColumn === '' ? artistSortColumn : sortColumn;
+
+        $(".writer-search-wrap").empty();
+        $(".list-loading-ani").css("display", "flex");
+        $(".list-loading-ani").show();
+
+        artistSortColumn = sortColumn;
+
+        var reqParam = {};
+        reqParam["auc_kind"] = aucKind;
+        reqParam["auc_num"] = aucNum;
+        reqParam["sort_column"] = sortColumn;
+        $.ajaxUtils.getApiData("/api/Auction/AuctionWorkArtists", reqParam, getArtistListComplete);
+    }
+
+    function getArtistListComplete(result, parameters) {
+        $(".list-loading-ani").hide();
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            $(".writer-search-wrap").empty();
+            parameters = JSON.parse(parameters);
+            $.each(result.data, function (index, item) {
+                let el = '<li>';
+                el += '<input type="checkbox" id="artist_' + item.artist_uid + '" name="search-writer-check" class="search-auction01" data-uid="' + item.artist_uid + '" data-name="' + item.artist_name + '" />'
+                el += '<label class="artist_label" for="artist_' + item.artist_uid + '">' + '<div><span></span></div><strong class="name">'
+                    + item.artist_name + ' (' + item.artist_count + ')</strong>' + '</label>';
+                el += '</li>';
+                $(".writer-search-wrap").append(el);
+            });
+
+            if (requestParam["artist"]) {
+                $(".selected-search-option-wrap").show();
+                var artists = requestParam["artist"].split(',');
+                $.each(artists, function (index, item) {
+                    $("#artist_" + item).trigger("click");
+                });
+            }
+
+            if ($(".panel-body-writer-search > ul > li").length > 7) {
+                $(".panel-body-writer-search").css({
+                    "overflow-y": "scroll",
+                    "height": "350px;",
+                });
+            } else {
+                $(".panel-body-writer-search").css({
+                    "overflow-y": "hidden",
+                    "height": "auto",
+                });
+            }
+
+            $(".panel-tit-writer-search").find("li").removeClass("active");
+            $("#sort_" + artistSortColumn).addClass("active");
+
+            if (requestParam["artist"]) {
+                $(".selected-search-option-wrap").show();
+                var artists = requestParam["artist"].split(',');
+                $.each(artists, function (index, item) {
+                    $("#selected-search-option").prepend(
+                        $("<div />", { "class": "selected-search-list" }).append(
+                            $('<span />').append(ka.msg.list.fieldArtist + ": " + $("#artist_" + item).attr("data-name")),
+                            $('<button />', { "data-type": "artist", "data-value": item, "onclick": "$.searchUtils.removeSelectedSearchOption(this)" }).append($('<i />', { "class": "fas fa-times" }))
+                        )
+                    );
+                });
+            }
+        }
+    }
+
+
+
+    function writer_filter() {
+        let value, name, item, i;
+
+        value = document.getElementById('writer-search').value.toUpperCase();
+        item = document.querySelectorAll(".panel-body-writer-search > ul > li");
+
+        for(i=0; i<item.length; i++){
+            name = item[i].getElementsByClassName('artist_label')[0].getElementsByClassName('name')
+            console.log(name)
+
+
+            if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+                item[i].style.display = "flex";
+            } else {
+                item[i].style.display = "none";
+            }
+        }
+
+
+    }
+
+
+
+    function filterList(type, value, obj) {
+        if ((type === "page_type" && value === requestParam["page_type"]) || (type === "page_size" && value.toString() === requestParam["page_size"].toString())) {
+            return false;
+        }
+
+        requestParam[type] = value;
+        requestParam["page"] = 1;
+        // getList();
+        window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+
+        if (type === "page_size") {
+            $("#btnNextList").html(ka.msg.list.nextlist.replace('[SIZE]', requestParam["page_size"].toString()));
+        }
+    }
+
+    function sortList(column, option, obj) {
+        if (isLogin !== "True" && column === "PRICE_HAMMER") {
+            $.commonUtils.openLogin(ka.msg.auction.bidListCheck);
+            return false;
+        }
+
+        if (requestParam["sort_column"] === column && requestParam["sort_option"] === option) {
+            return false;
+        }
+
+        requestParam["sort_column"] = column;
+        requestParam["sort_option"] = option;
+        requestParam["page"] = 1;
+        // getList();
+        window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+    }
+
+    function sectionList(type) {
+        requestParam["page"] = 1;
+        requestParam["work_type"] = type > 0 ? type.toString() : "";
+
+        window.location.href = window.location.pathname + $.stringUtils.jsonToQueryString(requestParam);
+    };
+
+    function getList() {
+        if (isProcess) return;
+
+        requestParam["auc_kind"] = aucKind;
+        requestParam["auc_num"] = aucNum;
+
+        // 검색어
+        if (typeof requestParam["search"] === "string") {
+            $("#search").val(requestParam["search"]);
+        } else {
+            $("#search").val('');
+        }
+
+        var el = $(".nav").find("a");
+        $.each(el, function (index, item) { item.setAttribute("class", "nav-link"); });
+        $("#section-" + (typeof requestParam["work_type"] === "string" && requestParam["work_type"] !== "" ? requestParam["work_type"].toString() : "0")).addClass("active");
+
+        $(window).resize(function () {
+            const windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.querySelector(".list-gradient-arrow").style.display = "none";
+            }
+        });
+        const listBtnWrap_scoll = document.querySelector('.list-btn-wrap');
+
+        if (listBtnWrap_scoll.scrollWidth > listBtnWrap_scoll.clientWidth) {
+            document.querySelector(".list-gradient-arrow").style.display = "block";
+        } else {
+            document.querySelector(".list-gradient-arrow").style.display = "none";
+        }
+        document.querySelector('.list-btn-wrap').addEventListener('scroll', function(e){
+            if (document.querySelector('.list-btn-wrap').scrollWidth - (document.querySelector('.list-btn-wrap').scrollLeft + document.querySelector('.list-btn-wrap').clientWidth) + 1 < 20) {
+                document.querySelector(".list-gradient-arrow").style.display = "none";
+            } else {
+                document.querySelector(".list-gradient-arrow").style.display = "block";
+            }
+        });
+
+        (function (){
+            if(document.querySelector('.nav-link.active') !== undefined && document.querySelector('.nav-link.active') !== null){
+                document.querySelector('.list-btn-wrap').scrollLeft = document.querySelector('.nav-link.active').offsetLeft - 50;
+            }
+        })();
+
+        // 정렬
+        if (typeof requestParam["sort_column"] === "string" && requestParam["sort_column"] !== "") {
+            const sortColumnOption = $("#sortColumnOption").find("a");
+            $.each(sortColumnOption, function (index, item) {
+                if (item.dataset.column === requestParam["sort_column"] && item.dataset.option === requestParam["sort_option"]) {
+                    $("#btn-sort").html(item.innerHTML);
+                }
+            });
+        }
+
+        isProcess = true;
+        $.ajaxUtils.getApiData("/api/Auction/" + aucKind + "/" + aucNum, requestParam, getListComplete);
+    }
+
+    function getListComplete(result, parameters) {
+        requestParam["auc_kind"] = aucKind;
+        isProcess = false;
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            makeSelectedSearchOptionArea();
+            $("#list").empty();
+            var totalCount = 0;
+            var totalExhiCount = 0;
+            $.each(result.data, function (index, item) {
+                if (listType === "list") {
+                    $.cardUtils.setWorkHorizonalCard("#list", item, index, "list");
+                } else {
+                    $.cardUtils.setWorkCardTag("#list", item, auction, index, isLogin);
+                }
+                totalCount = totalCount === 0 && typeof item.total_count === "number" ? item.total_count : totalCount;
+                totalExhiCount = totalExhiCount === 0 && typeof item.total_exhi_count === "number" ? item.total_exhi_count : totalExhiCount;
+            });
+            skeletonLoadFunc(document.querySelectorAll('.img-lazy'));
+
+            if (totalCount > 0) {
+                $.paginationUtils.init({
+                    target: $(".pagination"),
+                    totalCount: totalCount,
+                    parameters: requestParam,
+                    callback: getList,
+                    page: JSON.parse(parameters).page,
+                    pageSize: requestParam["page_size"],
+                    back: typeof requestParam["back"] === "boolean" ? requestParam["back"] : false,
+                    field: ["search"]
+                });
+
+                let auctionListPagenation = $(".auction-list-pagination");
+                let auctionListLoadmore = $(".auction-list-loadmore");
+
+                auctionListPagenation.hide();
+                auctionListLoadmore.hide();
+
+                if ($.paginationUtils.isLastPage()) {
+                    let cardNextStep = $('.card-next-step');
+                    cardNextStep.empty();
+                    cardNextStep.attr('style', 'width: 100%; height: 480px; display: flex; align-items: center; justify-content: center;');
+                    cardNextStep.append($("<img />", { "src": "/img/kauctionlog@1x.png", "style": "max-width: 100%;" }));
+
+                    if (JSON.parse(parameters).page_type === "P") {
+                        auctionListPagenation.show();
+                    }
+                } else {
+                    if (JSON.parse(parameters).page_type === "M") {
+                        auctionListLoadmore.show();
+                    } else {
+                        auctionListPagenation.show();
+                    }
+                }
+
+                $(".selected-search-option-total > span").html("(" + totalExhiCount.toString() + ")");
+            } else {
+                $.cardUtils.setEmptyCardTag("#list", "search");
+                $(".pagination").empty();
+            }
+        } else {
+            $.commonUtils.alert("@L["처리 중 오류가 발생하였습니다."]");
+        }
+        $(window).resize();
+        $.storageUtils.removeItem("listScope");
+    }
+
+    function makeSelectedSearchOptionArea() {
+        var enabled = false;
+
+        if (requestParam["title"]) {
+            enabled = true;
+            $(".panel-heading-4").trigger("click");
+            $("#title").val(requestParam["title"]);
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("title", requestParam["title"], ka.msg.list.title + ": " + requestParam["title"]));
+        }
+
+        if (requestParam["material"]) {
+            enabled = true;
+            $(".panel-heading-3").trigger("click");
+            $("#material").val(requestParam["material"]);
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("material", requestParam["material"], ka.msg.list.material + ": " + requestParam["material"]));
+        }
+
+        if (requestParam["search"]) {
+            enabled = true;
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("search", requestParam["search"], ka.msg.list.keyword + ": " + requestParam["search"]));
+        }
+
+        if ((requestParam["price_start_from"] && requestParam["price_start_from"] >= 0) || (requestParam["price_estimated_low_from"] && requestParam["price_estimated_low_from"] >= 0) || (requestParam["price_estimated_high_from"] && requestParam["price_estimated_high_from"] >= 0)) {
+            $(".panel-heading-2").trigger("click");
+        }
+
+        if (requestParam["price_start_from"] && requestParam["price_start_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_01").trigger("click");
+
+            // let dispPriceStart = isKor === "True" ? $.stringUtils.comma(requestParam["price_start_from"] / 10000) + "만~" + $.stringUtils.comma(requestParam["price_start_to"] / 10000) + "만" : $.stringUtils.comma(requestParam["price_start_from"]) + "~" + $.stringUtils.comma(requestParam["price_start_to"]);
+            let dispPriceStart = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_start_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_start_to"])
+                : $.stringUtils.comma(requestParam["price_start_from"]) + "~" + $.stringUtils.comma(requestParam["price_start_to"]);
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("price_start", "", ka.msg.auction.starting + ": " + dispPriceStart));
+            let selectedSearchOption = $(".slider-price-range_01").data("ionRangeSlider");
+            selectedSearchOption.update({
+                from: requestParam["price_start_from"],
+                to: requestParam["price_start_to"]
+            });
+        }
+
+        if (requestParam["price_estimated_low_from"] && requestParam["price_estimated_low_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_02").trigger("click");
+
+            //let dispPriceEstimatedLow = isKor === "True" ? $.stringUtils.comma(requestParam["price_estimated_low_from"] / 10000) + "만~" + $.stringUtils.comma(requestParam["price_estimated_low_to"] / 10000) + "만"
+            //    : $.stringUtils.comma(requestParam["price_estimated_low_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_low_to"]);
+            let dispPriceEstimatedLow = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_estimated_low_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_estimated_low_to"])
+                : $.stringUtils.comma(requestParam["price_estimated_low_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_low_to"]);
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("price_estimated_low", "", ka.msg.auction.lowEstimate + ": " + dispPriceEstimatedLow));
+
+            let selectedSearchOption = $(".slider-price-range_02").data("ionRangeSlider");
+            selectedSearchOption.update({
+                from: requestParam["price_estimated_low_from"],
+                to: requestParam["price_estimated_low_to"]
+            });
+        }
+
+        if (requestParam["price_estimated_high_from"] && requestParam["price_estimated_high_from"] >= 0) {
+            enabled = true;
+
+            $("#search-price-range-check_03").trigger("click");
+
+            //let dispPriceEstimatedHigh = isKor === "True" ? $.stringUtils.comma(requestParam["price_estimated_high_from"] / 10000) + "만~" + $.stringUtils.comma(requestParam["price_estimated_high_to"] / 10000) + "만"
+            //    : $.stringUtils.comma(requestParam["price_estimated_high_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_high_to"]);
+            let dispPriceEstimatedHigh = isKor === "True" ? $.stringUtils.numberToUnit(requestParam["price_estimated_high_from"]) + "~" + $.stringUtils.numberToUnit(requestParam["price_estimated_high_to"])
+                : $.stringUtils.comma(requestParam["price_estimated_high_from"]) + "~" + $.stringUtils.comma(requestParam["price_estimated_high_to"]);
+            $("#selected-search-option").prepend($.searchUtils.getSelectedSearchOptionLabelTag("price_estimated_high", "", ka.msg.auction.highEstimate + ": " + dispPriceEstimatedHigh));
+            let selectedSearchOption = $(".slider-price-range_03").data("ionRangeSlider");
+            selectedSearchOption.update({
+                from: requestParam["price_estimated_high_from"],
+                to: requestParam["price_estimated_high_to"]
+            });
+        }
+
+        if (enabled) {
+            $(".selected-search-option-wrap").show();
+        }
+    }
+
+    // 메이저 경매 버튼 없을경우 상단영역 폭 줄이기
+    const subtopBtn = document.querySelector('.subtop-btn');
+    if(!subtopBtn) {
+        if(document.querySelector('.subtop-bn.b1') != null) {
+            document.querySelector('.subtop-bn.b1').classList.add('subtop-h');
+        }
+    }else {
+        document.querySelector('.subtop-bn.b1').classList.remove('subtop-h');
+    }
+
+    var pageno = requestParam["page"];
+
+    const getlistMore = function () {
+        let url = window.location.pathname;
+        pageno +=1 ;
+        requestParam["page"] = pageno;
+
+        for (let i = 0; i < 10; i ++) {
+            const list_skeleton_item = document.importNode(document.querySelector('#list_page_skeleton').content, true);
+            document.getElementById("list").appendChild(list_skeleton_item);
+        }
+
+        $.ajaxUtils.getApiData("/api/Auction/" + aucKind + "/" + aucNum, requestParam, getListComplete2);
+    }
+
+    document.querySelector('.auction-list-loadmore > div').addEventListener('click', getlistMore);
+
+    document.querySelector("#alltop-btn").classList.add("none");
+
+    function getListComplete2(result, parameters) {
+        isProcess = false;
+
+        document.querySelectorAll(".list-skeleton-item").forEach(el => {
+            el.remove()
+        });
+
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            var totalCount = 0;
+
+            $.each(result.data, function (index, item) {
+                if (listType === "list") {
+                    $.cardUtils.setWorkHorizonalCard("#list", item, index, "list");
+                } else {
+                    $.cardUtils.setWorkCardTag("#list", item, auction, index, isLogin);
+                }
+            });
+            skeletonLoadFunc(document.querySelectorAll('.img-lazy'));
+
+            if(result.data.length === 0) {
+                $('.auction-list-loadmore').css({"display": "none"});
+            }
+        }
+
+        $(window).resize();
+        $.storageUtils.removeItem("listScope");
+    }
+
+    let search_pannel_btn_clone = document.querySelector('#search-pannel .search-pannel-btn-wrap .search-pannel-btn').cloneNode(true);
+    document.querySelector('.search-pannel-mb-btn').append(search_pannel_btn_clone);
+
+    function searchBtn () {
+        if (matchMedia("screen and (max-width: 768px)").matches) {
+            document.querySelector(".search-pannel-btn-wrap").classList.add("mobile");
+        } else {
+            document.querySelector(".search-pannel-btn-wrap").classList.remove("mobile");
+        }
+    }
+    searchBtn();
+
+    window.addEventListener("resize", searchBtn);
+
+    const mypageDropDownmenu = Array.prototype.slice.call(document.querySelectorAll('.dropdown-menu.profile-dropdown > a'));
+
+    mypageDropDownmenu.forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            let idx = Array.from(mypageDropDownmenu).indexOf(e.currentTarget);
+            window.location = mypageDropDownmenu[idx].getAttribute('href');
+        });
+    });
+
+    function sendit () {
+        if (!document.querySelector('#major-apply-modal-checkbox').checked) {
+            document.querySelector("#major-apply-modal-check-alert").textContent = ka.msg.common.noneCheck;
+            return false;
+        }
+        window.location.href = "/Auction/LiveRequest/@ViewBag.AucNum";
+    }
+
+    function pwModalOpen(target) {
+        $.commonUtils.mypageModal(target);
+    }
+
+</script>

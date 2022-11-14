@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PC버전보기" xml:space="preserve">
+    <value>View PC Version</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="개인정보처리방침" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="검색" xml:space="preserve">
+    <value>Search</value>
+    <comment>[Mobile/Menu] 3. 검색</comment>
+  </data>
+  <data name="초기화" xml:space="preserve">
+    <value>Clear</value>
+    <comment>[Model/Search] 2. History</comment>
+  </data>
+  <data name="검색하기" xml:space="preserve">
+    <value>Search</value>
+    <comment>[Model/Search] 4. Button</comment>
+  </data>
+  <data name="경매" xml:space="preserve">
+    <value>Auction</value>
+    <comment>[Mobile/Menu] 2. 경매</comment>
+  </data>
+  <data name="경매약관" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="경매참여자 순위 20위까지만 볼 수 있습니다." xml:space="preserve">
+    <value>Only the top 20 bids will be shown.</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #2. 안내문구</comment>
+  </data>
+  <data name="광고성 정보 수신 동의" xml:space="preserve">
+    <value>Consent to Receiving Advertising Information</value>
+    <comment>[Modal/ReceiveAdvertising] 1. Title</comment>
+  </data>
+  <data name="글자크기" xml:space="preserve">
+    <value>Size</value>
+    <comment>[Common/Footer] 4. Function Button</comment>
+  </data>
+  <data name="김환기, 이우환, 김창열, 박서보, 쿠사마, 호크니..." xml:space="preserve">
+    <value>Lee UFan, Kim TschangYeul, Park SeoBo, Kusama, Hockney</value>
+    <comment>[Common/Menu] 02. Search</comment>
+  </data>
+  <data name="네이버 블로그" xml:space="preserve">
+    <value>Naver Blog</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="네이버 포스트" xml:space="preserve">
+    <value>Naver Post</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="대표이사 : 도현순" xml:space="preserve">
+    <value>CEO : HyunSoon Do</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="대표전화 : 02-3479-8888" xml:space="preserve">
+    <value>T +82-2-3479-8888</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="동의" xml:space="preserve">
+    <value>Accepted</value>
+    <comment>[Modal/ReceiveAdvertising] 4. Status</comment>
+  </data>
+  <data name="동일한 금액이 응찰된 경우에는 응찰 시간이 빠른 응찰자가 최종 낙찰자로 인정됩니다." xml:space="preserve">
+    <value>If there are two or more bids for the same amount, the bid submitted first will take priority.</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #2. 안내문구</comment>
+  </data>
+  <data name="로그인" xml:space="preserve">
+    <value>Login</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="로그인 상태 유지" xml:space="preserve">
+    <value>Keep me logged in</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="메뉴" xml:space="preserve">
+    <value>Menu</value>
+    <comment>[Mobile/Menu] 5. 메뉴</comment>
+  </data>
+  <data name="모바일버전보기" xml:space="preserve">
+    <value>View Mobile Version</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="문자 메세지" xml:space="preserve">
+    <value>SMS</value>
+    <comment>[Modal/ReceiveAdvertising] 3. SMS</comment>
+  </data>
+  <data name="반영하기" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Modal/ReceiveAdvertising] 5. Button</comment>
+  </data>
+  <data name="비고" xml:space="preserve">
+    <value>Status</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #1. 테이블</comment>
+  </data>
+  <data name="비고에 낙찰로 표시된 응찰자가 최종 낙찰자입니다." xml:space="preserve">
+    <value>The bid marked as “Winning Bid” under “Status” is the final bid.</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #2. 안내문구</comment>
+  </data>
+  <data name="비밀번호" xml:space="preserve">
+    <value>Password</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="비밀번호찾기" xml:space="preserve">
+    <value>Forgot your password?</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="사업자등록번호 101-86-17910" xml:space="preserve">
+    <value>Tax Registration Number 101-86-17910</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="수신거부" xml:space="preserve">
+    <value>Not Accepted</value>
+    <comment>[Modal/ReceiveAdvertising] 4. Status</comment>
+  </data>
+  <data name="아이디" xml:space="preserve">
+    <value>ID</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="아이디/비밀번호 찾기" xml:space="preserve">
+    <value>Don't remember your ID/password?</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="아이디찾기" xml:space="preserve">
+    <value>Forgot your ID?</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="아직 케이옥션 회원이 아니세요?" xml:space="preserve">
+    <value>Aren't you a member of K Auction yet?</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="알림" xml:space="preserve">
+    <value>Alert</value>
+    <comment>Modal</comment>
+  </data>
+  <data name="알립니다." xml:space="preserve">
+    <value>Notice</value>
+    <comment>[Common/Top] 01. Notice</comment>
+  </data>
+  <data name="오늘 하루 표시하지 않기" xml:space="preserve">
+    <value>Don't show today</value>
+    <comment>[Common/Top] 01. Notice</comment>
+  </data>
+  <data name="온라인 경매약관" xml:space="preserve">
+    <value>Online Auction</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="위시리스트" xml:space="preserve">
+    <value>Wishlist</value>
+    <comment>[Mobile/Menu] 4. 위시리스트</comment>
+  </data>
+  <data name="유튜브" xml:space="preserve">
+    <value>Youtube</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="응찰가" xml:space="preserve">
+    <value>Bid</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #1. 테이블</comment>
+  </data>
+  <data name="응찰일자" xml:space="preserve">
+    <value>Date</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #1. 테이블</comment>
+  </data>
+  <data name="응찰현황" xml:space="preserve">
+    <value>Bids List</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업</comment>
+  </data>
+  <data name="이메일" xml:space="preserve">
+    <value>Email</value>
+    <comment>[Modal/ReceiveAdvertising] 3. Email</comment>
+  </data>
+  <data name="인스타그램" xml:space="preserve">
+    <value>Instagram</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="작가명 또는 작품명 검색" xml:space="preserve">
+    <value>Artists, Works</value>
+    <comment>[Model/Search] 1. Input</comment>
+  </data>
+  <data name="작가명 또는 작품명을 검색" xml:space="preserve">
+    <value>Works, Artists</value>
+    <comment>[Model/Search] 1. Input</comment>
+  </data>
+  <data name="작품을 사고 팔 땐 미술품 경매회사, 케이옥션" xml:space="preserve">
+    <value>An art auction house when you buy and sell your work, K Auction</value>
+    <comment>Layout - title</comment>
+  </data>
+  <data name="전화" xml:space="preserve">
+    <value>Phone</value>
+    <comment>[Modal/ReceiveAdvertising] 3. Phone</comment>
+  </data>
+  <data name="주소 : 서울특별시 강남구 언주로 172길 23 아트타워" xml:space="preserve">
+    <value>Art Tower 23, Eonju-ro 172-gil, Gangnam-gu, Seoul, Korea</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="진행" xml:space="preserve">
+    <value>Continue</value>
+    <comment>Modal</comment>
+  </data>
+  <data name="창닫기" xml:space="preserve">
+    <value>Close</value>
+    <comment>[Common/Top] 01. Notice</comment>
+  </data>
+  <data name="최근 검색어" xml:space="preserve">
+    <value>Recent search history</value>
+    <comment>[Model/Search] 2. History</comment>
+  </data>
+  <data name="추천 검색어" xml:space="preserve">
+    <value>Recommended Word</value>
+    <comment>[Model/Search] 3. Recommended</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Modal</comment>
+  </data>
+  <data name="카카오톡 채널" xml:space="preserve">
+    <value>Kakao Channel</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="케이옥션" xml:space="preserve">
+    <value>K-Auction</value>
+    <comment>Layout - title</comment>
+  </data>
+  <data name="케이옥션의 경매정보 제공, 경매일정 안내 등 서비스 이용을 위한 광고성 정보에 대해 관심이 있다면, 원하는 항목을 선택하여 주시기 바랍니다." xml:space="preserve">
+    <value>If you are interested in receiving information about K  Auction’s auction details, dates, and other services, please select your preferred channels.​</value>
+    <comment>[Modal/ReceiveAdvertising] 2. Description</comment>
+  </data>
+  <data name="통신판매업신고번호 : 서울강남 제 2008-537호" xml:space="preserve">
+    <value>E-commerce Registration: SeoulGangnam No. 2008-537</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="팩스 : 02-3479-8889" xml:space="preserve">
+    <value>F +82-2-3479-8889</value>
+    <comment>[Common/Footer] 1. Info</comment>
+  </data>
+  <data name="페이스북" xml:space="preserve">
+    <value>Facebook</value>
+    <comment>[Common/Footer] 2. SNS</comment>
+  </data>
+  <data name="표시할 내용이 없습니다." xml:space="preserve">
+    <value>There is nothing to display</value>
+    <comment>[Modal/ReceiveAdvertising] 6. Empty Message</comment>
+  </data>
+  <data name="하루동안 이 창을 열지 않음" xml:space="preserve">
+    <value>Do not open this window for one day</value>
+    <comment>[Modal/Notice] </comment>
+  </data>
+  <data name="현재 진행중인 경매가 없어 소개페이지로 이동합니다." xml:space="preserve">
+    <value>There is no auction currently in progress. Redirecting to the introduction page.</value>
+    <comment>[Common/Menu] 01. 메이저/프리미엄/위클리 - 비활성화 일때</comment>
+  </data>
+  <data name="홈" xml:space="preserve">
+    <value>Home</value>
+    <comment>[Mobile/Menu] 1. 메뉴</comment>
+  </data>
+  <data name="확인" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Modal</comment>
+  </data>
+  <data name="회원 로그인" xml:space="preserve">
+    <value>Member Login</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="회원ID" xml:space="preserve">
+    <value>ID</value>
+    <comment>[Auction/MyPage] 01. 응찰현황 팝업 - #1. 테이블</comment>
+  </data>
+  <data name="회원가입" xml:space="preserve">
+    <value>Join</value>
+    <comment>[Modal/Login] 1. 로그인</comment>
+  </data>
+  <data name="케이옥션 사이트의 이미지 및 영상, 문자 등의 자료 또는 정보(웹사이트 화면 포함)에 대한 무단복제, 전송, 배포, 크롤링/스크래핑 등의 행위는 저작권법, 부정경쟁방지 및 영업비밀보호에 관한 법률 등 관련 법령에 의하여 엄격히 금지됩니다." xml:space="preserve">
+    <value>Any unauthorized reproduction, transmission, distribution, and/or crawling/scraping of images, videos, text, and other material or information (including the website screen) is strictly forbidden by the Copyright Act, the Unfair Competition Prevention and Trade Secret Protection Act, and other relevant law.</value>
+    <comment>[Common/Footer] 5. Description</comment>
+  </data>
+  <data name="회사소개" xml:space="preserve">
+    <value>About Us</value>
+    <comment>[Common/Footer] 4.Util Menu</comment>
+  </data>
+  <data name="IR" xml:space="preserve">
+    <value>IR</value>
+    <comment>[Common/Footer] 4.Util Menu</comment>
+  </data>
+  <data name="오시는 길" xml:space="preserve">
+    <value>Location</value>
+    <comment>[Common/Footer] 4.Util Menu</comment>
+  </data>
+  <data name="온라인 회원약관" xml:space="preserve">
+    <value>Online Membership</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="이용약관" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+    <comment>[Common/Footer] 3.Util Menu</comment>
+  </data>
+  <data name="개인정보 제 3자 제공 동의" xml:space="preserve">
+    <value>Agree to the Provision of Personal Information to Third Parties</value>
+    <comment>[Modal/ApplyBook] 4. 개인정보 제3자 제공 동의</comment>
+  </data>
+  <data name="개인정보(주소)를 제 3차(배송업체)에게 제공하는데 동의합니다." xml:space="preserve">
+    <value>I agree to the provision of personal information (address) to third parties (shipping company).</value>
+    <comment>[Modal/ApplyBook] 4.1</comment>
+  </data>
+  <data name="계좌번호 : 하나은행 196-910005-07204 (케이옥션)" xml:space="preserve">
+    <value>Bank account number : Hana Bank 196-910005-07204 (K Auction)</value>
+    <comment>[Modal/ApplyBook] 6. 신청완료</comment>
+  </data>
+  <data name="구독 주소지" xml:space="preserve">
+    <value>Subscription Address</value>
+    <comment>[Modal/ApplyBook] 1. 구독 주소지</comment>
+  </data>
+  <data name="구독자 연락처" xml:space="preserve">
+    <value>Phone Number</value>
+    <comment>[Modal/ApplyBook] 3. 구독자 연락처</comment>
+  </data>
+  <data name="구독자 이름" xml:space="preserve">
+    <value>Subscriber Name</value>
+    <comment>[Modal/ApplyBook] 2. 구독자 이름</comment>
+  </data>
+  <data name="도록 구독료 : 연 10만원" xml:space="preserve">
+    <value>Subscription fee: KRW 100,000 a year</value>
+    <comment>[Modal/ApplyBook] 6. 신청완료</comment>
+  </data>
+  <data name="문의사항 : 02) 3479-8888" xml:space="preserve">
+    <value>Manager : +82-2-3479-8888</value>
+    <comment>[Modal/ApplyBook] 6. 신청완료</comment>
+  </data>
+  <data name="신청이 접수 되었습니다.&lt;br /&gt;구독료 입금을 진행해주세요." xml:space="preserve">
+    <value>The application has been received. Please proceed with the subscription fee deposit.</value>
+    <comment>[Modal/ApplyBook] 6. 신청완료</comment>
+  </data>
+  <data name="제출하기" xml:space="preserve">
+    <value>Submit</value>
+    <comment>[Modal/ApplyBook] 5. 버튼</comment>
+  </data>
+  <data name="주소관리" xml:space="preserve">
+    <value>Manage Addresses</value>
+    <comment>[Modal/ApplyBook] 1.1 주소 관리</comment>
+  </data>
+  <data name="취소하기" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[Modal/ApplyBook] 5. 버튼</comment>
+  </data>
+  <data name="배송정보를 회원 주소정보에 업데이트" xml:space="preserve">
+    <value>Update shipping information to member address information</value>
+  </data>
+  <data name="· 도로명 + 건물번호" xml:space="preserve">
+    <value>· Road name + building number</value>
+    <comment>[Modal/Address] 98.02.1</comment>
+  </data>
+  <data name="· 지역명(동/리) + 건물명(아파트명)" xml:space="preserve">
+    <value>· Regional name (dong/ri) + building name (apartment name)</value>
+    <comment>[Modal/Address] 98.02.3</comment>
+  </data>
+  <data name="· 지역명(동/리) + 번지" xml:space="preserve">
+    <value>· Regional name (Dong/Ri) + Bungee</value>
+    <comment>[Modal/Address] 98.02.2</comment>
+  </data>
+  <data name="검색어를 입력해주세요" xml:space="preserve">
+    <value>Enter address</value>
+    <comment>[Modal/Address] 98.01 입력필드</comment>
+  </data>
+  <data name="아래와 같이 검색하면 더욱 정확한 결과가 검색됩니다." xml:space="preserve">
+    <value>Search as below to find more accurate results.</value>
+    <comment>[Modal/Address] 98.02 설명</comment>
+  </data>
+  <data name="예) 분당 주공, 삼성동 코엑스" xml:space="preserve">
+    <value>e.g. Bundang Jugong, Samseong-dong Coex</value>
+    <comment>[Modal/Address] 98.02.3</comment>
+  </data>
+  <data name="예) 삼성동 25, 제주 영평동 2181" xml:space="preserve">
+    <value>e.g. Samsung-dong 25, Yeongpyeong-dong, Jeju-do, 2181</value>
+    <comment>[Modal/Address] 98.02.2</comment>
+  </data>
+  <data name="예) 영동대로 513,  제주 첨단로 242" xml:space="preserve">
+    <value>e.g. 513, Yeongdong-daero, Jeju-do High-tech Road 242</value>
+    <comment>[Modal/Address] 98.02.1</comment>
+  </data>
+  <data name="우편번호 검색" xml:space="preserve">
+    <value>Search Postal Code</value>
+    <comment>[Modal/Address] 98. 팝업 (우편번호 검색)</comment>
+  </data>
+  <data name="케이옥션 온라인 서비스" xml:space="preserve">
+    <value>K-auction Online Service</value>
+    <comment>[Common/Footer] 6. ISMS</comment>
+  </data>
+  <data name="경매 마감까지" xml:space="preserve">
+    <value>Auction closes</value>
+    <comment>[Common/QuickMenu] 02.05</comment>
+  </data>
+  <data name="경매 시작" xml:space="preserve">
+    <value>Auction Start</value>
+    <comment>[Common/QuickMenu] 02.03</comment>
+  </data>
+  <data name="경매 오픈까지" xml:space="preserve">
+    <value>Auction opens</value>
+    <comment>[Common/QuickMenu] 02.07</comment>
+  </data>
+  <data name="닫기" xml:space="preserve">
+    <value>Close</value>
+    <comment>[Common/QuickMenu] 03.03 닫기</comment>
+  </data>
+  <data name="라이브 경매" xml:space="preserve">
+    <value>Live Auction</value>
+    <comment>[Common/QuickMenu] 02.02</comment>
+  </data>
+  <data name="마감중" xml:space="preserve">
+    <value>Closing</value>
+    <comment>[Common/QuickMenu] 02.06</comment>
+  </data>
+  <data name="빠른메뉴" xml:space="preserve">
+    <value>QuickMenu</value>
+    <comment>[Common/QuickMenu] 01. 메뉴명</comment>
+  </data>
+  <data name="앱다운" xml:space="preserve">
+    <value>App</value>
+    <comment>[Common/QuickMenu] 03.02 앱다운</comment>
+  </data>
+  <data name="오후 4시" xml:space="preserve">
+    <value>PM 04:00</value>
+    <comment>[Common/QuickMenu] 02.04</comment>
+  </data>
+  <data name="위탁문의" xml:space="preserve">
+    <value>Consign</value>
+    <comment>[Common/QuickMenu] 03.01 위탁문의</comment>
+  </data>
+  <data name="준비중" xml:space="preserve">
+    <value>Preparing</value>
+    <comment>[Common/QuickMenu] 02.01 경매</comment>
+  </data>
+  <data name="진행중" xml:space="preserve">
+    <value>Proceeding</value>
+    <comment>[Common/QuickMenu] 02.07</comment>
+  </data>
+  <data name="프리뷰 오픈" xml:space="preserve">
+    <value>Preview Open</value>
+    <comment>[Common/QuickMenu] 02.01 경매</comment>
+  </data>
+  <data name="대한민국 대표 미술품 경매 서비스 케이옥션를&lt;br /&gt;모바일 앱으로 손쉽게 이용하세요." xml:space="preserve">
+    <value>Try using the Korean representative easily&lt;br /&gt;with the 'K Auction Mobile App'.</value>
+    <comment>[Modal/QuickMenu] 앱 팝업</comment>
+  </data>
+  <data name="위탁&lt;br /&gt;문의" xml:space="preserve">
+    <value>Consign</value>
+    <comment>위탁&lt;br /&gt;문의</comment>
+  </data>
+</root>

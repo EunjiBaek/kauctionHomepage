@@ -1,0 +1,179 @@
+﻿@inject KA.Web.Admin.Services.CommonService commonService
+@{
+    if (LoginInfo.UID < 1) commonService.RedirectLogin();
+
+    var menus = commonService.GetMenus("ADMIN", LoginInfo.UID);
+    var rootMenus = menus.Where(x => x.SubCode.Equals("000"));
+}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>K-Auction Admin</title>
+    <!-- START META -->
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="description" content="작품을 사고 팔 땐 미술품 경매회사, 케이옥션" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="케이옥션" />
+    <meta property="og:description" content="작품을 사고 팔 땐 미술품 경매회사, 케이옥션" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="@Config.ServiceDomain" />
+    <!-- END META -->
+    <!-- START ICON -->
+    <link rel="icon" type="image/x-icon" href="/img/icon/60_navy.ico" />
+    <link rel="apple-touch-icon" href="/img/icon/60_navy.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/76_navy.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/icon/120_navy.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/icon/152_navy.png">
+    <!-- END ICON -->
+    <!-- START CSS -->
+    <link rel="stylesheet" type="text/css" href="~/plugins/pace/pace.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/light.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/regular.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/solid.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome/css/brands.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-scrollbar/jquery.scrollbar.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jsgrid/jsgrid-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-dynatree/skin/ui.dynatree.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/summernote/summernote.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.admin.css" class="main-stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/ka.custom.css" class="main-stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/plugins/tui.time-picker/tui-time-picker.min.css" />
+    <script type="text/javascript">
+        window.onload = function () { // fix for windows 8
+            if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+                document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="/css/windows.chrome.fix.min.css" />'
+        }
+    </script>
+    <!-- END CSS -->
+    <!-- START PLUGIN JS -->
+    <script src="~/plugins/modernizr/modernizr.min.js"></script>
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/jquery/jquery.easy.min.js"></script>
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="https://cdn.rawgit.com/konvajs/konva/1.4.0/konva.min.js"></script>
+    <script src="~/plugins/jquery-unveil/jquery.unveil.min.js"></script>
+    <script src="~/plugins/jquery-ioslist/js/jquery.ioslist.min.js"></script>
+    <script src="~/plugins/jquery-actual/jquery.actual.min.js"></script>
+    <script src="~/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/plugins/jquery-dynatree/jquery.dynatree.min.js"></script>    
+    <script src="~/plugins/jsgrid/jsgrid.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script>
+    <script src="~/plugins/summernote/summernote.min.js"></script>
+    <script src="~/plugins/summernote/lang/summernote-ko-KR.min.js"></script>
+    <script src="~/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/moment-with-locales.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/plugins/tui.time-picker/tui-time-picker.min.js"></script>
+    <!-- END PLUGIN JS -->
+</head>
+<body class="fixed-header menu-pin">
+    <!-- START SIDEBAR -->
+    <nav class="kauction-sidebar" data-kauction="sidebar">
+        <div class="sidebar-header"><img style="cursor: pointer;" onclick="location.href = '/Home/Index';" src="/img/logo_white.png" alt="logo" class="brand" data-src="/img/logo_white.png" data-src-retina="/img/logo_white_2x.png" width="72" height="22"></div>
+        <div class="sidebar-menu">
+            <ul class="menu-items">
+                @foreach (var rootMenu in rootMenus)
+                {
+                    <li>
+                        <a id="@rootMenu.Option" href="@rootMenu.Link">
+                            <span class="title">@rootMenu.DisplayName</span>
+                            @if (menus.Where(x => x.Code.Equals(rootMenu.Code) && !x.SubCode.Equals("000")).Count() > 0)
+                            {<span class="arrow"></span>}
+                        </a>
+                        @if (!string.IsNullOrWhiteSpace(rootMenu.Icon))
+                        { <span class="icon-thumbnail"><i class="fas @rootMenu.Icon fa-fw"></i></span> }
+                        @if (menus.Where(x => x.Code.Equals(rootMenu.Code) && !x.SubCode.Equals("000")).Count() > 0)
+                        {
+                            <ul class="sub-menu">
+                                @foreach (var menu in menus.Where(x => x.Code.Equals(rootMenu.Code) && !x.SubCode.Equals("000")))
+                                { <li><a id="@menu.Option" href="@menu.Link">@menu.DisplayName</a></li> }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+    </nav>
+    <!-- END SIDEBAR -->
+    <div class="kauction-container">
+        <div class="header ">
+            <a href="#" class="btn-link toggle-sidebar d-lg-none ka-icon btn-icon-link" data-toggle="sidebar">MENU</a>
+            <div class=""><div class="brand inline"><img src="/img/logo.png" alt="logo" data-src="/img/logo.png" data-src-retina="/img/logo_2x.png" width="103" height="22"></div></div>
+            <div class="d-flex align-items-center">
+                <!-- BEGIN 로그인 유저 -->
+                <div>@LoginInfo.Name</div>님, 안녕하세요.&nbsp;
+                <div class="pull-right d-lg-block"><button onclick="location.href = '/Home/Logout';" class="btn fs-10">LOGOUT</button></div>
+                <!-- END 로그인 유저 -->
+            </div>
+        </div>
+        <div class="kauction-content-wrapper ">
+            <div class="content">
+                <div class="container-fluid container-fixed-lg m-t-30 w-100">
+                    <!-- BEGIN 메인 콘텐츠 -->
+                    @RenderBody()
+                    <!-- END 메인 콘텐츠 -->
+                </div>
+            </div>
+            <div class=" container-fluid  container-fixed-lg footer">
+                <div class="copyright sm-text-center">
+                    <p class="small-text no-margin pull-left sm-pull-reset">
+                        <span class="hint-text">Copyright &copy; 2022 </span>
+                        <span class="bold">K Auction</span>.
+                        <span class="hint-text">All rights reserved. </span>
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- START SCRIPT -->
+    <script src="~/js/ka.admin.min.js"></script>
+    <script src="~/js/ka.init.js" asp-append-version="true"></script>
+    <script src="~/js/ka.util.js" asp-append-version="true"></script>
+    <!-- END SCRIPT -->
+    <!-- BEGIN LANG/ICON JS -->
+    <script src="~/js/ka.msg.js" asp-append-version="true"></script>
+    <!-- END LANG/ICON JS -->
+    <!-- START MODAL -->
+    <partial name="~/Views/Shared/_ModalPartial.cshtml" />
+    <!-- END MODAL -->
+    <form method="post" asp-controller="Common" asp-action="Excel" style="display: none;">
+        <input type="submit" value="Export" id="btn-excel" />
+        <input type="hidden" name="mode" id="excel-mode" value="" />
+        <input type="hidden" name="data" id="excel-data" value="" />
+    </form>
+    <script>
+        var isMobile = "@commonService.IsMobile()";
+        $(document).ready(function () {
+            const pathInfo = document.location.pathname.toLowerCase().split('/');
+            if (pathInfo[1] !== "") {
+                $("#menu-" + pathInfo[1]).click();
+                var subMenu = $("#menu-" + document.location.pathname.toLowerCase().substring(1).replace(/\//ig, '-'));
+                if (subMenu.length > 0) {
+                    subMenu.parent().addClass("active");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

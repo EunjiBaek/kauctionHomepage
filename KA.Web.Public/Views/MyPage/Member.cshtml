@@ -1,0 +1,305 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using KA.Web.Public.Services
+@inject CommonService CommonService
+@inject IRsaCryptoService RsaCryptoService
+@inject IViewLocalizer L
+@model KA.Web.Public.ViewModels.MyPage.MemberViewModel
+@{
+    var memType = Model.Member.Type;
+    var countryList = CommonService.GetCodeList("MEM_COUNTRY", CommonService.IsKor());
+}
+
+<style type="text/css">
+    .form-group-default.form-group-default-select2 > label { z-index: initial !important; }
+    .select2-container { width: 100% !important; z-index: initial !important; }
+    .select2-dropdown { z-index: initial !important; }
+    .select2-container.select2-container--default.select2-container--open { z-index: 1700 !important; }
+    .select2-container--default .select2-selection--single { background-color: transparent !important; }
+    .mypage_modal, .mypage_pay_modal { z-index: 1000; }
+</style>
+
+<div class="container">
+    <div class="mypage_wrap" style="display: block !important;">
+        <div class="right_area tab_cnt" style="width: 100%;">
+            <div class="mypage_tab" style="display: block !important;">
+                <partial name="/Views/MyPage/_Partial/_MemberManagement.cshtml" model="@Model" view-data="ViewData" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_Partial/_AddressModalPartial" />
+
+<div class="mypage_modal">
+    <div class="mypage_modal_wrap">
+        <button class="mypage_modal_close"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="mypage_modal_header">@L["인증번호 입력"]</div>
+        <div class="mypage_modal_content">
+            <div class="cnt">
+                <!--비밀번호 재설정-->
+                <div class="password_reset">
+                    <div class="current">
+                        <p>@L["현재 비밀번호를 입력하세요"]</p>
+                        <div>
+                            <div class="input_wrap">
+                                <input id="password-old" class="default_type" type="password" autocomplete="new-password">
+                            </div>
+                            <button class="mypage_button btn_default_ef" id="btn-password-old" onclick="$.mypageUtils.checkPassword();">@L["확인"]</button>
+                        </div>
+                        <span>@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상"]</span>
+                    </div>
+                    <div>
+                        <p>@L["변경할 비밀번호를 입력하세요"]</p>
+                        <input class="default_type" id="password-new" type="password" autocomplete="new-password">
+                        <span>@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상"]</span>
+                    </div>
+                    <div>
+                        <p>@L["변경할 비밀번호를 한번 더 입력하세요"]</p>
+                        <input class="default_type" id="password-new-confirm" type="password" autocomplete="new-password">
+                        <span>@L["영문과 숫자 또는 특수문자 조합 최소 10자 이상"]</span>
+                    </div>
+                </div>
+                <!--//비밀번호 재설정-->
+                <!--인증 수단 선택-->
+                <div class="certified_choice">
+                    <p>@L["원하는 인증 수단을 선택하세요."]</p>
+                    <div class="list">
+                        <div class="box" onclick="$.joinUtils.openAuth(parseInt(@memType, 10), 'M', 'M');"><div class="icon_img"></div><p>@L["통신사 본인인증"]</p></div>
+                        <div class="box" onclick="$.joinUtils.openAuth(parseInt(@memType, 10), 'C', 'M');"><div class="icon_img"></div><p>@L["신용카드 본인인증"]</p></div>
+                    </div>
+                </div>
+                <!--//인증 수단 선택-->
+
+                <!--인증번호 입력 팝업-->
+                <div class="certified_number">
+                    <div class="number_input_wrap">
+                        <div class="input_wrap">
+                            <input id="pop-business-num" class="default_type" type="number" placeholder="@L["사업자 등록번호 입력 (숫자만 입력하세요)"]">
+                        </div>
+
+                        <button class="btn_default_ef" onclick="$.mypageUtils.checkBusinessNum('pop-business-num');">@L["확인"]</button>
+                    </div>
+                    <p class="danger" style="margin-top: 5px;" id="pop-business-num-result"></p>
+                </div>
+                <!--//인증번호 입력 팝업-->
+
+                <!--회원탈퇴-->
+                <div class="delete_account">
+                    <div class="delete_account_header">@L["탈퇴사유"]</div>
+                    <div class="cnt choice_wrap">
+                        @foreach (var item in CommonService.GetCodeList("MEM_RETIRE", CommonService.IsKor()))
+                        {
+                            <div class="radio_btn_wrap">
+                                <input id="delete_account_@item.SubCode" type="checkbox" name="delete_account_check" value="@item.SubCode" />
+                                <label for="delete_account_@item.SubCode"><p class="tit">@item.DisplayCodeName</p><div><span></span></div></label>
+                            </div>
+                        }
+                        <input type="hidden" id="retire-option" style="display: none;" />
+                    </div>
+                    <textarea class="default_type_textarea" name="" id="retire-reason" cols="30" rows="10" placeholder="@L["탈퇴 사유를 입력해 주시면 사이트 개선에 적극 반영하겠습니다."]"></textarea>
+                    <div class="delete_account_header">@L["탈퇴신청"]</div>
+                    <div class="desc">
+                        <div class="img"><img src="/img/icons/join_info.png" alt=""></div>
+                        <p>@L["아이디와 비밀번호를 한번 더 입력한 후 [탈퇴신청]을 해 주시기 바랍니다."]</p>
+                    </div>
+                    <div class="input_wrap">
+                        <div><input class="default_type" id="input_id" type="text" placeholder="@L["아이디 입력"]"></div>
+                        <div><input class="default_type w-100" id="input_pwd" type="password" placeholder="@L["비밀번호 입력"]"></div>
+                    </div>
+
+                    <ul class="delete_account_precautions">
+                        <li>
+                            <div class="img"><i class="fa fa-check" aria-hidden="true"></i></div>
+                            <p>@L["회원이 응찰한 경매가 진행중인 경우에는 해당경매가 마감되기 전까지 탈퇴가 불가능 합니다."]</p>
+                        </li>
+                        <li>
+                            <div class="img"><i class="fa fa-check" aria-hidden="true"></i></div>
+                            <p>@L["관련 법령 등에서 달리 정하지 않는 한, 탈퇴 후 30일 내 정보가 파기됩니다."]</p>
+                        </li>
+                        <li>
+                            <div class="img"><i class="fa fa-check" aria-hidden="true"></i></div>
+                            <p>@L["낙찰자에 한해 낙찰대금을 모두 지불하기 전 까지는 탈퇴가 불가능 합니다."]</p>
+                        </li>
+                    </ul>
+                    <div class="agree_wrap">
+                        <input class="default" type="checkbox" id="delete_account_agree">
+                        <label for="delete_account_agree"><div><i class="fas fa-check"></i></div><p>@L["회원 탈퇴 내용에 동의합니다."]</p></label>
+                    </div>
+                    <div class="delete_account_btn_wrap"><button id="retire-member-btn" onclick="$.mypageUtils.validateRetireV2();">@L["탈퇴하기"]</button></div>
+                </div>
+                <!--//회원탈퇴-->
+
+                <!-- 전화번호수정-->
+                <div class="num_modify">
+                    <div class="overseas-member_input">
+                        <div class="join-input-btn">
+                            <!--join-input-->
+                            <div class="usernumber_input"><input class="country_tel default_type" id="usernumber" type="tel" name="usernumber" placeholder="@L["전화번호 입력"]"></div>
+                            <div class="usernumber_btn">
+                                <button id="btn-validation-request" onclick="$.mypageUtils.mobileValidation('R', '@LoginInfo.Type');">@L["인증번호 발송"]</button>
+                                <button id="btn-validation-cancel" onclick="$.mypageUtils.mobileValidation('C', '@LoginInfo.Type');" style="display: none;">@L["취소"]</button>
+                                <button id="btn-validation-re-request" onclick="$.mypageUtils.mobileValidation('X', '@LoginInfo.Type');" style="display: none;">@L["다시 입력"]</button>
+                            </div>
+                        </div>
+                        <div class="join-input-btn join_02">
+                            <div class="usernumber_input">
+                                <input class="default_type" id="usercode" type="number" name="authentication-number"  placeholder="@L["6자리 인증번호 입력"]" disabled="disabled" maxlength="6">
+                                <span class="usernumber_input_time" id="auth-remain-time-002"></span>
+                            </div>
+                            <div class="usernumber_btn">
+                                <button class="disabled" id="btn-validation-confirm" disabled="disabled" onclick="$.mypageUtils.mobileValidation('A', '@LoginInfo.Type');">@L["인증 확인"]</button>
+                            </div>
+                        </div>
+                        <div id="mobile-cont-002-error" style="color: red; margin-top: 5px;"></div>
+                    </div>
+                    <div id="member_input_message" style="color: red;"></div>
+                </div>
+            </div>
+            <div class="modal_table_btn_wrap"><button class="default_btn">@L["확인"]</button></div>
+        </div>
+    </div>
+</div>
+<textarea id="public-key" style="display: none;">@Html.Raw(RsaCryptoService.GetPublicKey())</textarea>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function() {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+    
+    function submitPassword() {
+        const crypto = new JSEncrypt();
+        crypto.setPublicKey($("#public-key").val());
+        const param = {
+          password_old: crypto.encrypt($("#password-old").val()),
+          password_new: crypto.encrypt($("#password-new").val()),
+          password_new_confirm: crypto.encrypt($("#password-new-confirm").val())
+        };
+        
+        $.mypageUtils.validatePasswordSubmit(param);
+    }
+
+
+    $(document).ready(function (e) {
+        // 2022.04.11 각 탭 메뉴 클릭 시 url redirect 처리로 주석처리
+        //$(".tab_btn").each(function (index) {
+        //    $.commonUtils.tabMenu($(this));
+        //});
+        
+
+
+        $('.form-country-code').select2({
+            placeholder: '',
+            templateSelection: formatCountry,
+            templateResult: formatCountry,
+            escapeMarkup: function (m) { return m; }
+        }).on('select2:select', function () {
+            $(this).parents('.form-group').removeClass('focused');
+            if ($(this).val()) {
+                $(this).closest('.form-group').find('label').addClass('fade');
+            } else {
+                $(this).closest('.form-group').find('label').removeClass('fade');
+            }
+        });
+
+        $("#modal-country-code").val("KOR").trigger('change');
+
+
+
+    });
+
+    function openAddrSearch() {
+        $("#search_addr").val('');        
+        $("#addr_list").empty();
+        $("#addr_list").css("display", "none");
+        $("#join_member_address_modal").modal();
+    }
+
+    function enterAddrSearch() {
+        let evt_code = (window.netscape) ? ev.which : event.keyCode;
+        if (evt_code === 13) {
+            let keyword = $("#search_addr").val();
+            if (keyword.replace(/ /ig, '') !== "") {
+                $("#addrKeyword").val(keyword);
+                event.keyCode = 0;
+                getAddr();
+            }
+        }
+        return false;
+    }
+
+    $(".search_addr_btn").click(function(e){
+        e.preventDefault();
+        let keyword = $("#search_addr").val();
+
+        if (keyword.replace(/ /ig, '') !== "") {
+            $("#addrKeyword").val(keyword);
+            event.keyCode = 0;
+            getAddr();
+        }
+        return;
+    });
+
+    function getAddr() {
+        $.ajax({
+            url: "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do",
+            type: "post",
+            data: $("#address-form").serialize(),
+            dataType: "jsonp",
+            crossDomain: true,
+            async: true,
+            success: function (jsonStr) {
+                try {
+                    var errCode = jsonStr.results.common.errorCode;
+                    var errDesc = jsonStr.results.common.errorMessage;
+                    if (errCode != "0") {
+                        console.log(errCode + "=" + errDesc);
+                    } else {
+                        if (jsonStr != null) {
+                            makeListJson(jsonStr);
+                        }
+                    }
+                } catch (e) { console.log(e.description); }
+            }, error: function (xhr, status, error) {
+                console.log("에러발생");
+            }
+        });
+    }
+
+    function makeListJson(jsonStr) {
+        let addrList = $("<ul />", { "class": "w-100 addrList" });
+        $.each(jsonStr.results.juso, function (index, item) {
+            $("<li >", { "onclick": "setAddrData(this);", "style": "cursor: pointer;", "data-road-addr": item.roadAddr, "data-jibun-addr": item.jibunAddr, "data-zip-no": item.zipNo }).append(
+                "<div><span class='new'>도로명</span> " + item.roadAddr + "</div>" + "<div><span class='old'>지번</span> " + item.jibunAddr + "</div>").appendTo(addrList);
+        });
+        $('#join_member_address_modal .tip').css("display", "none");
+        $("#addr_list").css("display", "block");
+        $("#addr_list").append(addrList);
+    }
+
+    function setAddrData(obj) {
+        $("#modal-zip-code").val(obj.dataset.zipNo);
+        $("#modal-address1").val(obj.dataset.roadAddr);
+        $("#join_member_address_modal").modal('hide');
+
+        if (obj.dataset.zipNo !== '') {
+            $("#zip-code").parent().find(".text_box_clearbtn").show();
+        } else {
+            $("#zip-code").parent().find(".text_box_clearbtn").hide();
+        }
+    }
+
+    function formatCountry(country) {
+        if (!country.id) {
+            return country.text;
+        }
+        var countryOption = country.element;
+        return "<span class='m-r-10 m-b-1 flag flag-" + $(countryOption).data('iso-alpha2').toLowerCase() + "'></span><span class='text-uppercase'>" + country.text + "</span>";
+    }
+
+</script>

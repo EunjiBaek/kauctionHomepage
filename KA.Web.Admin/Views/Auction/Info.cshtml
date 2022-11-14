@@ -1,0 +1,832 @@
+﻿@inject KA.Web.Admin.Services.CommonService commonService
+@model KA.Web.Admin.ViewModels.Auction.AuctionScheduleViewModel
+
+<style>
+    .table tbody tr td { padding: 5px; }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <div class="card-title">경매 상세 정보</div>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#basic">경매 정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#work">작품 정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#bidder">낙찰자</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#view-room">뷰인룸 관리</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="basic">
+                        <div class="row">
+                            <div class="col-12 m-b-10">
+                                <span class="fs-18"><i class="fa fa-angle-right" aria-hidden="true"></i> 기본 정보</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">경매 회차</label>
+                                    <div>@Model.AuctionSchedule.AucNum</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">경매 일자</label>
+                                    <div>@Model.AuctionSchedule.AucDate</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">경매 제목</label>
+                                    <div>@Model.AuctionSchedule.AucTitle</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">경매 제목(영문)</label>
+                                    <div>@Model.AuctionSchedule.AucTitleEn</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">전시장소(국문)</label>
+                                    <div>@Model.AuctionSchedule.AucPlace</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">전시장소(영문)</label>
+                                    <div>@Model.AuctionSchedule.AucPlaceEn</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">프리뷰 시작일자</label>
+                                    <div>@Model.AuctionSchedule.AucPreviewDate</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="fw-500" style="border-bottom: 1px solid gray;">응찰 시작일자</label>
+                                    <div>@Model.AuctionSchedule.AucStartDate</div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.AuctionSchedule.AucKind != null && Model.AuctionSchedule.AucKind.Equals("1"))
+                        {
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="fw-500" style="border-bottom: 1px solid gray;">서면/전화 신청마감</label>
+                                        <div>@Model.AuctionSchedule.AucBidEndDate</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="fw-500" style="border-bottom: 1px solid gray;">온라인응찰 신청마감</label>
+                                        <div>@Model.AuctionSchedule.AucOnlineBidEndDate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-12 m-b-10 m-t-10">
+                                <span class="fs-18"><i class="fa fa-angle-right" aria-hidden="true"></i> 섹션 목록</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%;">섹션(국문)</th>
+                                            <th style="width: 30%;">섹션(영문)</th>
+                                            <th>링크</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.AuctionWorkTypes)
+                                        {
+                                            <tr>
+                                                <td>@item.Name</td>
+                                                <td>@Html.Raw(item.NameEn)</td>
+                                                <td><a href="@item.LinkUrl" target="_blank">@item.LinkUrl</a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row tab-pane fade" id="work">
+                        <div class="m-t-20" id="data-grid-work"></div>
+                    </div>
+                    <div class="row tab-pane fade" id="bidder">
+                        <div class="m-t-20" id="data-grid-bidder"></div>
+                    </div>
+                    <div class="row tab-pane fade" id="view-room">
+                        <div>
+                            <ul class="nav nav-pills section-nav">
+                                @foreach (var item in Model.AuctionWorkTypes)
+                                {
+                                    <li class="nav-item">
+                                        <a id="section-@item.Uid" data-uid="@item.Uid" class="nav-link" onclick="sectionList(@item.Uid);">@item.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="m-t-10">
+                            <button class="btn" onclick="setViewInRoom(0, 'ALL', 'Y');">모두 활성화</button>&nbsp;
+                            <button class="btn" onclick="setViewInRoom(0, 'ALL', 'N');">모두 비활성화</button>
+                        </div>
+                        <div>
+                            <div id="data-grid-view-room-cont" style="height: 55vh; overflow-y: scroll;" class="m-t-20">
+                                <div id="data-grid-view-room"></div>
+                            </div>
+                            <div id="admin-viewinroom-wrap">
+                                <div id="admin-viewinroom">
+                                    <img src="/img/viewinroom/human01.png" alt="인물사진" class="human-picture" />
+                                    <img src="/img/viewinroom/canvas-bg.jpg" class="canvasBackground" />
+                                    <div id="container" style="z-index: 105; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                                    <div class="dim-background">
+                                        <p>작품이미지를 선택해주세요</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-up" id="modal-bid-nak" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel1" aria-hidden="false">
+    <div class="modal-dialog  modal-dialog-centered" style="display:flex;" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <h3 class="pt-3"><span id="modal-bid-nak-title"></span></h3><br /><br />
+                    <div class="row">
+                        <div class="col-lg-6" style="max-width:30%;">
+                            <div class="form-group"><label>작품정보</label></div>
+                        </div>
+                        <div class="col-lg-6" style="min-width:70%;">
+                            <div class="form-group" style="text-align:left;">
+                                <label><span id="work_info"></span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="max-width:30%;">
+                            <div class="form-group">
+                                <label>회원명</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="min-width: 70%;">
+                            <div class="form-group" style="text-align:left;">
+                                <span id="member-search">
+                                    <input id="mem_name" type="text" />&nbsp;&nbsp;
+                                    <a href="#" onclick="getMemberList();" class="btn btn-cstm-danger" style="background-color:#F47104;color:#fff;">검색</a>
+                                </span>
+                                <label id="member-info" style="display:none;"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="min-width: 100%;">
+                            <div class="form-group">
+                                <div class="col-lg-12 m-t-20" id="data-grid-member"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="max-width:30%;">
+                            <div class="form-group">
+                                <label>낙찰가</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="min-width: 70%;">
+                            <div class="form-group" style="text-align:left;">
+                                <input id="price_bid" type="text" value="" />
+                            </div>
+                        </div>
+                        <input type="hidden" id="work_uid" />
+                        <input type="hidden" id="mem_uid">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-md-right">
+                <a href="#" class="btn btn-cstm-secondary" data-dismiss="modal" aria-label="Close">닫기</a>
+                <a href="#" onclick="setAuctionBidNak();" class="btn btn-cstm-danger" data-dismiss="modal" aria-label="확인" style="background-color:#F47104;color:#fff;">진행</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .jsgrid-grid-header { overflow-y: auto; }
+    .jsgrid-grid-body { max-height: auto; overflow-y: auto; }
+    .section-nav > li > a { padding: 3px 13px 3px 13px; cursor: pointer; }
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link { background-color: gray; }
+</style>
+<script>
+    var requestParam = {};
+    requestParam["code"] = "@ViewBag.Code";
+    requestParam["auc_num"] = "@ViewBag.aucNum";
+    requestParam["seq"] = "@ViewBag.Seq";
+    requestParam["page_size"] = 20;
+    requestParam["scroll_top"] = "";
+
+    var requestBidParam = {};
+    requestBidParam["page_size"] = 10000;
+    requestBidParam["page"] = 1;
+
+    var requestBidNakParam = {};
+    var requestMemberParam = {};
+
+    var headerWork = [
+        {
+            name: "lot_num", type: "number", title: "Lot", width: "50",
+            itemTemplate: function (value, data) {
+                var fieldData = value;
+                if (data.exhi_yn === "N" || data.exhi_yn === "U") { fieldData += "<br />(출품취소)" }
+                if (data.exhi_yn === "D") { fieldData += "<br />(기록삭제)" }
+                return fieldData;
+            }
+        },
+        {
+            name: "title", type: "text", title: "작품 내역", width: "300",
+            itemTemplate: function (value, data) {
+                var fieldData = data.artist_name + " / " + value + "<br/>" + data.size + " / " + data.make_date + " / " + data.material;
+                if (data.exhi_yn === "N" || data.exhi_yn === "U" || data.exhi_yn === "D") {
+                    fieldData = "<span style='text-decoration: line-through;'>" + fieldData + "</span>";
+                    fieldData += "<br /><button class='btn btn-sm' onclick='setAuctionWorkState(" + data.uid + ", 0);'>활성</button>";
+                } else {
+                    fieldData += "<br /><a href='@Config.HomepageDomain" + data.work_link + "' target='_blank'>@Config.HomepageDomain" + data.work_link + "</a>";
+                    fieldData += "<br /><button class='btn btn-sm' onclick='setAuctionWorkState(" + data.uid + ", 1);'>출품취소</button>&nbsp;<button class='btn btn-sm' onclick='setAuctionWorkState(" + data.uid + ", 2);'>기록삭제</button>";
+                }
+                return fieldData;
+            }
+        },
+        {
+            name: "thum_file_url", type: "text", title: "이미지", width: "140",
+            itemTemplate: function (value, data) {
+                return $("<a/>", { "href": data.img_file_url.replace('/T/', '/'), "target":"_blank"}).append($("<img />", { "src": value, "style": "max-width:200px;max-height:200px;" }).append(value));
+            }
+        },
+        { name: "price_estimated_format", type: "text", title: "추정가", width: "100"},
+        { name: "price_max_format", type: "text", title: "현재가", width: "100"},
+        {
+            name: "end_time", type: "text", title: "종료일", width: "60",
+            itemTemplate: function (value, data) {
+                if (data.auc_kind != "1") {
+                    return value;
+                } else {
+                    return "";
+                }
+            }
+        },
+        {
+            name: "bid_cnt", type: "number", title: "응찰", width: "80",
+            itemTemplate: function (value, data) {
+                if (data.auc_kind != "1") {
+                    if (value !== 0) {
+                        return $("<a/>", { "href": "javascript:getAuctionBid(" + data.uid + ", " + data.lot_num + ");" }).append(value);
+                    } else {
+                        auc_end_date = new Date(data.auc_end_date);
+
+                        if (auc_end_date < new Date() && new Date(auc_end_date.getFullYear(), auc_end_date.getMonth(), auc_end_date.getDate() + 1, "00", "00", "00") > new Date()) {
+                            return $("<a/>", { "href": "javascript:getAuctionBidNak(" + data.uid + ", " + data.lot_num + ",'" + data.artist_name + " / " + data.title.replace(/\'/g, '') + "'," + data.price_start + " );" }).append("낙찰처리");
+                        } else {
+                            return "";
+                        }
+                    }
+                } else {
+                    return "";
+                }
+            }
+        },
+        { name: "wish_count", type:"number", title:"Wish", width: "80" }
+    ];
+
+    var headerBidder = [
+        {
+            name: "nak_mem_name", type: "text", title: "낙찰자",
+            itemTemplate: function (value, data) {
+                return data.nak_mem_uid > 0 ? "<div id='row_nak_mem_name_" + data.nak_mem_uid + "' data-mask='N'>" + value + "</div>" : "<div data-mask='X'>" + value + "</div>";
+            }
+        },
+        {
+            name: "nak_mem_mobile", type: "text", title: "휴대폰",
+            itemTemplate: function (value, data) {
+                return data.nak_mem_uid > 0 ? "<div id='row_nak_mem_mobile_" + data.nak_mem_uid + "'>" + value + "</div>" : value;
+            }
+        },
+        { name: "nak_mng_name", type: "text", title: "담당자" },
+        { name: "lot_num", type: "text", title: "Lot"},
+        { name: "artist_name", type: "text", title: "작가명" },
+        { name: "title", type: "text", title: "작품명" },
+        { name: "price_hammer_format", type: "text", title: "낙찰가"}
+    ];
+
+    var headerBid = [
+        {
+            name: "mem_name", type: "text", title: "회원명", width: "80",
+            itemTemplate: function (value, data) {
+                return "<div id='row_mem_name_" + data.bid_uid + "' data-mask='N'>" + value + "<br/>(" + data.mem_id + ")</div>";
+            }
+        },
+        {
+            name: "mem_mobile", type: "text", title: "휴대폰 번호", width: "80",
+            itemTemplate: function (value, data) {
+                return "<div id='row_mem_mobile_" + data.bid_uid + "'>" + value + "</div>";
+            }
+        },
+        { name: "mng_name", type: "text", title: "담당자", width: "60" },
+        {
+            name: "bid_type_format", type: "text", title: "응찰 유형", width: "50",
+            itemTemplate: function (value, data) {
+                return data.bid_device_type !== '' ? value + "<br /><span title='" + data.user_agent + "'>(" + data.bid_device_type + ")</span>" : value;
+            }
+        },
+        {
+            name: "price_bid_format", type: "text", title: "응찰가", width: "100",
+            itemTemplate: function (value, data) {
+                if (data.last_bid_yn == "Y") {
+                    return $("<div>", { "style": "color:red;" }).append(value);
+                } else if (data.use_yn == "N") {
+                    return $("<div>", { "style": "text-decoration:line-through;" }).append(value + "(취소)");
+                } else {
+                    return value;
+                }
+            }
+        },
+        {
+            name: "price_bid_pre_format", type: "text", title: "자동응찰가", width: "100",
+            itemTemplate: function (value, data) {
+                // 자동응찰가 수정기능 검토
+                // return value !== '' ? "<div>" + value + " <button class='btn btn-sm'>수정</button></div>" : "";
+                return value;
+            }
+        },
+        {
+            name: "reg_ymd", type: "text", title: "응찰 일시",  width: "100",
+            itemTemplate: function (value, data) {
+                return value + "<br/>" + data.reg_hms;
+            }
+        },
+        {
+            name: "last_bid_yn", type: "text", title: "",  width: "100",
+            itemTemplate: function (value, data) {
+                if (value == "Y") {
+                    if (data.bid_type == "002") {
+                        return $("<button>", { "onclick": "javascript:setAuctionBid('BIDPRECANCEL', " + data.bid_uid + ");", "class": "btn" }).append("자동응찰 취소");
+                    } else {
+                        return $("<button>", { "onclick": "javascript:setAuctionBid('BIDCANCEL', " + data.bid_uid + ");", "class": "btn" }).append("응찰 취소");
+                    }
+                } else {
+                    return "";
+                }
+            }
+        }
+    ];
+
+    var headerMember = [
+        {
+            name: "uid", type: "text", title: "고유번호",  width: "20%",
+            itemTemplate: function (value, data) {
+                return "(H)" + value + "<br/>(K)" + data.koffice_uid;
+            }
+        },
+        {
+            name: "name", type: "text", title: "회원명", width: "20%",
+            itemTemplate: function (value, data) {
+                return $("<a/>", { "href": "javascript:setMember(" + data.uid + ",'" + value + "(" + data.id + ")');" }).append(value + "<br />(" + data.id + ")");
+            }
+        },
+        { name: "mobile", type: "text", title: "휴대폰", width: "30%"},
+        { name: "email", type: "text", title: "이메일", width: "30%"}
+    ];
+
+    var headerViewInRoom = [
+        {
+            name: "view_in_room_yn", type: "text", title: "", width: "30", align: "center",
+            itemTemplate: function (value, data) {
+                return "<div class='form-check form-check-inline switch'><input type='checkbox' " + (value === "Y" ? "checked" : "") + " class='form-check-input' id='view-in-room-" + data.uid + "' onclick='setViewInRoom(" + data.uid + ");' />"
+                    + "<label class='form-check-label' for='view-in-room-" + data.uid + "' /></label >"
+                    + "</div > ";
+            }
+        },
+        { name: "lot_num", type: "number", title: "Lot", width: "40", align: "center" },
+        {
+            name: "thum_file_url", type: "text", title: "이미지", width: "80", align: "center",
+            itemTemplate: function (value, data) {
+                return $("<a/>", { "href": data.img_file_url.replace('/T/', '/'), "target": "_blank" }).append($("<img />", { "src": value, "style": "max-width:60px;max-height:60px;" }).append(value));
+            }
+        },
+        { name: "title", type: "text", title: "작품명", width: "100" },
+        { name: "artist_name", type: "text", title: "작가명", width: "80" },
+        { name: "size", type: "text", title: "크기", width: "100" },
+        {
+            name: "", type: "text", title: "", width: "40", align: "center",
+            itemTemplate: function (value, data) {
+                return "<button class='btn' onclick='openViewInRoom(\"" + data.img_file_url + "\", \"" + data.size_width + "\", \"" + data.size_length + "\");'>보기</button>";
+            }
+        }
+    ];
+
+    var selectedSection = 0;
+
+    $(document).ready(function () {
+        var sectionTab = $(".section-nav").find("li > a");
+        if (sectionTab.length > 0) {
+            sectionTab[0].classList.add("active");
+            selectedSection = parseInt(sectionTab[0].dataset.uid, 10);
+        }
+        getList();
+        $(window).resize();
+    });
+
+    $(window).resize(function () {
+        if ($(window).width() > 768) {
+            $("#modal-bid .modal-dialog").css("width", "1000px");
+            $("#modal-bid .modal-dialog").css("max-width", "1000px");
+        } else {
+            $("#modal-bid .modal-dialog").css("width", "100%");
+            $("#modal-bid .modal-dialog").css("max-width", "100%");
+        }
+    });
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Auction/GetAuctionWorkList", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid-work").jsGrid({
+            width: "100%",
+            autoload: true,
+            sorting: true,
+            controller: {
+                loadData: function () {
+                    return $.ajaxUtils.getResultCode(result) === "00" ? result.data.data : null;
+                }
+            },
+            fields: headerWork,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+
+        $("#data-grid-bidder").jsGrid({
+            width: "100%",
+            autoload: true,
+            sorting: true,
+            controller: {
+                loadData: function () {
+                    return $.ajaxUtils.getResultCode(result) === "00" ? result.data.data : null;
+                }
+            },
+            fields: headerBidder,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true,
+            rowClick: function (args) {
+                if (args.item.nak_mem_uid > 0) {
+                    if ($("#row_nak_mem_name_" + args.item.nak_mem_uid.toString()).attr("data-mask") === "N") {
+                        $.commonUtils.confirm("마스킹 해제", "마스킹해제 하시겠습니까?", "showUserInfo(" + args.item.nak_mem_uid + ", 'M', " + args.item.uid + ");");
+                    }
+                }
+            }
+        });
+
+        $("#data-grid-view-room").jsGrid({
+            width: "100%",
+            autoload: true,
+            sorting: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (requestParam["scroll_top"] === "Y") {
+                            requestParam["scroll_top"] = "";
+                            $('#data-grid-view-room-cont').scrollTop(0);
+                        }
+                        var filteredList = result.data.data.filter(function (element) {
+                            return element.work_type_uid === selectedSection;
+                        });
+                        return filteredList;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: headerViewInRoom,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function getAuctionBid(work_uid, lot_num) {
+        requestBidParam["work_uid"] = work_uid;
+        requestBidParam["lot_num"] = lot_num;
+        requestBidParam["page_size"] = 5;
+        requestBidParam["page"] = 1;
+
+        $.ajaxUtils.getApiData("/api/Auction/GetAuctionBidList", requestBidParam, getAuctionBidListComplete);
+    }
+
+    function getAuctionBidCallBack() {
+        $.ajaxUtils.getApiData("/api/Auction/GetAuctionBidList", requestBidParam, getAuctionBidListComplete);
+    }
+
+    function getAuctionBidListComplete(result) {
+        $("#modal-bid-title").html('');
+        $("#data-grid-bid").html('');
+
+        $("#modal-bid").modal('show');
+        $("#modal-bid-title").html("응찰현황 (@Model.AuctionSchedule.AucTitle, Lot " + requestBidParam["lot_num"]+ ")")
+
+        $("#data-grid-bid").jsGrid({
+            width: "100%",
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        if (result.data.recordsTotal > 0) {
+                            $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                            $.paginationUtils.init({
+                                target: $(".pagination-bid"),
+                                totalCount: result.data.recordsTotal.toString(),
+                                parameters: requestBidParam,
+                                callback: getAuctionBidCallBack,
+                                page: requestBidParam["page"],
+                                pageSize: requestBidParam["page_size"],
+                                moveTop: false
+                            });
+                        } else {
+                            $('#total-record').html('총 0건');
+                        }
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: headerBid,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true,
+            rowClick: function (args) {
+                if ($("#row_mem_name_" + args.item.bid_uid.toString()).attr("data-mask") === "N") {
+                    $.commonUtils.confirm("마스킹 해제", "마스킹해제 하시겠습니까?", "showUserInfo(" + args.item.bid_uid + ", 'B');");
+                }
+            }
+        });
+    }
+
+    function showUserInfo(bidUid, type, workUid) {
+        var reqMaskingParam = {};
+        reqMaskingParam["work_uid"] = type === 'M' ? workUid : requestBidParam["work_uid"];
+        reqMaskingParam["bid_uid"] = type === 'B' ? bidUid : 0;
+        reqMaskingParam["mem_uid"] = type === 'M' ? bidUid : 0;
+        reqMaskingParam["mask_type"] = type;
+        $.ajaxUtils.getApiData("/api/Auction/GetAuctionBidList", reqMaskingParam, getMaskingUserData);
+    }
+
+    function getMaskingUserData(result, parameters) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            if (result.data.data.length > 0) {
+                var maskType = JSON.parse(parameters).mask_type;
+                var prefix = maskType === "M" ? "nak_" : "";
+                var data = result.data.data[0];
+                var bidUid = maskType === "M" ? JSON.parse(parameters).mem_uid : data.bid_uid;
+                $("#row_" + prefix + "mem_name_" + bidUid.toString()).attr("data-mask", "Y");
+                $("#row_" + prefix + "mem_name_" + bidUid.toString()).html(data.mem_name + "<br/>(" + data.mem_id + ")");
+                $("#row_" + prefix + "mem_mobile_" + bidUid.toString()).html("<div id='row_mem_mobile_" + data.bid_uid + "'>" + data.mem_mobile + "</div>");
+            }
+        }
+    }
+
+    function setAuctionBid(mode, bid_uid) {
+        $.commonUtils.confirm("취소", "응찰 내용은 함부로 취소하면 안됩니다. 계속하시겠습니까?", "setAuctionBidProc('" + mode + "'," + bid_uid + ");");
+    }
+
+    function setAuctionBidProc(mode, bid_uid) {
+        requestBidParam["mode"] = mode;
+        requestBidParam["bid_uid"] = bid_uid;
+
+        $.ajaxUtils.getApiData("/api/Auction/SetAuctionBid", requestBidParam, setAuctionBidProcComplete);
+    }
+
+    function setAuctionBidProcComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getAuctionBidCallBack();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+        return;
+    }
+
+    function getAuctionBidNak(work_uid, lot_num, work_info, price_start) {
+        $("#modal-bid-nak").modal('show');
+        $("#modal-bid-nak-title").html("@Model.AuctionSchedule.AucTitle</br>Lot " + lot_num + "  낙찰처리");
+        $("#work_info").html(work_info);
+        $("#price_bid").val(price_start);
+        $("#work_uid").val(work_uid);
+        $("#mem_uid").val("");
+        $("#data-grid-member").hide();
+        $("#member-search").show();
+        $("#member-info").hide();
+        $("#member-info").html("");
+        $("#mem_name").val("");
+    }
+
+    function setAuctionBidNak() {
+        if ($("#mem_uid").val() === "" || $("#mem_uid").val() === null) {
+            $.commonUtils.alert("회원을 선택해 주세요.");
+
+            return false;
+        }
+
+        if ($("#price_bid").val() === "" || $("#price_bid").val() === null) {
+            $.commonUtils.alert("낙찰가를 입력해 주세요.");
+
+            return false;
+        }
+
+        $.commonUtils.confirm("낙찰처리", "'" + $("#work_info").html() + "' 작품을 " + $("#member-info").html() + " 님께 " + $.stringUtils.comma( $("#price_bid").val()) + "원에 낙찰처리를 진행합니다.  계속하시겠습니까?", "setAuctionBidNakProc()");
+    }
+
+    function setAuctionBidNakProc(mode, bid_uid) {
+        requestBidNakParam["mode"] = "BIDNAK";
+        requestBidNakParam["work_uid"] = $("#work_uid").val();
+        requestBidNakParam["mem_uid"] = $("#mem_uid").val();
+        requestBidNakParam["price_bid"] = $("#price_bid").val();
+
+        $.ajaxUtils.getApiData("/api/Auction/SetAuctionBidNak", requestBidNakParam, setAuctionBidComplete);
+    }
+
+    function setAuctionBidComplete(result) {
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            getList();
+        } else {
+            $.commonUtils.alert(result.message);
+        }
+
+        return;
+    }
+
+    function getMemberList() {
+        requestMemberParam["filter"] = "name";
+        requestMemberParam["search"] = $("#mem_name").val();
+
+        $.ajaxUtils.getApiData("/api/Member/GetMemberList", requestMemberParam, getMemberListComplete);
+
+    }
+
+    function getMemberListComplete(result) {
+        $("#data-grid-member").show();
+        $("#data-grid-member").jsGrid({
+            width: "100%",
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: headerMember,
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+    function setMember(mem_uid, mem_name) {
+        $("#data-grid-member").hide();
+        $("#member-search").hide();
+        $("#member-info").show();
+        $("#member-info").html(mem_name);
+        $("#mem_uid").val(mem_uid);
+    }
+
+    function setViewInRoom(uid, type, value) {
+        let target = $("#view-in-room-" + uid);
+        var param = {};
+        if (typeof type === "string" && type === "ALL") {
+            param["value"] = value;
+            param["section_uid"] = selectedSection;
+            param["auction_uid"] = requestParam["seq"];
+        } else {
+            param["value"] = target.is(":checked") ? "Y" : "N";
+        }
+        param["work_uid"] = uid;
+        $.ajaxUtils.getApiData("/api/Auction/SetViewInRoom", param, null, false);
+        getList();
+    }
+
+    function openViewInRoom(img, width, length) {
+        $('.dim-background').remove()
+
+        let imageObj = new Image();
+        imageObj.src = img;
+
+        const cWidth = width / 700;
+        const heightC = imageObj.naturalHeight / imageObj.naturalWidth;
+
+        var width = 537;
+        var height = 358;
+
+        var layer = new Konva.Layer();
+
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height,
+        });
+
+        function drawImage(imageObj, xx, yy) {
+            let pic = new Konva.Image({
+                image: imageObj,
+                x: xx,
+                y: yy,
+                shadowColor: "rgba(0,0,0,0.5)",
+                shadowBlur: 3.5,
+                shadowOffsetX: 1.5,
+                shadowOffsetY: 1.5,
+                width: 537 * cWidth,
+                height: (537 * cWidth) *  heightC,
+                draggable: false
+            });
+
+            layer.add(pic);
+            stage.add(layer);
+        }
+
+        imageObj.onload = function() {
+            drawImage(this, stage.width() / 2 - 537 * cWidth / 2, stage.height() / 2 - (410 * cWidth) *  heightC * 1.2);
+        };
+
+        showImage();
+    }
+
+    var imgArray = new Array();
+        imgArray[0] = "/img/viewinroom/human01.png";
+        imgArray[1] = "/img/viewinroom/human02.png";
+        imgArray[2] = "/img/viewinroom/human03.png";
+        imgArray[3] = "/img/viewinroom/human04.png";
+        imgArray[4] = "/img/viewinroom/human05.png";
+
+    function showImage(){
+        var imgNum = Math.round(Math.random()*4);
+        var objImg = document.querySelector(".human-picture");
+        objImg.src = imgArray[imgNum];
+    }
+
+    function sectionList(uid) {
+        $(".section-nav").find("a").attr("class", "nav-link");
+        $("#section-" + uid.toString()).addClass("active");
+        selectedSection = parseInt($("#section-" + uid.toString()).attr("data-uid"), 10);
+        requestParam["scroll_top"] = "Y";
+        getList();
+    }
+
+    function setAuctionWorkState(uid, state) {
+        var param = {};
+        param["mode"] = "exhi_yn";
+        param["work_uid"] = uid;
+        if (state === 0) {
+            param["exhi_yn"] = "Y"
+        } else if (state === 1) {
+            param["exhi_yn"] = "U"
+        } else if (state === 2) {
+            param["exhi_yn"] = "D"
+        }
+        $.ajaxUtils.getApiData("/api/Auction/SetAuctionWork", param, null, false);
+        getList();
+    }
+
+</script>

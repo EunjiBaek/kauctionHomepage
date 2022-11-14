@@ -1,0 +1,27 @@
+﻿.search-row .text-right .form-group {
+    display: flex;
+}
+
+.search-row .text-right .form-group .btn {
+    height: 35px;
+    cursor: pointer;
+}
+
+.list-row .data-grid {
+    margin: 20px 15px 20px 15px;    
+    width: 100% !important;
+}
+
+.list-row .dataTables_wrapper {
+    width: 100%;
+}
+
+.list-row .dataTables_wrapper .dataTables_paginate {
+    width: 100%;
+}
+
+.list-row .dataTables_wrapper .paging_full_numbers .pagination {
+    margin-right: auto;
+    margin-left: auto;
+    display: table;
+}

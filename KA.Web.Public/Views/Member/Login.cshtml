@@ -1,0 +1,123 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model KA.Web.Public.ViewModels.Member.LoginViewModel
+@inject IViewLocalizer Localizer
+
+<div class="login-wrapper">
+    <div class="bg-pic">
+        <img src="/img/bg/bg_login.jpg" data-src="/img/bg/bg_login.jpg" data-src-retina="/img/bg/bg_login.jpg" alt="" class="lazy">
+        <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
+            <h5 class="semi-bold text-white">
+                "@Localizer["당신의 소장품에 가치를 더하다"]"<br />@Localizer["대한민국 대표 경매회사"]
+            </h5>
+            <h1 class="text-white">@Localizer["케이옥션"]</h1>
+            <p class="small">@Localizer["06017 서울특별시 강남구 언주로 172길 23 아트타워"] / @Localizer["문의 02-3479-8888"] @Localizer["팩스 02-3479-8889"]</p>
+        </div>
+    </div>
+    <div class="login-container bg-white">
+        <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-50 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+            <h3 class="fw-100 text-center">@Localizer["회원 로그인"]</h3>
+            <form asp-route-returnurl="@ViewBag.ReturnUrl" asp-controller="Member" asp-action="Login" id="form-login" class="p-t-15" role="form" method="post">
+                <div class="form-group form-group-default">
+                    <label>@Localizer["아이디"]</label>
+                    <div class="controls">
+                        <input asp-for="ID" type="text" class="form-control" placeholder="" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group form-group-default">
+                    <label>@Localizer["비밀번호"]</label>
+                    <div class="controls">
+                        <input asp-for="Pwd" type="password" class="form-control" placeholder="" tabindex="2">
+                    </div>
+                </div>
+                <label class="error">
+                    @Html.ValidationMessageFor(model => model.Message)
+                </label>
+                <div id="login-captcha-form" style="display: none;">
+                    <div id="login-captcha"></div>
+                    <input id="modal-login-captcha" type="password" class="form-control" maxlength="6" />
+                </div>
+                <div class="row">
+                    <div class="col-md-12 no-padding sm-p-l-10">
+                        <div class="form-check checkbox-circle primary">
+                            <input asp-for="IsSaved" type="checkbox" id="check-login" tabindex="3">
+                            <label for="check-login">@Localizer["로그인 상태 유지"]</label>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg m-t-10 m-b-10" onclick="return checkLogin();" type="submit">@Localizer["로그인"]</button>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <a asp-controller="Member" asp-action="Join" class="text-muted fs-12"><i class="far fa-plus fa-fw"></i> @Localizer["회원가입"]</a>
+                    </div>
+                    @*<div class="col-8 text-right">
+                        <a asp-controller="Member" asp-action="FindIdPass" class="text-muted fs-12"><i class="far fa-arrow-right fa-fw"></i> @Localizer["아이디/비밀번호 찾기"]</a>
+                    </div>*@
+                    <div style="display: flex; align-items: center;">
+                        <div class="text-right" style="margin-right: 12px;">
+                            <a asp-controller="Member" asp-action="FindId" class="text-muted fs-12"><i class="far fa-arrow-right fa-fw"></i> @Localizer["아이디찾기"]</a>
+                        </div>
+                        <div class="text-right">
+                            <a asp-controller="Member" asp-action="FindPass" class="text-muted fs-12"><i class="far fa-arrow-right fa-fw"></i> @Localizer["비밀번호찾기"]</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var failCnt = "@ViewBag.FailCnt";
+    var failLockTime = "@ViewBag.FailLockTime";
+
+    $(document).ready(function () {
+        $("#ID").focus();
+
+        if (failCnt !== "") {
+            if (parseInt(failCnt, 10) >= 10) {
+                $(".field-validation-error").html(ka.msg.login.fail10.replace("{LockTime}", failLockTime));
+            } else if (parseInt(failCnt, 10) >= 5) {
+                $.loginUtils.createCaptcha('login-captcha');
+                $("#login-captcha-form").show();
+                // $(".field-validation-error").html($(".field-validation-error").html() + " " + ka.msg.login.reqCaptcha);
+                $(".field-validation-error").html(parseInt(failCnt, 10) >= 8 ? ka.msg.login.fail8.replace("{Num}", failCnt).replace("{LockTime}", failLockTime) : ka.msg.login.fail5.replace("{Num}", failCnt));
+            } else if (parseInt(failCnt, 10) >= 3) {
+                $(".field-validation-error").html(ka.msg.login.fail3.replace("{Num}", failCnt));
+            }
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector(".ka-container");
+        if (container !== null) {
+            container.style.paddingTop = "0px";
+        }
+        const login = document.querySelector(".login-container");
+        if (login !== null) {
+            login.style.position = "absolute";
+            login.style.right = "0px";
+        }
+    });
+
+    $("#ID").keyup(function (e) {
+        if (!(e.keyCode >= 37 && e.keyCode <= 40)) {
+            let v = $(this).val();
+            $(this).val(v.replace(/[^a-z0-9_]/gi, ''));
+        }
+    });
+
+    function checkLogin() {
+        var captcha = $("#modal-login-captcha");
+        if ($.loginUtils.captchaMode && captcha.val().replace(/ /ig, '') === "") {
+            $(".field-validation-error").html(ka.msg.login.reqCaptcha);
+            return false;
+        } else if ($.loginUtils.captchaMode && $.loginUtils.captchaCode !== captcha.val().replace(/ /ig, '')) {
+            $(".field-validation-error").html(ka.msg.login.notMatchCaptcha);
+            return false;
+        }
+        return true;
+    }
+
+</script>
+

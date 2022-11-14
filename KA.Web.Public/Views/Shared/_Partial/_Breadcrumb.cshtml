@@ -1,0 +1,13 @@
+﻿@model string[]
+
+<div class="container container-fixed-lg sm-p-l-0 sm-p-r-0">
+    <div class="inner">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item depth-1"><a href="/"><i class="fas fa-home-lg-alt text-white"></i></a></li>
+            @foreach (var item in Model.Select((value, index) => (value, index)))
+            {
+                <li class="breadcrumb-item depth-@(item.index + 2) @((Model.Length - 1 == item.index) ? "active" : string.Empty)">@item.value</li>
+            }
+        </ol>
+    </div>
+</div>

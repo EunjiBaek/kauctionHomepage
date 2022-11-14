@@ -1,0 +1,194 @@
+﻿@using KA.Entities.Helpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer L
+@model KA.Web.Public.ViewModels.MyPage.MemberConsignViewModel
+
+<breadcrumb titles="My Page|@L["위탁내역"].Value" />
+
+<div class="container">
+    <div class="written-call-apply">
+        <div>
+            <h5>@L["위탁인 정보"]</h5>
+            <table class="apply-table">
+                <tr>
+                    <td>@L["작가명"]</td>
+                    <td>@Model.MemberConsign.Artist</td>
+                </tr>
+                <tr>
+                    <td>@L["작품명"]</td>
+                    <td>@Model.MemberConsign.Title</td>
+                </tr>
+                <tr>
+                    <td>@L["작품의 재료"]</td>
+                    <td>
+                        @if (Model.MemberConsign.MaterialCode == null){
+                            @if (!string.IsNullOrWhiteSpace(Model.MemberConsign.Material) || !Model.MemberConsign.Material.Equals("0"))
+                                {
+                                    @Html.Raw(Model.MemberConsign.Material);
+                                }
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.MemberConsign.MaterialName)
+                                @if (Model.MemberConsign.MaterialCode.Equals("007"))
+                                {
+                                    @Html.Raw(" (" + Model.MemberConsign.Material + ")")
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>@L["작품의 크기"]<span style="font-size: 12px;">(cm)</span></td>
+                    <td>
+                        @Html.Raw(Model.MemberConsign.WorkY)
+                        <span>X</span>
+                        @Model.MemberConsign.WorkX.ToString()
+                        <span>X</span>
+                        @Model.MemberConsign.WorkZ.ToString()
+                        <span>/</span>
+                        @Model.MemberConsign.Ho
+                        @L["호"]
+                    </td>
+                </tr>
+                <tr>
+                    <td>Edition</td>
+                    <td>@Model.MemberConsign.Edition</td>
+                </tr>
+                <tr>
+                    <td>@L["제작연도"]</td>
+                    <td>@Model.MemberConsign.MakeDate</td>
+                </tr>
+                <tr>
+                    <td>@L["출처"]</td>
+                    <td>@Model.MemberConsign.Desc</td>
+                </tr>
+                <tr>
+                    <td>@L["기타"]</td>
+                    <td>@Model.MemberConsign.Etc</td>
+                </tr>
+                <tr>
+                    <td>@L["작품이미지"]</td>
+                    <td class="consign-detail-img-wrap">
+                        <div id="consign-detail-img-wrap">
+                            <div class="box">
+                            @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("F")).Count() > 0)
+                            {
+                                <div class="info-tit">
+                                    @L["앞면"]
+                                </div>
+                                <article>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("F")))
+                                {
+                                    <div>
+                                        <img style="max-width: 100%; margin-bottom: 20px; display: flex;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                                </article>
+                            }
+                            </div>
+                            <div class="box">
+                            @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("B")).Count() > 0)
+                            {
+                                <div class="info-tit">
+                                    @L["뒷면"]
+                                </div>
+                                <article>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("B")))
+                                {
+                                    <div>
+                                        <img style="max-width: 100%; margin-bottom: 20px; display: flex;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                                </article>
+                            }
+                            </div>
+                            <div class="box">
+                            @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("S")).Count() > 0)
+                            {
+                                <div class="info-tit">@L["서명"]</div>
+                                <article>
+                                    @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("S")))
+                                    {
+                                        <div>
+                                            <img style="max-width: 100%; margin-bottom: 20px; display: flex;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                        </div>
+                                    }
+                                </article>
+                            }
+                            </div>
+                            <div class="box">
+                            @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("P")).Count() > 0)
+                            {
+                                <div class="info-tit">
+                                    @L["구매서류"]
+                                </div>
+                                <article>
+                                    @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("P")))
+                                    {
+                                        <div>
+                                            <img style="max-width: 100%; margin-bottom: 20px; display: flex;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                        </div>
+                                    }
+                                </article>
+                            }
+                            </div>
+                            <div class="box">
+                            @if (Model.MemberConsignImg != null && Model.MemberConsignImg.Where(x => x.Target.Equals("D")).Count() > 0)
+                            {
+                                <div class="info-tit">
+                                    @L["상세사진"]
+                                </div>
+                                @foreach (var item in Model.MemberConsignImg.Where(x => x.Target.Equals("D")))
+                                {
+                                    <div>
+                                        <img style="max-width: 100%; margin-bottom: 20px; display: flex;" src="@Config.ImageDomain/www/Consign/@Model.MemberConsign.RegDate.ToString("yyyy/MM/dd").Replace("-", "/")/@item.ImgFileName" />
+                                    </div>
+                                }
+                            } else {
+                                <div class="info-tit">
+                                    @L["상세사진"]
+                                </div>
+                                <div class="consign-detail-img-empty">@L["등록한 사진이 없습니다"]</div>
+                            }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>@L["구입가"]<span style="font-size: 12px; margin-left:3px">(KRW)</span></td>
+                    <td>
+                        @StringHelper.GetMoneyFormat(Model.MemberConsign.PricePurchase)
+                    </td>
+                </tr>
+                <tr>
+                    <td>@L["희망가"]<span style="font-size: 12px; margin-left:3px">(KRW)</span></td>
+                    <td>@StringHelper.GetMoneyFormat(Model.MemberConsign.PriceDesired)</td>
+                </tr>
+            </table>
+            <div class="consign-detail-btn-wrap">
+                <button class="btn-hg-lg btn_blue_bd_nt" onclick="deleteConsign();">@L["문의내역 삭제"]</button>
+                <button class="btn-hg-lg btn_pt" onclick="history.back();">@L["목록으로 돌아가기"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["uid"] = "@Model.MemberConsign.Uid";
+
+    function deleteConsign() {
+        $.commonUtils.confirm(ka.msg.common.delete, ka.msg.common.deleteConfirm, "deleteConsignProc()");
+    }
+
+    function deleteConsignProc() {
+        var result = $.ajaxUtils.getApiData("/api/MyPage/DelConsign", requestParam, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/myPage/inquiries/consignments";
+        } else {
+            $.commonUtils.alert(ka.msg.common.error);
+        }
+    }
+
+</script>

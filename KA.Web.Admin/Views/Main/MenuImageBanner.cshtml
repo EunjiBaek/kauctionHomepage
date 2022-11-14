@@ -1,0 +1,236 @@
+﻿@model KA.Web.Admin.ViewModels.Main.TopNoticeViewModel
+
+<style type="text/css">
+    .card-body { padding-bottom: 0px !important; }
+    .tui-timepicker { padding: 0px 0px 0px 0px; border: 0px; }
+    .tui-timepicker-select { height: 32px; }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header "><div class="card-title">배너 유형</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <div>
+                                <input type="radio" name="type" id="radio-type-v" value="V" checked="checked" param="Y" param-id="type">
+                                <label for="radio-type-v">메뉴 좌 배너</label>
+                                <input type="radio" name="type" id="radio-type-m" value="M">
+                                <label for="radio-type-m">메뉴 우 배너</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header"><div class="card-title">기본 정보</div></div>
+            <div class="card-body">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>게시할 이미지 <span class="fs-11">- 가로세로 1:1 비율 이미지로 업로드 하세요. (ex.180x180)</span></label>
+                                <input id="image" type="file" class="form-control" param="Y" />
+                                @if (Model.Notice.Uid > 0)
+                                {
+                                    <img src="@Config.ImageDomain/www/Notice/@Model.Notice.Image" style="max-width: 300px; margin-top: 10px;" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>링크</label>
+                                <input id="link" type="text" class="form-control" value="@Model.Notice.Link" param="Y" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>링크(target)</label>
+                                <div>
+                                    <input type="radio" name="target" id="radio-blank" value="_blank" checked="checked" param="Y" param-id="target">
+                                    <label for="radio-blank">새창 열기</label>
+                                    <input type="radio" name="target" id="radio-self" value="_self">
+                                    <label for="radio-self">현재창 열기</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header "><div class="card-title">게시 정보</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>게시 시작일자</label>
+                            <div>
+                                <div class="m-r-10" style="float: left;">
+                                    <input id="start_date" type="text" class="form-control datepicker" data-date-format="yyyy-mm-dd" value="@Model.Notice.StartDate.ToString("yyyy-MM-dd")" param="Y" />
+                                </div>
+                                <div class="m-r-10" id="start_time" style="float: left;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>게시 종료 일자</label>
+                            <div>
+                                <div class="m-r-10" style="float: left;">
+                                    <input id="end_date" type="text" class="form-control datepicker" data-date-format="yyyy-mm-dd" value="@Model.Notice.EndDate.ToString("yyyy-MM-dd")" param="Y" />
+                                </div>
+                                <div class="m-r-10" id="end_time" style="float: left;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header "><div class="card-title">게시 유형</div></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>대상 사이트 <span class="fs-11">- 사용 선택 시 기존 사용 설정 배너는 사용 안 함으로 변경됩니다.</span></label>
+                            <div>
+                                <input type="radio" name="use_flag" id="radio-all" value="A" checked="checked" param="Y" param-id="use_flag">
+                                <label for="radio-all">사용</label>
+                                <input type="radio" name="use_flag" id="radio-none" value="X">
+                                <label for="radio-none">사용안함</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Notice.Uid > 0)
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-check">
+                                <input type="checkbox" id="initReadCount" value="Y">
+                                <label for="initReadCount">조회수 초기화</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="card-footer">
+                <button class="btn btn-secondary" onclick="window.location = '/Main/MenuImageBanner';">목록</button>
+                <button id="btnSave" class="btn btn-primary" onclick="save();">@(Model.Uid.Equals("0") ? "저장" : "수정")</button>
+                @if (Model.Notice.Uid > 0)
+                {
+                    <button class="btn btn-danger" onclick="del();">삭제</button>
+                }
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="uid" value="@Model.Notice.Uid" param="Y" />
+    <input type="hidden" id="image_original" value="@Model.Notice.Image" param="Y" />
+</div>
+<script>
+
+    var uid = "@Model.Notice.Uid";
+    var target = "@Model.Notice.Target";
+    var useFlag = "@Model.Notice.UseFlag";
+    var type = "@Model.Notice.Type";
+    var todayFlag = "@Model.Notice.TodayFlag";
+    var targetMenuUid = "@Model.Notice.TargetMenuUid";
+
+    var param = {};
+
+    $(document).ready(function () {
+        if (uid === "0") {
+            $('input:radio[name=target]:input[value=_blank]').attr("checked", true);
+            $('input:radio[name=use_flag]:input[value=A]').attr("checked", true);
+            $('input:radio[name=type]:input[value=V]').attr("checked", true);
+            type = "L";
+        } else {
+            $('input:radio[name=target]:input[value=' + target + ']').attr("checked", true);
+            $('input:radio[name=use_flag]:input[value=' + useFlag + ']').attr("checked", true);
+            $('input:radio[name=type]:input[value=' + type + ']').attr("checked", true);
+        }
+
+        new tui.TimePicker('#start_time', {
+            initialHour: uid === "0" ? 0 : @Model.Notice.StartDate.Hour,
+            initialMinute: uid === "0" ? 0 : @Model.Notice.StartDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+        new tui.TimePicker('#end_time', {
+            initialHour: uid === "0" ? 23 : @Model.Notice.EndDate.Hour,
+            initialMinute: uid === "0" ? 59 : @Model.Notice.EndDate.Minute,
+            inputType: 'selectbox',
+            showMeridiem: false
+        });
+    });
+
+    function save() {
+        if (uid === "0" && $("#image").val() === "") {
+            $.commonUtils.alert("이미지를 선택하세요.");
+            return false;
+        }
+
+        if ($("#start-date").val() === "") {
+            $.commonUtils.alert("게시 시작일을 선택하세요.");
+            return false;
+        }
+
+        var msg = $("#btnSave").text();        
+        $.commonUtils.confirm(msg, msg + "하시겠습니까?", "saveProc();");
+    }
+
+    function saveProc() {
+        param["uid"] = uid;
+        param["type"] = $('input:radio[name=type]:checked').val();
+
+        if (uid === "0" || (uid !== "" && $("#image").val() !== "")) {
+            var uploadResult = $.ajaxUtils.getUploadData("image", "/api/File/Upload/Notice");
+            if (uploadResult["result"]) {
+                param["upload_image"] = uploadResult.file_info.filename;
+            } else {
+                $.commonUtils.alert("파일 업로드 중 오류가 발생하였습니다. 잠시 후 다시 진행하시기 바랍니다.");
+                return false;
+            }
+        }
+
+        param = $.ajaxUtils.setParameter(param);
+
+        // 시간 처리
+        var startHour = $("#start_time").find(".tui-timepicker-hour select");
+        var startMinute = $("#start_time").find(".tui-timepicker-minute select");
+        if (startHour.length > 0 && startMinute.length > 0) {
+            param["start_date"] = param["start_date"] + " " + (startHour[0].value.length > 1 ? startHour[0].value : "0" + startHour[0].value) + ":" + (startMinute[0].value.length > 1 ? startMinute[0].value : "0" + startMinute[0].value);
+        }
+        var endHour = $("#end_time").find(".tui-timepicker-hour select");
+        var endMinute = $("#end_time").find(".tui-timepicker-minute select");
+        if (endHour.length > 0 && endMinute.length > 0) {
+            param["end_date"] = param["end_date"] + " " + (endHour[0].value.length > 1 ? endHour[0].value : "0" + endHour[0].value) + ":" + (endMinute[0].value.length > 1 ? endMinute[0].value : "0" + endMinute[0].value);
+        }
+
+        // 조회수 초기화
+        param["init_read_count"] = $('#initReadCount').is(":checked") ? "Y" : "";
+
+        var result = $.ajaxUtils.getApiData("/api/Main/SetNotice", param, null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Main/MenuImageBanner";
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+    function del() {
+        $.commonUtils.confirm("삭제", "삭제하시겠습니까?", "delProc();");
+    }
+
+    function delProc() {
+        var result = $.ajaxUtils.getApiData("/api/Main/DelNotice", $.ajaxUtils.setParameter(param), null, false);
+        if ($.ajaxUtils.getResultCode(result) === "00") {
+            window.location.href = "/Main/MenuImageBanner";
+        } else {
+            $.commonUtils.alert("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도하시기 바랍니다.");
+        }
+    }
+
+</script>

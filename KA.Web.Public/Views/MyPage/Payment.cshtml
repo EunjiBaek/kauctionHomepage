@@ -1,0 +1,1643 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject KA.Web.Public.Services.CommonService commonService
+@inject IViewLocalizer L
+@{
+    var primaryAddress = commonService.GetMemPrimaryAddress();
+}
+<!-- START MODAL -->
+<partial name="~/Views/Shared/_ModalAuctionPartial.cshtml" />
+<!-- END MODAL -->
+
+<template id="work_list">
+    <div class="card_list_wrap">
+        <h3 class="auc_title"></h3>
+        <div class="card_list">
+            <div class="checkbox">
+                <div class="cir_check_wrap">
+                    <input type="checkbox" id="auc_check_" name="auc_list_check_input" data-value="N">
+                    <label for="auc_check_"><div><i class="fas fa-check"></i></div></label>
+                </div>
+            </div>
+            <div class="auc_info">
+                <div class="img"><img class="w_image" /></div>
+                <div class="detail"><p class="w_name"></p><p class="sub_name"></p></div>
+            </div>
+            <div class="price_wrap">
+                <div class="price_list_box">
+                    <div class="tit">낙찰금액</div>
+                    <div class="cnt"><p class="price price_successful_bid">10,500,000 원</p><div class="payment_state">결제 대기</div></div>
+                </div>
+                <!--//낙찰금액-->
+                <!--낙찰수수료-->
+                <div class="price_list_box">
+                    <div class="tit">낙찰 수수료<span>(VAT 포함)</span></div>
+                    <div class="cnt"><p class="price buy_comm_sum"></p><div class="payment_state">결제 대기</div></div>
+                </div>
+                <!--//낙찰수수료-->
+                <!--기타비용-->
+                <div class="price_list_box">
+                    <div class="tit">기타 비용</div>
+                    <div class="cnt"><p class="price etc_fee"></p><div class="payment_state">결제 대기</div></div>
+                </div>
+                <!--//기타비용-->
+            </div>
+        </div>
+    </div>
+</template>
+
+<div class="container">
+    <div class="mypage_wrap">
+        <div class="right_area tab_cnt">
+            <div class="mypage_tab">
+                <!-- TAB MENU -->
+                <div class="btn_wrap b02 tab_btn">
+                    <ul>
+                        <li class="active"><a href="#">@L["결제 및 출고요청"]</a></li>
+                        <li><a href="#">@L["결제 및 출고요청 내역"]</a></li>
+                    </ul>
+                </div>
+                <div class="btn_content b02 tab_cnt">
+                    <!-- 결제 및 출고요청-->
+                    <div class="cnt_01">
+                        <div class="step_wrap">
+                            <ul>
+                                <li class="payment-step-item"><p>@L["수령방식 선택"]</p><span class="circle">1</span></li>
+                                <li class="payment-step-item"><p>@L["출고정보 입력"]</p><span class="circle">2</span></li>
+                                <li class="payment-step-item"><p>@L["출고작 선택"]</p><span class="circle">3</span></li>
+                                <li class="payment-step-item"><p>@L["결제 진행"]</p><span class="circle">4</span></li>
+                                <li class="payment-step-item"><p>@L["결제 및 출고요청 완료"]</p><span class="circle">5</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <form id="payment-req-form" action="">
+                                <!-- 1. 수령방식 선택 -->
+                                <div class="cnt_detail d01">
+                                    <p>@L["작품 수령 방식을 선택하세요"]</p>
+                                    <div class="delivery_check">
+                                        <a href="javascript:$.commonUtils.modalAuctionOpen('.modal-auction-shipping');">@L["배송 관련 안내 확인하기"]</a>
+                                    </div>
+                                    <div class="delivery_select tab_btn">
+                                        <ul>
+                                            <li class="active" onclick="nextPrev(1)">
+                                                <a href="#">
+                                                    <div class="tit">@L["케이옥션 배송서비스를<br />이용할게요"]</div>
+                                                    <div class="img"></div>
+                                                    <p>@L["서울 5만원, 수도권 10만원 <br />그 외 국내지역 15만원"]</p>
+                                                </a>
+                                                <div class="white_dim"></div>
+                                            </li>
+                                            <li onclick="nextPrev(1)">
+                                                <a href="#">
+                                                    <div class="tit">@L["케이옥션에 방문하여<br />직접 수령 할게요"]</div>
+                                                    <div class="img"></div>
+                                                    <p>@L["당사 내방 직접 수령은 배송비 0원 <br />명품/악기류는 직접 수령 필수"]</p>
+                                                </a>
+                                                <div class="white_dim"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- 2. 출고정보 입력 -->
+                                <div class="cnt_detail d02">
+                                    <p>@L["출고작 수령지 정보를 입력하세요"]</p>
+                                    <div class="table_wrap">
+                                        <div>
+                                            <table class="mypage_table">
+                                                <tr>
+                                                    <td>@L["품 명"]</td>
+                                                    <td class="work_name">
+                                                        @*이배 외 2점<br />(요청번호 : 20210629-01)*@
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["받는사람"]</td>
+                                                    <td>
+                                                        <input id="receiver" class="default_type" type="text" value="@primaryAddress.Receiver">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["배송주소"]</td>
+                                                    <td>@primaryAddress.ZipCode @primaryAddress.Address @primaryAddress.Address2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["연락처"]</td>
+                                                    <td>
+                                                        <input id="contact" class="default_type" type="tel" value="@primaryAddress.Contact.Replace("-", "")">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table class="mypage_table">
+                                                <tr>
+                                                    <td>@L["출고희망일"]</td>
+                                                    <td>
+                                                        <div class="select_date">
+                                                            <input id="desired_date_1" type="text" class="choice_date flatpickr-input" readonly="readonly" placeholder="@L["희망일"] 1" />
+                                                            <div class="icon"></div>
+                                                        </div>
+                                                        <div class="select_date">
+                                                            <input id="desired_date_2" type="text" class="choice_date flatpickr-input" readonly="readonly" placeholder="@L["희망일"] 2" />
+                                                            <div class="icon"></div>
+                                                        </div>
+                                                        <ul class="table_list">
+                                                            <li><span>•</span><p>@L["지역에 따라 선택가능한 배송희망일이 상이할 수 있습니다."]</p></li>
+                                                            <li><span>•</span><p>@L["일요일, 국,공휴일은 배송 불가합니다."]</p></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <table class="mypage_table">
+                                                <tr>
+                                                    <td>@L["엘리베이터"]</td>
+                                                    <td>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="elevator_01" type="radio" name="elevator_check" checked="" value="0" />
+                                                            <label for="elevator_01"><p class="tit">@L["없음"]</p><div><span></span></div></label>
+                                                        </div>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="elevator_02" type="radio" name="elevator_check" value="1" />
+                                                            <label for="elevator_02"><p class="tit">@L["1~7인승"]</p><div><span></span></div></label>
+                                                        </div>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="elevator_03" type="radio" name="elevator_check" value="8" />
+                                                            <label for="elevator_03"><p class="tit">@L["8~10인승"]</p><div><span></span></div></label>
+                                                        </div>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="elevator_04" type="radio" name="elevator_check" value="11" />
+                                                            <label for="elevator_04"><p class="tit">@L["11인승"]</p><div><span></span></div></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["차량 진입"]</td>
+                                                    <td>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="transfer_01" type="radio" name="transfer_check" checked="" value="Y" />
+                                                            <label for="transfer_01"><p class="tit">@L["진입 가능"]</p><div><span></span></div></label>
+                                                        </div>
+                                                        <div class="radio_btn_wrap">
+                                                            <input id="transfer_02" type="radio" name="transfer_check" value="N">
+                                                            <label for="transfer_02"><p class="tit">@L["진입 불가"]</p><div><span></span></div></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["사다리차"]</td>
+                                                    <td>
+                                                        @L["작품에 따라 엘리베이터가 없거나 계단폭이 좁은 경우, 사다리차가 필요합니다. 사다리차 이용이 필요한 경우 고객님 부담입니다. 이에 동의하십니까?"]
+                                                        <div class="check_wrap">
+                                                            <input class="default" type="checkbox" id="ladder_check" value="Y">
+                                                            <label for="ladder_check"><div><i class="fas fa-check"></i></div><p>@L["동의합니다"]</p></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["기타 메모"]</td>
+                                                    <td><textarea class="default_type_textarea" id="memo" cols="30" rows="10" placeholder="@L["배송에 관해 추가 전달 사항이 있으면 남겨주세요."]"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@L["설치 여부"]</td>
+                                                    <td>
+                                                        <div class="set_check_wrap">
+                                                            <div class="radio_btn_wrap">
+                                                                <input id="set_01" type="radio" name="set_check" checked="" value="Y" />
+                                                                <label for="set_01"><p class="tit">@L["설치함"]</p><div><span></span></div></label>
+                                                            </div>
+                                                            <div class="radio_btn_wrap">
+                                                                <input id="set_02" type="radio" name="set_check" value="N">
+                                                                <label for="set_02"><p class="tit">@L["설치 안함"]</p><div><span></span></div></label>
+                                                            </div>
+                                                        </div>
+                                                        <ul class="table_list" style="margin-left: -4px;">
+                                                            <li>
+                                                                <span>•</span>
+                                                                <p>@L["당사 낙찰 작품에 한하여 설치 요청 가능하며, <a>설치 시 추가 비용이 발생</a>합니다."]</p>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!--//출고작 수령지 정보 임시주석처리-->
+                                        <!--출고작 방문수령 정보-->
+                                        @* <div>
+                                            <table class="mypage_table">
+
+                                            <tr>
+                                            <td>출고 희망일</td>
+                                            <td>
+                                            <div class="select_date">
+                                            <span>픽업 희망일 선택</span>
+                                            <i class="fas fa-check"></i>
+                                            </div>
+
+                                            <select class="default_select" name="" id="">
+                                            <option value="">픽업 희망시간 선택</option>
+                                            <option value="">02:00</option>
+                                            <option value="">04:00</option>
+                                            </select>
+
+                                            </td>
+                                            </tr>
+
+
+                                            <tr>
+                                            <td>기타 메모</td>
+                                            <td>
+                                            <textarea class="default_type_textarea" name="" id="" cols="30" rows="10"
+                                            placeholder="배송에 관해 추가
+                                            전달
+                                            사항이 있으면 남겨주세요."></textarea>
+
+                                            <ul class="table_list released">
+                                            <li>
+                                            <span>•</span>
+                                            <p>방문을 원하시는 날짜 하루 전 오후 5시까지 픽업 예약이 가능합니다.</p>
+                                            </li>
+                                            <li>
+                                            <span>•</span>
+                                            <p>5시 이후의 예약은 익일 방문신청이 불가합니다.</p>
+                                            </li>
+                                            <li>
+                                            <span>•</span>
+                                            <p>픽업 가능 요일 : 월~금 (휴일제외)</p>
+                                            </li>
+                                            <li>
+                                            <span>•</span>
+                                            <p>출고 요청 없이 방문시 출고가 불가합니다.</p>
+                                            </li>
+                                            </ul>
+                                            </td>
+                                            </tr>
+
+                                            </table>
+                                            </div> *@
+                                        <!--//출고작 방문수령 정보-->
+                                    </div>
+                                    <div class="step_btn_wrap">
+                                        <button type="button" class="prev_btn btn_gray" onclick="nextPrev(-1)">@L["이전단계"]</button>
+                                        <button type="button" class="btn_blue next_btn" onclick="nextPrev(1)">@L["다음단계"]</button>
+                                    </div>
+                                </div>
+                                <!-- 3. 출고작 선택 -->
+                                <div class="cnt_detail d03">
+                                    <p>작품 별 비용을 확인하고 출고요청 작품을 선택하세요</p>
+                                    <div class="filter_wrap">
+                                        <div class="top">
+                                            <div class="checkbox_wrap">
+                                                <div>
+                                                    <input class="default" type="checkbox" id="auc_filter_all_check" checked="checked" value="0">
+                                                    <label for="auc_filter_all_check"><div><i class="fas fa-check"></i></div><p>전체</p></label>
+                                                </div>
+                                                <div>
+                                                    <input class="default" type="checkbox" name="auc_filter" id="auc_filter_01" checked="checked" value="1">
+                                                    <label for="auc_filter_01"><div><i class="fas fa-check"></i></div><p>메이저</p></label>
+                                                </div>
+                                                <div>
+                                                    <input class="default" type="checkbox" name="auc_filter" id="auc_filter_02" checked="checked" value="2">
+                                                    <label for="auc_filter_02"><div><i class="fas fa-check"></i></div><p>프리미엄</p></label>
+                                                </div>
+                                                <div>
+                                                    <input class="default" type="checkbox" name="auc_filter" id="auc_filter_03" checked="checked" value="4">
+                                                    <label for="auc_filter_03"><div><i class="fas fa-check"></i></div><p>위클리</p></label>
+                                                </div>
+                                            </div>
+                                            <div class="pay">
+                                                <div class="radio_btn_wrap">
+                                                    <input id="payment_state_check_01" type="radio" name="payment_state_check" value="0">
+                                                    <label for="payment_state_check_01"><p class="tit">결제완료</p><div><span></span></div></label>
+                                                </div>
+                                                <div class="radio_btn_wrap">
+                                                    <input id="payment_state_check_02" type="radio" name="payment_state_check" checked="checked" value="1">
+                                                    <label for="payment_state_check_02"><p class="tit">미결제</p><div><span></span></div></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <span>조회기간</span>
+                                                <div class="select_date">
+                                                    <input type="text" class="calendar flatpickr-input" data-id="range" readonly="readonly" value="조회기간 선택">
+                                                    <div class="icon"></div>
+                                                </div>
+                                            </div>
+                                            <div class="search_wrap">
+                                                <span>검색어</span>
+                                                <div class="search_area">
+                                                    <input class="search_default" id="search_keyword" type="search" placeholder="작가 또는 작품 명 입력" onkeydown="checkSearch(event);">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                                <button type="button" class="filter_search_btn" onclick="getPaymentWorkList();">찾기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="auc_list_wrap"></div>
+                                    @*<div class="auc_list_wrap">
+                                            <!--메이저 경매-->
+                                            <div class="card_list_wrap">
+                                                <h3>2021-01-13 메이저</h3>
+                                                <!--결제대기-->
+                                                <div class="card_list wait">
+                                                    <div class="checkbox">
+                                                        <div class="cir_check_wrap">
+                                                            <input type="checkbox" id="auc_check_01" name="auc_list_check_input" data-value="N">
+                                                            <label for="auc_check_01"><div><i class="fas fa-check"></i></div></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="auc_info">
+                                                        <div class="img"><img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" /></div>
+                                                        <div class="detail"><p class="w_name">LOT1. 미스터두들</p><p class="sub_name">Bunny Hoop</p></div>
+                                                    </div>
+                                                    <div class="price_wrap">
+                                                        <!--낙찰금액-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">낙찰금액</div>
+                                                            <div class="cnt"><p class="price">10,500,000 원</p><div class="payment_state">결제 대기</div></div>
+                                                        </div>
+                                                        <!--//낙찰금액-->
+                                                        <!--낙찰수수료-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">낙찰 수수료<span>(VAT 포함)</span></div>
+                                                            <div class="cnt"><p class="price">10,500,000 원</p><div class="payment_state">결제 대기</div></div>
+                                                        </div>
+                                                        <!--//낙찰수수료-->
+                                                        <!--기타비용-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">기타 비용</div>
+                                                            <div class="cnt"><p class="price">1,000 원</p><div class="payment_state">결제 대기</div></div>
+                                                        </div>
+                                                        <!--//기타비용-->
+                                                    </div>
+                                                </div>
+                                                <!--//결제대기-->
+                                                <!--결제완료-->
+                                                <div class="card_list">
+                                                    <div class="checkbox">
+                                                        <div class="cir_check_wrap">
+                                                            <input type="checkbox" id="auc_check_02"
+                                                                   name="auc_list_check_input" data-value="N">
+                                                            <label for="auc_check_02">
+                                                                <div><i class="fas fa-check"></i></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="auc_info">
+                                                        <div class="img">
+                                                            <img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" />
+                                                        </div>
+                                                        <div class="detail">
+                                                            <p class="w_name">LOT1. 미스터두들</p>
+                                                            <p class="sub_name">Bunny Hoop</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="price_wrap">
+
+                                                        <!--낙찰금액-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                낙찰금액
+                                                            </div>
+                                                            <div class="cnt complete">
+                                                                <p class="price">10,500,000 원</p>
+                                                                <div class="payment_state complete">
+                                                                    결제 완료
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//낙찰금액-->
+                                                        <!--낙찰수수료-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                낙찰 수수료
+                                                                <span>(VAT 포함)</span>
+                                                            </div>
+                                                            <div class="cnt complete">
+                                                                <p class="price">10,500,000 원</p>
+                                                                <div class="payment_state complete">
+                                                                    결제 완료
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//낙찰수수료-->
+                                                        <!--기타비용-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                기타 비용
+                                                            </div>
+                                                            <div class="cnt complete">
+                                                                <p class="price">1,000 원</p>
+                                                                <div class="payment_state complete">
+                                                                    결제 완료
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//기타비용-->
+                                                    </div>
+                                                </div>
+                                                <!--//결제완료-->
+                                            </div>
+                                            <!--//메이저 경매-->
+                                            <!--프리미엄-->
+                                            <div class="card_list_wrap">
+                                                <h3>2021-01-13 프리미엄</h3>
+
+                                                <!--악기상품 결제대기-->
+                                                <div class="card_list wait">
+
+                                                    <div class="checkbox">
+                                                        <div class="cir_check_wrap">
+                                                            <input type="checkbox" id="auc_check_03"
+                                                                   name="auc_list_check_input" data-value="N">
+                                                            <label for="auc_check_03">
+                                                                <div><i class="fas fa-check"></i></div>
+                                                            </label>
+                                                        </div>
+
+                                                        <!--툴팁-->
+                                                        <div class="cardLIst_tooltip">
+                                                            <div class="caret_up">
+                                                            <span></span>
+                                                            </div>
+                                                            <p>메이저 경매 낙찰작은 홈페이지 결제 불가입니다. 오프라인에서 결제 후 출고요청 바랍니다.
+                                                            </p>
+                                                            </div>
+
+                                                    </div>
+                                                    <div class="auc_info">
+                                                        <div class="img">
+                                                            <img src="https://images.k-auction.com/www/Work/0147/M0147036001.jpg" />
+                                                        </div>
+                                                        <div class="detail">
+                                                            <p class="w_name">LOT1. 미스터두들</p>
+                                                            <p class="sub_name">Bunny Hoop</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="price_wrap">
+                                                        <!--낙찰금액-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                낙찰금액
+                                                            </div>
+                                                            <div class="cnt">
+                                                                <p class="price">10,500,000 원</p>
+                                                                <div class="payment_state">
+                                                                    결제 대기
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//낙찰금액-->
+                                                        <!--낙찰수수료-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                낙찰 수수료
+                                                                <span>(VAT 포함)</span>
+                                                            </div>
+                                                            <div class="cnt">
+                                                                <p class="price">10,500,000 원</p>
+                                                                <div class="payment_state">
+                                                                    결제 대기
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//낙찰수수료-->
+                                                        <!--기타비용-->
+                                                        <div class="price_list_box">
+                                                            <div class="tit">
+                                                                기타 비용
+                                                            </div>
+                                                            <div class="cnt">
+                                                                <p class="price">1,000 원</p>
+                                                                <div class="payment_state">
+                                                                    결제 대기
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--//기타비용-->
+                                                    </div>
+                                                </div>
+                                                <!--//악기상품 결제대기-->
+                                            </div>
+                                            <!--//프리미엄-->
+                                        </div>*@
+
+                                    <div class="sum_wrap">
+                                        <div class="sum_wrap_left">
+                                            <p>낙찰금액 + 낙찰 수수료 (VAT포함) : <span id="successful_bid_price">0</span> 원</p>
+                                            <p>배송료 : <span id="etc_fee_price">0</span> 원</p>
+                                        </div>
+                                        <div class="sum_wrap_right">
+                                            <span>총 결제금액</span>
+                                            <strong><span class="total_price">0</span>원</strong>
+                                        </div>
+                                    </div>
+                                    <div class="step_btn_wrap">
+                                        <button type="button" class="prev_btn btn_gray" onclick="nextPrev(-1)">이전단계</button>
+                                        <button class="btn_blue next_btn" type="button" onclick="nextPrev(1)">결제 및 출고 요청</button>
+                                    </div>
+                                </div>
+                                <!-- 4. 결제 진행 -->
+                                <div class="cnt_detail d04">
+                                    <p>@L["‘<span id='selected_work'></span>’에 대한 결제 방법을 선택하세요"]</p>
+                                    <div class="description">@L["전체 금액을 가상계좌로 입금 희망 시 → [통합 결제] 선택 <br />낙찰가만 가상계좌 입금 후 수수료/배송비는 기타 수단으로 결제 희망 시 → [복합 결제] 선택"]</div>
+                                    <div class="pay_wrap">
+                                        <div class="pay_tab_wrap tab_btn">
+                                            <ul>
+                                                <li class="active">@L["통합결제"]<div class="check"><i class="fas fa-check"></i></div></li>
+                                                <li>@L["복합 결제"]<div class="check"><i class="fas fa-check"></i></div></li>
+                                            </ul>
+                                        </div>
+                                        <div class="pay_tab_cnt">
+                                            <!--통합결제-->
+                                            <div class="pay_tab_cnt c01">
+                                                <div class="box">
+                                                    <div class="pay_list_box">
+                                                        <div class="tit">@L["낙찰금액"]</div>
+                                                        <div class="cnt"><p class="price price_successful_bid"></p></div>
+                                                    </div>
+                                                    <div class="pay_list_box">
+                                                        <div class="tit">@L["낙찰 수수료<span>(VAT 포함)</span>"]</div>
+                                                        <div class="cnt"><p class="price buy_comm_sum"></p></div>
+                                                    </div>
+                                                    <div class="pay_list_box">
+                                                        <div class="tit">@L["기타 비용"]</div>
+                                                        <div class="cnt"><p class="price etc_fee"></p></div>
+                                                    </div>
+                                                    <div class="pay_list_box">
+                                                        <div class="tit">@L["배송료"]</div>
+                                                        <div class="cnt"><p class="price"></p></div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay_sum_wrap">
+                                                    <span>@L["총 결제 금액"]</span>
+                                                    <strong><span class="total_price"></span>원</strong>
+                                                </div>
+                                                <div class="pay_btn_wrap"><button type="button">@L["결제 및 출고 요청"]</button></div>
+                                            </div>
+                                            <!--//통합결제-->
+                                            <!--복합결제-->
+                                            <div class="pay_tab_cnt c02">
+                                                <p>@L["복합 결제의 경우 낙찰금액 먼저 진행해주시기 바랍니다."]</p>
+                                                <!--금액정보-->
+                                                <div class="pay_info">
+                                                    <!--요청전-->
+                                                    @*<div class="pay_info_left">
+                                                            <div class="pay_list_box">
+                                                                <div class="tit">
+                                                                    낙찰금액
+                                                                </div>
+                                                                <div class="cnt">
+                                                                    <p class="price">10,500,000 원</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <p>가상계좌 입금만 가능</p>
+
+                                                            <button class="pay_btn">
+                                                                <p>낙찰금액 결제</p>
+                                                            </button>
+                                                        </div>*@
+                                                    <!--//요청전-->
+                                                    <!--요청후-->
+                                                    <div class="pay_info_left request">
+                                                        <div class="pay_list_box">
+                                                            <div class="tit">낙찰금액</div>
+                                                            <div class="cnt"><p class="price total_price_successful_bid"></p></div>
+                                                        </div>
+                                                        <button type="button" class="pay_btn">
+                                                            <p>결제 완료</p>
+                                                            <p class="date">2022/07/01 12:32:12 <br />가상계좌 입금</p>
+                                                        </button>
+                                                        <div class="dim"></div>
+                                                    </div>
+                                                    <!--//요청후-->
+                                                    <div class="pay_info_right">
+                                                        <div class="box_wrap">
+                                                            <div class="pay_list_box">
+                                                                <div class="tit">낙찰 수수료<span>(VAT 포함)</span></div>
+                                                                <div class="cnt"><p class="price total_buy_comm_sum"></p></div>
+                                                            </div>
+                                                            <div class="pay_list_box">
+                                                                <div class="tit">기타 비용</div>
+                                                                <div class="cnt"><p class="price total_etc_fee_price">0 원</p></div>
+                                                            </div>
+                                                            <div class="pay_list_box">
+                                                                <div class="tit">배송료</div>
+                                                                <div class="cnt"><p class="price">0 원</p></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="m-t-10">
+                                                            <div class="radio_btn_wrap">
+                                                                <input id="pay_card" type="radio" name="pay_check" checked="checked" value="nxca_jt_il" />
+                                                                <label for="pay_card"><p class="tit">@L["신용카드"]</p><div><span></span></div></label>
+                                                            </div>
+                                                            <div class="radio_btn_wrap">
+                                                                <input id="pay_account" type="radio" name="pay_check" value="nx_mid_il" />
+                                                                <label for="pay_account"><p class="tit">@L["가상계좌(무통장입금)"]</p><div><span></span></div></label>
+                                                            </div>
+                                                        </div>
+                                                        <p style="margin-top: 7px;">
+                                                            <span>금액 합계</span>
+                                                            <strong><span class="total_price_without_successful_bid_price"></span>원</strong>
+                                                        </p>
+
+                                                        @*<button type="button" class="standby">
+                                                            <p>낙찰금액 결제 후 이용해주세요</p>
+                                                        </button>*@
+                                                        <button type="button" class="pay_btn" onclick="pay_proc();">
+                                                            <p>낙찰금액 외 결제 및 출고요청</p>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!--//금액정보-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step_btn_wrap"><button type="button" class="prev_btn btn_gray" onclick="nextPrev(-1)">@L["이전단계"]</button></div>
+                                </div>
+                                <!--5 탭내용 결제및 출고요청 완료-->
+                                <div class="cnt_detail d05">
+                                    <p>출고작 수령지 정보를 입력하세요</p>
+
+
+                                    <div class="table_wrap">
+                                        <div>
+                                            <table class="mypage_table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>품 명</td>
+                                                        <td class="work_name">
+                                                            이배 외 2점<br>
+                                                            (요청번호 : 20210629-01)
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>받는사람</td>
+                                                        <td>
+                                                            장원철
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>배송주소</td>
+                                                        <td>
+                                                            서울시 서대문구 충정로 3가 3-52번지 202호
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>연락처</td>
+                                                        <td>
+                                                            01099865930
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <table class="mypage_table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>엘리베이터</td>
+                                                        <td>없음</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>차량 진입</td>
+                                                        <td>
+                                                            진입 가능
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>설치 여부</td>
+                                                        <td>
+                                                            설치 희망
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div>
+                                            <table class="mypage_table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>출고 희망일</td>
+                                                        <td class="hope_date">
+                                                            <div>
+                                                                <div>1희망일 2021/12/12</div>
+                                                                <div>2희망일 2021/12/12</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>기타 메모</td>
+                                                        <td>
+                                                            집에 아무도 없을 수 있으니 출발하실 때 미리 연락주시면 감사드리겠습니다.
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <table class="mypage_table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>결제 정보</td>
+                                                        <td>
+                                                            복합결제 <br />
+                                                            낙찰금액 2021/12/12 14:32:21
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>기타 메모</td>
+                                                        <td>
+                                                            집에 아무도 없을 수 있으니 출발하실 때 미리 연락주시면 감사드리겠습니다.
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <div class="mypage_work_table">
+                                                <table class="mypage_work_table" style="margin-top: 20px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>경매정보</th>
+                                                            <th>작품정보</th>
+                                                            <th>결제 상세</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                2021-01-13 <br />
+                                                                프리미엄
+                                                            </td>
+
+                                                            <td class="work_info">
+                                                                <div>
+                                                                    <div class="img">
+                                                                        <img src="https://images.k-auction.com/www/Work/0147/M0147001001.jpg">
+                                                                    </div>
+                                                                    <div class="work_detail">
+                                                                        <strong>LOT35. 이배</strong>
+                                                                        <span>무제</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="pay_detail_wrap">
+                                                                <ul class="pay_detail">
+                                                                    <li>
+                                                                        <span class="key">낙찰 금액</span>
+                                                                        <span class="value">594,000</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="key">낙찰 수수료</span>
+                                                                        <span class="value">594,000</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="key">배송비</span>
+                                                                        <span class="value">594,000</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pay_sum">
+                                        결제 완료 금액<span>2,622,000 원</span>
+                                    </div>
+
+                                    <div class="btn_wrap">
+                                        <button type="button" class="mypage_btn cash_receipt btn_blue">
+                                            현금영수증 발행
+                                            신청
+                                        </button>
+                                        <button type="button" class="mypage_btn tax_invoice btn_blue">
+                                            세금계산서 발행
+                                            신청
+                                        </button>
+                                        <button type="button" class="mypage_btn check_details btn_blue">
+                                            결제 및 출고요청 내역
+                                            확인
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <!--//5 탭내용 결제및 출고요청 완료-->
+                            </form>
+                        </div>
+                        <div class="precautions_wrap">
+                            <h5><img src="/img/icons/join_info.png" alt="">@L["결제 및 출고요청 관련 유의사항"]</h5>
+                            <ul>
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["낙찰금액은 가상계좌 입금만 가능하며, 낙찰 수수료, 기타비용 및 배송비는 가상계좌입금/실시간 계좌이체/신용카드로 결제가 가능합니다."]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["낙찰 수수료, 기타 비용 및 배송비 결제를 가상계좌 입금 이외의 방법으로 결제하려는 경우, 낙찰금액을 먼저 가상계좌 입금 결제 후 추가로 결제 가능합니다. (복합결제)"]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["메이저 경매 낙찰대금 결제는 홈페이지에서 불가합니다."]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["배송주소는 기본 배송지로 설정되며, <a href='/Member/MyPage/Address'>[주소변경]</a>을 눌러 변경이 가능합니다."]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["배송비는 작품별로 부과되며, 동일 배송 건에서는 1점 추가당 1만원 추가됩니다. (단, 단일 주소 단일 배송건일 경우에 해당). 상세한 내용은<a href='javascript:$.commonUtils.modalAuctionOpen(\".modal-auction-shipping\");'>[배송관련 안내]</a>를 참고 바랍니다."]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["명품 및 악기의 경우 직접픽업만 가능합니다."]</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>@L["설치 등 추가 작업시 추가요금이 부과될 수 있습니다."]</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--//결제출고요청-->
+                    <!--결제 및 출고요청 내역-->
+                    <div class="cnt_02">
+                        <div class="filter_wrap">
+                            <div class="bottom">
+
+                                <div>
+                                    <span>조회기간</span>
+                                    <div class="select_date">
+                                        <input type="text" class="calendar flatpickr-input" data-id="range"
+                                               readonly="readonly" value="조회기간 선택">
+                                        <div class="icon"></div>
+                                    </div>
+                                </div>
+
+                                <div class="search_wrap">
+                                    <span>검색어</span>
+                                    <div class="search_area">
+                                        <input class="search_default" type="search" placeholder="작가 또는 작품 명 입력">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <button class="filter_search_btn" onclick="getPaymentWorkList();">찾기</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table_transaction_wrap">
+                            <table class="mypage_work_table transaction">
+                                <thead>
+                                    <tr>
+                                        <th>요청 번호</th>
+                                        <th>작품정보</th>
+                                        <th>결제 완료 금액</th>
+                                        <th>결제 수단 별 금액</th>
+                                        <th>출고 <br />방식</th>
+                                        <th>출고 정보</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-value="pay_ship_details" data-tit="결제 및 출고요청 상세내역">
+                                        <td>20210113-01</td>
+                                        <td style="font-weight: 600;">
+                                            이베 외 2점
+                                        </td>
+                                        <td class="price">
+                                            <div>10,552,500 원</div>
+
+                                            <div class="btn_wrap">
+                                                <button>영수증 출력</button>
+
+                                                <div class="text_tooltip">
+
+                                                    <div class="caret_up">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="cnt">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">
+                                                                    현금영수증 발행 신청
+                                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#">
+                                                                    세금계산서 발행 신청
+                                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td class="payment_method">
+                                            <ul>
+                                                <li>
+                                                    <span>가상계좌</span>
+                                                    <strong>2,322,550 원</strong>
+                                                </li>
+                                                <li>
+                                                    <span>신용카드</span>
+                                                    <strong>52,550 원</strong>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            배송
+                                        </td>
+                                        <td class="fw_info">
+                                            [출고예정] 2021/7/24
+                                        </td>
+
+                                    </tr>
+
+                                    <tr data-value="pay_ship_details" data-tit="결제 및 출고요청 상세내역">
+                                        <td>20210113-01</td>
+                                        <td style="font-weight: 600;">
+                                            이베 외 2점
+                                        </td>
+                                        <td class="price"></td>
+                                        <td class="payment_method">
+                                        </td>
+                                        <td>
+                                            배송
+                                        </td>
+                                        <td class="fw_info register">
+                                            <div class="text_wrap">
+                                                <div class="desc">
+                                                    <strong>[접수] 요청 확인중</strong>
+                                                    <i class="fal fa-file-alt"></i>
+                                                </div>
+
+                                                <div class="text_tooltip">
+
+                                                    <div class="caret_up">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="cnt">
+                                                        <p>[배송희망]</p>
+                                                        <p>[1지망] 2021/4/2 </p>
+                                                        <p>
+                                                            [2지망] 2021/4/5
+                                                            [메모] 집에 아무도 없을수도 있으니,
+                                                            배송 전에 전화 연락 먼저 부탁드립
+                                                            니다.
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <button data-tit="방문수령 신청서" data-value="delivery_details">정보변경</button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="precautions_wrap">
+                            <h5>
+                                <img src="/img/icons/join_info.png" alt="">
+                                신청 내역 관련 안내
+                            </h5>
+                            <ul>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>세금계산서는 수수료, 기타경비, 배송료에 대해서만 요청 가능합니다.</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>세금계산서는 결제일 기준으로 익월 10일까지만 가능하며, 이후에는 발행이 불가합니다.</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>현금영수증을 발행한 건에 대해서는 세금계산서 중복발행이 불가합니다.</p>
+                                </li>
+
+                                <li>
+                                    <div><span>•</span></div>
+                                    <p>신용카드결제 분에 대해서는 세금계산서 발행이 불가합니다.</p>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!--//결제 및 출고요청 내역-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="STPG_payForm" name="STPG_payForm" style="display: none;">
+    <!-- 승인 요청 파라미터(필수) -->
+    <input type="hidden" name="method" value="" />                                          <!-- 결제수단 -->
+    <input type="hidden" name="trdDt" value="" />                                           <!-- 요청일자(yyyyMMdd) -->
+    <input type="hidden" name="trdTm" value="" />                                           <!-- 요청시간(HHmmss)-->
+    <input type="hidden" name="mchtTrdNo" value="" />                                       <!-- 상점주문번호 -->
+    <input type="hidden" name="mchtName" value="세틀뱅크" />                                 <!-- 상점한글명 -->
+    <input type="hidden" name="mchtEName" value="Settlebank" />                             <!-- 상점영문명 -->
+    <input type="hidden" name="pmtPrdtNm" value="테스트상품" />                              <!-- 상품명 -->
+    <input type="hidden" name="notiUrl" value="http://localhost/receiveNoti.aspx" />         <!-- 결과처리 URL -->
+    <input type="hidden" name="nextUrl" value="http://localhost/pay_receiveResult.aspx" />   <!-- 결과화면 URL -->
+    <input type="hidden" name="cancUrl" value="http://localhost/pay_receiveResult.aspx" />   <!-- 결제취소 URL -->
+    <!-- 승인 요청 파라미터(옵션) -->
+    <input type="hidden" name="plainMchtCustNm" value="홍길동" />               <!-- 고객명(평문) -->
+    <input type="hidden" name="custAcntSumry" value="세틀뱅크" />               <!-- 통장인자내용 -->
+    <input type="hidden" name="expireDt" value="" />                            <!-- 입금만료일시(yyyyMMddHHmmss) -->
+    <input type="hidden" name="mchtParam" value="상점 예약 필드" />             <!-- 상점예약필드 -->
+    <input type="hidden" name="plainCphoneNo" value="" />                       <!-- 핸드폰번호(평문) -->
+    <input type="hidden" name="plainEmail" value="HongGilDong@example.com" />   <!-- 이메일주소(평문) -->
+    <input type="hidden" name="telecomCd" value="" />                           <!-- 통신사코드 -->
+    <input type="hidden" name="prdtTerm" value="20221231235959" />              <!-- 상품제공기간 -->
+    <input type="hidden" name="plainMchtCustId" value="HongGilDong" />          <!-- 상점고객아이디(평문) -->
+    <input type="hidden" name="taxTypeCd" value="" />                           <!-- 면세여부(Y:면세, N:과세, G:복합과세) -->
+    <input type="hidden" name="plainTaxAmt" value="" />                         <!-- 과세금액(평문)(복합과세인 경우 필수) -->
+    <input type="hidden" name="plainVatAmt" value="" />                         <!-- 부가세금액(평문)(복합과세인 경우 필수) -->
+    <input type="hidden" name="plainTaxFreeAmt" value="" />                     <!-- 비과세금액(평문)(복합과세인 경우 필수) -->
+    <input type="hidden" name="plainSvcAmt" value="" />                         <!-- 봉사료(평문) -->
+    <input type="hidden" name="cardType" value="" />                            <!-- 카드결제타입 -->
+    <input type="hidden" name="chainUserId" value="" />                         <!-- 현대카드Payshot ID -->
+    <input type="hidden" name="cardGb" value="" />                              <!-- 특정카드사코드 -->
+    <input type="hidden" name="plainClipCustNm" value="" />                     <!-- 클립포인트고객명(평문) -->
+    <input type="hidden" name="plainClipCustCi" value="" />                     <!-- 클립포인트CI(평문) -->
+    <input type="hidden" name="plainClipCustPhoneNo" value="" />                <!-- 클립포인트고객핸드폰번호(평문) -->
+    <input type="hidden" name="certNotiUrl" value="" />                         <!-- 인증결과URL -->
+    <input type="hidden" name="skipCd" value="" />                              <!-- 스킵여부 -->
+    <input type="hidden" name="multiPay" value="" />                            <!-- 포인트복합결제 -->
+    <input type="hidden" name="autoPayType" value="" />                         <!-- 자동결제 타입(공백:일반결제, M:월자동 1회차) -->
+    <input type="hidden" name="linkMethod" value="" />                          <!-- 연동방식 -->
+    <input type="hidden" name="appScheme" value="" />                           <!-- 앱스키마 -->
+    <input type="hidden" name="custIp" value="" />                              <!-- 고객IP주소 -->
+    <input type="hidden" name="corpPayCode" value="" />                         <!-- 간편결제 코드 -->
+    <input type="hidden" name="corpPayType" value="" />                         <!-- 간편결제 타입(CARD:카드, POINT:포인트) -->
+    <input type="hidden" name="cashRcptUIYn" value="" />                        <!-- 현금영수증 발급 여부 -->
+    <!-- 응답 파라미터 -->
+    <input type="hidden" name="respMchtId" />           <!-- 상점아이디 -->
+    <input type="hidden" name="respOutStatCd" />        <!-- 거래상태 -->
+    <input type="hidden" name="respOutRsltCd" />        <!-- 거절코드 -->
+    <input type="hidden" name="respOutRsltMsg" />       <!-- 결과메세지 -->
+    <input type="hidden" name="respMethod" />           <!-- 결제수단 -->
+    <input type="hidden" name="respMchtTrdNo" />        <!-- 상점주문번호 -->
+    <input type="hidden" name="respMchtCustId" />       <!-- 상점고객아이디 -->
+    <input type="hidden" name="respTrdNo" />            <!-- 세틀뱅크 거래번호 -->
+    <input type="hidden" name="respTrdAmt" />           <!-- 거래금액 -->
+    <input type="hidden" name="respMchtParam" />        <!-- 상점예약필드 -->
+    <input type="hidden" name="respAuthDt" />           <!-- 승인일시 -->
+    <input type="hidden" name="respAuthNo" />           <!-- 승인번호 -->
+    <input type="hidden" name="respReqIssueDt" />       <!-- 채번요청일시 -->
+    <input type="hidden" name="respIntMon" />           <!-- 할부개월수 -->
+    <input type="hidden" name="respFnNm" />             <!-- 카드사명 -->
+    <input type="hidden" name="respFnCd" />             <!-- 카드사코드 -->
+    <input type="hidden" name="respPointTrdNo" />       <!-- 포인트거래번호 -->
+    <input type="hidden" name="respPointTrdAmt" />      <!-- 포인트거래금액 -->
+    <input type="hidden" name="respCardTrdAmt" />       <!-- 신용카드결제금액 -->
+    <input type="hidden" name="respVtlAcntNo" />        <!-- 가상계좌번호 -->
+    <input type="hidden" name="respExpireDt" />         <!-- 입금기한 -->
+    <input type="hidden" name="respCphoneNo" />         <!-- 휴대폰번호 -->
+    <input type="hidden" name="respBillKey" />          <!-- 자동결제키 -->
+    <input type="hidden" name="respCsrcAmt" />          <!-- 현금영수증 발급 금액(네이버페이) -->
+    <!-- 암호화 처리 후 세팅될 파라미터-->
+    <input type="hidden" name="trdAmt" />               <!-- 거래금액(암호문) -->
+    <input type="hidden" name="mchtCustNm" />           <!-- 상점고객이름(암호문) -->
+    <input type="hidden" name="cphoneNo" />             <!-- 휴대폰번호(암호문) -->
+    <input type="hidden" name="email" />                <!-- 이메일주소(암호문) -->
+    <input type="hidden" name="mchtCustId" />           <!-- 상점고객아이디(암호문) -->
+    <input type="hidden" name="taxAmt" />               <!-- 과세금액(암호문) -->
+    <input type="hidden" name="vatAmt" />               <!-- 부가세금액(암호문) -->
+    <input type="hidden" name="taxFreeAmt" />           <!-- 면세금액(암호문) -->
+    <input type="hidden" name="svcAmt" />               <!-- 봉사료(암호문) -->
+    <input type="hidden" name="clipCustNm" />           <!-- 클립포인트고객명(암호문) -->
+    <input type="hidden" name="clipCustCi" />           <!-- 클립포인트고객CI(암호문) -->
+    <input type="hidden" name="clipCustPhoneNo" />      <!-- 클립포인트고객휴대폰번호(암호문) -->
+
+    <table style="display: none;">
+        <tr>
+            <td class="right"><input id="test_pay_type" type="text" name="mchtId" value="nxca_jt_il" /></td>
+        </tr>
+        <tr>
+            <td class="right"><input id="test_pay_price" type="text" name="plainTrdAmt" value="300" /></td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript" src="https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js"></script>
+<script>
+
+    let infoUid = '';
+    let aucTitle = '';
+
+    $(document).ready(function () {
+        try {
+            if (isKor === 'True') {
+                flatpickr.localize(flatpickr.l10ns.ko);
+            }
+
+            // 캘린더 라이브러리 (range)
+            $(".calendar").each(function () {
+                $(this).flatpickr({
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    local: 'ko'
+                });
+            });
+
+            // 캘린더 라이브러리 (희망일선택)
+            $(".choice_date").each(function () {
+                $(this).flatpickr({
+                    minDate: "today",
+                    dateFormat: "Y-m-d",
+                    local: 'ko'
+                });
+            });
+        } catch (e) { }
+
+        // 결제 및 출고요청내역 (filter) 체크이벤트
+        $.commonUtils.allAgreeCheck(document.getElementsByName('auc_filter'), document.getElementById("auc_filter_all_check"));
+
+        $(".tab_btn").each(function (index) {
+            $.commonUtils.tabMenu($(this));
+        });
+
+        // 작품선택 체크함수 (ajax 호출 처리 후로 이동
+        // CheckList($(".card_list_wrap > .card_list"));
+
+        let $input_default_parent = $("table.mypage_table.member_info td input.default_type").parent();
+        $input_default_parent.clearBtn();
+        $("table.mypage_table.member_info td .text_clear_btn").clearEvent();
+
+    });
+
+    // 위자드페이지 작업
+    var currentTab = 0; // 현재페이지 (0)
+    showTab(currentTab); // 첫번째 페이지 보여주기
+
+    function showTab(n) {
+        var x = document.getElementsByClassName("cnt_detail");
+        x[n].style.display = "block";
+
+        // 스텝단계별 함수
+        fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+        // Validation
+        if (currentTab === 1) {
+            //테스트 임시 주석
+            //if ($.validateUtils.isNullOrEmpty("#receiver", ka.msg.mypage.emptyReceiver)) { return false; }
+            //if ($.validateUtils.isNullOrEmpty("#contact", ka.msg.mypage.emptyContact)) { return false; }
+            //if ($.validateUtils.isNullOrEmpty("#desired_date_1", ka.msg.mypage.emptyDesiredDate)) { return false; }
+            //if ($.validateUtils.isNullOrEmpty("#desired_date_2", ka.msg.mypage.emptyDesiredDate)) { return false; }
+
+            let param = {};
+            param["receiver"] = document.querySelector("#receiver").value;
+            param["contact"] = document.querySelector("#contact").value;
+            param["desired_date_1"] = document.querySelector("#desired_date_1").value;
+            param["desired_date_2"] = document.querySelector("#desired_date_2").value;
+
+            let ev = document.querySelectorAll('[name="elevator_check"]:checked');
+            param["elevator_type"] = ev && ev.length > 0 ? ev[0].value : "0";
+
+            let v = document.querySelectorAll('[name="transfer_check"]:checked');
+            param["vehicle_entry"] = v && v.length > 0 ? v[0].value : "Y";
+
+            let ladder = document.querySelector("#ladder_check");
+            param["ladder_truck"] = ladder && ladder.checked ? "Y" : "N";
+
+            param["memo"] = document.querySelector("#memo").value;
+
+            let installation = document.querySelectorAll('[name="set_check"]:checked');
+            param["installation"] = installation && installation.length > 0 ? installation[0].value : "N";
+
+            $.domUtils.empty(".auc_list_wrap");
+
+            var result = $.ajaxUtils.getApiData("/api/MyPage/SetPayment", param, null, false);
+            if ($.ajaxUtils.getResultCode(result) === "00" && result.data && result.data.info) {
+                infoUid = result.data.info;
+                if (result.data.data) {
+                    result.data.data.forEach(function (item, index) {
+                        appendCardItem(item);
+                    });
+                    CheckList($(".card_list_wrap > .card_list"));
+                }
+            } else {
+                return false;
+            }
+        } else if (currentTab === 2) {
+            // 작품 체크 여부
+            let checkedWork = document.querySelectorAll('input[name=auc_list_check_input]:checked');
+            if (!(checkedWork && checkedWork.length > 0)) {
+                $.commonUtils.alert("결제 및 출고 요청할 작품을 선택하세요.");
+                return false;
+            }
+
+            // 선택작품 저장
+            let selectedWork = '';
+            let selectedUid = '';
+            checkedWork.forEach(function (item) {
+                selectedWork = selectedWork === '' ? item.dataset.wName : selectedWork;
+                selectedUid = selectedUid === '' ? item.dataset.uid : selectedUid + "|" + item.dataset.uid;
+            });
+            if (checkedWork.length > 1) {
+                selectedWork += ' 외 ' + (checkedWork.length - 1).toString() + "점";
+            }
+
+            document.querySelector("#selected_work").textContent = selectedWork;
+
+            var param = {};
+            param["uid"] = infoUid;
+            param["work_uid"] = selectedUid;
+            var result = $.ajaxUtils.getApiData("/api/MyPage/SetPaymentWork", param, null, false);
+            if ($.ajaxUtils.getResultCode(result) !== "00") {
+                $.commonUtils.alert(eval(result.code));
+                return false;
+            }
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        var x = document.getElementsByClassName("cnt_detail");
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+
+        showTab(currentTab);
+    }
+
+    function checkSearch(event) {
+        if (event.keyCode === 13) {
+            getPaymentWorkList();
+        }
+    }
+
+    function getPaymentWorkList() {
+        let param = {};
+        if (document.querySelectorAll('#auc_filter_all_check:checked').length > 0) {
+            param["auc_kind"] = "";
+        } else if (document.querySelectorAll('[name="auc_filter"]:checked').length > 0) {
+            param["auc_kind"] = $.htmlUtils.getCheckedValue("auc_filter", '|');
+        } else {
+            $.commonUtils.alert("경매 유형을 선택하세요.");
+            return false;
+        }
+
+        param["receipt"] = $.htmlUtils.getCheckedValue("payment_state_check");
+
+        const calendar = document.querySelector(".calendar")._flatpickr;
+        if (calendar.selectedDates.length > 0) {
+            param["start_date"] = $.datetimeUtils.toString(calendar.selectedDates[0]);
+            param["end_date"] = $.datetimeUtils.toString(calendar.selectedDates[1]);
+        }
+
+        param["search"] = document.querySelector("#search_keyword").value;
+
+        $.ajaxUtils.getApiData("/api/MyPage/GetPaymentWork", param, getPaymentWorkListComplete);
+    }
+
+    function getPaymentWorkListComplete(result) {
+        let resultCode = $.ajaxUtils.getResultCode(result);
+        if (resultCode === "00") {
+            if (result.data.data) {
+                $.domUtils.empty(".auc_list_wrap");
+                aucTitle = '';
+                document.querySelector("#successful_bid_price").textContent = "0";
+                document.querySelector("#etc_fee_price").textContent = "0";
+                document.querySelector(".total_price").textContent = "0";
+
+                result.data.data.forEach(function (item, index) {
+                    appendCardItem(item);
+                });
+                CheckList($(".card_list_wrap > .card_list"));
+            }
+        } else {
+            $.commonUtils.alert(eval(resultCode));
+        }
+    }
+
+    function appendCardItem(item) {
+        let list = document.importNode(document.querySelector('#work_list').content, true);
+
+        if (aucTitle !== item.auc_title) {
+            list.querySelector(".auc_title").textContent = item.auc_title;
+            aucTitle = item.auc_title;
+        }
+
+        if (item.receipt === '0') {
+            list.querySelector(".card_list").classList.add("wait");
+        }
+        list.querySelector("#auc_check_").setAttribute("id", "auc_check_" + item.ow_uid);
+        list.querySelector("label").setAttribute("for", "auc_check_" + item.ow_uid);
+
+        list.querySelector("#auc_check_" + item.ow_uid).setAttribute("data-price-successful-bid", item.price_successful_bid);
+        list.querySelector("#auc_check_" + item.ow_uid).setAttribute("data-buy-comm-sum", item.buy_comm_sum);
+        list.querySelector("#auc_check_" + item.ow_uid).setAttribute("data-etc-fee", item.etc_fee);
+        list.querySelector("#auc_check_" + item.ow_uid).setAttribute("data-w-name", item.w_name);
+        list.querySelector("#auc_check_" + item.ow_uid).setAttribute("data-uid", item.ow_uid);
+
+        list.querySelector(".w_image").setAttribute("src", item.w_image);
+        list.querySelector(".w_name").textContent = item.w_name;
+        list.querySelector(".sub_name").textContent = item.a_name;
+
+        list.querySelector(".price_successful_bid").textContent = $.stringUtils.comma(item.price_successful_bid) + " 원";
+        list.querySelector(".buy_comm_sum").textContent = $.stringUtils.comma(item.buy_comm_sum) + " 원";
+        list.querySelector(".etc_fee").textContent = $.stringUtils.comma(item.etc_fee) + " 원";
+
+        document.querySelector('.auc_list_wrap').appendChild(list);
+    }
+
+    function fixStepIndicator(n) {
+        var i, x = document.getElementsByClassName('payment-step-item');
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+
+        for (let j = 0; j <= n; j++) {
+            x[j].className += " active";
+        }
+    }
+
+    function reviseEvent(target) {
+        target.textContent = "저장하기";
+        let input_box = target.previousElementSibling;
+        input_box.disabled = false;
+        input_box.focus();
+        input_box.parentElement.style.backgroundColor = "#ffffff";
+    }
+
+    $("#tax_reg_num_evidential").on('change', function () {
+        var fileName = $("#tax_reg_num_evidential").val();
+        $(".file_name_text").text(fileName);
+    });
+
+    function CheckList(selector) {
+        let $list = selector,
+            $input = null,
+            $select = null,
+            $paymentState = null;
+        $input = $list.find('input[name=auc_list_check_input]');
+        $input.click(function () {
+            $select = $(this).closest("div.card_list");
+            $paymentState = $select.find('.payment_state');
+            if ($(this).attr('data-value') === 'N') {
+                $(this).attr('data-value', "Y")
+                $select.addClass("check");
+                $paymentState.css("display", "none");
+            } else {
+                $(this).attr('data-value', "N")
+                $select.removeClass("check");
+                $paymentState.css("display", "flex");
+            }
+
+            CalculationPrice();
+        });
+    }
+
+    function CalculationPrice() {
+        let checkedWork = document.querySelectorAll('input[name=auc_list_check_input]:checked');
+        if (checkedWork) {
+            let totalPriceSuccessfulBid = 0;
+            let totalBuyCommSum = 0;
+            let totalEtcFee = 0;
+            checkedWork.forEach(function (item, index) {
+                totalPriceSuccessfulBid += parseInt(item.dataset.priceSuccessfulBid, 10);
+                totalBuyCommSum += parseInt(item.dataset.buyCommSum, 10);
+                totalEtcFee += parseInt(item.dataset.etcFee);
+            });
+
+            // Step 3
+            document.querySelector("#successful_bid_price").textContent = $.stringUtils.comma(totalPriceSuccessfulBid + totalBuyCommSum);
+            document.querySelector("#etc_fee_price").textContent = $.stringUtils.comma(totalEtcFee);
+            document.querySelector(".total_price").textContent = $.stringUtils.comma(totalPriceSuccessfulBid + totalBuyCommSum + totalEtcFee);
+
+            // Step 4
+            document.querySelector(".total_price_successful_bid").textContent = $.stringUtils.comma(totalPriceSuccessfulBid) + " 원";
+            document.querySelector(".total_buy_comm_sum").textContent = $.stringUtils.comma(totalBuyCommSum) + " 원";
+            document.querySelector(".total_etc_fee_price").textContent = $.stringUtils.comma(totalEtcFee) + " 원";
+            document.querySelector(".total_price_without_successful_bid_price").textContent = $.stringUtils.comma(totalBuyCommSum + totalEtcFee) + " 원";
+
+            // Test Pay
+            document.querySelector("#test_pay_price").value = totalBuyCommSum + totalEtcFee;
+        }
+    }
+
+    const w_search_input = document.querySelector(".search_area > input.search_default");
+    w_search_input.onkeyup = function (e) {
+        if (w_search_input.value == "") {
+            w_search_input.nextElementSibling.style.display = "none";
+        } else {
+            w_search_input.nextElementSibling.style.display = "block";
+        }
+    };
+    document.querySelectorAll("button.cancel").forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+            let modal = e.currentTarget.closest('.show');
+            modal.classList.remove("show");
+        })
+    });
+
+    // 툴팁함수
+    function cardList_tooltip(elem, text) {
+        let tooltip = document.createElement('div');
+        tooltip.className = "cardLIst_tooltip";
+        tooltip.innerHTML = `<div class="caret_up"><span></span></div><p>${text}</p>`;
+        elem.append(tooltip);
+    }
+
+    // cardList_tooltip(document.querySelectorAll('.checkbox')[2], "메이저 경매 낙찰작은 홈페이지 결제 불가입니다. 오프라인에서 결제 후 출고요청 바랍니다.");
+
+    $(".btn_content.b02 table.mypage_work_table.transaction tr").each(function () {
+        $(this).click(function (e) {
+            e.stopPropagation();
+            $.commonUtils.mypageModal($(this));
+        });
+    });
+
+    $(".mypage_work_table .fw_info.register > button").click(function (e) {
+        e.stopPropagation();
+        $.commonUtils.mypageModal($(this));
+    });
+
+    function MypageModal(target) {
+        this.$target = target;
+    }
+
+    MypageModal.prototype.modalOpen = function () {
+        let className = this.$target.attr('class').slice(11),
+            $mypageModal_01 = $(".mypage_pay_modal.type01"),
+            $mypageModal_02 = $(".mypage_pay_modal.type02");
+
+        switch (className) {
+            case 'cash_receipt':
+                $mypageModal_01.addClass("show");
+                break;
+            case 'tax_invoice':
+                $mypageModal_02.addClass("show");
+                break;
+            default:
+        }
+    }
+
+    $(".mypage_btn").each(function () {
+        $(this).click(function () {
+            $("body").addClass("scroll_lock");
+            let a = new MypageModal($(this));
+            a.modalOpen();
+        });
+    });
+
+    function pay_proc() {
+        let checkedWork = document.querySelectorAll('input[name=pay_check]:checked');
+        let target = checkedWork[0].value === "nx_mid_il" ? "vbank" : "card";
+        document.querySelector("#test_pay_type").value = checkedWork[0].value;
+        pay(target);
+    }
+
+    /** 결제 버튼 동작 */
+    function pay(type) {
+
+        //날짜 및 결제수단 등 재설정
+        pay_init(type);
+
+        //용도 : SHA256 해쉬 처리 및 민감정보 AES256암호화
+        $.ajax({
+            type: "POST",
+            url: "/pg/pay_encryptParams.aspx",
+            dataType: "json",
+            data: $("#STPG_payForm").serialize(),
+            success: function (rsp) {
+                //암호화 된 파라미터 세팅
+                for (name in rsp.encParams) {
+                    $('#STPG_payForm [name=' + name + ']').val(rsp.encParams[name]);
+                };
+
+                //가맹점 -> 세틀뱅크로 결제 요청
+                SETTLE_PG.pay({
+                    env: "https://tbnpg.settlebank.co.kr",   //결제서버 URL
+                    mchtId: $('#STPG_payForm [name="mchtId"]').val(),
+                    method: $('#STPG_payForm [name="method"]').val(),
+                    trdDt: $('#STPG_payForm [name="trdDt"]').val(),
+                    trdTm: $('#STPG_payForm [name="trdTm"]').val(),
+                    mchtTrdNo: $('#STPG_payForm [name="mchtTrdNo"]').val(),
+                    mchtName: $('#STPG_payForm [name="mchtName"]').val(),
+                    mchtEName: $('#STPG_payForm [name="mchtEName"]').val(),
+                    pmtPrdtNm: $('#STPG_payForm [name="pmtPrdtNm"]').val(),
+                    trdAmt: $('#STPG_payForm [name="trdAmt"]').val(),
+                    mchtCustNm: $('#STPG_payForm [name="mchtCustNm"]').val(),
+                    custAcntSumry: $('#STPG_payForm [name="custAcntSumry"]').val(),
+                    expireDt: $('#STPG_payForm [name="expireDt"]').val(),
+                    notiUrl: $('#STPG_payForm [name="notiUrl"]').val(),
+                    nextUrl: $('#STPG_payForm [name="nextUrl"]').val(),
+                    cancUrl: $('#STPG_payForm [name="cancUrl"]').val(),
+                    mchtParam: $('#STPG_payForm [name="mchtParam"]').val(),
+                    cphoneNo: $('#STPG_payForm [name="cphoneNo"]').val(),
+                    email: $('#STPG_payForm [name="email"]').val(),
+                    telecomCd: $('#STPG_payForm [name="telecomCd"]').val(),
+                    prdtTerm: $('#STPG_payForm [name="prdtTerm"]').val(),
+                    mchtCustId: $('#STPG_payForm [name="mchtCustId"]').val(),
+                    taxTypeCd: $('#STPG_payForm [name="taxTypeCd"]').val(),
+                    taxAmt: $('#STPG_payForm [name="taxAmt"]').val(),
+                    vatAmt: $('#STPG_payForm [name="vatAmt"]').val(),
+                    taxFreeAmt: $('#STPG_payForm [name="taxFreeAmt"]').val(),
+                    svcAmt: $('#STPG_payForm [name="svcAmt"]').val(),
+                    cardType: $('#STPG_payForm [name="cardType"]').val(),
+                    chainUserId: $('#STPG_payForm [name="chainUserId"]').val(),
+                    cardGb: $('#STPG_payForm [name="cardGb"]').val(),
+                    clipCustNm: $('#STPG_payForm [name="clipCustNm"]').val(),
+                    clipCustCi: $('#STPG_payForm [name="clipCustCi"]').val(),
+                    clipCustPhoneNo: $('#STPG_payForm [name="clipCustPhoneNo"]').val(),
+                    certNotiUrl: $('#STPG_payForm [name="certNotiUrl"]').val(),
+                    skipCd: $('#STPG_payForm [name="skipCd"]').val(),
+                    multiPay: $('#STPG_payForm [name="multiPay"]').val(),
+                    autoPayType: $('#STPG_payForm [name="autoPayType"]').val(),
+                    linkMethod: $('#STPG_payForm [name="linkMethod"]').val(),
+                    appScheme: $('#STPG_payForm [name="appScheme"]').val(),
+                    custIp: $('#STPG_payForm [name="custIp"]').val(),
+                    corpPayCode: $('#STPG_payForm [name="corpPayCode"]').val(),
+                    corpPayType: $('#STPG_payForm [name="corpPayType"]').val(),
+                    cashRcptUIYn: $('#STPG_payForm [name="cashRcptUIYn"]').val(),
+                    pktHash: rsp.hashCipher,   //SHA256 처리된 해쉬 값 세팅
+
+                    ui: {
+                        type: "popup",   //popup, iframe, self, blank
+                        width: "430",   //popup창의 너비
+                        height: "660"   //popup창의 높이
+                    }
+                }, function (rsp) {
+                    //iframe인 경우 전달된 결제 완료 후 응답 파라미터 처리
+                    console.log(rsp);
+                });
+            },
+            error: function () {
+                alert("에러 발생");
+            },
+        });
+    }
+
+    function pay_init(type) {
+        var curr_date = new Date();
+        var year = curr_date.getFullYear().toString();
+        var month = ("0" + (curr_date.getMonth() + 1)).slice(-2).toString();
+        var day = ("0" + (curr_date.getDate())).slice(-2).toString();
+        var hours = ("0" + curr_date.getHours()).slice(-2).toString();
+        var mins = ("0" + curr_date.getMinutes()).slice(-2).toString();
+        var secs = ("0" + curr_date.getSeconds()).slice(-2).toString();
+        var random4 = ("000" + Math.random() * 10000).slice(-4).toString();
+
+
+        $('#STPG_payForm [name="custIp"]').val('10.12.50.59'); //고객 IP 세팅
+        $('#STPG_payForm [name="trdDt"]').val(year + month + day);  //요청일자 세팅
+        $('#STPG_payForm [name="trdTm"]').val(hours + mins + secs); //요청시간 세팅
+        $('#STPG_payForm [name="mchtTrdNo"]').val("PAYMENT" + year + month + day + hours + mins + secs + random4);//주문번호 세팅
+
+        $('#STPG_payForm2 [name="trdDt"]').val(year + month + day); //요청일자 세팅
+        $('#STPG_payForm2 [name="trdTm"]').val(hours + mins + secs);//요청시간 세팅
+        $('#STPG_payForm2 [name="mchtTrdNo"]').val("AUTOPAY" + year + month + day + hours + mins + secs + random4);//주문번호 세팅
+
+        //휴대폰 자동결제인 경우
+        if (type === 'mobileAuto') {
+            $('#STPG_payForm [name="method"]').val('mobile');
+            $('#STPG_payForm [name="autoPayType"]').val('M'); //M으로 설정
+        } else if (type === 'payco') {//페이코 간편결제 결제수단 및 구분 코드 설정
+            $('#STPG_payForm [name="method"]').val('corp');
+            $('#STPG_payForm [name="corpPayCode"]').val('PAC'); // PAC:페이코
+        } else if (type === 'kakao') {//카카오 간편결제 결제수단 및 구분 코드 설정
+            $('#STPG_payForm [name="method"]').val('corp');
+            $('#STPG_payForm [name="corpPayCode"]').val('KKP'); // KKP:카카오페이
+        } else if (type === 'nvpay') {//네이버페이 간편결제 결제수단 및 구분 코드 설정
+            $('#STPG_payForm [name="method"]').val('corp');
+            $('#STPG_payForm [name="corpPayCode"]').val('NVP'); // NVP:네이버페이
+        } else {
+            $('#STPG_payForm [name="method"]').val(type);
+        }
+    }
+
+</script>

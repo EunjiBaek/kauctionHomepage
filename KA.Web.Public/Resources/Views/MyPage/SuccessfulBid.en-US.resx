@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="낙찰내역" xml:space="preserve">
+    <value>Winning Bid Details</value>
+    <comment>[SuccessfulBid] 01. Breadcrumb</comment>
+  </data>
+  <data name="메이저" xml:space="preserve">
+    <value>Major</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="메이저 경매" xml:space="preserve">
+    <value>Major Auction</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="위클리" xml:space="preserve">
+    <value>Weekly</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="위클리 온라인" xml:space="preserve">
+    <value>Weekly Online</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="전체" xml:space="preserve">
+    <value>All</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="프리미엄" xml:space="preserve">
+    <value>Premium</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="프리미엄 온라인" xml:space="preserve">
+    <value>Premium Online</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="대금 결제 및 배송 절차" xml:space="preserve">
+    <value>Payment and Shipping</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="낙찰된 작품은 낙찰을 철회할 수 없습니다. 기타 자세한 사항은 당사의 약관에 따릅니다." xml:space="preserve">
+    <value>Successful bids cannot be withdrawn. Please refer to the Terms &amp; Conditions for additional details.</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="낙찰된 작품의 총 구매대금은" xml:space="preserve">
+    <value>The total payment amount must be transferred to the below account by</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="까지 아래의 입금계좌로 입금되어야 합니다." xml:space="preserve">
+    <value>.</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="입금 계좌 : 하나은행 196-910005-07204 (주)케이옥션" xml:space="preserve">
+    <value>Account Details: Hana Bank 196-910005-07204 K Auction Inc</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="배송비는 설정된 배송지 기준으로 부과됩니다. 이후 배송지가 변경되는 경우 금액이 변경될 수 있으며, 당사에서 직접 픽업하는 경우에는 배송비가 부과되지 않습니다." xml:space="preserve">
+    <value>Please contact a K Auction specialist for shipping details.</value>
+    <comment>[SuccessfulBid] 02. Tab</comment>
+  </data>
+  <data name="표 전체보기" xml:space="preserve">
+    <value>View Detail</value>
+    <comment>[SuccessfulBid] 03. Popup</comment>
+  </data>
+  <data name="먼저 테스트 출력을 통해 프린터 설정 등을 확인하시기 바랍니다." xml:space="preserve">
+    <value>Please use the test print option to check your printer settings before printing the certificate of warranty.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #2.2</comment>
+  </data>
+  <data name="보증서 원본 출력은 1회만 가능하며, 1회 출력 이후에는 재출력이 불가합니다." xml:space="preserve">
+    <value>The original certificate of warranty may only be printed once and cannot be reprinted.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #2.1</comment>
+  </data>
+  <data name="보증서 출력" xml:space="preserve">
+    <value>Certificate of warranty</value>
+    <comment>[SuccessfulBid] 04. 보증서</comment>
+  </data>
+  <data name="분실, 손상 등의 이유로 보증서 재출력이 필요하실 경우 담당자와 논의 바랍니다." xml:space="preserve">
+    <value>If the certificate of warranty has been damaged or misplaced and must be reissued, please contact your K Auction specialist.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #3.2</comment>
+  </data>
+  <data name="이미 보증서 원본이 출력되었습니다." xml:space="preserve">
+    <value>The original certificate of warranty has already been printed.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #3.1</comment>
+  </data>
+  <data name="출고가 되었는데도 출력이 되지 않는 경우에는 담당자에게 문의 바랍니다." xml:space="preserve">
+    <value>Please contact your K Auction specialist if you cannot print the certificate of warranty even after the artwork has been transferred.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #1.2</comment>
+  </data>
+  <data name="출력" xml:space="preserve">
+    <value>Print</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #4.2</comment>
+  </data>
+  <data name="출력 (테스트)" xml:space="preserve">
+    <value>Print (Test)</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #4.1</comment>
+  </data>
+  <data name="취소" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #4.3</comment>
+  </data>
+  <data name="현재 출고 전으로 보증서 출력이 불가능 합니다." xml:space="preserve">
+    <value>The certificate of warranty cannot be printed at this time as the artwork has not yet been transferred to the buyer.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #1.1</comment>
+  </data>
+  <data name="죄송합니다. 맥OS의 경우 보증서 사용자 출력이 불가하므로, 윈도우OS기기에서 출력을 진행하시기 바랍니다. 만약, 우편 수신을 원하는 경우 '보증서 배송 신청' 버튼을 눌러주세요." xml:space="preserve">
+    <value>Sorry, but in the case of MacOS, the user can't print the warranty, so please proceed with the output from the Windows OS device. If you want to receive mail, please press the Apply for Delivery of Guarantee button.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #5</comment>
+  </data>
+  <data name="해당 기능은 데스크톱에서만 가능합니다." xml:space="preserve">
+    <value>This feature is only available on the desktop.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #6</comment>
+  </data>
+  <data name="보증서 배송 신청" xml:space="preserve">
+    <value>Apply for Delivery</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #5.1</comment>
+  </data>
+  <data name="2022년 5월 2일 이후 마감 된 경매의 낙찰 작품에 대해 보증서 출력 기능을 지원합니다." xml:space="preserve">
+    <value>We support the printing of guarantees for successful bid works in auctions that have closed on or after May 2, 2022.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.1</comment>
+  </data>
+  <data name="보증서 출력 전에 읽어주세요." xml:space="preserve">
+    <value>Please read the warranty card before printing.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7 출력 안내사항</comment>
+  </data>
+  <data name="보증서는 My Page &gt; 낙찰 내역 중 '보증서 출력'버튼을 통해 직접 출력이 가능합니다." xml:space="preserve">
+    <value>Warranty can be printed out directly from My Page &gt; 'Print Warranty' button in the winning bid.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.2</comment>
+  </data>
+  <data name="출력은 위변조 방지를 위해 1회만 가능하니 주의하시기 바랍니다." xml:space="preserve">
+    <value>Please note that the output is only possible once to prevent forgery.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.3</comment>
+  </data>
+  <data name="원본 출력" xml:space="preserve">
+    <value>Print</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #4.4</comment>
+  </data>
+  <data name="원본 출력 전에 가급적 테스트출력을 먼저 진행해 오출력을 예방하시기 바랍니다." xml:space="preserve">
+    <value>Before printing the original, make a test print as much as possible to prevent erroneous printing.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.6</comment>
+  </data>
+  <data name="테스트 없이 바로 원본을 출력합니다." xml:space="preserve">
+    <value>Directly print the original without testing.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.5</comment>
+  </data>
+  <data name="프린트 보안프로그램(MarkAny ePageSafer) 설치 후 테스트 출력이 정상적이지 않은 경우 컴퓨터를 재 부팅 후 시도하시기 바랍니다." xml:space="preserve">
+    <value>If the test print is not normal after installing the print security program (MarkAny ePageSafer), try rebooting the computer.</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #7.4</comment>
+  </data>
+  <data name="테스트 출력" xml:space="preserve">
+    <value>Test Print</value>
+    <comment>[SuccessfulBid] 04. 보증서 - #4.5</comment>
+  </data>
+</root>

@@ -1,0 +1,160 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header ">
+                <div class="card-title">메인 롤링배너</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 text-left">
+                        <label id="total-record"></label>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <div class="form-group">
+                            <div class="input-group-append" style="float: right;">
+                                <span class="btn secondary fw-500 m-l-10" style="height: 35px; cursor: pointer;" onclick="window.open('/Main/Banner/0', '_self');">등록하기</span>
+                            </div>
+                            <div class="input-group-append" style="float: right;">
+                                <span class="input-group-text primary fw-500" style="height: 35px; cursor: pointer;" onclick="search();">검색</span>
+                            </div>
+                            <div class="form-input-group" style="float: right; width: 300px;">
+                                <input id="search" onkeydown="checkSearch(event);" class="typeahead form-control sample-typehead" type="text" placeholder="제목 검색어를 입력해 주세요." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100" style="margin: 0px 15px;">
+                        <li class="nav-item">
+                            <a onclick="getActiveList('Y');" class="nav-link active text-center" data-toggle="tab" href="#tab-address">활성</a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="getActiveList('N');" class="nav-link text-center" data-toggle="tab" href="#tab-mobile-auth">비활성</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <!-- 데이터그리드 영역 -->
+                    <div class="col-lg-12 m-t-20" id="data-grid"></div>
+                    <!-- 페이지네이션 영역 -->
+                    <div class="col-lg-12">
+                        <div class="dataTables_wrapper m-b-50">
+                            <div class="row">
+                                <div class="text-center">
+                                    <div class="dataTables_paginate paging_full_numbers w-100">
+                                        <ul class="pagination" style="display: inherit;"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var requestParam = {};
+    requestParam["page"] = 1;
+    requestParam["active_flag"] = "";
+
+    $(document).ready(function () {
+        $('#data-grid').html("잠시만 기다려주세요...");
+        getList();
+    });
+
+    function getActiveList(flag) {
+        requestParam["active_flag"] = flag;
+        requestParam["page"] = 1;
+        getList();
+    }
+
+    function getList() {
+        $.ajaxUtils.getApiData("/api/Main/GetBanners", requestParam, getListComplete);
+    }
+
+    function getListComplete(result) {
+        $("#data-grid").jsGrid({
+            autoload: true,
+            controller: {
+                loadData: function () {
+                    if ($.ajaxUtils.getResultCode(result) === "00") {
+                        $('#total-record').html('총 ' + result.data.recordsTotal.toString() + '건');
+                        $.paginationUtils.init({
+                            target: $(".pagination"),
+                            totalCount: result.data.recordsTotal,
+                            parameters: requestParam,
+                            callback: getList,
+                            page: result.data.draw,
+                            pageSize: 20
+                        });
+                        return result.data.data;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            fields: [
+                {
+                    name: "uid", type: "text", title: "번호", width: 30,
+                    itemTemplate: function (value) {
+                        return $("<a />", { "href": "/Main/Banner/" + value.toString(), "target": "_self" }).append(value);
+                    }
+                },
+                { name: "order", type: "text", title: "순서", width: 30 },
+                {
+                    name: "title", type: "text", title: "제목",
+                    itemTemplate: function (value, args) {
+                        return $("<a />", { "href": "/Main/Banner/" + args.uid.toString(), "target": "_self" }).append(value);
+                    }
+                },
+                {
+                    name: "image_file_path", type: "text", title: "이미지(PC)",
+                    itemTemplate: function (value, args) {
+                        return $("<img />", { "src": value, "style": "width: inherit;", "onclick": "window.open('" + "/Main/Banner/" + args.uid.toString() + "', '_self');" });
+                    }
+                },
+                {
+                    name: "mobile_image_file_path", type: "text", title: "이미지(모바일)",
+                    itemTemplate: function (value, args) {
+                        return value !== "" ? $("<img />", { "src": value, "style": "width: inherit;", "onclick": "window.open('" + "/Main/Banner/" + args.uid.toString() + "', '_self');" }) : "";
+                    }
+                },
+                {
+                    name: "use_layer", type: "text", title: "레이어사용", width: 50,
+                    itemTemplate: function (value) {
+                        switch (value) {
+                            case "A": return "전체";
+                            case "K": return "국문";
+                            case "E": return "영문";
+                            default: return "사용안함";
+                        }
+                    }
+                },
+                { name: "start_date", type: "text", title: "게시시작일", width: 70 },
+                { name: "end_date", type: "text", title: "게시종료일", width: 70 },
+                { name: "reg_date", type: "text", title: "등록일", width: 50 },
+                {
+                    name: "use_flag", type: "text", title: "사용여부", width: 50,
+                    itemTemplate: function (value) {
+                        switch (value) {
+                            case "A": return "전체";
+                            case "K": return "국문";
+                            case "E": return "영문";
+                            default: return "사용안함";
+                        }
+                    }
+                },
+            ],
+            noDataContent: "검색 결과가 없습니다.",
+            loadMessage: "잠시만 기다려주세요...",
+            loadIndication: true,
+            loadIndicationDelay: 500,
+            loadShading: true
+        });
+    }
+
+</script>
